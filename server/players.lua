@@ -1,0 +1,99 @@
+include "data/level.lua"
+
+pl = {} --identified by username
+pl.hp = {}
+pl.en = {}
+pl.s1 = {} --scroll 2 (q)
+pl.s2 = {} --scroll 2 (e)
+pl.gold = {}
+pl.x = {}
+pl.y = {}
+pl.t = {} --tile
+pl.dt = {} --dead tile (home tile)
+pl.wep = {}
+pl.arm = {}
+pl.inv = {} --inventory
+pl.lvl = {}
+pl.xp = {}
+pl.at = {} --attack info. true/false;dir
+
+acc = {} --identified by number
+acc.username = {}
+acc.password = {}
+
+function newPlayer(name, password)
+  acc.username[#acc.username + 1] = name
+  acc.password[#acc.password + 1] = password
+
+  local i = name
+  pl.hp[i] = 100
+  pl.en[i] = 100
+  pl.s1[i] = "Empty"
+  pl.s2[i] = "Empty"
+  pl.gold[i] = 0
+  pl.x[i] = 320
+  pl.y[i] = 240
+  pl.t[i] = 1 --CHANGE TO STARTING ZONE WHEN MAP IS READY
+  pl.wep[i] = "Long Stick"
+  pl.arm[i] = "Old Cloth"
+  pl.inv[i] = ""
+  pl.lvl[i] = 1
+  pl.xp[i] = 0
+end
+
+function getPlayerID(name) --returns id
+  for i = 1, #acc.username do
+    if acc.username[i] == name then return i
+  end
+end
+
+function getPlayerName(id) --returns name
+  return acc.username[id]
+end
+
+function loginPlayer(name, password) --returns a boolean
+  if acc.password[getPlayerID(name)] == password then return true else return false end
+end
+
+function givePlayerXP(name, xp)
+  if pl.lvl[name] < 10 then
+    pl.xp[name] = pl.xp[name] + xp
+
+    if pl.xp[name] > lvlXP[pl.lvl[name]] then --level up
+      pl.lvl[name] = pl.lvl[name] + 1
+      pl.xp[name] = pl.xp[name] - lvlXP[pl.lvl[name]] --still earn XP from this reward
+    end
+  end
+end
+
+function givePlayerGold(name, gold)
+  pl.gold[name] = pl.gold[name] + gold
+end
+
+function givePlayerItem(name, item, amount)
+  if not amount then amount = 1 end
+
+  curInv = atComma(pl.inv[name], ";")
+  local alreadyOwned = false
+
+  for i=1,#curInv,i+2 do
+    if curInv[i] == item then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end
+  end
+
+  if alreadyOwned == false then
+    curInv[#curInv + 1] = item
+    curInv[#curInv + 1] = amount
+  end
+
+  pl.inv[name] = ""
+  --rebuild inventory string
+  for i = 1, curInv[#curInv] do
+    pl.inv[name] = curInv[i]..";"
+  end
+end
+
+function damagePlayer(name, amount)
+  pl.hp[name] = pl.hp[name] - amount
+
+  if pl.hp[name] < 1 then pl.hp[name] = 0 end
+end

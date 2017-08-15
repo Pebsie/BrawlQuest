@@ -1,0 +1,11 @@
+pl = {}
+pl.cinput = ""
+pl.name = "Unknown"
+pl.x = 0
+pl.y = 0
+pl.hp = 100
+pl.en = 100
+pl.gold = 0
+pl.lvl = 0
+pl.wep = "None"
+pl.arm = "None"
