@@ -21,7 +21,11 @@ updateFights(dt)
   Mobs are broken down and assigned into the "mob" array.
   Mobs then move towards their target at the speed set in data/mobs
   If their target isn't a static point then their target x and y is updated to the player they've got targeted
-  
+
+=UI=
+When the player takes damage they'll receive a message for feedback in the UI, formatted as follows:
+  dmg,dmga,x,y - Means you've dealt dmga to the mob at x,y
+  tdmg,dmg - Means you've taken dmg damage. Make sure these messages all add up to the current amount before displaying.
 
 ==MODULE VARIABLES==
 pl - Player

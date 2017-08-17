@@ -1,0 +1,3 @@
+function mobCastSpell(spellName)
+  
+end

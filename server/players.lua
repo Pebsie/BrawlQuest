@@ -1,4 +1,4 @@
-include "data/level.lua"
+require "data/level"
 
 pl = {} --identified by username
 pl.hp = {}
@@ -16,6 +16,7 @@ pl.inv = {} --inventory
 pl.lvl = {}
 pl.xp = {}
 pl.at = {} --attack info. true/false;dir
+pl.msg = {} --messages separated with semicolons
 
 acc = {} --identified by number
 acc.username = {}
@@ -39,15 +40,18 @@ function newPlayer(name, password)
   pl.inv[i] = ""
   pl.lvl[i] = 1
   pl.xp[i] = 0
+  pl.at[i] = "false,w"
+  pl.msg[i] = ""
 end
 
 function getPlayerID(name) --returns id
   for i = 1, #acc.username do
-    if acc.username[i] == name then return i
+    if acc.username[i] == name then return i end
   end
 end
 
 function getPlayerName(id) --returns name
+  print("Requested user "..id..", who is "..acc.username[id])
   return acc.username[id]
 end
 
@@ -76,7 +80,7 @@ function givePlayerItem(name, item, amount)
   curInv = atComma(pl.inv[name], ";")
   local alreadyOwned = false
 
-  for i=1,#curInv,i+2 do
+  for i=1,#curInv,2 do
     if curInv[i] == item then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end
   end
 
@@ -94,6 +98,7 @@ end
 
 function damagePlayer(name, amount)
   pl.hp[name] = pl.hp[name] - amount
+  pl.msg[thisPlayer] = pl.msg[thisPlayer].."tdmg,"..pdmg..";"
 
   if pl.hp[name] < 1 then pl.hp[name] = 0 end
 end
