@@ -17,18 +17,20 @@ function newFight(tile, fscript)
 
   ft.t[i] = 0
   ft.pl[i] = ""
-  ft.mb[i] = "Boar;5;1;1;0,0,static;1;1;"
+  ft.mb[i] = ""
   ft.xp[i] = 1
   ft.tile[i] = tile
+  ft.queue[i] = {}
+  ft.queue.amount[i] = {}
 
   fightScript = atComma(fs[fscript], ";") --break down fight script, data/fights
-  local v = 1
-  for k = 1, #fightScript,2 do
-    ft.queue[v] = fightScript[k]
-    ft.queue.current[v] = 1
-    ft.queue.amount[v] = tonumber(fightScript[k+1])
+  local v = 1 --THIS IS WHERE WE'RE LEAVING THIS OFF. THIS NEEDS TO BE MADE INTO A TWO DIMENSIONAL ARRAY FOR STORING FIGHT AND CURRENT. HAVE FUN.
+  for k = 1,(#fightScript/2),2 do
+    ft.queue[i][v] = fightScript[k]
+    ft.queue.amount[i][v] = tonumber(fightScript[k+1])
     v = v + 1
   end
+  ft.queue.current[i] = 1
 
   print("A new fight has started on tile #"..tile.." running script '"..fscript.."'")
 end
@@ -58,21 +60,27 @@ end
 
 function spawnMob(fight, mob) --name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
   print("Creating mob "..mob.." in fight #"..fight)
-  ft.mb[fight] = ft.mb[fight]..mob..";0;0;320,240,static;"..mb.sp1t[mob]..";"..mb.sp2t[mob]
+  local freshTarget = listPlayersInFight(fight)
+  freshTarget = freshTarget[love.math.random(#freshTarget)]
+  print("Target is "..freshTarget)
+  freshTarget = getPlayerName(tonumber(freshTarget))
+  ft.mb[fight] = ft.mb[fight]..mob..";0;0;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+  print(ft.mb[fight])
 end
 
 function updateFights(dt) --the big one!!
   print("Updating fights...")
   for i = 1, #ft.t do
+    print(ft.mb[i])
     --spawn new mobs
     local current = ft.queue.current[i]
-    if (ft.queue.amount[current]) then
-      if (ft.queue.amount[current] > 0) then
+    if (ft.queue.amount[i][current]) then
+      if (ft.queue.amount[i][current] > 0) then
 
         --if love.math.random(100) == 1 then
         print("Spawning a mob")
-          spawnMob(i,ft.queue[current])
-          ft.queue.amount[current] = ft.queue.amount[current] - 1
+          spawnMob(i,ft.queue[i][current])
+          ft.queue.amount[i][current] = ft.queue.amount[i][current] - 1
         --end
       else
         ft.queue.current[i] = ft.queue.current[i] + 1
@@ -93,9 +101,12 @@ function updateFights(dt) --the big one!!
     mob.spell1time = {}
     mob.spell2time = {}
 
-    for v = 1,(#mobInfo/7) do
-      for k = 1,(#mobInfo/7),7 do --break it down
+    local v = 1
+    print("\n\nWe've got "..(#mobInfo/7).." mobs to cycle through!\n\n")
+    for k = 1,#mobInfo,7 do --break it down
 
+      if mobInfo[k] then
+        print("Gathering information on this "..mobInfo[k])
         mob[v] = mobInfo[k]
         mob.x[v] = tonumber(mobInfo[k+1])
         mob.y[v] = tonumber(mobInfo[k+2])
@@ -110,10 +121,16 @@ function updateFights(dt) --the big one!!
         mob.target.t[v] = targetInfo[3]
 
         print("Mob #"..v.." is a "..mob[v].." at "..mob.x[v]..","..mob.y[v].." and "..mob.hp[v].."HP. They're targetting "..mob.target.t[v].." which is currently at "..mob.target.x[v]..","..mob.target.y[v]..". They'll be casting spell 1 in "..mob.spell1time[v].." seconds and spell 2 in "..mob.spell2time[v].." seconds.")
+        v = v + 1
+      else
+        print("\n\nTHERE WAS AN ERROR WITH MOB "..v.."!!\n\n")
       end
+    end
+
+    for v = 1,#mobInfo/7 do
+
 
       --movement
-      print(mob[v])
       local speed = mb.spd[mob[v]]*dt
 
       if mob.target.x[v] > mob.x[v] then mob.x[v] = mob.x[v] + speed end
@@ -142,6 +159,7 @@ function updateFights(dt) --the big one!!
           end
         elseif distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]:getWidth()/2), mob.y[v]+(mb.img[mob[v]]:getHeight()/2)) < mb.rng[mob[v]] then --this has to be separate because of mob range
           local pdmg = love.math.random(mb.atk[mob[v]])*dt
+          print("A "..mob[v].." dealt "..pdmg.." damage to "..thisPlayer.."!")
           damagePlayer(thisPlayer, pdmg)
         end
 

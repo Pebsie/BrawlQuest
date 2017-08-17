@@ -98,7 +98,7 @@ end
 
 function damagePlayer(name, amount)
   pl.hp[name] = pl.hp[name] - amount
-  pl.msg[thisPlayer] = pl.msg[thisPlayer].."tdmg,"..pdmg..";"
+  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";"
 
-  if pl.hp[name] < 1 then pl.hp[name] = 0 end
+  if pl.hp[name] < 1 then pl.hp[name] = 0 print("\n\n PEBSIE DIED \n\n") end
 end
