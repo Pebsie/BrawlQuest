@@ -65,7 +65,7 @@ function spawnMob(fight, mob) --name;x;y;hp;target(x,y,static/playername);mb1st;
   print("Target is "..freshTarget)
   freshTarget = getPlayerName(tonumber(freshTarget))
   ft.mb[fight] = ft.mb[fight]..mob..";0;0;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
-  print(ft.mb[fight])
+  --print(ft.mb[fight])
 end
 
 function updateFights(dt) --the big one!!
@@ -145,9 +145,9 @@ function updateFights(dt) --the big one!!
 
       --take damage / give damage
       local playersInThisFight = listPlayersInFight(i)
-      print("There are "..#playersInThisFight.." players in this fight.")
+      --print("There are "..#playersInThisFight.." players in this fight.")
       for k = 1, #playersInThisFight do
-        print("Player #"..k.." ID of "..playersInThisFight[k])
+        --print("Player #"..k.." ID of "..playersInThisFight[k])
         local thisPlayer = getPlayerName(tonumber(playersInThisFight[k])) --get username
         local atkInfo = pl.at[thisPlayer]
 
@@ -183,11 +183,10 @@ function updateFights(dt) --the big one!!
           if spellCast == "die" then
             killMob(v)
           end
-
-        --rebuild mob string  name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
-        ft.mb[i] = ft.mb[i]..mob[v]..";"..mob.x[v]..";"..mob.y[v]..";"..mob.hp[v]..";"..mob.target.x[v]..","..mob.target.y[v]..","..mob.target.t[v]..";"..mob.spell1time[v]..";"..mob.spell2time[v]..";"
-
       end
+      --rebuild mob string  name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
+      ft.mb[i] = ft.mb[i]..mob[v]..";"..mob.x[v]..";"..mob.y[v]..";"..mob.hp[v]..";"..mob.target.x[v]..","..mob.target.y[v]..","..mob.target.t[v]..";"..mob.spell1time[v]..";"..mob.spell2time[v]..";"
+
     end
   end
 end

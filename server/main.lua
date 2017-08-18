@@ -16,6 +16,8 @@ function love.load()
   newPlayer("Pebsie", "yeswenyan")
   newFight(1, "Boar Hunt")
   addPlayerToFight(1,"Pebsie")
+  newPlayer("Hello!", "nope")
+  addPlayerToFight(1,"Hello!")
 end
 
 function love.update(dt)
