@@ -42,6 +42,8 @@ function newPlayer(name, password)
   pl.xp[i] = 0
   pl.at[i] = "false,w"
   pl.msg[i] = ""
+
+  addMsg("New player by the name of "..name)
 end
 
 function getPlayerID(name) --returns id
@@ -51,7 +53,7 @@ function getPlayerID(name) --returns id
 end
 
 function getPlayerName(id) --returns name
-  print("Requested user "..id..", who is "..acc.username[id])
+  --print("Requested user "..id..", who is "..acc.username[id])
   return acc.username[id]
 end
 
@@ -100,5 +102,9 @@ function damagePlayer(name, amount)
   pl.hp[name] = pl.hp[name] - amount
   pl.msg[name] = pl.msg[name].."tdmg,"..amount..";"
 
-  if pl.hp[name] < 1 then pl.hp[name] = 0 print("\n\n PEBSIE DIED \n\n") end
+  if pl.hp[name] < 1 then pl.hp[name] = 0 addMsg(name.." died!") end
+end
+
+function isPlayerDead(name)
+  if pl.hp[name] < 1 then return true else return false end
 end

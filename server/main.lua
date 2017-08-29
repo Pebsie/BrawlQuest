@@ -4,6 +4,8 @@ local udp = socket.udp()
 udp:settimeout(0)
 udp:setsockname("*", 26650)
 
+msgs = "Server started."
+
 --game variables here
 require "tools"
 require "players"
@@ -15,9 +17,11 @@ print("Entering server loop...")
 function love.load()
   newPlayer("Pebsie", "yeswenyan")
   newFight(1, "Boar Hunt")
-  addPlayerToFight(1,"Pebsie")
-  newPlayer("Hello!", "nope")
-  addPlayerToFight(1,"Hello!")
+  addPlayerToFight(1, "Pebsie")
+end
+
+function love.draw()
+  love.graphics.print(msgs)
 end
 
 function love.update(dt)
@@ -34,4 +38,9 @@ function love.update(dt)
   end
 
   updateFights(dt)
+end
+
+function addMsg(msg)
+  print(msg)
+  msgs = msg.."\n"..msgs
 end
