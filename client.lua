@@ -20,9 +20,9 @@ function netUpdate(dt)
       if data then
         print("We've got a message!" .. data)
         ent, cmd, parms = data:match("^(%S*) (%S*) (.*)")
+        print("Entity is "..ent..", command is "..cmd.." with parameters ("..parms..")")
 
-        param = {}
-        for word in parms:gmatch("([^%s]+)") do  param[#param+1] = word end --split params at space
+        param = atComma(parms, "|")
 
         --data received, input what you want to occur here
         if cmd == "login" then
@@ -34,6 +34,26 @@ function netUpdate(dt)
               pl.cinput = ""
               ui.selected = "username"
             end
+          end
+        elseif cmd == "char" then
+          if ent == pl.name then
+
+            pl.x = tonumber(param[6])
+            pl.y = tonumber(param[7])
+            pl.t = tonumber(param[8])
+            pl.dt = param[9]
+            pl.hp = tonumber(param[1])
+            pl.en = tonumber(param[2])
+            pl.gold = tonumber(param[5])
+            pl.lvl = tonumber(param[13])
+            pl.xp = tonumber(param[14])
+            pl.wep = param[10]
+            pl.arm = param[11]
+            pl.s1 = param[3]
+            pl.s2 = param[4]
+            pl.msg = param[15]
+            pl.inv = param[12]
+
           end
         end
 

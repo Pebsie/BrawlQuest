@@ -29,18 +29,27 @@ function love.update(dt)
   if data then
     entity, cmd, parms = data:match("^(%S*) (%S*) (.*)")
 
+    param = {}
+    for word in parms:gmatch("([^%s]+)") do  param[#param+1] = word end --split params at space
+
     if cmd == "login" then
+
       namePass = atComma(parms)
       addMsg("Player claiming to be "..namePass[1].." is trying to login.")
       if loginPlayer(namePass[1], namePass[2]) then
         udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
-        addMsg("He is who he says to be. Let him in, boys!")
+        addMsg("They are who they claim to be. Let them in, boys!")
       else
         udp:sendto(string.format("%s %s %s", namePass[1], "login", "false"), msg_or_ip, port_or_nil)
         addMsg("He wasn't "..namePass[1]..".")
       end
+
+    elseif cmd == "char" then --client is requesting character info
+      local i = param[1]
+      udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.msg[i]), msg_or_ip, port_or_nil)
+      pl.msg[i] = ""
     end
-    --responses to commands here
+
 
   elseif msg_or_ip ~= 'timeout' then
     error("Unknown network error: "..tostring(msg))

@@ -293,11 +293,4 @@ function initItems()
   item.lvl[ti] = 10
   item.price[ti] = 50
   item.img[ti] = ""
-
-  local ti = ""
-  item.type[ti] =
-  item.val[ti] =
-  item.lvl[ti] =
-  item.price[ti] =
-  item.img[ti] = ""
 end
