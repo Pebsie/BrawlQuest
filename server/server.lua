@@ -19,11 +19,16 @@ while running do
   if data then
     entity, cmd, parms = data:match("^(%S*) (%S*) (.*)")
 
+    if cmd == "login" then
+      namePass = atComma(parms)
+      if loginPlayer(namePass[1], namePass[2]) then
+      
+    end
     --responses to commands here
 
   elseif msg_or_ip ~= 'timeout' then
     error("Unknown network error: "..tostring(msg))
-    
+
     socket.sleep(0.1)
   end
 

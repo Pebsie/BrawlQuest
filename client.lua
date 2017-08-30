@@ -18,21 +18,38 @@ function netUpdate(dt)
       data, msg = udp:receive()
 
       if data then
+        print("We've got a message!" .. data)
         ent, cmd, parms = data:match("^(%S*) (%S*) (.*)")
 
+        param = {}
+        for word in parms:gmatch("([^%s]+)") do  param[#param+1] = word end --split params at space
+
         --data received, input what you want to occur here
+        if cmd == "login" then
+          if ent == pl.name then --verification to prevent hacking
+            if param[1] == "true" then
+              enterGame()
+            else
+              phase = "login"
+              pl.cinput = ""
+              ui.selected = "username"
+            end
+          end
+        end
 
       elseif msg ~= 'timeout' then
           error("Network error: "..tostring(msg))
       end
 
     until not data
+
+    net.t = 0.1
   end
 end
 
-function netSend(cmd, var1, var2)
-  if not var2 then var2 = "n" end --we're wasting a byte a message because I'm lazy! Woo!
-  local dg = string.format("%s %s %f %f", net.id, cmd, var1, var2)
+function netSend(cmd, var1)
+
+  local dg = string.format("%s %s %s", net.id, cmd, var1)
   udp:send(dg)
 end
 
