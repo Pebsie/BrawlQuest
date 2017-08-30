@@ -12,49 +12,51 @@ function initItems()
   item.val[ti] = 1
   item.lvl[ti] = 1
   item.price[ti] = 0
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/weapons/Long Stick.png")
 
   local ti = "Short Sword"
   item.type[ti] = "wep"
   item.val[ti] = 2
   item.lvl[ti] = 1
   item.price[ti] = 1
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/weapons/Short Sword.png")
 
-  local ti = "Bastard Sword"
+  local ti = "Bastard Sword" --NEEDS REWORKING
   item.type[ti] = "wep"
   item.val[ti] = 3
   item.lvl[ti] = 2
   item.price[ti] = 4
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/weapons/Short Sword.png")
 
   local ti = "Long Sword"
   item.type[ti] = "wep"
   item.val[ti] = 5
   item.lvl[ti] = 3
   item.price[ti] = 10
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/weapons/Long Sword.png")
 
   local ti = "Masterwork Long Sword"
   item.type[ti] = "wep"
   item.val[ti] = 8
   item.lvl[ti] = 4
   item.price[ti] = 25
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/weapons/Masterwork Long Sword.png")
 
   local ti = "Guardian's Blade"
   item.type[ti] = "wep"
   item.val[ti] = 10
   item.lvl[ti] = 5
   item.price[ti] = 50
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/weapons/Guardians Blade.png")
+
 
   local ti = "King's Blade"
   item.type[ti] = "wep"
   item.val[ti] = 15
   item.lvl[ti] = 10
   item.price[ti] = 200
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/weapons/Kings Blade.png")
+
 
     --legendary weapons
     local ti = "Legendary Blade"
@@ -62,7 +64,8 @@ function initItems()
     item.val[ti] = 25
     item.lvl[ti] = 15
     item.price[ti] = 500
-    item.img[ti] = ""
+    item.img[ti] = love.graphics.newImage("img/items/weapons/Legendary Blade.png")
+
 
   --armour
   local ti = "Old Cloth"
@@ -193,70 +196,71 @@ function initItems()
   item.val[ti] = 10
   item.lvl[ti] = 1
   item.price[ti] = 1
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/consumables/Weak Red Potion.png")
 
   local ti = "Red Potion"
   item.type[ti] = "hp"
   item.val[ti] = 20
   item.lvl[ti] = 5
   item.price[ti] = 2
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/consumables/Red Potion.png")
 
   local ti = "Weak Healing Potion"
   item.type[ti] = "hp"
   item.val[ti] = 40
   item.lvl[ti] = 10
   item.price[ti] = 3
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/consumables/Weak Healing Potion.png")
 
   local ti = "Healing Potion"
   item.type[ti] = "hp"
   item.val[ti] = 70
   item.lvl[ti] = 11
   item.price[ti] = 5
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/consumables/Healing Potion.png")
 
   local ti = "Potent Healing Potion"
   item.type[ti] = "hp"
   item.val[ti] = 100
   item.lvl[ti] = 12
   item.price[ti] = 8
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/consumables/Potent Healing Potion.png")
+
 
   local ti = "Weak Yellow Potion"
   item.type[ti] = "en"
   item.val[ti] = 10
   item.lvl[ti] = 1
   item.price[ti] = 1
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/consumables/Weak Yellow Potion.png")
 
   local ti = "Yellow Potion"
   item.type[ti] = "en"
   item.val[ti] = 20
   item.lvl[ti] = 5
   item.price[ti] = 2
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/consumables/Yellow Potion.png")
 
   local ti = "Weak Energising Potion"
   item.type[ti] = "en"
   item.val[ti] = 40
   item.lvl[ti] = 10
   item.price[ti] = 3
-  item.img[ti] = ""
+    item.img[ti] = love.graphics.newImage("img/items/consumables/Weak Energising Potion.png")
 
   local ti = "Energising Potion"
   item.type[ti] = "en"
   item.val[ti] = 70
   item.lvl[ti] = 11
   item.price[ti] = 5
-  item.img[ti] = ""
+    item.img[ti] = love.graphics.newImage("img/items/consumables/Energising Potion.png")
 
   local ti = "Potent Energising Potion"
   item.type[ti] = "en"
   item.val[ti] = 100
   item.lvl[ti] = 12
   item.price[ti] = 8
-  item.img[ti] = ""
+    item.img[ti] = love.graphics.newImage("img/items/consumables/Potent Energising Potion.png")
 
   --craftable
   local ti = "Boar Hide"
