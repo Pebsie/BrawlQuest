@@ -34,7 +34,7 @@ function newPlayer(name, password)
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
-  pl.t[i] = 1 --CHANGE TO STARTING ZONE WHEN MAP IS READY
+  pl.t[i] = 4 --CHANGE TO STARTING ZONE WHEN MAP IS READY
   pl.wep[i] = "Long Stick"
   pl.arm[i] = "Old Cloth"
   pl.inv[i] = ""

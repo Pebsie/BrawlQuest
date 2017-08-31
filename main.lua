@@ -3,6 +3,7 @@ require "modules/interface"
 require "modules/user"
 require "modules/game"
 require "data/items"
+require "data/world"
 
 utf8 = require("utf8")
 
