@@ -42,6 +42,6 @@ function setWColour(wname)
   elseif wname == "Village" then
     love.graphics.setColor(109, 73, 35)
   elseif wname == "Water" then
-    love.graphics.setColor(0,255,0)
+    love.graphics.setColor(0,0,255)
   end
 end
