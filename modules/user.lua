@@ -25,6 +25,7 @@ function enterGame()
   requestUserInfo()
   phase = "game"
   ui.selected = "map"
+  music["title"]:stop()
 end
 
 function requestUserInfo()

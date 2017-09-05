@@ -1,4 +1,4 @@
-function initItems()
+
   item = {}
   item.type = {}
   item.val = {}
@@ -297,4 +297,17 @@ function initItems()
   item.lvl[ti] = 10
   item.price[ti] = 50
   item.img[ti] = ""
-end
+
+  buddy = {}
+  buddy["Baby Bat"] = love.graphics.newImage("img/pet/Baby Bat.png")
+  buddy["Beholder"] = love.graphics.newImage("img/pet/Beholder.png")
+  buddy["Beholdling"] = love.graphics.newImage("img/pet/Beholdling.png")
+  buddy["Chicken"] = love.graphics.newImage("img/pet/Chicken.png")
+  buddy["Dog"] = love.graphics.newImage("img/pet/Dog.png")
+  buddy["Dragonling"] = love.graphics.newImage("img/pet/Dragonling.png")
+  buddy["Earth Elementling"] = love.graphics.newImage("img/pet/Earth Elementling.png")
+  buddy["Fire Elementling"] = love.graphics.newImage("img/pet/Fire Elementling.png")
+  buddy["Scorpion"] = love.graphics.newImage("img/pet/Scorpion.png")
+  buddy["Sheep"] = love.graphics.newImage("img/pet/Sheep.png")
+  buddy["Snake"] = love.graphics.newImage("img/pet/Snake.png")
+  buddy["Water Elementling"] = love.graphics.newImage("img/pet/Water Elementling.png")

@@ -1,9 +1,13 @@
 require "client"
+--load data
+require "data/audio"
+require "data/items"
+require "data/world"
+require "data/ui"
+--load modules
 require "modules/interface"
 require "modules/user"
 require "modules/game"
-require "data/items"
-require "data/world"
 
 utf8 = require("utf8")
 
@@ -13,9 +17,9 @@ phase = "login"
 function love.load()
   local ipadd = "127.0.0.1"
   netConnect(ipadd, "26650", 0.2)
-  initItems()
 
   ui.selected = "username" --used by the login phase
+  music["title"]:play() --also used by the login phase
 end
 
 function love.draw()
@@ -24,7 +28,7 @@ end
 
 function love.update(dt)
   netUpdate(dt)
-  updatePhase(phase)
+  updatePhase(phase,dt)
 end
 
 
