@@ -36,6 +36,7 @@ Undead Raid
 -LEVEL 8-
 Pathway: The Invasion of Riverbridge
 Alliance Fury (-2)
+Forgotten Miners
 
 -LEVEL 9-
 Pathway: Westvale’s Final Chance

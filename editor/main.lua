@@ -11,6 +11,7 @@ world.fightc = {}
 world.collide = {}
 world.isFight = {}
 
+info = ""
 view = 0
 
 pl = {}
@@ -79,7 +80,7 @@ function love.draw()
 
   --v = round(((cx+camX)/32)*((cy+camY)/32))
   for i = 1, 100*100 do
-    if x-camX > 0 and x-camX < 800 and y-camY > 0 and y-camY < 600 then
+    if x-camX > -32 and x-camX < 800 and y-camY > -32 and y-camY < 600 then
       local cx, cy = love.mouse.getPosition()
       if cx+camX > x and cx+camX < x+32 and cy+camY > y and cy+camY < y+32 then
         selT = i
@@ -87,6 +88,7 @@ function love.draw()
       if worldImg[world[i]] then
         --if world.isFight[i] == true then love.graphics.setColor(255,0,0) else love.graphics.setColor(255,255,255) end
         if selT == i then love.graphics.setColor(255,255,255,50) else love.graphics.setColor(255,255,255) end
+        if view == 2 then if world.collide[i] == true then love.graphics.setColor(255,0,0) end end
 
         love.graphics.draw(worldImg[world[i]], x-camX, y-camY)
 
@@ -126,9 +128,9 @@ function love.draw()
   love.graphics.rectangle("line",ox+(camX/32),oy+(camY/32),20,15)
 
   love.graphics.setColor(0,0,0)
-  love.graphics.rectangle("fill",0,0,200,14*7)
+  love.graphics.rectangle("fill",0,0,250,14*8)
   love.graphics.setColor(255,255,255)
-  love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'")
+  love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\n"..info)
 
   if isType == true then
     love.graphics.rectangle("line", 0, 14+(14*ts), 200,14)
@@ -138,6 +140,8 @@ end
 function love.update(dt)
   if love.keyboard.isDown("lshift") then
     speed = 512*dt
+  elseif love.keyboard.isDown("lctrl") then
+    speed = 32*dt
   else
     speed = 128*dt
   end
@@ -186,10 +190,7 @@ function love.keypressed(key)
     end
   end
 
-  if key == "v" then
-    view = view + 1
-    if view > 1 then view = 0 end
-  end
+
 
   if isType == true then
     if key == "down" then
@@ -231,7 +232,21 @@ function love.keypressed(key)
       end
     end
 
-
+  else
+    if key == "v" then
+      view = view + 1
+      if view > 2 then view = 0 end
+    end
+    if key == "i" then
+      info = world.name[selT]..","..world.fight[selT].." ("..world.fightc[selT].."%)"
+    end
+    if key == "o" then
+        curTile = world[selT]
+       curFight = world.fight[selT]
+       curFightC = world.fightc[selT]
+       curCollide =  world.collide[selT]
+       curName = world.name[selT]
+    end
   end
 end
 
