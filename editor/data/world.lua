@@ -13,6 +13,13 @@ worldImg["Sand"] = love.graphics.newImage("img/world/Sand.png")
 worldImg["Tree"] = love.graphics.newImage("img/world/Tree.png")
 worldImg["Village"] = love.graphics.newImage("img/world/Village.png")
 worldImg["Water"] = love.graphics.newImage("img/world/Water.png")
+worldImg["castle1"] = love.graphics.newImage("img/world/castle1.png")
+worldImg["castle2"] = love.graphics.newImage("img/world/castle2.png")
+worldImg["castle3"] = love.graphics.newImage("img/world/castle3.png")
+worldImg["castle4"] = love.graphics.newImage("img/world/castle4.png")
+worldImg["Bridge"] = love.graphics.newImage("img/world/Bridge.png")
+worldImg["Cactus"] = love.graphics.newImage("img/world/Cactus.png")
+worldImg["Graveyard"] = love.graphics.newImage("img/world/Graveyard.png")
 
 function setWColour(wname)
   if wname == "Grass" then
@@ -43,5 +50,11 @@ function setWColour(wname)
     love.graphics.setColor(109, 73, 35)
   elseif wname == "Water" then
     love.graphics.setColor(0,0,255)
+  elseif wname == "castle1" or wname == "castle2" or wname == "castle3" or wname == "castle4" then
+    love.graphics.setColor(200,200,200)
+  elseif wname == "Bridge" then
+    love.graphics.setColor(255,249,150)
+  elseif wname == "Cacuts" then
+    love.graphics.setColor(0,100,0)
   end
 end
