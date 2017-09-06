@@ -125,7 +125,7 @@ function love.draw()
   end
 
   love.graphics.setColor(255,0,0)
-  love.graphics.rectangle("line",ox+(camX/32),oy+(camY/32),20,15)
+  love.graphics.rectangle("line",ox+(camX/32),oy+(camY/32),25,18.75)
 
   love.graphics.setColor(0,0,0)
   love.graphics.rectangle("fill",0,0,250,14*8)
