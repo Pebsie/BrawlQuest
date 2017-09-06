@@ -36,7 +36,7 @@ function drawLogin() --login screen
   love.graphics.draw(bli[bli.s],litems["player"]+40,sh-40)
 
 
-  love.graphics.draw(logo, 296,31,0,0.5)
+  love.graphics.draw(logo, 305,66,0,0.5)
   love.graphics.setColor(64,64,64) --background for text entry
   love.graphics.rectangle("fill",296,31+(373/2),(407/2),32)
   love.graphics.setColor(0,127,14) --login button
