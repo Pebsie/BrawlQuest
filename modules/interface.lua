@@ -35,11 +35,6 @@ function drawLogin() --login screen
   love.graphics.draw(item.img["Old Cloth"],litems["player"],sh-40)
   love.graphics.draw(bli[bli.s],litems["player"]+40,sh-40)
 
-<<<<<<< Updated upstream
-
-  love.graphics.draw(logo, 305,66,0,0.5)
-=======
->>>>>>> Stashed changes
   love.graphics.setColor(64,64,64) --background for text entry
   love.graphics.rectangle("fill",296,31+(373/2),(407/2),32)
   love.graphics.setColor(0,127,14) --login button
@@ -60,7 +55,7 @@ function drawLogin() --login screen
   love.graphics.print("Created and programmed by Thomas Lock (http://peb.si)\nGraphics by D.Gervais (used here under a Creative Commons Attribution 3.0 licence)\nLogo created by Danjoe Stubbs\nSpecial thanks to Sam Warland for letting me ramble on about MMO design in recent months", 0, 18)
   love.graphics.setFont(font)
 
-  love.graphics.draw(logo, 296,31,0,0.5)
+    love.graphics.draw(logo, 305,66,0,0.5)
 
   if ui.selected == "username" then
     love.graphics.printf(pl.cinput.."|",296,31+(373/2),(407/2),"center")
