@@ -18,6 +18,9 @@ function love.load()
   local ipadd = "127.0.0.1"
   netConnect(ipadd, "26650", 0.2)
 
+  font = love.graphics.newFont(14)
+  sFont = love.graphics.newFont(9)
+
   ui.selected = "username" --used by the login phase
   music["title"]:play() --also used by the login phase
 end

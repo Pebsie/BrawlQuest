@@ -35,8 +35,11 @@ function drawLogin() --login screen
   love.graphics.draw(item.img["Old Cloth"],litems["player"],sh-40)
   love.graphics.draw(bli[bli.s],litems["player"]+40,sh-40)
 
+<<<<<<< Updated upstream
 
   love.graphics.draw(logo, 305,66,0,0.5)
+=======
+>>>>>>> Stashed changes
   love.graphics.setColor(64,64,64) --background for text entry
   love.graphics.rectangle("fill",296,31+(373/2),(407/2),32)
   love.graphics.setColor(0,127,14) --login button
@@ -52,21 +55,22 @@ function drawLogin() --login screen
   for i = 1, string.len(pl.cinput) do pstring = pstring.."*" end
 
   love.graphics.printf("LOGIN",296,31+(373/2)+32,(407/2),"center")
+  love.graphics.print("BrawlQuest "..version)
+  love.graphics.setFont(sFont)
+  love.graphics.print("Created and programmed by Thomas Lock (http://peb.si)\nGraphics by D.Gervais (used here under a Creative Commons Attribution 3.0 licence)\nLogo created by Danjoe Stubbs\nSpecial thanks to Sam Warland for letting me ramble on about MMO design in recent months", 0, 18)
+  love.graphics.setFont(font)
+
+  love.graphics.draw(logo, 296,31,0,0.5)
 
   if ui.selected == "username" then
-    love.graphics.print("BrawlQuest "..version)
     love.graphics.printf(pl.cinput.."|",296,31+(373/2),(407/2),"center")
   elseif ui.selected == "password" then
-
-    love.graphics.print("BrawlQuest "..version)
-
     love.graphics.printf(pl.name.."",296,31+(373/2),(407/2),"center")
     love.graphics.printf(pstring.."|",296,31+(373/2)+16,(407/2),"center")
-
   elseif ui.selected == "logging in" then
     love.graphics.printf(pl.name.."",296,31+(373/2),(407/2),"center")
     love.graphics.printf(pstring.."",296,31+(373/2)+16,(407/2),"center")
-    love.graphics.print("BrawlQuest "..version.."\nLogging in...")
+    love.graphics.print("Logging in...",0,36*12)
   end
 end
 
