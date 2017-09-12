@@ -5,6 +5,7 @@ utf8 = require("utf8")
 require "data/world"
 
 world = {}
+world.bg = {}
 world.name = {}
 world.fight = {}
 world.fightc = {}
@@ -22,6 +23,7 @@ camY = 0
 selT = 0
 
 curName = "Forest"
+curBG = "Grass"
 curTile = "Mountain"
 curFight = "Boar Hunt"
 curFightC = 5
@@ -43,6 +45,7 @@ function love.load()
       world.fightc[i] = tonumber(word[3])
       if word[4] == "true" then world.collide[i] = true else world.collide[i] = false end
       world.name[i] = word[5]
+      world.bg[i] = word[6]
       print(world[i])
       print(world.fight[i])
       print(world.fightc[i])
@@ -60,12 +63,14 @@ function love.load()
         world.fight[i] = "None"
         world.fightc[i] = 0
         world.collide[i] = true
+        world.bg[i] = "Grass"
       else
         world[i] = "Grass"
         world.name[i] = "The Great Plains"
         world.fight[i] = "Boar Hunt"
         world.fightc[i] = 5 --5%
         world.collide[i] = false
+        world.bg[i] = "Grass"
       end
 
       world.isFight[i] = false
@@ -89,7 +94,7 @@ function love.draw()
         --if world.isFight[i] == true then love.graphics.setColor(255,0,0) else love.graphics.setColor(255,255,255) end
         if selT == i then love.graphics.setColor(255,255,255,50) else love.graphics.setColor(255,255,255) end
         if view == 2 then if world.collide[i] == true then love.graphics.setColor(255,0,0) end end
-
+        love.graphics.draw(worldImg[world.bg[i]], x-camX, y-camY)
         love.graphics.draw(worldImg[world[i]], x-camX, y-camY)
 
         if world.isFight[i] == true then love.graphics.draw(heroImg, x-camX, y-camY) end
@@ -130,7 +135,7 @@ function love.draw()
   love.graphics.setColor(0,0,0)
   love.graphics.rectangle("fill",0,0,250,14*8)
   love.graphics.setColor(255,255,255)
-  love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\n"..info)
+  love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\nFloor is "..curBG.."\n"..info)
 
   if isType == true then
     love.graphics.rectangle("line", 0, 14+(14*ts), 200,14)
@@ -154,7 +159,8 @@ function love.update(dt)
   world.fight[selT] = curFight
   world.fightc[selT] = curFightC
   world.collide[selT] = curCollide
-  world.name[selT] = curName end
+  world.name[selT] = curName
+  world.bg[selT] = curBG end
 end
 
 function love.mousepressed(x, y, button, istouch)
@@ -168,7 +174,6 @@ function love.mousepressed(x, y, button, istouch)
 end
 
 function love.mousereleased(x,y,button,istouch)
-  saveWorld()
 end
 
 function love.keypressed(key)
@@ -197,16 +202,17 @@ function love.keypressed(key)
       ts = ts + 1
       if ts == 1 then pl.cinput = curTile
       elseif ts == 2 then pl.cinput = curFight
-      elseif ts == 3 then pl.cinput = curFightC end
+      elseif ts == 3 then pl.cinput = curFightC
+      elseif ts == 6 then pl.cinput = curBG end
 
-      if ts == 6 then ts = 1 end
+      if ts == 7 then ts = 1 end
     elseif key == "up" then
       ts = ts - 1
       if ts == 1 then pl.cinput = curTile
       elseif ts == 2 then pl.cinput = curFight
       elseif ts == 3 then pl.cinput = curFightC
       elseif ts == 5 then pl.cinput = curName end
-      if ts == 0 then ts = 5 end
+      if ts == 0 then ts = 6 end
     end
 
 
@@ -224,8 +230,8 @@ function love.keypressed(key)
             curTile = pl.cinput
           elseif ts == 2 then
             curFight = pl.cinput
-          elseif ts == 3 then
-            --curFightC = tonumber(curFight..t)
+          elseif ts == 6 then
+            curBG = pl.cinput
           elseif ts == 5 then
             curName = pl.cinput
           end
@@ -246,7 +252,9 @@ function love.keypressed(key)
        curFightC = world.fightc[selT]
        curCollide =  world.collide[selT]
        curName = world.name[selT]
+       curBG = world.bg[selT]
     end
+    if key == "e" then saveWorld() end
   end
 end
 
@@ -271,6 +279,8 @@ function love.textinput(t)
       if t == "t" then curCollide = true elseif t == "f" then curCollide = false end
     elseif ts == 5 then
       curName = pl.cinput
+    elseif ts == 6 then
+      curBG = pl.cinput
     end
   end
 end
@@ -285,9 +295,9 @@ function saveWorld()
     if not tostring(world.collide[i]) then print("Missing collision info.") end
     if not world.name[i] then print("Missing world name.") end
     if world[i] and world.fight[i] and world.fightc[i] and tostring(world.collide[i]) and world.name[i] then
-      fs = fs..world[i]..","..world.fight[i]..","..world.fightc[i]..","..tostring(world.collide[i])..","..world.name[i].."\n"
+      fs = fs..world[i]..","..world.fight[i]..","..world.fightc[i]..","..tostring(world.collide[i])..","..world.name[i]..","..world.bg[i].."\n"
     else
-      fs = fs.."error,none,0,false,The Great Plains"
+      fs = fs.."error,none,0,false,The Great Plains,error\n"
       print("ERROR! WRITING CURRENT WORLD TO ALTERNATE FILE!! (Error tile is "..i..")")
       --fp = "map-new.txt"
     end
