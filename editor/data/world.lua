@@ -1,5 +1,7 @@
 worldImg = {} --so called here so it doesn't conflict with the editor
 worldImg["Grass"] = love.graphics.newImage("img/world/floors/Grass.png")
+worldImg["Sandy Grass"] = love.graphics.newImage("img/world/floors/Sandy Grass.png")
+worldImg["Sandstone"] = love.graphics.newImage("img/world/floors/Sandstone.png")
 worldImg["Camp"] = love.graphics.newImage("img/world/objects/Camp.png")
 worldImg["Boulder"] = love.graphics.newImage("img/world/objects/Boulder.png")
 worldImg["Dead Tree"] = love.graphics.newImage("img/world/objects/Dead Tree.png")
@@ -20,6 +22,16 @@ worldImg["castle4"] = love.graphics.newImage("img/world/objects/castle4.png")
 worldImg["Bridge"] = love.graphics.newImage("img/world/floors/Bridge.png")
 worldImg["Cactus"] = love.graphics.newImage("img/world/objects/Cactus.png")
 worldImg["Graveyard"] = love.graphics.newImage("img/world/objects/Graveyard.png")
+worldImg["Desert Village"] = love.graphics.newImage("img/world/objects/Desert Village.png")
+worldImg["Wall"] = love.graphics.newImage("img/world/objects/Wall.png")
+worldImg["PU"] = love.graphics.newImage("img/world/objects/pathway/Up.png")
+worldImg["PDL"] = love.graphics.newImage("img/world/objects/pathway/Down Left.png")
+worldImg["PDR"] = love.graphics.newImage("img/world/objects/pathway/Down Right.png")
+worldImg["PS"] = love.graphics.newImage("img/world/objects/pathway/Side.png")
+worldImg["PUL"] = love.graphics.newImage("img/world/objects/pathway/Up Left.png")
+worldImg["PUR"] = love.graphics.newImage("img/world/objects/pathway/Up Right.png")
+
+
 
 function setWColour(wname)
   if wname == "Grass" then
