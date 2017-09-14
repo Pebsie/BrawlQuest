@@ -1,7 +1,8 @@
 
   item = {}
   item.type = {}
-  item.val = {}
+  item.desc = {} --optional
+  item.val = {} --for spells this is cooldown in seconds then requirements
   item.lvl = {}
   item.price = {}
   item.img = {}
@@ -297,6 +298,80 @@
   item.lvl[ti] = 10
   item.price[ti] = 50
   item.img[ti] = ""
+
+  --spells
+  local ti = "Second Wind"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Recover 10% health and move at 200% speed for 3 seconds"
+  item.val[ti] = "5,HP15,EN50"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = love.graphics.newImage("img/items/scrolls/Second Wind.png")
+
+  local ti = "Tornado"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Turn into a powerful tornado, increasing movement speed to 300% and causing damage to every opponent you touch for 5 seconds"
+  item.val[ti] = "30,EN100"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = love.graphics.newImage("img/items/scrolls/Tornado.png")
+
+  local ti = "Recovery"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Recover 30% health"
+  item.val[ti] = "120,EN50"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = love.graphics.newImage("img/items/scrolls/Recovery.png")
+
+  local ti = "Ground Slam"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Deal ATK*2 damage to all enemies within 5 meters"
+  item.val[ti] = "100,EN100"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = love.graphics.newImage("img/items/scrolls/Ground Slam.png")
+
+  local ti = "Rend"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Next attack applies bleeding to all enemies hit"
+  item.val[ti] = "10,EN20"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = love.graphics.newImage("img/items/scrolls/Rend.png")
+
+  local ti = "Grace"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Heal all friendlies for 30% their max health"
+  item.val[ti] = "10,EN50"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = love.graphics.newImage("img/items/scrolls/Grace.png")
+
+  local ti = "Flash of Light"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Turn into a flash of light, increasing movement speed to 200% and healing all friendlies you touch for 10 seconds"
+  item.val[ti] = "30,EN100"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = love.graphics.newImage("img/items/scrolls/Flash of Light.png")
+
+  local ti = "Enrage"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Taunt all enemies within 10 meters, causing them to change target and attack you"
+  item.val[ti] = "6,EN20"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = love.graphics.newImage("img/items/scrolls/Enrage.png")
+
+  local ti = "Phase Shift"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "All enemies target you switch to the nearest friendly and you cannot take damage for 5 seconds"
+  item.val[ti] = "60,EN50"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = ""
+
 
   buddy = {}
   buddy["Baby Bat"] = love.graphics.newImage("img/pet/Baby Bat.png")
