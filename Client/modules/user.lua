@@ -25,11 +25,11 @@ function enterGame()
   requestUserInfo()
 
   --download map
-  local body, code = http.request("http://peb.si/b/map.txt")
-  if not body then error(code) end
-  local f = assert(io.open('map.txt', 'wb'))
-  f:write(body)
-  f:close()
+  b, c, h = http.request("http://peb.si/bq/dl/map.txt")
+  love.filesystem.write("map.txt", b)
+
+  --load map
+  loadOverworld()
 
   phase = "game"
   ui.selected = "map"

@@ -1,4 +1,5 @@
 require "modules/submodules/login"
+require "modules/submodules/overworld"
 
 --ui variables, use as you wish
 ui = {}
@@ -55,4 +56,9 @@ function love.keypressed(key)
       elseif ui.selected == "password" then login() end
       end
    end
+
+   if key == "w" then my = my - 32 end
+   if key == "s" then my = my + 32 end
+   if key == "d" then mx = mx + 32 end
+   if key == "a" then mx = mx - 32 end
 end
