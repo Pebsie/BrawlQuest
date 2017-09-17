@@ -386,3 +386,7 @@
   buddy["Sheep"] = love.graphics.newImage("img/pet/Sheep.png")
   buddy["Snake"] = love.graphics.newImage("img/pet/Snake.png")
   buddy["Water Elementling"] = love.graphics.newImage("img/pet/Water Elementling.png")
+
+  uiImg = {}
+  uiImg["atk"] = love.graphics.newImage("img/ui/atk.png")
+  uiImg["def"] = love.graphics.newImage("img/ui/armor.png")

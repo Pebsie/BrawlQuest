@@ -27,21 +27,21 @@ function newPlayer(name, password)
   acc.password[#acc.password + 1] = password
 
   local i = name
-  pl.hp[i] = 100
+  pl.hp[i] = 32
   pl.en[i] = 100
-  pl.s1[i] = "Empty"
-  pl.s2[i] = "Empty"
+  pl.s1[i] = "Enrage"
+  pl.s2[i] = "Grace"
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
   pl.t[i] = 4 --CHANGE TO STARTING ZONE WHEN MAP IS READY
   pl.wep[i] = "Long Stick"
   pl.arm[i] = "Old Cloth"
-  pl.inv[i] = ""
+  pl.inv[i] = "None"
   pl.lvl[i] = 1
-  pl.xp[i] = 0
+  pl.xp[i] = 80
   pl.at[i] = "false,w"
-  pl.msg[i] = ""
+  pl.msg[i] = "None"
 
   addMsg("New player by the name of "..name)
 end

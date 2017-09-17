@@ -18,6 +18,7 @@ function loadOverworld()
       world.bg[i] = word[6]
       world.isFight[i] = false
       world.players[i] = ""
+      
     end
   else
     love.window.showMessageBox("World doesn't exist!", "We couldn't find the world file. This means one of two things: 1) the Witch has successfully wiped out all of mankind or 2) the client didn't download the world properly. Either way, we need to exit. Report this to @Pebsiee!!", "error")

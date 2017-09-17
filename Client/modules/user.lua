@@ -15,6 +15,8 @@ pl.arm = "None"
 pl.s1 = ""
 pl.s2 = ""
 pl.msg = ""
+pl.wis = 0
+pl.str = 0
 
 function login() --we'll attempt to login
   ui.selected = "logging in"
@@ -35,7 +37,9 @@ function enterGame()
   ui.selected = "map"
   music["title"]:stop()
 
-
+  gameUI.x["char"] = 800-160
+  gameUI.y["char"] = 0
+  gameUI.isDrag["char"] = true
 end
 
 function requestUserInfo()

@@ -1,3 +1,5 @@
+love.graphics.setDefaultFilter("nearest", "nearest", 1) --set rendering scale style
+
 require "client"
 --load data
 require "data/audio"
@@ -14,12 +16,18 @@ utf8 = require("utf8")
 version = "Alpha 0.1"
 phase = "login"
 
+isMouseDown = false
+cox = 0
+coy = 0
+
 function love.load()
+
   local ipadd = "127.0.0.1"
   netConnect(ipadd, "26650", 0.2)
 
-  font = love.graphics.newFont(14)
+  font = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",14)
   sFont = love.graphics.newFont(9)
+  bFont = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",26)
 
   ui.selected = "username" --used by the login phase
   music["title"]:play() --also used by the login phase
@@ -32,8 +40,17 @@ end
 function love.update(dt)
   netUpdate(dt)
   updatePhase(phase,dt)
+  updateUI(dt)
 end
 
+function love.mousepressed(button)
+  isMouseDown = true
+  cox, coy = love.mouse.getPosition()
+end
+
+function love.mousereleased(button)
+  isMouseDown = false
+end
 
 function atComma(str, md)
   if not md then md = "," end
