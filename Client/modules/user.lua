@@ -23,9 +23,19 @@ end
 
 function enterGame()
   requestUserInfo()
+
+  --download map
+  local body, code = http.request("http://peb.si/b/map.txt")
+  if not body then error(code) end
+  local f = assert(io.open('map.txt', 'wb'))
+  f:write(body)
+  f:close()
+
   phase = "game"
   ui.selected = "map"
   music["title"]:stop()
+
+
 end
 
 function requestUserInfo()

@@ -1,4 +1,5 @@
-local socket = require "socket"
+socket = require "socket"
+http = require("socket.http")
 net = {}
 net.id = math.random(99999) --THIS SHOULD NOT BE KEPT AS THIS VALUEm
 
