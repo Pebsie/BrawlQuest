@@ -40,7 +40,6 @@ end
 function love.update(dt)
   netUpdate(dt)
   updatePhase(phase,dt)
-  updateUI(dt)
 end
 
 function love.mousepressed(button)

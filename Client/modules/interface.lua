@@ -24,6 +24,8 @@ end
 function updatePhase(phase, dt)
   if phase == "login" then
     updateLogin(dt)
+  elseif phase == "game" then
+    updateGame(dt)
   end
 end
 

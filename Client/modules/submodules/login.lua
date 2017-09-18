@@ -33,7 +33,7 @@ function drawLogin() --login screen
   love.graphics.printf("LOGIN",296,31+(373/2)+32,(407/2),"center")
   love.graphics.print("BrawlQuest "..version)
   love.graphics.setFont(sFont)
-  love.graphics.print("Created and programmed by Thomas Lock (http://peb.si)\nGraphics by D.Gervais (used here under a Creative Commons Attribution 3.0 licence)\nLogo created by Danjoe Stubbs\nSpecial thanks to Sam Warland for letting me ramble on about MMO design in recent months", 0, 18)
+  love.graphics.print("Created and programmed by Thomas Lock (http://peb.si)\nGraphics by D.Gervais (used here under a Creative Commons Attribution 3.0 licence)\nMusic by Eric Matyas (used here under a Creative Commons Attribution 4.0 license)\nLogo created by Danjoe Stubbs\nSpecial thanks to Sam Warland for letting me ramble on about MMO design in recent months", 0, 18)
   love.graphics.setFont(font)
 
     love.graphics.draw(logo, 305,66,0,0.5)

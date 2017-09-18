@@ -7,6 +7,21 @@
   item.price = {}
   item.img = {}
 
+  --nil
+  local ti = ""
+  item.type[ti] = "none"
+  item.val[ti] = 1
+  item.lvl[ti] = 1
+  item.price[ti] = 0
+  item.img[ti] = love.graphics.newImage("img/items/weapons/Long Stick.png")
+
+  local ti = "None"
+  item.type[ti] = "none"
+  item.val[ti] = 1
+  item.lvl[ti] = 1
+  item.price[ti] = 0
+  item.img[ti] = love.graphics.newImage("img/items/weapons/Long Stick.png")
+
   --weapons
   local ti = "Long Stick"
   item.type[ti] = "wep"

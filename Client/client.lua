@@ -54,6 +54,7 @@ function netUpdate(dt)
             pl.s2 = param[4]
             pl.msg = param[15]
             pl.inv = param[12]
+            pl.pot = param[16]
 
           end
         end

@@ -12,6 +12,7 @@ pl.lvl = 0
 pl.xp = 0
 pl.wep = "None"
 pl.arm = "None"
+pl.pot = "None"
 pl.s1 = ""
 pl.s2 = ""
 pl.msg = ""
@@ -39,7 +40,11 @@ function enterGame()
 
   gameUI.x["char"] = 800-160
   gameUI.y["char"] = 0
-  gameUI.isDrag["char"] = true
+  gameUI.isDrag["char"] = false
+
+  gameUI.x["deb"] = 0
+  gameUI.y["deb"] = 0
+  gameUI.isDrag["deb"] = false
 end
 
 function requestUserInfo()
