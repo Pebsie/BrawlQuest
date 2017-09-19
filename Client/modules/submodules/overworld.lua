@@ -41,7 +41,7 @@ function drawOverworld()
   x = 0
   y = 0
   for i = 1, 100*100 do
-    if x-mx > 0 and x-mx < 800 and y-my > -32 and y-my < 600 then
+   if x-mx > -32 and x-mx < 800 and y-my > -32 and y-my < 600 then
       love.graphics.draw(worldImg[world.bg[i]], x-mx, y-my)
       love.graphics.draw(worldImg[world[i]], x-mx, y-my)
 
@@ -51,14 +51,13 @@ function drawOverworld()
       else
         love.graphics.setColor(255,255,255)
       end
-
-      x = x + 32
-      if x > 32*100 then
-        y = y + 32
-        x = 0
-      end
-      --love.graphics.print(i*k, i*32, k*132)
     end
+    x = x + 32
+    if x > 32*100 then
+      y = y + 32
+      x = 0
+    end
+
   end
 
   if not item.val[pl.wep] and not item.val[pl.arm] then
@@ -100,7 +99,7 @@ function drawUICharInfo(x,y)
   love.graphics.draw(item.img[pl.s1],32+x,148+y)
   love.graphics.draw(item.img[pl.s2],96+x,148+y)
   love.graphics.draw(item.img[pl.wep],32+x, 194+y)
-  love.graphics.draw(item.img[pl.pot],96+x,194+y)
+  if item.img[pl.pot] then love.graphics.draw(item.img[pl.pot],96+x,194+y) end
 
   --text
   love.graphics.printf(pl.name,x,84+y,160,"center")
@@ -120,10 +119,10 @@ end
 
 function drawUIDebugInfo(x,y)
   love.graphics.setColor(50,50,50)
-  love.graphics.rectangle("fill", x, y, 160, 16)
+  love.graphics.rectangle("fill", x, y, 160, 30)
 
   love.graphics.setColor(255,255,255)
-  love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()), x, y)
+  love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()).."\nCam: "..mx..", "..my, x, y)
 
   --border
   love.graphics.setColor(150,150,150)
