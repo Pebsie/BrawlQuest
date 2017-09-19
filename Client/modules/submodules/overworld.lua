@@ -96,6 +96,7 @@ function drawUICharInfo(x,y)
   love.graphics.setColor(255,255,255)
   love.graphics.draw(worldImg["Grass"],48+x,16+y,0,2,2)
   love.graphics.draw(item.img[pl.arm],48+x,16+y,0,2,2) --player avatar image
+  love.graphics.draw(uiImg["portrait"],48+x,16+y)
   love.graphics.draw(item.img[pl.s1],32+x,148+y)
   love.graphics.draw(item.img[pl.s2],96+x,148+y)
   love.graphics.draw(item.img[pl.wep],32+x, 194+y)

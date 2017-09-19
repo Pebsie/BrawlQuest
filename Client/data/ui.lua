@@ -43,3 +43,9 @@ litems["ground"] = 0
 
 bli.s = love.math.random(1, 12)
 litems["player"] = 1000
+
+
+uiImg = {}
+uiImg["atk"] = love.graphics.newImage("img/ui/atk.png")
+uiImg["def"] = love.graphics.newImage("img/ui/armor.png")
+uiImg["portrait"] = love.graphics.newImage("img/ui/portrait.png")
