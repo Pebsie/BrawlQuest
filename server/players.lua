@@ -28,22 +28,22 @@ function newPlayer(name, password)
   acc.password[#acc.password + 1] = password
 
   local i = name
-  pl.hp[i] = 32
+  pl.hp[i] = 100
   pl.en[i] = 100
-  pl.s1[i] = "Enrage"
-  pl.s2[i] = "Grace"
+  pl.s1[i] = "None"
+  pl.s2[i] = "None"
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
-  pl.t[i] = 4 --CHANGE TO STARTING ZONE WHEN MAP IS READY
+  pl.t[i] = 9457 --CHANGE TO STARTING ZONE WHEN MAP IS READY
   pl.wep[i] = "Guardian's Blade"
   pl.arm[i] = "Legendary Padding"
   pl.inv[i] = "None"
   pl.pot[i] = "Red Potion"
   pl.lvl[i] = 1
-  pl.xp[i] = 80
+  pl.xp[i] = 0
   pl.at[i] = "false,w"
-  pl.msg[i] = "None"
+  pl.msg[i] = "chat|Server|Welcome "..i.."!|"
 
   addMsg("New player by the name of "..name)
 end
