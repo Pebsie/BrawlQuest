@@ -16,6 +16,7 @@ print("Entering server loop...")
 
 function love.load()
   newPlayer("Pebsie", "yeswenyan")
+  newPlayer("Jesus", "Wept")
   --newFight(1, "Boar Hunt")
   --addPlayerToFight(1, "Pebsie")
 end

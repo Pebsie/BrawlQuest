@@ -24,6 +24,23 @@ function loadOverworld()
     love.window.showMessageBox("World doesn't exist!", "We couldn't find the world file. This means one of two things: 1) the Witch has successfully wiped out all of mankind or 2) the client didn't download the world properly. Either way, we need to exit. Report this to @Pebsiee!!", "error")
     love.event.quit()
   end
+
+  --create canvas
+  worldCanvas = love.graphics.newCanvas(32*100,32*100)
+  love.graphics.setCanvas(worldCanvas)
+    love.graphics.clear()
+    x = 0
+    y = 0
+    for i = 1, 100*100 do
+      love.graphics.draw(worldImg[world.bg[i]], x-mx, y-my)
+      love.graphics.draw(worldImg[world[i]], x-mx, y-my)
+      x = x + 32
+      if x > 32*100 then
+        y = y + 32
+        x = 0
+      end
+    end
+  love.graphics.setCanvas()
 end
 
 function drawOverworld()
@@ -38,29 +55,11 @@ function drawOverworld()
     if x > sw then x = 0 y = y + 32 end
   end
 
+  love.graphics.draw(worldCanvas, -mx, -my)
+
   x = 0
   y = 0
-  for i = 1, 100*100 do
-   if x-mx > -32 and x-mx < sw and y-my > -32 and y-my < sh then
-      love.graphics.draw(worldImg[world.bg[i]], x-mx, y-my)
-      love.graphics.draw(worldImg[world[i]], x-mx, y-my)
 
-      if pl.t == i then
-        love.graphics.draw(item.img[pl.arm],x-mx,y-my)
-        --love.graphics.rectangle("fill", i*16, k*16, 16, 16)
-      else
-        love.graphics.setColor(255,255,255)
-      end
-      love.graphics.setFont(sFont)
-    --  love.graphics.print(i, x-mx, y-my)
-    end
-    x = x + 32
-    if x > 32*100 then
-      y = y + 32
-      x = 0
-    end
-
-  end
 
   if not item.val[pl.wep] and not item.val[pl.arm] then
     love.graphics.print("Awaiting character info...")
