@@ -26,20 +26,7 @@ function loadOverworld()
   end
 
   --create canvas
-  worldCanvas = love.graphics.newCanvas(32*100,32*100)
-  love.graphics.setCanvas(worldCanvas)
-    love.graphics.clear()
-    x = 0
-    y = 0
-    for i = 1, 100*100 do
-      love.graphics.draw(worldImg[world.bg[i]], x-mx, y-my)
-      love.graphics.draw(worldImg[world[i]], x-mx, y-my)
-      x = x + 32
-      if x > 32*100 then
-        y = y + 32
-        x = 0
-      end
-    end
+  worldCanvas = createWorldCanvas()
   love.graphics.setCanvas()
 end
 
@@ -47,6 +34,7 @@ function drawOverworld()
   local x = 0
   local y = 0
 
+  love.graphics.setColor(200,200,200)
   --background
   for i = 1, (sw/32)*((sh/32)+1) do
     love.graphics.draw(worldImg["Grass"], x, y)
@@ -55,8 +43,9 @@ function drawOverworld()
     if x > sw then x = 0 y = y + 32 end
   end
 
-  love.graphics.draw(worldCanvas, -mx, -my)
-
+  love.graphics.setColor(255,255,255,255)
+  love.graphics.draw(worldCanvas, -mx, -my) --draw world
+ --draw player
   x = 0
   y = 0
 
@@ -120,14 +109,14 @@ end
 
 function drawUIDebugInfo(x,y)
   love.graphics.setColor(50,50,50)
-  love.graphics.rectangle("fill", x, y, 160, 30)
+  love.graphics.rectangle("fill", x, y, 160, 46)
 
   love.graphics.setColor(255,255,255)
-  love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()).."\nCam: "..mx..", "..my, x, y)
+  love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()).."\nCam: "..mx..", "..my.."\nPlayer tile: "..pl.t, x, y)
 
   --border
   love.graphics.setColor(150,150,150)
-  love.graphics.rectangle("line",x, y, 160, 30)
+  love.graphics.rectangle("line",x, y, 160, 46)
 end
 
 function updateGameUI(dt, ud)
@@ -140,15 +129,40 @@ function updateGameUI(dt, ud)
     gameUI.isDrag[ud] = false
   end
   if gameUI.isDrag[ud] == true then
-    if cx+160 < sw+1 then --avoid leaving boundaries of the window
-      gameUI.x[ud] = cx
-    else
-      gameUI.x[ud] = sw-160
-    end
-    if cy+300 < sh+1 then
-      gameUI.y[ud] = cy
-    else
-      gameUI.y[ud] = sh-300
-    end
+    gameUI.x[ud] = cx
+    gameUI.y[ud] = cy
   end
+
+  if   gameUI.x[ud]+160 > sw+1 then --avoid leaving boundaries of the window
+      gameUI.x[ud] = sw-160
+  end
+  if   gameUI.y[ud]+300 > sh+1 then
+    gameUI.y[ud] = sh-300
+  end
+end
+
+function createWorldCanvas()
+  worldCanvas = love.graphics.newCanvas(32*101,32*101)
+  love.graphics.setCanvas(worldCanvas)
+    love.graphics.clear()
+    x = 0
+    y = 0
+    for i = 1, 100*100 do
+      love.graphics.draw(worldImg[world.bg[i]], x-mx, y-my)
+      love.graphics.draw(worldImg[world[i]], x-mx, y-my)
+
+      if tonumber(pl.t) == tonumber(i) then
+        love.graphics.draw(item.img[pl.arm],x-mx,y-my)
+        love.graphics.print(i, x-mx, y-my)
+      end
+    --  love.graphics.setFont(sFont)
+    --  love.graphics.print(i, x-mx, y-my)
+      x = x + 32
+      if x > 32*100 then
+        y = y + 32
+        x = 0
+      end
+    end
+
+    return worldCanvas
 end

@@ -15,8 +15,7 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
-  newPlayer("Pebsie", "yeswenyan")
-  newPlayer("Jesus", "Wept")
+  newPlayer("demo","demo")
   --newFight(1, "Boar Hunt")
   --addPlayerToFight(1, "Pebsie")
 end
