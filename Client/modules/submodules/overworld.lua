@@ -1,3 +1,5 @@
+require "modules/submodules/fog"
+
 world = {}
 world.bg = {}
 world.name = {}
@@ -148,21 +150,23 @@ function createWorldCanvas()
     x = 0
     y = 0
     for i = 1, 100*100 do
-      love.graphics.draw(worldImg[world.bg[i]], x-mx, y-my)
-      love.graphics.draw(worldImg[world[i]], x-mx, y-my)
+        if not checkFog(i) then love.graphics.setColor(210,210,210) else love.graphics.setColor(255,255,255) end
+        love.graphics.draw(worldImg[world.bg[i]], x-mx, y-my)
+        if checkFog(i) then
+          love.graphics.draw(worldImg[world[i]], x-mx, y-my)
+        end
 
-      if tonumber(pl.t) == tonumber(i) then
-        love.graphics.draw(item.img[pl.arm],x-mx,y-my)
-        love.graphics.print(i, x-mx, y-my)
-      end
-    --  love.graphics.setFont(sFont)
-    --  love.graphics.print(i, x-mx, y-my)
+        if tonumber(pl.t) == tonumber(i) then
+          love.graphics.draw(item.img[pl.arm],x-mx,y-my)
+        end
+--love.graphics.setFont(sFont)
+      --love.graphics.print(i, x-mx, y-my)
       x = x + 32
       if x > 32*100 then
         y = y + 32
         x = 0
       end
     end
-
+    love.graphics.setCanvas()
     return worldCanvas
 end

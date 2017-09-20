@@ -3,7 +3,7 @@ pl.cinput = ""
 pl.name = ""
 pl.x = 0
 pl.y = 0
-pl.t = 0
+pl.t = nil
 pl.dt = 0
 pl.hp = 100
 pl.en = 100
@@ -27,24 +27,25 @@ end
 function enterGame()
   requestUserInfo()
 
+  stopMusic() --stop title music
   --download map
   b, c, h = http.request("http://peb.si/bq/dl/map.txt")
   love.filesystem.write("map.txt", b)
-
+      loadFog()
   --load map
-  loadOverworld()
+    loadOverworld()
 
-  phase = "game"
-  ui.selected = "map"
-  music["title"]:stop()
 
-  gameUI.x["char"] = 800-160
-  gameUI.y["char"] = 0
-  gameUI.isDrag["char"] = false
+    phase = "game"
+    ui.selected = "map"
 
-  gameUI.x["deb"] = 0
-  gameUI.y["deb"] = 0
-  gameUI.isDrag["deb"] = false
+    gameUI.x["char"] = 800-160
+    gameUI.y["char"] = 0
+    gameUI.isDrag["char"] = false
+
+    gameUI.x["deb"] = 0
+    gameUI.y["deb"] = 0
+    gameUI.isDrag["deb"] = false
 end
 
 function requestUserInfo()

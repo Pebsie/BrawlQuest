@@ -7,6 +7,7 @@ require "data/items"
 require "data/world"
 require "data/ui"
 --load modules
+require "modules/music" --this is a data/module hybrid, so it must be first
 require "modules/interface"
 require "modules/user"
 require "modules/game"
@@ -30,7 +31,8 @@ function love.load()
   bFont = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",26)
 
   ui.selected = "username" --used by the login phase
-  music["title"]:play() --also used by the login phase
+
+  loadMusic()
 end
 
 function love.draw()
@@ -40,6 +42,7 @@ end
 function love.update(dt)
   netUpdate(dt)
   updatePhase(phase,dt)
+  updateMusic(dt)
 end
 
 function love.mousepressed(button)
