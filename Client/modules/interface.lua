@@ -52,12 +52,12 @@ function love.keypressed(key)
            -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
            pl.cinput = string.sub(pl.cinput, 1, byteoffset - 1)
        end
-    elseif key == "return" then
+  elseif key == "return" then
       if phase == "login" then
         if ui.selected == "username" then pl.cinput = "" ui.selected = "password"
-      elseif ui.selected == "password" then login() end
+        elseif ui.selected == "password" then login() end
       end
-   end
+  end
 
    if phase == "game" then
      if key == "w" then my = my - 32 pl.t = pl.t - 101 addFog(pl.t) end
@@ -65,6 +65,7 @@ function love.keypressed(key)
      if key == "d" then mx = mx + 32 pl.t = pl.t + 1  addFog(pl.t)  end
      if key == "a" then mx = mx - 32 pl.t = pl.t - 1 addFog(pl.t)   end
      if key == "space" then my = round((pl.t/101)-((sh/32)/2))*32 mx = round(tonumber(string.sub(tostring(pl.t/101),3))*3200)-((sw/32)/2)*32 end --center camera on player
+     if key == "p" then pl.name = findPath(pl.t, 9458) end
    end
 end
 

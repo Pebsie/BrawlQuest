@@ -1,3 +1,5 @@
+require "modules/submodules/pathfinding"
+
 mx = 0
 my = 0
 
