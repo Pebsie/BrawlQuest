@@ -8,7 +8,6 @@ world.collide = {}
 world.isFight = {}
 world.players = {}
 
-  worldCanvas = love.graphics.newCanvas(32*101,32*101)
 
 function loadOverworld()
   if love.filesystem.exists("map.txt") then
@@ -29,9 +28,7 @@ function loadOverworld()
     love.event.quit()
   end
 
-  --create canvas
-  worldCanvas = createWorldCanvas()
-  love.graphics.setCanvas()
+  createWorldCanvas()
 end
 
 function drawOverworld()
@@ -123,7 +120,8 @@ function drawUIDebugInfo(x,y)
 end
 
 function updateGameUI(dt, ud)
-      local cx, cy = love.mouse.getPosition()
+
+    local cx, cy = love.mouse.getPosition()
   if isMouseDown then
     if cy < gameUI.y[ud]+12 and cy > gameUI.y[ud] and cx > gameUI.x[ud] and cx < gameUI.x[ud]+160 then
       gameUI.isDrag[ud] = true
@@ -145,8 +143,9 @@ function updateGameUI(dt, ud)
 end
 
 function createWorldCanvas()
-  wCanvas = love.graphics.newCanvas(32*101,32*101)
-  love.graphics.setCanvas(wCanvas)
+--  wCanvas = love.graphics.newCanvas(32*101,32*101)
+if not worldCanvas then worldCanvas = love.graphics.newCanvas(32*101,32*101) end
+  love.graphics.setCanvas(worldCanvas)
     love.graphics.clear()
     love.graphics.setBlendMode("alpha")
     local x = 0
@@ -154,8 +153,12 @@ function createWorldCanvas()
     for i = 1, 100*100 do
         if not checkFog(i) then love.graphics.setColor(210,210,210) else love.graphics.setColor(255,255,255) end
         love.graphics.draw(worldImg[world.bg[i]], x, y)
-        if checkFog(i) then
+        if checkFog(i) or fog.ignore[world[i]] == true then
           love.graphics.draw(worldImg[world[i]], x, y)
+        else
+          love.graphics.setColor(255,255,255,50)
+          love.graphics.draw(worldImg["Cloud"], x, y)
+          love.graphics.setColor(255,255,255,255)
         end
 
         if tonumber(pl.t) == tonumber(i) then
@@ -171,6 +174,4 @@ function createWorldCanvas()
     end
 
     love.graphics.setCanvas()
-
-    return wCanvas
 end

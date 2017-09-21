@@ -31,7 +31,7 @@ worldImg["PS"] = love.graphics.newImage("img/world/objects/pathway/Side.png")
 worldImg["PUL"] = love.graphics.newImage("img/world/objects/pathway/Up Left.png")
 worldImg["PUR"] = love.graphics.newImage("img/world/objects/pathway/Up Right.png")
 worldImg["Well"] = love.graphics.newImage("img/world/objects/Well.png")
-
+worldImg["Cloud"] = love.graphics.newImage("img/world/objects/Cloud.png")
 
 function setWColour(wname)
   if wname == "Grass" then

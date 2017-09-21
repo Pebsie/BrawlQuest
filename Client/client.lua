@@ -58,7 +58,7 @@ function netUpdate(dt)
 
             addFog(pl.t)
 
-            worldCanvas = createWorldCanvas()
+            createWorldCanvas()
           end
         end
 

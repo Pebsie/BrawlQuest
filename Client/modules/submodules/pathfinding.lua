@@ -1,0 +1,1 @@
+--This is done client side so that the server doesn't slow down, the client does. This trade off is made because we don't want the actions of one player to negatively impact all players.
