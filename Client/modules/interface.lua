@@ -60,10 +60,10 @@ function love.keypressed(key)
    end
 
    if phase == "game" then
-     if key == "w" then my = my - 32 end
-     if key == "s" then my = my + 32 end
-     if key == "d" then mx = mx + 32 end
-     if key == "a" then mx = mx - 32 end
+     if key == "w" then my = my - 32 pl.t = pl.t - 101 addFog(pl.t) end
+     if key == "s" then my = my + 32 pl.t = pl.t + 101  addFog(pl.t)  end
+     if key == "d" then mx = mx + 32 pl.t = pl.t + 1  addFog(pl.t)  end
+     if key == "a" then mx = mx - 32 pl.t = pl.t - 1 addFog(pl.t)   end
      if key == "space" then my = round((pl.t/101)-((sh/32)/2))*32 mx = round(tonumber(string.sub(tostring(pl.t/101),3))*3200)-((sw/32)/2)*32 end --center camera on player
    end
 end

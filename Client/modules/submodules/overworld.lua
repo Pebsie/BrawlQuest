@@ -8,6 +8,8 @@ world.collide = {}
 world.isFight = {}
 world.players = {}
 
+  worldCanvas = love.graphics.newCanvas(32*101,32*101)
+
 function loadOverworld()
   if love.filesystem.exists("map.txt") then
     for line in love.filesystem.lines("map.txt") do
@@ -46,11 +48,10 @@ function drawOverworld()
   end
 
   love.graphics.setColor(255,255,255,255)
+  love.graphics.setBlendMode("alpha", "premultiplied")
   love.graphics.draw(worldCanvas, -mx, -my) --draw world
- --draw player
-  x = 0
-  y = 0
 
+      love.graphics.setBlendMode("alpha")
 
   if not item.val[pl.wep] and not item.val[pl.arm] then
     love.graphics.print("Awaiting character info...")
@@ -144,20 +145,21 @@ function updateGameUI(dt, ud)
 end
 
 function createWorldCanvas()
-  worldCanvas = love.graphics.newCanvas(32*101,32*101)
-  love.graphics.setCanvas(worldCanvas)
+  wCanvas = love.graphics.newCanvas(32*101,32*101)
+  love.graphics.setCanvas(wCanvas)
     love.graphics.clear()
-    x = 0
-    y = 0
+    love.graphics.setBlendMode("alpha")
+    local x = 0
+    local y = 0
     for i = 1, 100*100 do
         if not checkFog(i) then love.graphics.setColor(210,210,210) else love.graphics.setColor(255,255,255) end
-        love.graphics.draw(worldImg[world.bg[i]], x-mx, y-my)
+        love.graphics.draw(worldImg[world.bg[i]], x, y)
         if checkFog(i) then
-          love.graphics.draw(worldImg[world[i]], x-mx, y-my)
+          love.graphics.draw(worldImg[world[i]], x, y)
         end
 
         if tonumber(pl.t) == tonumber(i) then
-          love.graphics.draw(item.img[pl.arm],x-mx,y-my)
+          love.graphics.draw(item.img[pl.arm],x,y)
         end
 --love.graphics.setFont(sFont)
       --love.graphics.print(i, x-mx, y-my)
@@ -167,6 +169,8 @@ function createWorldCanvas()
         x = 0
       end
     end
+
     love.graphics.setCanvas()
-    return worldCanvas
+
+    return wCanvas
 end

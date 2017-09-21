@@ -56,11 +56,6 @@ function netUpdate(dt)
             pl.inv = param[12]
             pl.pot = param[16]
 
-            --delete
-            addFog(9459)
-            addFog(9469)
-            addFog(8969)
-            --end delete
             addFog(pl.t)
 
             worldCanvas = createWorldCanvas()

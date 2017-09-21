@@ -18,4 +18,5 @@ function addFog(t)
     end
   end
 
+  worldCanvas = createWorldCanvas() 
 end

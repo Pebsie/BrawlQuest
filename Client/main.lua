@@ -6,11 +6,14 @@ require "data/audio"
 require "data/items"
 require "data/world"
 require "data/ui"
+--load libraries
+require "library/anim8"
 --load modules
 require "modules/music" --this is a data/module hybrid, so it must be first
 require "modules/interface"
 require "modules/user"
 require "modules/game"
+
 
 utf8 = require("utf8")
 
