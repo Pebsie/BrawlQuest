@@ -7,12 +7,13 @@ world.fight = {}
 world.collide = {}
 world.isFight = {}
 world.players = {}
-
 world.x = {}
 world.y = {}
 
 function loadOverworld()
   if love.filesystem.exists("map.txt") then
+    local x = 0
+    local y = 0
     for line in love.filesystem.lines("map.txt") do
       word = atComma(line)
       i = #world + 1
@@ -23,6 +24,13 @@ function loadOverworld()
       world.bg[i] = word[6]
       world.isFight[i] = false
       world.players[i] = ""
+      world.x[i] = x
+      world.y[i] = y
+      x = x + 1
+      if x > 100 then
+        x = 0
+        y = y + 1
+      end
     end
   else
     love.window.showMessageBox("World doesn't exist!", "We couldn't find the world file. This means one of two things: 1) the Witch has successfully wiped out all of mankind or 2) the client didn't download the world properly. Either way, we need to exit. Report this to @Pebsiee!!", "error")
@@ -149,12 +157,11 @@ if not worldCanvas then worldCanvas = love.graphics.newCanvas(32*101,32*101) end
   love.graphics.setCanvas(worldCanvas)
     love.graphics.clear()
     love.graphics.setBlendMode("alpha")
-    local x = 0
-    local y = 0
-    local ax = 0 --for pathfinding, we may as well do this everytime than run it when the world loads
-    local ay = 0
+
     for i = 1, 100*100 do
         if not checkFog(i) then love.graphics.setColor(210,210,210) else love.graphics.setColor(255,255,255) end
+        x = world.x[i]*32
+        y = world.y[i]*32
         love.graphics.draw(worldImg[world.bg[i]], x, y)
         if checkFog(i) or fog.ignore[world[i]] == true then
           love.graphics.draw(worldImg[world[i]], x, y)
@@ -167,18 +174,8 @@ if not worldCanvas then worldCanvas = love.graphics.newCanvas(32*101,32*101) end
         if tonumber(pl.t) == tonumber(i) then
           love.graphics.draw(item.img[pl.arm],x,y)
         end
-      love.graphics.setFont(sFont)
-      love.graphics.print(i, x-mx, y-my)
-      world.x[i] = ax
-      world.y[i] = ay
-      ax = ax + 1
-      x = x + 32
-      if x > 32*100 then
-        y = y + 32
-        x = 0
-        ay = ay + 1
-        ax = 0
-      end
+      --love.graphics.setFont(sFont)
+      --love.graphics.print(i, x, y)
     end
 
     love.graphics.setCanvas()

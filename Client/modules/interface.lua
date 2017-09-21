@@ -65,7 +65,7 @@ function love.keypressed(key)
      if key == "d" then mx = mx + 32 pl.t = pl.t + 1  addFog(pl.t)  end
      if key == "a" then mx = mx - 32 pl.t = pl.t - 1 addFog(pl.t)   end
      if key == "space" then my = round((pl.t/101)-((sh/32)/2))*32 mx = round(tonumber(string.sub(tostring(pl.t/101),3))*3200)-((sw/32)/2)*32 end --center camera on player
-     if key == "p" then pl.name = findPath(pl.t, 9458) end
+     if key == "p" then pl.name = findPath(pl.t, 9490) end
    end
 end
 
