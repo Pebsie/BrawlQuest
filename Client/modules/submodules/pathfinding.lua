@@ -1,121 +1,146 @@
---This is done client side so that the server doesn't slow down, the client does. This trade off is made because we don't want the actions of one player to negatively impact all players.
-function findPath(t1,t2) --start tile, end tile
-  node = {}
-  node.g = {}
-  node.h = {}
-  node.f = {}
-  node.parent = {}
-  node.tile = {}
-  closed = {t1}
-  open = {t1+101,t1-101,t1+1,t1-1}
+---
+-- A clean, simple implementation of the A* pathfinding algorithm for Lua.
+--
+-- This implementation has no dependencies and has a simple interface. It
+-- takes a table of nodes, a start and end point and a "valid neighbor"
+-- function which makes it easy to adapt the module's behavior, especially
+-- in circumstances where valid paths would frequently change.
+--
+-- @module astar
 
-  tileParent = {t1}
+local astar = {}
 
-  ct = t1 --current tile
-  directions = {}
+local function dist_between ( nodeA, nodeB )
 
-  local finished = false
-  while finished == false do
-
-    if ct == t2 then
-      return getDirections(t1,t2)
-    else
-
-      for i = 1, #open do --calculate current node values
-        k = i
-        if not node.tile[i] then --we don't want to reset the values of tiles already calculated
-          node.parent[k] = ct
-          node.tile[k] = open[i]
-          node.g[k] = calculateG(k,ct)
-          node.h[k] = calculateH(node.tile[k],t2)
-          node.f[k] = node.g[k] + node.h[k]
-        --  love.window.showMessageBox("Debug", node.tile[k].." (ct is "..ct..", et is "..t2..")\n"..node.g[k]..", "..node.h[k]..","..node.f[k], "error")
-          print(node.g[k]..", "..node.h[k])
-        end
-      end
-      --  love.window.showMessageBox("Debug", node.g[1]..", "..node.h[1]..","..node.f[1], "error")
-        --find lowest F value
-        curLowF = 1
-        for i = 1, #open do
-          if node.f[i] < node.f[curLowF] then curLowF = i
-          elseif node.f[i] == node.f[curLowF] then
-            if node.h[i] < node.h[curLowF] then curLowF = i
-            elseif node.h[i] == node.h[curLowF] then
-              if math.random(1, 2) == 1 then --this isn't right, probably, but it'll work
-                curLowF = i
-              end
-            end
-          end
-        end
-
-
-
-      tileParent[node.tile[curLowF]] = ct
-      closed[node.tile[curLowF]] = true
-      ct = node.tile[curLowF]
-
-      table.remove(node.g,curLowF)
-      table.remove(node.h,curLowF)
-      table.remove(node.f,curLowF)
-      table.remove(node.parent,curLowF)
-      table.remove(node.tile,curLowF)
-      table.remove(open,curLowF)
-
-      open[#open + 1] = ct+1
-      open[#open + 1] = ct-1
-      open[#open + 1] = ct+101
-      open[#open + 1] = ct-101
-    end
-  --loop back round
-  end
+	return astar.distance ( nodeA.x, nodeA.y, nodeB.x, nodeB.y )
 end
 
-function getDirections(st,et) --end tile
-  local dir = ""
+local function heuristic_cost_estimate ( nodeA, nodeB )
 
-  if st == et or et-st == 1 or et-st == -1 then
-    dir = tileParent[et]
-  else
-    dir = tileParent[et]..","..getDirections(st,tileParent[et])
-  end
-
-
-  return dir
+	return astar.distance ( nodeA.x, nodeA.y, nodeB.x, nodeB.y )
 end
 
-function calculateG(i,st) --index,  start tile
-  local g = 0
-  if i ~= st then
-    g = g + 10 + calculateG(node.parent[i],st)
-  end
-  return g
+local function is_valid_node ( node, neighbor )
+
+	return true
 end
 
-function calculateH(ct,et) --current tile / end tile
-  local x = world.x[ct]
-  local y = world.y[ct]
-  local ex = world.x[et]
-  local ey = world.y[et]
+local function lowest_f_score ( set, f_score )
 
-  local h = 0
-
-  local finished = false
-  while finished == false do
-    if x > ex then x = x - 1 elseif x < ex then x = x + 1 end
-    h = h + 10
-    if x == ex then
-      finished = true
-    end
-  end
-  --we're in the right X position, now let's move to the right Y position
-  finished = false
-  while finished == false do
-    if y > ey then y = y - 1 elseif y < ey then y = y + 1 end
-    h = h + 10
-    if y == ey then
-      finished = true
-    end
-  end
-  --done!!
-  return h
+	local lowest, bestNode = math.huge, nil
+	for _, node in ipairs ( set ) do
+		local score = f_score [ node ]
+		if score < lowest then
+			lowest, bestNode = score, node
+		end
+	end
+	return bestNode
 end
+
+local function neighbor_nodes ( theNode, nodes, valid_node )
+
+	local neighbors = {}
+	for _, node in ipairs ( nodes ) do
+		if theNode ~= node and valid_node ( theNode, node ) then
+			table.insert ( neighbors, node )
+		end
+	end
+	return neighbors
+end
+
+local function not_in ( set, theNode )
+
+	for _, node in ipairs ( set ) do
+		if node == theNode then return false end
+	end
+	return true
+end
+
+local function remove_node ( set, theNode )
+
+	for i, node in ipairs ( set ) do
+		if node == theNode then
+			set [ i ] = set [ #set ]
+			set [ #set ] = nil
+			break
+		end
+	end
+end
+
+local function unwind_path ( flat_path, map, current_node )
+
+	if map [ current_node ] then
+		table.insert ( flat_path, 1, map [ current_node ] )
+		return unwind_path ( flat_path, map, map [ current_node ] )
+	else
+		return flat_path
+	end
+end
+
+---
+-- Calculate the distance between two 2D points.
+--
+-- @tparam number x1 First point's coordinate in the X axis.
+-- @tparam number y1 First point's coordinate in the Y axis.
+-- @tparam number x2 Second point's coordinate in the X axis.
+-- @tparam number y2 Second point's coordinate in the Y axis.
+-- @treturn The distance between the points.
+function astar.distance ( x1, y1, x2, y2 )
+	return math.sqrt ( ( (x2-x1)^2 ) + ( (y2-y1)^2 ) )
+end
+
+---
+-- Calculate a path between two nodes.
+--
+-- @tparam table start Start node.
+-- @tparam table goal Goal node.
+-- @tparam table nodes Array of nodes.
+-- @tparam ?function valid_node Function called with two arguments: the
+--  "current" node and the candidate node, and should return a boolean
+--  indicating if we can "move" to that node.
+-- @treturn A lua table of ordered nodes from start to end.
+function astar.path ( start, goal, nodes, valid_node )
+
+	local closedset = {}
+	local openset = { start }
+	local came_from = {}
+
+	valid_node = valid_node or is_valid_node
+
+	local g_score, f_score = {}, {}
+	g_score [ start ] = 0
+	f_score [ start ] = g_score [ start ] + heuristic_cost_estimate ( start, goal )
+
+	while #openset > 0 do
+
+		local current = lowest_f_score ( openset, f_score )
+		if current == goal then
+			local path = unwind_path ( {}, came_from, goal )
+			table.insert ( path, goal )
+			return path
+		end
+
+		remove_node ( openset, current )
+		table.insert ( closedset, current )
+
+		local neighbors = neighbor_nodes ( current, nodes, valid_node )
+		for _, neighbor in ipairs ( neighbors ) do
+			if not_in ( closedset, neighbor ) then
+
+				local tentative_g_score = g_score [ current ] + dist_between ( current, neighbor )
+
+				if not_in ( openset, neighbor ) or tentative_g_score < g_score [ neighbor ] then
+					came_from 	[ neighbor ] = current
+					g_score 	[ neighbor ] = tentative_g_score
+					f_score 	[ neighbor ] = g_score [ neighbor ] + heuristic_cost_estimate ( neighbor, goal )
+					if not_in ( openset, neighbor ) then
+						table.insert ( openset, neighbor )
+					end
+				end
+			end
+		end
+	end
+	return nil -- no valid path
+end
+
+return astar

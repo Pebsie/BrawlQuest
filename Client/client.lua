@@ -39,8 +39,8 @@ function netUpdate(dt)
         elseif cmd == "char" then
           if ent == pl.name then
 
-            pl.x = tonumber(param[6])
-            pl.y = tonumber(param[7])
+          --  pl.x = tonumber(param[6])
+          --  pl.y = tonumber(param[7])
             pl.t = tonumber(param[8])
             pl.dt = param[9]
             pl.hp = tonumber(param[1])
@@ -55,10 +55,6 @@ function netUpdate(dt)
             pl.msg = param[15]
             pl.inv = param[12]
             pl.pot = param[16]
-
-            addFog(pl.t)
-
-            createWorldCanvas()
           end
         end
 

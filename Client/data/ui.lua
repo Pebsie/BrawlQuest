@@ -49,3 +49,4 @@ uiImg = {}
 uiImg["atk"] = love.graphics.newImage("img/ui/atk.png")
 uiImg["def"] = love.graphics.newImage("img/ui/armor.png")
 uiImg["portrait"] = love.graphics.newImage("img/ui/portrait.png")
+uiImg["target"] = love.graphics.newImage("img/ui/target.png")

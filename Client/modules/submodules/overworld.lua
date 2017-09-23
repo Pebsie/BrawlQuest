@@ -1,14 +1,6 @@
 require "modules/submodules/fog"
 
 world = {}
-world.bg = {}
-world.name = {}
-world.fight = {}
-world.collide = {}
-world.isFight = {}
-world.players = {}
-world.x = {}
-world.y = {}
 
 function loadOverworld()
   if love.filesystem.exists("map.txt") then
@@ -17,19 +9,21 @@ function loadOverworld()
     for line in love.filesystem.lines("map.txt") do
       word = atComma(line)
       i = #world + 1
-      world[i] = word[1]
-      world.fight[i] = word[2]
-      if word[4] == "true" then world.collide[i] = true else world.collide[i] = false end
-      world.name[i] = word[5]
-      world.bg[i] = word[6]
-      world.isFight[i] = false
-      world.players[i] = ""
-      world.x[i] = x
-      world.y[i] = y
-      x = x + 1
-      if x > 100 then
+      world[i] = {}
+      world[i].tile = word[1]
+      world[i].fight = word[2]
+      if word[4] == "true" then world[i].collide = true else world[i].collide = false end
+      world[i].name = word[5]
+      world[i].bg = word[6]
+      world[i].isFight = false
+      world[i].players = ""
+      world[i].x = x
+      world[i].y = y
+      world[i].i = i --I don't like this, but I couldn't do A* pathfinding myself so this is it :'(
+      x = x + 32
+      if x > 100*32 then
         x = 0
-        y = y + 1
+        y = y + 32
       end
     end
   else
@@ -41,23 +35,23 @@ function loadOverworld()
 end
 
 function drawOverworld()
-  local x = 0
-  local y = 0
+--  local x = 0
+--  local y = 0
 
-  love.graphics.setColor(200,200,200)
+  --love.graphics.setColor(200,200,200)
   --background
-  for i = 1, (sw/32)*((sh/32)+1) do
-    love.graphics.draw(worldImg["Grass"], x, y)
-    love.graphics.draw(worldImg["Mountain"], x, y)
-    x = x + 32
-    if x > sw then x = 0 y = y + 32 end
-  end
+----  for i = 1, (sw/32)*((sh/32)+1) do
+---    love.graphics.draw(worldImg["Grass"], x, y)
+--    love.graphics.draw(worldImg["Mountain"], x, y)
+--    x = x + 32
+--    if x > sw then x = 0 y = y + 32 end
+--  end
 
   love.graphics.setColor(255,255,255,255)
   love.graphics.setBlendMode("alpha", "premultiplied")
   love.graphics.draw(worldCanvas, -mx, -my) --draw world
-
-      love.graphics.setBlendMode("alpha")
+  love.graphics.setBlendMode("alpha")
+  love.graphics.draw(item.img[pl.arm],pl.x-mx,pl.y-my)
 
   if not item.val[pl.wep] and not item.val[pl.arm] then
     love.graphics.print("Awaiting character info...")
@@ -121,7 +115,7 @@ function drawUIDebugInfo(x,y)
   love.graphics.rectangle("fill", x, y, 160, 46)
 
   love.graphics.setColor(255,255,255)
-  love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()).."\nCam: "..mx..", "..my.."\nPlayer tile: "..pl.t, x, y)
+  love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()).."\nCam: "..mx..", "..my.."\nST: "..selT, x, y)
 
   --border
   love.graphics.setColor(150,150,150)
@@ -153,29 +147,33 @@ end
 
 function createWorldCanvas()
 --  wCanvas = love.graphics.newCanvas(32*101,32*101)
-if not worldCanvas then worldCanvas = love.graphics.newCanvas(32*101,32*101) end
+--if not worldCanvas then worldCanvas = love.graphics.newCanvas(32*101,32*101) end
   love.graphics.setCanvas(worldCanvas)
     love.graphics.clear()
-    love.graphics.setBlendMode("alpha")
+    --love.graphics.setBlendMode("alpha")
 
     for i = 1, 100*100 do
         if not checkFog(i) then love.graphics.setColor(210,210,210) else love.graphics.setColor(255,255,255) end
-        x = world.x[i]*32
-        y = world.y[i]*32
-        love.graphics.draw(worldImg[world.bg[i]], x, y)
-        if checkFog(i) or fog.ignore[world[i]] == true then
-          love.graphics.draw(worldImg[world[i]], x, y)
+
+        x = world[i].x
+        y = world[i].y
+        love.graphics.draw(worldImg[world[i].bg], x, y)
+        if checkFog(i) or fog.ignore[world[i].tile] == true then
+          love.graphics.draw(worldImg[world[i].tile], x, y)
+          if checkFog(i) == false then
+            love.graphics.setColor(255,255,255,50)
+            love.graphics.draw(worldImg["Cloud"], x, y)
+            love.graphics.setColor(255,255,255,255)
+          end
         else
           love.graphics.setColor(255,255,255,50)
           love.graphics.draw(worldImg["Cloud"], x, y)
           love.graphics.setColor(255,255,255,255)
         end
 
-        if tonumber(pl.t) == tonumber(i) then
-          love.graphics.draw(item.img[pl.arm],x,y)
-        end
-      --love.graphics.setFont(sFont)
-      --love.graphics.print(i, x, y)
+        if i == selT then love.graphics.draw(uiImg["target"],x,y) end
+    --  love.graphics.setFont(sFont)
+    --  love.graphics.print(i, x, y)
     end
 
     love.graphics.setCanvas()

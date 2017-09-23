@@ -100,6 +100,13 @@ function givePlayerItem(name, item, amount)
   end
 end
 
+function movePlayer(name, dir)
+  if dir == "up" then pl.t[name] = pl.t[name] - 101
+  elseif dir == "down" then pl.t[name] = pl.t[name] + 101
+  elseif dir == "left" then pl.t[name] = pl.t[name] - 1
+  elseif dir == "right" then pl.t[name] = pl.t[name] + 1 end
+end
+
 function damagePlayer(name, amount)
   pl.hp[name] = pl.hp[name] - amount
   pl.msg[name] = pl.msg[name].."tdmg,"..amount..";"

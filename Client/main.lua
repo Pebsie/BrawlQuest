@@ -6,11 +6,14 @@ require "data/audio"
 require "data/items"
 require "data/world"
 require "data/ui"
+--load libraries
+inspect = require("libraries/inspect")
 --load modules
 require "modules/music" --this is a data/module hybrid, so it must be first
 require "modules/interface"
 require "modules/user"
 require "modules/game"
+
 
 
 utf8 = require("utf8")
@@ -22,6 +25,8 @@ isMouseDown = false
 cox = 0
 coy = 0
 
+selT = 0
+
 function love.load()
 
   local ipadd = "127.0.0.1"
@@ -32,6 +37,8 @@ function love.load()
   bFont = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",26)
 
   ui.selected = "username" --used by the login phase
+
+  worldCanvas = love.graphics.newCanvas(32*101,32*101)
 
   loadMusic()
 end
@@ -51,7 +58,7 @@ function love.mousepressed(button)
   cox, coy = love.mouse.getPosition()
 end
 
-function love.mousereleased(button)
+function love.mousereleased(button, x, y)
   isMouseDown = false
 end
 
@@ -73,3 +80,5 @@ function round(x)
   end
   return x-0.5
 end
+
+function distanceFrom(x1,y1,x2,y2) return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2) end

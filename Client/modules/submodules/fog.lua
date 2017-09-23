@@ -9,6 +9,8 @@ function loadFog()
   fog.ignore["Sandstone"] = true
   fog.ignore["Mountain"] = true
   fog.ignore["Water"] = true
+  fog.ignore["Bridge"] = true
+  fog.ignore["Sand"] = true
   fog.ignore["PU"] = true
   fog.ignore["PDL"] = true
   fog.ignore["PDR"] = true
@@ -30,5 +32,4 @@ function addFog(t)
     end
   end
 
-  createWorldCanvas()
 end

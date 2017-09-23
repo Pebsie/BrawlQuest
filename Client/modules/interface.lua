@@ -60,16 +60,22 @@ function love.keypressed(key)
   end
 
    if phase == "game" then
-     if key == "w" then my = my - 32 pl.t = pl.t - 101 addFog(pl.t) end
-     if key == "s" then my = my + 32 pl.t = pl.t + 101  addFog(pl.t)  end
-     if key == "d" then mx = mx + 32 pl.t = pl.t + 1  addFog(pl.t)  end
-     if key == "a" then mx = mx - 32 pl.t = pl.t - 1 addFog(pl.t)   end
-     if key == "space" then my = round((pl.t/101)-((sh/32)/2))*32 mx = round(tonumber(string.sub(tostring(pl.t/101),3))*3200)-((sw/32)/2)*32 end --center camera on player
-     if key == "p" then pl.name = findPath(pl.t, 9490) end
+    -- if key == "w" then movePlayer("up") end
+    -- if key == "s" then movePlayer("down") end
+    -- if key == "d" then  movePlayer("right") end
+    -- if key == "a" then movePlayer("left") end
+  --   if key == "space" then centerCamera() end --center camera on player
+    -- if key == "p" then movePlayer(selT) end
    end
 end
 
 function love.resize(w,h) --reset sw and sh
   sw = w
   sh = h
+end
+
+function centerCamera()
+   --my = round((pl.t/101)-((sh/32)/2))*32 mx = round(tonumber(string.sub(tostring(pl.t/101),3))*3200)-((sw/32)/2)*32
+   mx = round(pl.x - sw/2)
+   my = round(pl.y - sh/2)
 end
