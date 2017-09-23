@@ -2,6 +2,9 @@ require "modules/submodules/fog"
 
 world = {}
 
+areaTitleAlpha = 255
+curAreaTitle = "The Great Plains"
+
 function loadOverworld()
   if love.filesystem.exists("map.txt") then
     local x = 0
@@ -59,6 +62,11 @@ function drawOverworld()
 
   drawUICharInfo(gameUI.x["char"], gameUI.y["char"])
   drawUIDebugInfo(gameUI.x["deb"], gameUI.y["deb"])
+
+  love.graphics.setFont(bFont)
+  love.graphics.setColor(255,255,255,areaTitleAlpha)
+  love.graphics.printf(world[pl.t].name, 0,10,sw,"center")
+  love.graphics.setFont(font)
 end
 
 --UI elements
@@ -123,6 +131,8 @@ function drawUIDebugInfo(x,y)
 end
 
 function updateGameUI(dt, ud)
+  areaTitleAlpha = areaTitleAlpha - 25*dt
+  if areaTitleAlpha < 0 then areaTitleAlpha = 0 end
 
     local cx, cy = love.mouse.getPosition()
   if isMouseDown then

@@ -55,6 +55,12 @@ function netUpdate(dt)
             pl.msg = param[15]
             pl.inv = param[12]
             pl.pot = param[16]
+
+            if curAreaTitle ~= world[pl.t].name then
+              areaTitleAlpha = 255
+              curAreaTitle = world[pl.t].name
+            end
+
           end
         end
 
