@@ -27,6 +27,8 @@ coy = 0
 
 selT = 0
 
+screenW,screenH = love.graphics.getDimensions()
+
 function love.load()
 
   local ipadd = "127.0.0.1"

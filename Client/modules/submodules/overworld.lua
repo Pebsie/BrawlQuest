@@ -167,23 +167,25 @@ function createWorldCanvas()
 
         x = world[i].x
         y = world[i].y
-        love.graphics.draw(worldImg[world[i].bg], x, y)
-        if checkFog(i) or fog.ignore[world[i].tile] == true then
-          love.graphics.draw(worldImg[world[i].tile], x, y)
-          if checkFog(i) == false then
+        if x-mx > -64 and x-mx < screenW+64 and y-my > -64 and y-my < screenH+64 then
+          love.graphics.draw(worldImg[world[i].bg], x, y)
+          if checkFog(i) or fog.ignore[world[i].tile] == true then
+            love.graphics.draw(worldImg[world[i].tile], x, y)
+            if checkFog(i) == false then
+              love.graphics.setColor(255,255,255,50)
+              love.graphics.draw(worldImg["Cloud"], x, y)
+              love.graphics.setColor(255,255,255,255)
+            end
+          else
             love.graphics.setColor(255,255,255,50)
             love.graphics.draw(worldImg["Cloud"], x, y)
             love.graphics.setColor(255,255,255,255)
           end
-        else
-          love.graphics.setColor(255,255,255,50)
-          love.graphics.draw(worldImg["Cloud"], x, y)
-          love.graphics.setColor(255,255,255,255)
-        end
 
-        if i == selT then love.graphics.draw(uiImg["target"],x,y) end
-    --  love.graphics.setFont(sFont)
-    --  love.graphics.print(i, x, y)
+          if i == selT then love.graphics.draw(uiImg["target"],x,y) end
+      --  love.graphics.setFont(sFont)
+      --  love.graphics.print(i, x, y)
+      end
     end
 
     love.graphics.setCanvas()
