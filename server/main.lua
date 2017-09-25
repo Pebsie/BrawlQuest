@@ -1,5 +1,6 @@
 local socket = require "socket"
 local udp = socket.udp()
+http = require("socket.http")
 
 udp:settimeout(0)
 udp:setsockname("*", 26650)
@@ -7,14 +8,16 @@ udp:setsockname("*", 26650)
 msgs = "Server started."
 
 --game variables here
-require "tools"
-require "players"
-require "fight"
+require "modules/tools"
+require "modules/players"
+require "modules/fight"
+require "modules/world"
 
 local running = true
 print("Entering server loop...")
 
 function love.load()
+  loadOverworld()
   newPlayer("demo","demo")
   --newFight(1, "Boar Hunt")
   --addPlayerToFight(1, "Pebsie")

@@ -57,7 +57,7 @@ function netUpdate(dt)
             pl.pot = param[16]
 
             if curAreaTitle ~= world[pl.t].name then
-              areaTitleAlpha = 255
+              areaTitleAlpha = 400
               curAreaTitle = world[pl.t].name
             end
 

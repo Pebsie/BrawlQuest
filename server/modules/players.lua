@@ -101,10 +101,16 @@ function givePlayerItem(name, item, amount)
 end
 
 function movePlayer(name, dir)
+  local curt = pl.t[name]
   if dir == "up" then pl.t[name] = pl.t[name] - 101
   elseif dir == "down" then pl.t[name] = pl.t[name] + 101
   elseif dir == "left" then pl.t[name] = pl.t[name] - 1
   elseif dir == "right" then pl.t[name] = pl.t[name] + 1 end
+
+  if world[pl.t[name]].collide then
+    pl.t[name] = curt
+  end
+
 end
 
 function damagePlayer(name, amount)
