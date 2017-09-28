@@ -142,7 +142,7 @@ function updateGameUI(dt, ud)
       lclouds.y[i] = love.math.random(1, screenH)
     end
 
-    lclouds.x[i] = lclouds.x[i] + math.random(1,8)*dt
+    lclouds.x[i] = lclouds.x[i] + 8*dt
     if lclouds.x[i] > sw then
       lclouds.x[i] = love.math.random(-400,-200)
     end
