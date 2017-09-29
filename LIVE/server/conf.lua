@@ -1,8 +1,8 @@
 function love.conf(t)
 
     t.modules.window = false
-    t.modules.graphics = false
+    t.modules.graphics = true
 
-    t.window = nil
+    t.window = false
 
 end

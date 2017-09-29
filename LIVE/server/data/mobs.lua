@@ -6,7 +6,7 @@ mb.sp1 = {} --spell 1
 mb.sp1t = {}
 mb.sp2 = {} --spell 2
 mb.sp2t = {}
-mb.img = {}
+mb.img = {} --width in this case
 mb.rng = {}
 
 local tm = "Boar"
@@ -17,5 +17,5 @@ mb.sp1[tm] = "None"
 mb.sp1t[tm] = 0
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("data/img/1.png")
+mb.img[tm] = 32
 mb.rng[tm] = 16

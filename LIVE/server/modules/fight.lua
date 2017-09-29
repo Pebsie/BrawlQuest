@@ -152,12 +152,12 @@ function updateFights(dt) --the big one!!
         local atkInfo = pl.at[thisPlayer]
 
         if atkInfo == "true" then
-          if distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]:getWidth()/2), mob.y[v]+(mb.img[mob[v]]:getHeight()/2)) < 20 then
+          if distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 20 then
             local pdmg = love.math.random(0, item.val[pl.wep])
             mob.hp[v] = mob.hp[v] - pdmg
             pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
           end
-        elseif distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]:getWidth()/2), mob.y[v]+(mb.img[mob[v]]:getHeight()/2)) < mb.rng[mob[v]] then --this has to be separate because of mob range
+        elseif distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] then --this has to be separate because of mob range
           local pdmg = love.math.random(mb.atk[mob[v]])*dt
           --print("A "..mob[v].." dealt "..pdmg.." damage to "..thisPlayer.."!")
           if isPlayerDead(thisPlayer) == false then
