@@ -55,6 +55,17 @@ function love.update(dt)
     elseif cmd == "move" then
       parms = atComma(parms)
       movePlayer(parms[1],parms[2])
+    elseif cmd == "world" then
+      local msgToSend = ""
+
+      --compile location of current players, including ourselves
+      for i = 1, countPlayers() do
+        if isPlayerOnline(getPlayerName(i)) then
+          msgToSend = msgToSend..string.format("%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)))
+        end
+      end
+
+      udp:sendto(",world,"..msgToSend,msg_or_ip,port_or_nil)
     end
 
 

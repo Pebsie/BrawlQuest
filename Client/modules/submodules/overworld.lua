@@ -37,6 +37,13 @@ function loadOverworld()
   createWorldCanvas()
 end
 
+
+--NETWORK RELATED FUNCTIONS
+function requestWorldInfo()
+  netSend("world", pl.name)
+end
+
+-- DRAWING RELATED FUNCTIONS
 function drawOverworld()
 --  local x = 0
 --  local y = 0

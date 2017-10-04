@@ -1,13 +1,17 @@
 ==SERVER DOCUMENTATION==
 =PLAYERS=
+countPlayers() - Returns the number of accounts
 newPlayer(name, password) - Creates a new ACCOUNT and player. Returns nothing.
 getPlayerID(name) - Returns account table ID of player username.
 getPlayerName(id) - Returns player username of account table ID.
+getPlayerTile(name) - Returns the tile that the player is currently on. 
 loginPlayer(name, password) - Checks name and password of account. Returns a boolean.
 givePlayerXP(name, xp) - Gives player name XP equal to xp. Player levels up if above cap, set by data/level.lua
 givePlayerGold(name, gold) - Gives player name gold equal to gold
 givePlayerItem(name, item, amount) - Gives player name item item. Amount is an optional parameter and defaults to 1.
 damagePlayer(name, amount) - Damage player name by amount amount. Lower cap is 0.
+isPlayerDead(name) - Returns whether or not a player is alive or dead
+isPlayerOnline(name) - Returns whether or not a player is online
 
 =FIGHT=
 newFight(tile, fscript) - Starts a fight on tile using fscript.
@@ -26,6 +30,11 @@ updateFights(dt)
 When the player takes damage they'll receive a message for feedback in the UI, formatted as follows:
   dmg,dmga,x,y - Means you've dealt dmga to the mob at x,y
   tdmg,dmg - Means you've taken dmg damage. Make sure these messages all add up to the current amount before displaying.
+
+==MESSAGES==
+If the server is sent any of the following messages, it'll reply with the info stated.
+login - Arguments: username, password. Replies "*name*,login,true" if correct username and password is entered, "*name*,login,false" otherwise.
+char - Arguments: username. Replies "*name*,char *hp*|*en*|*s1*|*s2*|*gold|*x*|*y*|*t*|*dt*|*wep*|*arm*|*inv*|*lvl*|*xp*|*msg*|*pot*" for the username entered.
 
 ==MODULE VARIABLES==
 pl - Player

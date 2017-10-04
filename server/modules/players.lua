@@ -35,7 +35,7 @@ function newPlayer(name, password)
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
-  pl.t[i] = 9457 --CHANGE TO STARTING ZONE WHEN MAP IS READY
+  pl.t[i] = 9457 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :) 
   pl.wep[i] = "Guardian's Blade"
   pl.arm[i] = "Legendary Padding"
   pl.inv[i] = "None"
@@ -44,8 +44,13 @@ function newPlayer(name, password)
   pl.xp[i] = 0
   pl.at[i] = "false,w"
   pl.msg[i] = "chat|Server|Welcome "..i.."!|"
+  pl.online[i] = false
 
   addMsg("New player by the name of "..name)
+end
+
+function countPlayers()
+  return #acc.username
 end
 
 function getPlayerID(name) --returns id
@@ -120,6 +125,16 @@ function damagePlayer(name, amount)
   if pl.hp[name] < 1 then pl.hp[name] = 0 addMsg(name.." died!") end
 end
 
+--return info functions
+
 function isPlayerDead(name)
   if pl.hp[name] < 1 then return true else return false end
+end
+
+function isPlayerOnline(name)
+  return pl.online[name]
+end
+
+function getPlayerTile(name)
+  return pl.t[name]
 end
