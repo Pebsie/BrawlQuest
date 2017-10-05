@@ -61,6 +61,12 @@ function love.keypressed(key)
     if phase == "game" then
       requestWorldInfo()
     end
+  elseif key == "z" then
+    scale = scale + 0.05
+  love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+  elseif key == "x" then
+    scale = scale - 0.05
+    love.resize(love.graphics.getWidth(),love.graphics.getHeight())
   end
 
    if phase == "game" then
@@ -74,10 +80,10 @@ function love.keypressed(key)
 end
 
 function love.resize(w,h) --reset sw and sh
-  sw = w
-  sh = h
-  screenW = w
-  screenH = h
+  sw = w/scale
+  sh = h/scale
+  screenW = sw
+  screenH = sh
 
   if phase == "game" then
     createWorldCanvas()

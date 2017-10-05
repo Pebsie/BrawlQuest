@@ -63,20 +63,36 @@ function netUpdate(dt)
 
           end
         elseif cmd == "world" then --update world
-          for i = 1, #param, 3 do
-            local name = param[i]
+          local plyrs = tonumber(param[1])
+          local fghts = tonumber(param[2])
+          local tparam = 3
+          for i = 1, plyrs do --this is awful please stop doing this
+            if param[tparam] == "user" then
+              local name = param[tparam+1]
 
-            if not playerExists(name) then
-              addPlayer(name)
+              if not playerExists(name) then
+                addPlayer(name)
+              end
+
+              updatePlayer(name,"t",tonumber(param[tparam+2]))
+              updatePlayer(name,"arm",param[tparam+3])
+              --love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"arm"))
+              tparam = tparam + 4
             end
+          end
 
-            updatePlayer(name,"t",tonumber(param[i+1]))
-            updatePlayer(name,"arm",param[i+2])
+          for i = 1, fghts do
+            if param[tparam] == "fight" then
+              local tile = tonumber(param[tparam+1])
 
-            createWorldCanvas()
-            --love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"arm"))
+              world[tile].isFight = true
+              --love.window.showMessageBox("debug","There's a fight on tile #"..i)
+              tparam = tparam + 2
+            end
           end
         end
+
+        createWorldCanvas() --finally, update the world
       elseif msg ~= 'timeout' then
           error("Network error: "..tostring(msg))
       end

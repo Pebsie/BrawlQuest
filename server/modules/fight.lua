@@ -192,3 +192,7 @@ function updateFights(dt) --the big one!!
     end
   end
 end
+
+function countFights()
+  return #ft.t
+end

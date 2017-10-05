@@ -25,6 +25,8 @@ isMouseDown = false
 cox = 0
 coy = 0
 
+scale = 1
+
 selT = 0
 
 screenW,screenH = love.graphics.getDimensions()

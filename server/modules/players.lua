@@ -115,6 +115,16 @@ function movePlayer(name, dir)
 
   if world[pl.t[name]].collide then
     pl.t[name] = curt
+  else
+    local fightChance = love.math.random(1,99)
+    if fightChance < world[pl.t[name]].fightc then
+      world[pl.t[name]].isFight = true
+      newFight(pl.t[name], "Boar Hunt")
+      addPlayerToFight(#ft.t, name)
+      addMsg(fightChance.." < "..world[pl.t[name]].fightc)
+    else
+        addMsg(fightChance.." > "..world[pl.t[name]].fightc)
+    end
   end
 
 end

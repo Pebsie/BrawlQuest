@@ -1,4 +1,5 @@
 world = {}
+worldUpdate = 0
 
 function loadOverworld()
   if not love.filesystem.exists("map.txt") then
@@ -18,6 +19,7 @@ function loadOverworld()
       world[i] = {}
       world[i].tile = word[1]
       world[i].fight = word[2]
+      world[i].fightc = tonumber(word[3])
       if word[4] == "true" then world[i].collide = true else world[i].collide = false end
       world[i].name = word[5]
       world[i].bg = word[6]
@@ -38,4 +40,19 @@ function loadOverworld()
   end
 
   addMsg("Done.")
+end
+
+function updateWorld(dt)
+  worldUpdate = worldUpdate - 1*dt
+  if worldUpdate < 0 then
+    for i = 1, 100*100 do
+      if 1 == 5 and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc  then
+        world[i].isFight = true
+      else
+        world[i].isFight = false
+      end
+    end
+
+    worldUpdate = 10
+  end
 end

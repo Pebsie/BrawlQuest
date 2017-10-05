@@ -52,20 +52,25 @@ function love.update(dt)
     elseif cmd == "char" then --client is requesting character info
     --  addMsg(param[1].." requested user info!")
       local i = param[1]
-      udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.msg[i], pl.pot[i]), msg_or_ip, port_or_nil)
+      udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", round(pl.hp[i]), pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.msg[i], pl.pot[i]), msg_or_ip, port_or_nil)
       pl.msg[i] = ""
     elseif cmd == "move" then
       parms = atComma(parms)
       movePlayer(parms[1],parms[2])
     elseif cmd == "world" then
-      addMsg("World info requested by "..parms)
-      local msgToSend = ""
+      local msgToSend = countPlayers().."|"..countFights().."|"
       local name = parms
       --compile location of current players, including ourselves
       for i = 1, countPlayers() do
         --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
         if isPlayerOnline(getPlayerName(i)) then
-          msgToSend = msgToSend..string.format("%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)))
+          msgToSend = msgToSend..string.format("user|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)))
+        end
+      end
+
+      for i = 1, 100*100 do
+        if world[i].isFight == true then
+          msgToSend = msgToSend..string.format("fight|%s|", i)
         end
       end
 
@@ -81,6 +86,7 @@ function love.update(dt)
   end
 
   updateFights(dt)
+  updateWorld(dt)
 end
 
 function addMsg(msg)
