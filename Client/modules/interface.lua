@@ -78,10 +78,19 @@ function love.resize(w,h) --reset sw and sh
   sh = h
   screenW = w
   screenH = h
+
+  if phase == "game" then
+    createWorldCanvas()
+  end
 end
 
 function centerCamera()
    --my = round((pl.t/101)-((sh/32)/2))*32 mx = round(tonumber(string.sub(tostring(pl.t/101),3))*3200)-((sw/32)/2)*32
    mx = round(pl.x - sw/2)
    my = round(pl.y - sh/2)
+
+  -- if playerExists(pl.name) then
+--     mx = round(getPlayer(pl.name, "x") - sw/2)
+  --   my = round(getPlayer(pl.name, "y") - sh/2)
+--   end
 end

@@ -37,15 +37,15 @@ function newPlayer(name, password)
   pl.x[i] = 320
   pl.y[i] = 240
   pl.t[i] = 9457 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
-  pl.wep[i] = "Guardian's Blade"
-  pl.arm[i] = "Legendary Padding"
+  pl.wep[i] = "Long Stick"
+  pl.arm[i] = "Old Cloth"
   pl.inv[i] = "None"
   pl.pot[i] = "Red Potion"
   pl.lvl[i] = 1
   pl.xp[i] = 0
   pl.at[i] = "false,w"
   pl.msg[i] = "chat|Server|Welcome "..i.."!|"
-  pl.online[i] = false
+  pl.online[i] = true
 
   addMsg("New player by the name of "..name)
 end

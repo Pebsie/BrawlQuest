@@ -66,7 +66,16 @@ function drawOverworld()
   love.graphics.setBlendMode("alpha", "premultiplied")
   love.graphics.draw(worldCanvas, -mx, -my) --draw world
   love.graphics.setBlendMode("alpha")
-  love.graphics.draw(item.img[pl.arm],pl.x-mx,pl.y-my)
+  if playerExists(pl.name) then
+    drawPlayer(pl.name,pl.x-mx,pl.y-my)
+  end
+
+  for i = 1, countPlayers() do
+    name = getPlayerName(i)
+    if name ~= pl.name then
+      drawPlayer(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my)
+    end
+  end
 
   if not item.val[pl.wep] and not item.val[pl.arm] then
     love.graphics.print("Awaiting character info...")
@@ -208,8 +217,9 @@ function createWorldCanvas()
 
           for k = 1,countPlayers() do --THIS IS BAD, OPTIMISE THIS WHEN YOU AREN'T ILL
             local name = getPlayerName(k)
-            if getPlayer(name,t) == i then
-              drawPlayer(name,x,y)
+            if getPlayer(name,"t") == i then
+              player[name].tx = x
+              player[name].ty = y
             end
           end
         --  if i == selT then love.graphics.draw(uiImg["target"],x,y) end
@@ -219,7 +229,7 @@ function createWorldCanvas()
     end
 
     love.graphics.setColor(0,0,0)
-    love.graphics.rectangle("line",0,0,(100*10)*32,(100*100)*32)
+    love.graphics.rectangle("line",0,0,(100*100)*32,(100*100)*32)
     love.graphics.setColor(255,255,255)
     love.graphics.setCanvas()
 end

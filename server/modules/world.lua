@@ -1,9 +1,11 @@
 world = {}
 
 function loadOverworld()
-  addMsg("Downloading world...")
-  b, c, h = http.request("http://peb.si/bq/dl/map.txt")
-  love.filesystem.write("map.txt", b)
+  if not love.filesystem.exists("map.txt") then
+    addMsg("Downloading world...")
+    b, c, h = http.request("http://peb.si/bq/dl/map.txt")
+    love.filesystem.write("map.txt", b)
+  end
 
   --unpack
   addMsg("Unpacking world...")

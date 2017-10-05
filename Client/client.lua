@@ -1,7 +1,7 @@
 socket = require "socket"
 http = require("socket.http")
 net = {}
-net.id = math.random(99999) --THIS SHOULD NOT BE KEPT AS THIS VALUEm
+net.id = love.math.random(99999) --THIS SHOULD NOT BE KEPT AS THIS VALUE
 
 function netConnect(address, port, updaterate)
   udp = socket.udp()
@@ -62,7 +62,7 @@ function netUpdate(dt)
             end
 
           end
-        elseif cmd == "world" then
+        elseif cmd == "world" then --update world
           for i = 1, #param, 3 do
             local name = param[i]
 
@@ -70,8 +70,11 @@ function netUpdate(dt)
               addPlayer(name)
             end
 
-            updatePlayer(name,"t",param[i+1])
+            updatePlayer(name,"t",tonumber(param[i+1]))
             updatePlayer(name,"arm",param[i+2])
+
+            createWorldCanvas()
+            --love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"arm"))
           end
         end
       elseif msg ~= 'timeout' then

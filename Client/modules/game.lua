@@ -9,6 +9,7 @@ gameUI.y = {}
 gameUI.isDrag = {}
 
 timeToMove = 0.5
+timeToUpdate = 0.5
 
 function drawGame()
   if ui.selected == "map" then
@@ -30,6 +31,12 @@ function updateGame(dt)
 --    end
 --  end
 
+  timeToUpdate = timeToUpdate - 1*dt
+  if timeToUpdate < 0 then
+    requestWorldInfo()
+    timeToUpdate = 0.5
+  end
+
   timeToMove = timeToMove - 1*dt
   if timeToMove < 0 then
     if love.keyboard.isDown("w") then movePlayer("up") timeToMove = 0.5
@@ -37,7 +44,6 @@ function updateGame(dt)
     elseif love.keyboard.isDown("d") then movePlayer("right") timeToMove = 0.5
     elseif love.keyboard.isDown("a") then movePlayer("left") timeToMove = 0.5
     else timeTomove = 0.1 end
-
   end
 
   local pls = 64*dt
@@ -47,6 +53,8 @@ function updateGame(dt)
   if pl.y < world[pl.t].y then pl.y = pl.y + pls end
   if distanceFrom(pl.x,pl.y,world[pl.t].x,world[pl.t].y) < 0.2 or distanceFrom(pl.x,pl.y,world[pl.t].x,world[pl.t].y) > 64 then pl.x = world[pl.t].x pl.y = world[pl.t].y end
   centerCamera()
+
+  updatePlayers(dt)
 end
 
 function movePlayer(dir)

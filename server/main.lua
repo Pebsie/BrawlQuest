@@ -19,6 +19,8 @@ print("Entering server loop...")
 function love.load()
   loadOverworld()
   newPlayer("demo","demo")
+  newPlayer("JoeyFunWithMusic","demo")
+  newPlayer("pebsie","demo")
   --newFight(1, "Boar Hunt")
   --addPlayerToFight(1, "Pebsie")
 end
@@ -61,6 +63,7 @@ function love.update(dt)
       local name = parms
       --compile location of current players, including ourselves
       for i = 1, countPlayers() do
+        --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
         if isPlayerOnline(getPlayerName(i)) then
           msgToSend = msgToSend..string.format("%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)))
         end
