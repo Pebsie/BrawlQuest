@@ -18,6 +18,7 @@ pl.lvl = {}
 pl.xp = {}
 pl.at = {} --attack info. true/false;dir
 pl.msg = {} --messages separated with semicolons
+pl.online = {}
 
 acc = {} --identified by number
 acc.username = {}
@@ -35,7 +36,7 @@ function newPlayer(name, password)
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
-  pl.t[i] = 9457 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :) 
+  pl.t[i] = 9457 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
   pl.wep[i] = "Guardian's Blade"
   pl.arm[i] = "Legendary Padding"
   pl.inv[i] = "None"
@@ -137,4 +138,8 @@ end
 
 function getPlayerTile(name)
   return pl.t[name]
+end
+
+function getPlayerArmour(name)
+  return pl.arm[name]
 end

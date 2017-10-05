@@ -57,6 +57,10 @@ function love.keypressed(key)
         if ui.selected == "username" then pl.cinput = "" ui.selected = "password"
         elseif ui.selected == "password" then login() end
       end
+  elseif key == "u" then
+    if phase == "game" then
+      requestWorldInfo()
+    end
   end
 
    if phase == "game" then

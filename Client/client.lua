@@ -62,8 +62,18 @@ function netUpdate(dt)
             end
 
           end
-        end
+        elseif cmd == "world" then
+          for i = 1, #param, 3 do
+            local name = param[i]
 
+            if not playerExists(name) then
+              addPlayer(name)
+            end
+
+            updatePlayer(name,"t",param[i+1])
+            updatePlayer(name,"arm",param[i+2])
+          end
+        end
       elseif msg ~= 'timeout' then
           error("Network error: "..tostring(msg))
       end

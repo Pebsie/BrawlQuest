@@ -206,7 +206,13 @@ function createWorldCanvas()
             love.graphics.setColor(255,255,255,255)
           end
 
-          if i == selT then love.graphics.draw(uiImg["target"],x,y) end
+          for k = 1,countPlayers() do --THIS IS BAD, OPTIMISE THIS WHEN YOU AREN'T ILL
+            local name = getPlayerName(k)
+            if getPlayer(name,t) == i then
+              drawPlayer(name,x,y)
+            end
+          end
+        --  if i == selT then love.graphics.draw(uiImg["target"],x,y) end
       --  love.graphics.setFont(sFont)
       --  love.graphics.print(i, x, y)
       end

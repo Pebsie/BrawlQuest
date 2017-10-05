@@ -29,7 +29,7 @@ end
 
 function love.update(dt)
   data, msg_or_ip, port_or_nil = udp:receivefrom()
-  if data then
+  if data then --REMINDER: when sending messages format is username command paramaters (split by |)
     entity, cmd, parms = data:match("^(%S*) (%S*) (.*)")
 
     param = {}
@@ -56,16 +56,17 @@ function love.update(dt)
       parms = atComma(parms)
       movePlayer(parms[1],parms[2])
     elseif cmd == "world" then
+      addMsg("World info requested by "..parms)
       local msgToSend = ""
-
+      local name = parms
       --compile location of current players, including ourselves
       for i = 1, countPlayers() do
         if isPlayerOnline(getPlayerName(i)) then
-          msgToSend = msgToSend..string.format("%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)))
+          msgToSend = msgToSend..string.format("%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)))
         end
       end
 
-      udp:sendto(",world,"..msgToSend,msg_or_ip,port_or_nil)
+      udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
     end
 
 

@@ -1,4 +1,4 @@
-require "modules/submodules/pathfinding-old"
+require "modules/submodules/players"
 
 mx = 0
 my = 0
