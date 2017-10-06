@@ -12,8 +12,11 @@ timeToMove = 0.5
 timeToUpdate = 0.5
 
 function drawGame()
-  if ui.selected == "map" then
+  if pl.state == "world" then
     drawOverworld()
+  else
+    love.graphics.setFont(sFont)
+    love.graphics.printf("Your character is presently floating through the void!\n\nSeriously, though, screenshot this and send it to @Pebsiee on Twitter.\nUsername: "..pl.name.."\n\nThere's also a possibility that we're just waiting on the next character update and this might be caused by a slow connection.\nIn that case - if you've had enough time to read this fully - you're not going to be able to play this game. Try changing server, ISP or contact @Pebsiee on Twitter with your location asking for a new server location.\n\nYou can ask again for user info by hitting u now.",0,0,sw,"left")
   end
 end
 

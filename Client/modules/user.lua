@@ -18,6 +18,7 @@ pl.s2 = ""
 pl.msg = ""
 pl.wis = 0
 pl.str = 0
+pl.state = "world"
 
 function login() --we'll attempt to login
   ui.selected = "logging in"

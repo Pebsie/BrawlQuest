@@ -52,9 +52,10 @@ function netUpdate(dt)
             pl.arm = param[11]
             pl.s1 = param[3]
             pl.s2 = param[4]
-            pl.msg = param[15]
+            pl.msg = param[17]
             pl.inv = param[12]
-            pl.pot = param[16]
+            pl.pot = param[15]
+            pl.state = param[16]
 
             if curAreaTitle ~= world[pl.t].name then
               areaTitleAlpha = 400

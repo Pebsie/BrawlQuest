@@ -19,6 +19,7 @@ pl.xp = {}
 pl.at = {} --attack info. true/false;dir
 pl.msg = {} --messages separated with semicolons
 pl.online = {}
+pl.state = {}
 
 acc = {} --identified by number
 acc.username = {}
@@ -46,6 +47,7 @@ function newPlayer(name, password)
   pl.at[i] = "false,w"
   pl.msg[i] = "chat|Server|Welcome "..i.."!|"
   pl.online[i] = true
+  pl.state[i] = "world"
 
   addMsg("New player by the name of "..name)
 end
@@ -131,9 +133,9 @@ end
 
 function damagePlayer(name, amount)
   pl.hp[name] = pl.hp[name] - amount
-  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";"
+--  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";" --The client could figure this out itself
 
-  if pl.hp[name] < 1 then pl.hp[name] = 0 addMsg(name.." died!") end
+  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] = 9457 pl.state[name] = "world" addMsg(name.." died!") end
 end
 
 --return info functions

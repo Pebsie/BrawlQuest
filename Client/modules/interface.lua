@@ -59,6 +59,7 @@ function love.keypressed(key)
       end
   elseif key == "u" then
     if phase == "game" then
+      requestUserInfo()
       requestWorldInfo()
     end
   elseif key == "z" then

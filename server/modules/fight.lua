@@ -37,6 +37,7 @@ end
 
 function addPlayerToFight(fight, name)
   local id = getPlayerID(name)
+  pl.state[name] = "fight"
   addMsg(name.." has joined fight #"..fight)
   ft.pl[fight] = ft.pl[fight]..id..";" --semicolon at end to prevent repeat errors
 end
