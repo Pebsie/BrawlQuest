@@ -135,7 +135,7 @@ function damagePlayer(name, amount)
   pl.hp[name] = pl.hp[name] - amount
 --  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";" --The client could figure this out itself
 
-  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] = 9457 pl.state[name] = "world" addMsg(name.." died!") end
+  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] = 9457 pl.state[name] = "world" addMsg(name.." died!") removePlayerFromFight(name) end
 end
 
 --return info functions

@@ -4,7 +4,7 @@ countPlayers() - Returns the number of accounts
 newPlayer(name, password) - Creates a new ACCOUNT and player. Returns nothing.
 getPlayerID(name) - Returns account table ID of player username.
 getPlayerName(id) - Returns player username of account table ID.
-getPlayerTile(name) - Returns the tile that the player is currently on. 
+getPlayerTile(name) - Returns the tile that the player is currently on.
 loginPlayer(name, password) - Checks name and password of account. Returns a boolean.
 givePlayerXP(name, xp) - Gives player name XP equal to xp. Player levels up if above cap, set by data/level.lua
 givePlayerGold(name, gold) - Gives player name gold equal to gold
@@ -18,6 +18,9 @@ newFight(tile, fscript) - Starts a fight on tile using fscript.
 addPlayerToFight(fight, name) - Adds player name to fight fight.
 listFightsOnTile(tile) - Returns an array with all fights taking place on that tile in format id;first player;time elapsed;
 listPlayersInFight(fight) - Returns an array of all player IDs currently in this fight
+countFights() - returns the number of fights currently taking place
+findFightPlayerIsIn(name) - Returns the ID of the fight that player name is currently in, returns -1 if not found
+removePlayerFromFight(name) - Removes player name from the fight that they're in
 
 updateFights(dt)
   This gets its own section because I need to explain a bit more about its behaviour.

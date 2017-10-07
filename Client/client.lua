@@ -64,6 +64,10 @@ function netUpdate(dt)
 
           end
         elseif cmd == "world" then --update world
+          for i = 1, 100*100 do --AAAAAH FIX THIS AWFUL CODE
+            world[i].isFight = false
+          end
+
           local plyrs = tonumber(param[1])
           local fghts = tonumber(param[2])
           local tparam = 3
