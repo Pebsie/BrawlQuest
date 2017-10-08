@@ -1,5 +1,4 @@
 require "modules/submodules/login"
-require "modules/submodules/overworld"
 
 --ui variables, use as you wish
 ui = {}
