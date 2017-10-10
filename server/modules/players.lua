@@ -118,14 +118,19 @@ function movePlayer(name, dir)
   if world[pl.t[name]].collide then
     pl.t[name] = curt
   else
-    local fightChance = love.math.random(1,99)
-    if fightChance < world[pl.t[name]].fightc then
-      world[pl.t[name]].isFight = true
-      newFight(pl.t[name], "Boar Hunt")
-      addPlayerToFight(#ft.t, name)
-      addMsg(fightChance.." < "..world[pl.t[name]].fightc)
+    if world[pl.t[name]].isFight == true then
+      local fightsOnTile = listFightsOnTile(pl.t[name])
+      addPlayerToFight(fightsOnTile[1],name)
     else
-        addMsg(fightChance.." > "..world[pl.t[name]].fightc)
+      local fightChance = love.math.random(1,99)
+      if fightChance < world[pl.t[name]].fightc then
+        world[pl.t[name]].isFight = true
+        newFight(pl.t[name], "Boar Hunt")
+        addPlayerToFight(#ft.t, name)
+        addMsg(fightChance.." < "..world[pl.t[name]].fightc)
+      else
+          addMsg(fightChance.." > "..world[pl.t[name]].fightc)
+      end
     end
   end
 
@@ -154,4 +159,8 @@ end
 
 function getPlayerArmour(name)
   return pl.arm[name]
+end
+
+function getPlayerState(name)
+  return pl.state[name]
 end

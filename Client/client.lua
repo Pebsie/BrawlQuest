@@ -81,8 +81,9 @@ function netUpdate(dt)
 
               updatePlayer(name,"t",tonumber(param[tparam+2]))
               updatePlayer(name,"arm",param[tparam+3])
+              updatePlayer(name,"state",param[tparam+4])
               --love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"arm"))
-              tparam = tparam + 4
+              tparam = tparam + 5
             end
           end
 
@@ -95,6 +96,9 @@ function netUpdate(dt)
               tparam = tparam + 2
             end
           end
+        elseif cmd == "fight" then
+          --local plyrs = tonumber(param[2])
+
         end
 
         createWorldCanvas() --finally, update the world

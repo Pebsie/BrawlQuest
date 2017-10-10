@@ -103,7 +103,7 @@ function listFightsOnTile(tile)
 
   for i = 1, #ft.t do
     if ft.tile[i] == tile then
-      fightsOnTile[#fightsonTile + 1] = i..";"..ft.pl[i]..";"..ft.t[i]..";"
+      fightsOnTile[#fightsOnTile + 1] = i
     end
   end
 
@@ -118,6 +118,14 @@ function spawnMob(fight, mob) --name;x;y;hp;target(x,y,static/playername);mb1st;
   freshTarget = getPlayerName(tonumber(freshTarget))
   ft.mb[fight] = ft.mb[fight]..mob..";0;0;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
   --print(ft.mb[fight])
+end
+
+function countMobs(fight)
+  return atComma(ft.mb[i],";")/7
+end
+
+function countPlayersInFight(fight)
+  return #listPlayersInFight(fight)
 end
 
 function updateFights(dt) --the big one!!
@@ -249,4 +257,24 @@ end
 
 function countFights()
   return #ft.t
+end
+
+function getPlayerData(fight, id)
+  local playersInThisFight = listPlayersInFight(i)
+  local thisPlayer = getPlayerName(tonumber(playersInThisFight[id])) --get username
+  pdata = {}
+  pdata["hp"] = pl.hp[thisPlayer]
+  pdata["en"] = pl.en[thisPlayer]
+  pdata["s1"] = pl.s1[thisPlayer]
+  pdata["s2"] = pl.s2[thisPlayer]
+  pdata["x"] = pl.x[thisPlayer]
+  pdata["y"] = pl.y[thisPlayer]
+  pdata["t"] = pl.t[thisPlayer]
+  pdata["wep"] = pl.wep[thisPlayer]
+  pdata["arm"] = pl.arm[thisPlayer]
+  pdata["lvl"] = pl.lvl[thisPlayer]
+  pdata["at"] = pl.at[thisPlayer]
+  pdata["online"] = pl.online[thisPlayer]
+
+  return pdata
 end

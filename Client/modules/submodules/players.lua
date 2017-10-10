@@ -12,6 +12,7 @@ function addPlayer(name)
   player[name].t = 0
   player[name].arm = "Old Cloth"
   player[name].hp = 0
+  player[name].state = "fight"
   players = players + 1
   pli[players] = name
 end

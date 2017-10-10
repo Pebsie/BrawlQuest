@@ -64,7 +64,7 @@ function love.update(dt)
       for i = 1, countPlayers() do
         --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
         if isPlayerOnline(getPlayerName(i)) then
-          msgToSend = msgToSend..string.format("user|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)))
+          msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)))
         end
       end
 
@@ -75,6 +75,21 @@ function love.update(dt)
       end
 
       udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
+    elseif cmd == "fight" then
+      local i = param[1]
+      local id = findFightPlayerIsIn(getPlayerID(i))
+      -- * Number of players, mobs and spells in fight
+      -- * Player X,Y,Armour and HP
+      -- * Spell X,Y and type
+      -- * Mob X,Y,Type and HP
+      msgToSend = countMobs(id).."|"..countPlayersInFight(fight).."|"
+
+      for i = 1, countPlayersInFight(fight) do
+        pdata = getPlayerData(fight,i)
+        msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|",i,pdata["x"],pdata["y"],pdata["arm"],pdata["hp"])
+      end
+
+      udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
     end
 
 

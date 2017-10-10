@@ -19,6 +19,12 @@ fight = {}
 function drawFight()
   love.graphics.setBackgroundColor(0,0,0)
   love.graphics.print("FIGHT!")
+
+  for i = 1, countPlayers() do
+    if getPlayer(getPlayerName(i),"t") == pl.t and getPlayer(getPlayerName(i),"state") == "fight" then
+      drawPlayer(getPlayerName(i),getPlayer(getPlayerName(i),"x"),getPlayer(getPlayerName(i),"y"))
+    end
+  end
 end
 
 function requestFightInfo()
@@ -29,8 +35,9 @@ function updateFight(dt)
   updateFightTime = updateFightTime - 1*dt
 
   if updateFightTime < 0 then
-    requestFightInfo()
-    requestUserInfo()
+    --requestFightInfo()
+    --requestUserInfo()
+    requestWorldInfo()
     updateFightTime = 0.2
   end
 end
