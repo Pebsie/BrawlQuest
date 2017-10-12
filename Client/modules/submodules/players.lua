@@ -32,14 +32,19 @@ function updatePlayer(name,a,value) --where a is attribute (x/y/t/arm/hp)
   if player[name][a] then
     player[name][a] = value
   else
-    love.window.showMessageBox("ERROR","ERROR: attempt to update player['"..name.."']."..a.." to "..value..", but that doesn't exist.")
+    if player[name].name then
+      love.window.showMessageBox("ERROR","ERROR: attempt to update player['"..name.."']."..a.." to "..value..", but that attribute doesn't exist.")
+    else
+      love.window.showMessageBox("ERROR","ERROR: attempt to update player['"..name.."']."..a.." to "..value..", but that player doesn't exist.")
+    end
   end
 end
 
-function updatePlayers(dt) --not to be confused with updatePlayer, above
+function updatePlayers(dt,pls) --not to be confused with updatePlayer, above
+  if not pls then pls = 64 end
+  pls = pls*dt
   for i = 1, countPlayers() do
     name = getPlayerName(i)
-    local pls = 64*dt
     if player[name].x > player[name].tx then player[name].x = player[name].x - pls end
     if player[name].x < player[name].tx then player[name].x = player[name].x + pls end
     if player[name].y > player[name].ty then player[name].y = player[name].y - pls end

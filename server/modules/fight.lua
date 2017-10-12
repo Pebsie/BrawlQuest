@@ -43,6 +43,8 @@ function addPlayerToFight(fight, name)
   else
     local id = getPlayerID(name)
     pl.state[name] = "fight"
+    pl.x[name] = math.random(1, 800)
+    pl.y[name] = math.random(1, 600)
     addMsg(name.." has joined fight #"..fight)
     ft.pl[fight] = ft.pl[fight]..id..";" --semicolon at end to prevent repeat errors
   end
@@ -121,7 +123,36 @@ function spawnMob(fight, mob) --name;x;y;hp;target(x,y,static/playername);mb1st;
 end
 
 function countMobs(fight)
-  return atComma(ft.mb[i],";")/7
+  if fight then
+    return #atComma(ft.mb[fight],";")/7
+  end
+end
+
+function getMobData(fight,id)
+  local mob = {}
+  local cid = 1
+  local mobInfo = atComma(ft.mb[fight], ";") --get mob info
+  for i = 1,#mobInfo,7 do
+    if cid == id then
+      mob.type = mobInfo[i]
+      mob.x = tonumber(mobInfo[i+1])
+      mob.y = tonumber(mobInfo[i+2])
+      mob.hp = tonumber(mobInfo[i+3])
+      mob.target = mobInfo[i+4]
+      mob.spell1time = mobInfo[i+5]
+      mob.spell2time = mobInfo[i+6]
+
+      local targetInfo = atComma(mob.target)
+    --[[  mob.target = {}
+      mob.target.x = tonumber(targetInfo[1])
+      mob.target.y = tonumber(targetInfo[2])
+      mob.target.t = targetInfo[3] ]]
+    end
+
+    cid = cid + 1
+  end
+
+  return mob
 end
 
 function countPlayersInFight(fight)
@@ -260,7 +291,7 @@ function countFights()
 end
 
 function getPlayerData(fight, id)
-  local playersInThisFight = listPlayersInFight(i)
+  local playersInThisFight = listPlayersInFight(fight)
   local thisPlayer = getPlayerName(tonumber(playersInThisFight[id])) --get username
   pdata = {}
   pdata["hp"] = pl.hp[thisPlayer]

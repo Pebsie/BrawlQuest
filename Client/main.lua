@@ -6,6 +6,7 @@ require "data/audio"
 require "data/items"
 require "data/world"
 require "data/ui"
+require "data/mobs"
 --load libraries
 inspect = require("libraries/inspect")
 --load modules
@@ -13,7 +14,7 @@ require "modules/music" --this is a data/module hybrid, so it must be first
 require "modules/interface"
 require "modules/user"
 require "modules/game"
-
+require "modules/settings"
 
 
 utf8 = require("utf8")
@@ -45,6 +46,7 @@ function love.load()
   worldCanvas = love.graphics.newCanvas(32*101,32*101)
 
   loadMusic()
+  bindKeys()
 end
 
 function love.draw()

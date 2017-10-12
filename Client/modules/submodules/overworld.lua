@@ -226,7 +226,7 @@ function createWorldCanvas()
 
           for k = 1,countPlayers() do --THIS IS BAD, OPTIMISE THIS WHEN YOU AREN'T ILL
             local name = getPlayerName(k)
-            if getPlayer(name,"t") == i then
+            if getPlayer(name,"t") == i and getPlayer(name,"state") == "world" then
               player[name].tx = x
               player[name].ty = y
             end

@@ -25,43 +25,47 @@ function drawGame()
 end
 
 function updateGame(dt)
-  updateGameUI(dt,"char")
-  updateGameUI(dt,"deb")
---  if pl.t and moveQueue and #moveQueue > 0 then
---    timeToMove = timeToMove - 1*dt
---    if timeToMove < 0 then
---      pl.t = moveQueue[#moveQueue]
---      addFog(pl.t)
---      table.remove(moveQueue, #moveQueue)
---      centerCamera()
-  --    timeToMove = 0.2
---    end
---  end
+  if pl.state == "world" then
+    updateGameUI(dt,"char")
+    updateGameUI(dt,"deb")
+  --  if pl.t and moveQueue and #moveQueue > 0 then
+  --    timeToMove = timeToMove - 1*dt
+  --    if timeToMove < 0 then
+  --      pl.t = moveQueue[#moveQueue]
+  --      addFog(pl.t)
+  --      table.remove(moveQueue, #moveQueue)
+  --      centerCamera()
+    --    timeToMove = 0.2
+  --    end
+  --  end
 
-  timeToUpdate = timeToUpdate - 1*dt
-  if timeToUpdate < 0 then
-    requestWorldInfo()
-    timeToUpdate = 0.5
+    timeToUpdate = timeToUpdate - 1*dt
+    if timeToUpdate < 0 then
+      requestWorldInfo()
+      timeToUpdate = 0.5
+    end
+
+    timeToMove = timeToMove - 1*dt
+    if timeToMove < 0 then
+      if love.keyboard.isDown("w") then movePlayer("up") timeToMove = 0.5
+      elseif love.keyboard.isDown("s") then movePlayer("down") timeToMove = 0.5
+      elseif love.keyboard.isDown("d") then movePlayer("right") timeToMove = 0.5
+      elseif love.keyboard.isDown("a") then movePlayer("left") timeToMove = 0.5
+      else timeTomove = 0.1 end
+    end
+
+    local pls = 64*dt
+    if pl.x > world[pl.t].x then pl.x = pl.x - pls end
+    if pl.x < world[pl.t].x then pl.x = pl.x + pls end
+    if pl.y > world[pl.t].y then pl.y = pl.y - pls end
+    if pl.y < world[pl.t].y then pl.y = pl.y + pls end
+    if distanceFrom(pl.x,pl.y,world[pl.t].x,world[pl.t].y) < 0.2 or distanceFrom(pl.x,pl.y,world[pl.t].x,world[pl.t].y) > 64 then pl.x = world[pl.t].x pl.y = world[pl.t].y end
+    centerCamera()
+
+    updatePlayers(dt)
+  elseif pl.state == "fight" then
+    updateFight(dt)
   end
-
-  timeToMove = timeToMove - 1*dt
-  if timeToMove < 0 then
-    if love.keyboard.isDown("w") then movePlayer("up") timeToMove = 0.5
-    elseif love.keyboard.isDown("s") then movePlayer("down") timeToMove = 0.5
-    elseif love.keyboard.isDown("d") then movePlayer("right") timeToMove = 0.5
-    elseif love.keyboard.isDown("a") then movePlayer("left") timeToMove = 0.5
-    else timeTomove = 0.1 end
-  end
-
-  local pls = 64*dt
-  if pl.x > world[pl.t].x then pl.x = pl.x - pls end
-  if pl.x < world[pl.t].x then pl.x = pl.x + pls end
-  if pl.y > world[pl.t].y then pl.y = pl.y - pls end
-  if pl.y < world[pl.t].y then pl.y = pl.y + pls end
-  if distanceFrom(pl.x,pl.y,world[pl.t].x,world[pl.t].y) < 0.2 or distanceFrom(pl.x,pl.y,world[pl.t].x,world[pl.t].y) > 64 then pl.x = world[pl.t].x pl.y = world[pl.t].y end
-  centerCamera()
-
-  updatePlayers(dt)
 end
 
 function movePlayer(dir)

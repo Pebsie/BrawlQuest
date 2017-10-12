@@ -26,7 +26,7 @@ function updateMusic(dt)
   if phase == "game" then --diff code for each type
     if not music.curPlay:isPlaying() then
       if love.math.random(1, 200) == 1 then
-        music.curPlay = music.world[love.math.random(1, #music.world)]
+        music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
         music.curPlay:setLooping(false)
         love.audio.play(music.curPlay)
       end

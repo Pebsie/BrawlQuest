@@ -15,29 +15,108 @@
 updateFightTime = 0.2
 
 fight = {}
+mob = {}
 
 function drawFight()
   love.graphics.setBackgroundColor(0,0,0)
-  love.graphics.print("FIGHT!")
+  --love.graphics.print("FIGHT!")
 
-  for i = 1, countPlayers() do
-    if getPlayer(getPlayerName(i),"t") == pl.t and getPlayer(getPlayerName(i),"state") == "fight" then
-      drawPlayer(getPlayerName(i),getPlayer(getPlayerName(i),"x"),getPlayer(getPlayerName(i),"y"))
+  for i = 1, countMobs() do
+    if mb.img[mob[i].type] then
+      love.graphics.draw(mb.img[mob[i].type], mob[i].x, mob[i].y)
+    else
+      love.graphics.draw(uiImg["error"], mob[i].x, mob[i].y)
     end
   end
+
+  for i = 1, countPlayers() do
+      local playerName = getPlayerName(i)
+    if getPlayer(playerName,"t") == pl.t then
+      if pl.name == playerName then --we want to draw us client side to reduce jankiness
+        x = pl.x
+        y = pl.y
+      else
+        x = getPlayer(playerName,"x")
+        y = getPlayer(playerName,"y")
+      end
+
+      drawPlayer(playerName,x,y)
+    --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
+    --  love.window.showMessageBox("Debug","Player #"..i..": "..playerName.." at position "..getPlayer(playerName,"tx")..","..getPlayer(playerName,"ty"))
+      love.graphics.setColor(255,0,0)
+      love.graphics.rectangle("fill",x,y+32,(getPlayer(playerName,"hp")/100)*32,6)
+      love.graphics.setColor(100,0,0)
+      love.graphics.rectangle("line",x,y+32,32,6)
+      love.graphics.setColor(255,255,255)
+    end
+  end
+
+  love.graphics.print(love.timer.getFPS())
 end
 
 function requestFightInfo()
-  netSend("fight",pl.name)
+  netSend("fight",pl.name..","..round(pl.x)..","..round(pl.y))
 end
 
 function updateFight(dt)
   updateFightTime = updateFightTime - 1*dt
 
   if updateFightTime < 0 then
-    --requestFightInfo()
-    --requestUserInfo()
+    requestFightInfo()
+    requestUserInfo()
     requestWorldInfo()
-    updateFightTime = 0.2
+    updateFightTime = 0.05
   end
+
+  local speed = 128*dt
+  if love.keyboard.isDown(KEY_UP) then
+    pl.y = pl.y - speed
+  elseif love.keyboard.isDown(KEY_DOWN) then
+    pl.y = pl.y + speed
+  end
+  if love.keyboard.isDown(KEY_LEFT) then
+    pl.x = pl.x - speed
+  elseif love.keyboard.isDown(KEY_RIGHT) then
+    pl.x = pl.x + speed
+  end
+
+  updatePlayers(dt,128) --move players to correct position
+
+  for i = 1, countMobs() do
+    local pls = mb.spd[mob[i].type]*dt
+    if mob[i].x >  mob[i].tx then  mob[i].x =  mob[i].x - pls end
+    if  mob[i].x <  mob[i].tx then  mob[i].x =  mob[i].x + pls end
+    if  mob[i].y >  mob[i].ty then  mob[i].y =  mob[i].y - pls end
+    if  mob[i].y <  mob[i].ty then  mob[i].y =  mob[i].y + pls end
+
+    if distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) > 128 then
+       mob[i].x =  mob[i].tx
+       mob[i].y =  mob[i].ty
+    end
+  end
+end
+
+function countMobs()
+  return #mob
+end
+
+function addMob(id)
+  mob[id] = {}
+  mob[id].tx = 0
+  mob[id].x = 0
+  mob[id].ty = 0
+  mob[id].y = 0
+  mob[id].type = "Boar"
+end
+
+function doesMobExist(id)
+  if mob[id] then
+    return true
+  else
+    return false
+  end
+end
+
+function updateMob(id,a,value)
+  mob[id][a] = value
 end

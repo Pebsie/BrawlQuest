@@ -133,7 +133,11 @@ function movePlayer(name, dir)
       end
     end
   end
+end
 
+function setPlayerPos(name,x,y)
+  pl.x[name] = x
+  pl.y[name] = y
 end
 
 function damagePlayer(name, amount)

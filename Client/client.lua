@@ -55,6 +55,11 @@ function netUpdate(dt)
             pl.msg = param[17]
             pl.inv = param[12]
             pl.pot = param[15]
+            if param[16] ~= pl.state then  --if we are newly entering this fight
+              music.curPlay:stop() --reset music
+              pl.x = love.math.random(200, 600) --place players in a line at the bottom of the arena
+              pl.y = 500
+            end
             pl.state = param[16]
 
             if curAreaTitle ~= world[pl.t].name then
@@ -97,11 +102,39 @@ function netUpdate(dt)
             end
           end
         elseif cmd == "fight" then
-          --local plyrs = tonumber(param[2])
+          local mbs = tonumber(param[1])
+          local plyrs = tonumber(param[2])
 
+          local tparam = 3
+          for i = 1, plyrs do --id|x|y|arm|hp
+            local id = getPlayerName(tonumber(param[tparam]))
+            updatePlayer(id,"tx",tonumber(param[tparam+1]))
+            updatePlayer(id,"ty",tonumber(param[tparam+2]))
+            updatePlayer(id,"arm",param[tparam+3])
+            updatePlayer(id,"hp",tonumber(param[tparam+4]))
+           --love.window.showMessageBox("Debug","Player in fight #"..i.." is ID #"..i.." "..getPlayerName(id))
+            tparam = tparam + 5
+          end
+
+          for i = 1, mbs do -- * All mob info (X,Y,Type,HP)
+          --  love.window.showMessageBox("Debug","Mob "..param[tparam+3].." at ")
+            if not doesMobExist(i) then
+              addMob(i)
+            end
+
+            updateMob(i,"tx",tonumber(param[tparam]))
+            updateMob(i,"ty",tonumber(param[tparam+1]))
+            updateMob(i,"type",param[tparam+2])
+            updateMob(i,"hp",tonumber(param[tparam+3]))
+
+
+            tparam = tparam + 4
+          end
         end
 
-        createWorldCanvas() --finally, update the world
+        if cmd ~= "login" then --if we aren't logged in yet then we don't have a username or position or anything, creating issues with fog.
+          createWorldCanvas() --finally, update the world
+        end
       elseif msg ~= 'timeout' then
           error("Network error: "..tostring(msg))
       end

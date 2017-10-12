@@ -76,20 +76,33 @@ function love.update(dt)
 
       udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
     elseif cmd == "fight" then
-      local i = param[1]
+      parms = atComma(param[1])
+      local i = parms[1]
+      local x = parms[2]
+      local y = parms[3]
+
       local id = findFightPlayerIsIn(getPlayerID(i))
+      setPlayerPos(i,x,y)
+  --    addMsg("Player "..i.." is at "..x..","..y)
       -- * Number of players, mobs and spells in fight
       -- * Player X,Y,Armour and HP
       -- * Spell X,Y and type
       -- * Mob X,Y,Type and HP
-      msgToSend = countMobs(id).."|"..countPlayersInFight(fight).."|"
+      if id then
+        msgToSend = countMobs(id).."|"..countPlayersInFight(id).."|"
 
-      for i = 1, countPlayersInFight(fight) do
-        pdata = getPlayerData(fight,i)
-        msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|",i,pdata["x"],pdata["y"],pdata["arm"],pdata["hp"])
+        for i = 1, countPlayersInFight(id) do
+          pdata = getPlayerData(id,i)
+          msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|",i,pdata["x"],pdata["y"],pdata["arm"],pdata["hp"]) --id|x|y|arm|hp
+        end
+
+        for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)
+          tmob = getMobData(id,i)
+          msgToSend = msgToSend..string.format("%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp)
+        end
+
+        udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
       end
-
-      udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
     end
 
 
