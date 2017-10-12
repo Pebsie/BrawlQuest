@@ -8,6 +8,7 @@ mb.sp2 = {} --spell 2
 mb.sp2t = {}
 mb.img = {} --width in this case
 mb.rng = {}
+mb.sfx = {}
 
 local tm = "Boar"
 mb.hp[tm] = 1
@@ -19,3 +20,8 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = love.graphics.newImage("img/mob/Boar.png")
 mb.rng[tm] = 16
+mb.sfx[tm] = {}
+  mb.sfx[tm][1] = love.audio.newSource("sound/sfx/mob/Boar/1.ogg")
+  mb.sfx[tm][2] = love.audio.newSource("sound/sfx/mob/Boar/2.ogg")
+  mb.sfx[tm][3] = love.audio.newSource("sound/sfx/mob/Boar/3.ogg")
+  mb.sfx[tm][4] = love.audio.newSource("sound/sfx/mob/Boar/4.ogg")

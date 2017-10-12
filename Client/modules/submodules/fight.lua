@@ -17,8 +17,29 @@ updateFightTime = 0.2
 fight = {}
 mob = {}
 
+function createFightCanvas(t)
+  love.graphics.setColor(255,255,255,255)
+  love.graphics.setCanvas(fightCanvas)
+  love.graphics.clear()
+
+  local x = 0
+  local y = 0
+
+  for i = 1, 25*20 do
+    love.graphics.draw(worldImg[world[t].bg],x,y)
+    x = x + 32
+    if x > 800 then
+      x = 0
+      y = y + 32
+    end
+  end
+
+  love.graphics.setCanvas()
+end
+
 function drawFight()
-  love.graphics.setBackgroundColor(0,0,0)
+--  love.graphics.setBackgroundColor(0,0,0)
+  love.graphics.draw(fightCanvas)
   --love.graphics.print("FIGHT!")
 
   for i = 1, countMobs() do
@@ -51,7 +72,7 @@ function drawFight()
     end
   end
 
-  love.graphics.print(love.timer.getFPS())
+  love.graphics.print(love.timer.getFPS().." FPS")
 end
 
 function requestFightInfo()
@@ -65,7 +86,7 @@ function updateFight(dt)
     requestFightInfo()
     requestUserInfo()
     requestWorldInfo()
-    updateFightTime = 0.05
+    updateFightTime = 0.1
   end
 
   local speed = 128*dt
@@ -93,6 +114,10 @@ function updateFight(dt)
        mob[i].x =  mob[i].tx
        mob[i].y =  mob[i].ty
     end
+
+    if love.math.random(1, 2500) == 1 then
+      love.audio.play(mb.sfx[mob[i].type][love.math.random(1,#mb.sfx[mob[i].type])])
+    end
   end
 end
 
@@ -100,12 +125,16 @@ function countMobs()
   return #mob
 end
 
+function killMobs()
+  mob = {}
+end
+
 function addMob(id)
   mob[id] = {}
   mob[id].tx = 0
   mob[id].x = 0
-  mob[id].ty = 0
-  mob[id].y = 0
+  mob[id].ty = -32
+  mob[id].y = -32
   mob[id].type = "Boar"
 end
 

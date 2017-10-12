@@ -118,7 +118,7 @@ function spawnMob(fight, mob) --name;x;y;hp;target(x,y,static/playername);mb1st;
   freshTarget = freshTarget[love.math.random(#freshTarget)]
   --print("Target is "..freshTarget)
   freshTarget = getPlayerName(tonumber(freshTarget))
-  ft.mb[fight] = ft.mb[fight]..mob..";0;0;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+  ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, 800)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
   --print(ft.mb[fight])
 end
 
@@ -169,7 +169,7 @@ function updateFights(dt) --the big one!!
       if (ft.queue.amount[i][current]) then
         if (ft.queue.amount[i][current] > 0) then
 
-          if love.math.random(100) == 1 then
+          if love.math.random(25) == 1 then
           --print("Spawning a mob")
             spawnMob(i,ft.queue[i][current])
             ft.queue.amount[i][current] = ft.queue.amount[i][current] - 1

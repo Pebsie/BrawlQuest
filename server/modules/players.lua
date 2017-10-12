@@ -122,7 +122,7 @@ function movePlayer(name, dir)
       local fightsOnTile = listFightsOnTile(pl.t[name])
       addPlayerToFight(fightsOnTile[1],name)
     else
-      local fightChance = love.math.random(1,99)
+      local fightChance = love.math.random(1,299)
       if fightChance < world[pl.t[name]].fightc then
         world[pl.t[name]].isFight = true
         newFight(pl.t[name], "Boar Hunt")

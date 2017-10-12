@@ -59,6 +59,8 @@ function netUpdate(dt)
               music.curPlay:stop() --reset music
               pl.x = love.math.random(200, 600) --place players in a line at the bottom of the arena
               pl.y = 500
+              createFightCanvas(pl.t)
+              killMobs()
             end
             pl.state = param[16]
 
