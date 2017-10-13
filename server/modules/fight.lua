@@ -27,9 +27,10 @@ function newFight(tile, fscript)
 
   fightScript = atComma(fs[fscript], ";") --break down fight script, data/fights
   local v = 1 --THIS IS WHERE WE'RE LEAVING THIS OFF. THIS NEEDS TO BE MADE INTO A TWO DIMENSIONAL ARRAY FOR STORING FIGHT AND CURRENT. HAVE FUN.
-  for k = 1,(#fightScript/2),2 do
+  for k = 1,#fightScript,2 do
     ft.queue[i][v] = fightScript[k]
     ft.queue.amount[i][v] = tonumber(fightScript[k+1])
+    addMsg("Added "..ft.queue.amount[i][v].." "..ft.queue[i][v].." to fight #"..i)
     v = v + 1
   end
   ft.queue.current[i] = 1
@@ -178,7 +179,7 @@ function updateFights(dt) --the big one!!
       if (ft.queue.amount[i][current]) then
         if (ft.queue.amount[i][current] > 0) then
           hasFightEnded = false
-          if love.math.random(100) == 1 then
+          if love.math.random(250) == 1 then
           --print("Spawning a mob")
             spawnMob(i,ft.queue[i][current])
             ft.queue.amount[i][current] = ft.queue.amount[i][current] - 1
@@ -199,7 +200,7 @@ function updateFights(dt) --the big one!!
       mob.target.x = {}
       mob.target.y = {}
       mob.target.t = {}
-      mob.spell1time = {}
+      mob.spell1time = {} 
       mob.spell2time = {}
 
       local v = 1
@@ -256,7 +257,7 @@ function updateFights(dt) --the big one!!
             --addMsg(thisPlayer.." is "..tostring(atkInfo))
 
             if atkInfo == true then
-              if distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 20 then
+              if distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32 then
                 local pdmg = item.val[pl.wep[thisPlayer]]
                 mob.hp[v] = mob.hp[v] - pdmg
                 addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
@@ -301,7 +302,10 @@ function updateFights(dt) --the big one!!
         endFight(i)
       end
     end
-   
+
+    for k = 1, countPlayersInFight(i) do
+      pl.at[getPlayerName(k)] = false
+    end
   end --fight loop end
 end --function end
 

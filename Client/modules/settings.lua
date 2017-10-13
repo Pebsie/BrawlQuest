@@ -11,4 +11,4 @@ function bindKeys()
 end
 
 setting = {}
-setting.audio = false
+setting.audio = true

@@ -110,7 +110,7 @@ function love.update(dt)
       local dir = parms[2]
 
       pl.at[name] = true
-      pl.atm[name] = 0.1
+      pl.atm[name] = 0.05
     end
 
 
