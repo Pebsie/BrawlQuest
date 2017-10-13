@@ -19,3 +19,14 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 32
 mb.rng[tm] = 16
+
+local tm = "Big Boar"
+mb.hp[tm] = 5
+mb.spd[tm] = 64
+mb.atk[tm] = 4
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 16

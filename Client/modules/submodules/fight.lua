@@ -13,6 +13,7 @@
 ----NOTE: My player info will be requested with each update. This will be displayed on the UI, but for the sake of accuracy we'll use server side player movement (at least for testing)
 
 updateFightTime = 0.2
+atkCooldown = 1
 
 fight = {}
 mob = {}
@@ -45,6 +46,11 @@ function drawFight()
   for i = 1, countMobs() do
     if mb.img[mob[i].type] then
       love.graphics.draw(mb.img[mob[i].type], mob[i].x, mob[i].y)
+      love.graphics.setColor(255,0,0)
+      love.graphics.rectangle("fill",mob[i].x,mob[i].y+32,(mob[i].hp/mb.hp[mob[i].type])*32,4)
+      love.graphics.setColor(100,0,0)
+      love.graphics.rectangle("line",mob[i].x,mob[i].y+32,32,4)
+      love.graphics.setColor(255,255,255)
     else
       love.graphics.draw(uiImg["error"], mob[i].x, mob[i].y)
     end
@@ -101,8 +107,22 @@ function updateFight(dt)
     pl.x = pl.x + speed
   end
 
+  --PLAYER LOGIC
   updatePlayers(dt,128) --move players to correct position
 
+  atkCooldown = atkCooldown - 1*dt
+
+  if love.keyboard.isDown(KEY_ATK_UP) then
+    attack("up")
+  elseif love.keyboard.isDown(KEY_ATK_DOWN) then
+    attack("down")
+  elseif love.keyboard.isDown(KEY_ATK_RIGHT) then
+    attack("right")
+  elseif love.keyboard.isDown(KEY_ATK_LEFT) then
+    attack("left")
+  end
+
+  --MOBS 
   for i = 1, countMobs() do
     local pls = mb.spd[mob[i].type]*dt
     if mob[i].x >  mob[i].tx then  mob[i].x =  mob[i].x - pls end
@@ -136,6 +156,7 @@ function addMob(id)
   mob[id].ty = -32
   mob[id].y = -32
   mob[id].type = "Boar"
+  mob[id].hp = 0
 end
 
 function doesMobExist(id)
@@ -148,4 +169,24 @@ end
 
 function updateMob(id,a,value)
   mob[id][a] = value
+end
+
+function attack(dir)
+  if atkCooldown < 0 then
+    netSend("atk",pl.name..","..dir)
+
+    local ferocity = 16
+
+    if dir == "up" then
+      pl.y = pl.y - ferocity
+    elseif dir == "down" then
+      pl.y = pl.y + ferocity
+    elseif dir == "left" then
+      pl.x = pl.x - ferocity
+    elseif dir == "right" then
+      pl.x = pl.x + ferocity
+    end
+
+    atkCooldown = 1
+  end
 end

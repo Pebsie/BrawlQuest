@@ -1,4 +1,8 @@
 ==SERVER DOCUMENTATION==
+
+  ADD ISSUE TO GITHUB: attacking is done client side whilst it should be done server side
+
+
 =PLAYERS=
 countPlayers() - Returns the number of accounts
 newPlayer(name, password) - Creates a new ACCOUNT and player. Returns nothing.

@@ -68,6 +68,7 @@ function removePlayerFromFight(name)
     end
 
     ft.pl[id] = ftpls
+    pl.state[getPlayerName(name)] = "world"
     addMsg(getPlayerName(name).." left fight #"..id)
 
     local curPlayers = listPlayersInFight(id)
@@ -80,6 +81,11 @@ end
 function endFight(fight)
   ft.done[fight] = true
   world[ft.tile[fight]].isFight = false
+
+  local playersInFight = listPlayersInFight(fight)
+  for i = 1, #playersInFight do
+    removePlayerFromFight(getPlayerName(tonumber(playersInFight[i])))
+  end
 end
 
 function findFightPlayerIsIn(name)
@@ -163,13 +169,16 @@ function updateFights(dt) --the big one!!
   --print("Updating fights...")
   for i = 1, #ft.t do
     if ft.done[i] == false then
+
+      local hasFightEnded = true
+
       --print(ft.mb[i])
       --spawn new mobs
       local current = ft.queue.current[i]
       if (ft.queue.amount[i][current]) then
         if (ft.queue.amount[i][current] > 0) then
-
-          if love.math.random(25) == 1 then
+          hasFightEnded = false
+          if love.math.random(100) == 1 then
           --print("Spawning a mob")
             spawnMob(i,ft.queue[i][current])
             ft.queue.amount[i][current] = ft.queue.amount[i][current] - 1
@@ -219,72 +228,82 @@ function updateFights(dt) --the big one!!
         end
       end
 
+
       for v = 1,#mobInfo/7 do
 
+        if mob.hp[v] > 0 then
+          hasFightEnded = false
+          --movement
+          local speed = mb.spd[mob[v]]*dt
 
-        --movement
-        local speed = mb.spd[mob[v]]*dt
+          if mob.target.x[v] > mob.x[v] then mob.x[v] = mob.x[v] + speed end
+          if mob.target.y[v] > mob.y[v] then mob.y[v] = mob.y[v] + speed end
+          if mob.target.x[v] < mob.x[v] then mob.x[v] = mob.x[v] - speed end
+          if mob.target.y[v] < mob.y[v] then mob.y[v] = mob.y[v] - speed end
 
-        if mob.target.x[v] > mob.x[v] then mob.x[v] = mob.x[v] + speed end
-        if mob.target.y[v] > mob.y[v] then mob.y[v] = mob.y[v] + speed end
-        if mob.target.x[v] < mob.x[v] then mob.x[v] = mob.x[v] - speed end
-        if mob.target.y[v] < mob.y[v] then mob.y[v] = mob.y[v] - speed end
-
-        if mob.target.t[v] ~= "static" then
-          mob.target.x[v] = pl.x[mob.target.t[v]]
-          mob.target.y[v] = pl.y[mob.target.t[v]]
-        end
-
-        --take damage / give damage
-        local playersInThisFight = listPlayersInFight(i)
-        --print("There are "..#playersInThisFight.." players in this fight.")
-        for k = 1, #playersInThisFight do
-          --print("Player #"..k.." ID of "..playersInThisFight[k])
-          local thisPlayer = getPlayerName(tonumber(playersInThisFight[k])) --get username
-          local atkInfo = pl.at[thisPlayer]
-
-          if atkInfo == "true" then
-            if distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 20 then
-              local pdmg = love.math.random(0, item.val[pl.wep])
-              mob.hp[v] = mob.hp[v] - pdmg
-              pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
-            end
-          elseif distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] then --this has to be separate because of mob range
-            local pdmg = love.math.random(mb.atk[mob[v]])*dt
-            --print("A "..mob[v].." dealt "..pdmg.." damage to "..thisPlayer.."!")
-            if isPlayerDead(thisPlayer) == false then
-              damagePlayer(thisPlayer, pdmg)
-            end
+          if mob.target.t[v] ~= "static" then
+            mob.target.x[v] = pl.x[mob.target.t[v]]
+            mob.target.y[v] = pl.y[mob.target.t[v]]
           end
 
-          --spell casting
-          mob.spell1time[v] = mob.spell1time[v] - 1*dt
-          mob.spell2time[v] = mob.spell2time[v] - 1*dt
-          local isCast = false
-          local spellCast = ""
+          --take damage / give damage
+          local playersInThisFight = listPlayersInFight(i)
+          --print("There are "..#playersInThisFight.." players in this fight.")
+          for k = 1, #playersInThisFight do
+            --print("Player #"..k.." ID of "..playersInThisFight[k])
+            local thisPlayer = getPlayerName(tonumber(playersInThisFight[k])) --get username
+            local atkInfo = pl.at[thisPlayer]
+            --addMsg(thisPlayer.." is "..tostring(atkInfo))
 
-          if (mob.spell1time[v] < 0) then
-            mob.spell1time[v] = mb.sp1t[mob[v]]
-            isCast = true
-            spellCast = mb.sp1[mob[v]]
-          elseif (mob.spell2time[v] < 0) then
-            mob.spell2time[v] = mb.sp2t[mob[v]]
-            isCast = true
-            spellCast = mb.sp2[mob[v]]
-          end
-
-            --cast spell here
-            if spellCast == "die" then
-              killMob(v)
+            if atkInfo == true then
+              if distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 20 then
+                local pdmg = item.val[pl.wep[thisPlayer]]
+                mob.hp[v] = mob.hp[v] - pdmg
+                addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
+                pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
+              end
+            elseif distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] then --this has to be separate because of mob range
+              local pdmg = love.math.random(mb.atk[mob[v]])*dt
+              --print("A "..mob[v].." dealt "..pdmg.." damage to "..thisPlayer.."!")
+              if isPlayerDead(thisPlayer) == false then
+                damagePlayer(thisPlayer, pdmg)
+              end
             end
+
+            --spell casting
+            mob.spell1time[v] = mob.spell1time[v] - 1*dt
+            mob.spell2time[v] = mob.spell2time[v] - 1*dt
+            local isCast = false
+            local spellCast = ""
+
+            if (mob.spell1time[v] < 0) then
+              mob.spell1time[v] = mb.sp1t[mob[v]]
+              isCast = true
+              spellCast = mb.sp1[mob[v]]
+            elseif (mob.spell2time[v] < 0) then
+              mob.spell2time[v] = mb.sp2t[mob[v]]
+              isCast = true
+              spellCast = mb.sp2[mob[v]]
+            end
+
+              --cast spell here
+              if spellCast == "die" then
+                killMob(v)
+              end
+          end
         end
         --rebuild mob string  name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
         ft.mb[i] = ft.mb[i]..mob[v]..";"..mob.x[v]..";"..mob.y[v]..";"..mob.hp[v]..";"..mob.target.x[v]..","..mob.target.y[v]..","..mob.target.t[v]..";"..mob.spell1time[v]..";"..mob.spell2time[v]..";"
 
       end
+
+      if hasFightEnded == true then
+        endFight(i)
+      end
     end
-  end
-end
+   
+  end --fight loop end
+end --function end
 
 function countFights()
   return #ft.t

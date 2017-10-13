@@ -23,7 +23,7 @@ function loadMusic()
 end
 
 function updateMusic(dt)
-  if phase == "game" then --diff code for each type
+  if phase == "game" and setting.audio == true then --diff code for each type
     if not music.curPlay:isPlaying() then
       if love.math.random(1, 200) == 1 then
         music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]

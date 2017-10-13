@@ -16,7 +16,8 @@ pl.pot = {}
 pl.inv = {} --inventory
 pl.lvl = {}
 pl.xp = {}
-pl.at = {} --attack info. true/false;dir
+pl.at = {} --attack info. true/false
+pl.atm = {} --time left before attack is no longer there
 pl.msg = {} --messages separated with semicolons
 pl.online = {}
 pl.state = {}
@@ -44,12 +45,21 @@ function newPlayer(name, password)
   pl.pot[i] = "Red Potion"
   pl.lvl[i] = 1
   pl.xp[i] = 0
-  pl.at[i] = "false,w"
+  pl.at[i] = false
+  pl.atm[i] = 0
   pl.msg[i] = "chat|Server|Welcome "..i.."!|"
   pl.online[i] = true
   pl.state[i] = "world"
 
   addMsg("New player by the name of "..name)
+end
+
+function updatePlayers(dt)
+  for i = 1, countPlayers() do
+    local k = getPlayerName(i)
+    pl.atm[k] = pl.atm[k] - 1*dt
+    if pl.atm[k] < 0 then pl.at[k] = false end
+  end
 end
 
 function countPlayers()
@@ -144,7 +154,7 @@ function damagePlayer(name, amount)
   pl.hp[name] = pl.hp[name] - amount
 --  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";" --The client could figure this out itself
 
-  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] = 9457 pl.state[name] = "world" addMsg(name.." died!") removePlayerFromFight(name) end
+  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] = 9457 addMsg(name.." died!") removePlayerFromFight(name) end
 end
 
 --return info functions

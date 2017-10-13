@@ -17,6 +17,7 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
+  initItems()
   loadOverworld()
   newPlayer("demo","demo")
   newPlayer("JoeyFunWithMusic","demo")
@@ -103,6 +104,13 @@ function love.update(dt)
 
         udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
       end
+    elseif cmd == "atk" then  --    netSend("atk",pl.name..","..dir)
+      parms = atComma(param[1])
+      local name = parms[1]
+      local dir = parms[2]
+
+      pl.at[name] = true
+      pl.atm[name] = 0.1
     end
 
 
@@ -115,6 +123,7 @@ function love.update(dt)
 
   updateFights(dt)
   updateWorld(dt)
+  updatePlayers(dt)
 end
 
 function addMsg(msg)
