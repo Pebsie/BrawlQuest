@@ -125,7 +125,14 @@ function spawnMob(fight, mob) --name;x;y;hp;target(x,y,static/playername);mb1st;
   freshTarget = freshTarget[love.math.random(#freshTarget)]
   --print("Target is "..freshTarget)
   freshTarget = getPlayerName(tonumber(freshTarget))
-  ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, 800)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+  local side = love.math.random(1, 3)
+  if side == 1 then --top
+    ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, 800)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+  elseif side == 2 then --left
+    ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, 600)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+  elseif side == 3 then --right
+    ft.mb[fight] = ft.mb[fight]..mob..";929;"..love.math.random(1, 600)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+  end
   --print(ft.mb[fight])
 end
 
@@ -179,7 +186,7 @@ function updateFights(dt) --the big one!!
       if (ft.queue.amount[i][current]) then
         if (ft.queue.amount[i][current] > 0) then
           hasFightEnded = false
-          if love.math.random(250) == 1 then
+          if love.math.random(500) == 1 then
           --print("Spawning a mob")
             spawnMob(i,ft.queue[i][current])
             ft.queue.amount[i][current] = ft.queue.amount[i][current] - 1
@@ -200,7 +207,7 @@ function updateFights(dt) --the big one!!
       mob.target.x = {}
       mob.target.y = {}
       mob.target.t = {}
-      mob.spell1time = {} 
+      mob.spell1time = {}
       mob.spell2time = {}
 
       local v = 1

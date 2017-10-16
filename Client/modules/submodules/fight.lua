@@ -17,6 +17,7 @@ atkCooldown = 1
 
 fight = {}
 mob = {}
+bones = {}
 
 function createFightCanvas(t)
   love.graphics.setColor(255,255,255,255)
@@ -33,6 +34,8 @@ function createFightCanvas(t)
       x = 0
       y = y + 32
     end
+
+    --love.graphics.draw(worldImg[world[t].tile],300,200,0,4,4) <== will be cool but needs some work and thought
   end
 
   love.graphics.setCanvas()
@@ -43,13 +46,24 @@ function drawFight()
   love.graphics.draw(fightCanvas)
   --love.graphics.print("FIGHT!")
 
+  for i = 1, #bones do
+    love.graphics.draw(mb.img[bones[i].t], bones[i].x, bones[i].y, math.rad(bones[i].rotation), 0.25, 0.25)
+  end
+
   for i = 1, countMobs() do
     if mb.img[mob[i].type] then
-      love.graphics.draw(mb.img[mob[i].type], mob[i].x, mob[i].y)
-      love.graphics.setColor(255,0,0)
-      love.graphics.rectangle("fill",mob[i].x,mob[i].y+32,(mob[i].hp/mb.hp[mob[i].type])*32,4)
-      love.graphics.setColor(100,0,0)
-      love.graphics.rectangle("line",mob[i].x,mob[i].y+32,32,4)
+      if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INFO
+        love.graphics.draw(mb.img[mob[i].type], mob[i].x, mob[i].y)
+      elseif mob[i].tx < mob[i].x-1 then
+        love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2, mob[i].y+mb.img[mob[i].type]:getHeight()/2,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
+      end
+
+      if getMob(i,"hp") > 0 then
+        love.graphics.setColor(255,0,0)
+        love.graphics.rectangle("fill",mob[i].x,mob[i].y+32,(mob[i].hp/mb.hp[mob[i].type])*32,4)
+        love.graphics.setColor(100,0,0)
+        love.graphics.rectangle("line",mob[i].x,mob[i].y+32,32,4)
+      end
       love.graphics.setColor(255,255,255)
     else
       love.graphics.draw(uiImg["error"], mob[i].x, mob[i].y)
@@ -86,6 +100,8 @@ function requestFightInfo()
 end
 
 function updateFight(dt)
+  --addBones("Boar",pl.x,pl.y)
+
   updateFightTime = updateFightTime - 1*dt
 
   if updateFightTime < 0 then
@@ -122,7 +138,7 @@ function updateFight(dt)
     attack("left")
   end
 
-  --MOBS 
+  --MOBS
   for i = 1, countMobs() do
     local pls = mb.spd[mob[i].type]*dt
     if mob[i].x >  mob[i].tx then  mob[i].x =  mob[i].x - pls end
@@ -130,14 +146,48 @@ function updateFight(dt)
     if  mob[i].y >  mob[i].ty then  mob[i].y =  mob[i].y - pls end
     if  mob[i].y <  mob[i].ty then  mob[i].y =  mob[i].y + pls end
 
-    if distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) > 128 then
+    if distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) > 128 or distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) < 1 then
        mob[i].x =  mob[i].tx
        mob[i].y =  mob[i].ty
     end
 
-    if love.math.random(1, 2500) == 1 then
+    if love.math.random(1, 1000) == 1 then
       love.audio.play(mb.sfx[mob[i].type][love.math.random(1,#mb.sfx[mob[i].type])])
     end
+  end
+
+  --bones
+  for i = 1, #bones do
+    bones[i].x = bones[i].x + bones[i].xv*dt
+    bones[i].y = bones[i].y + bones[i].yv*dt
+
+    local resist = 128*dt
+
+    if bones[i].xv ~= 0 then
+      if bones[i].xv > 2 then bones[i].xv = bones[i].xv - resist
+      elseif bones[i].xv < -2 then bones[i].xv = bones[i].xv + resist
+      else bones[i].xv = 0 end
+    end
+
+    if bones[i].yv ~= 0 then
+      if bones[i].yv > 2 then bones[i].yv = bones[i].yv - resist
+      elseif bones[i].yv < -2 then bones[i].yv = bones[i].yv + resist
+      else bones[i].yv = 0 end
+    end
+
+  --  bones[i].rotation = bones[i].rotation + bones[i].xv
+  end
+end
+
+function addBones(mobType, x, y)
+  for i = #bones+1, #bones+32 do
+    bones[i] = {}
+    bones[i].x = x + love.math.random(1, 32)
+    bones[i].y = y + love.math.random(1, 32)
+    bones[i].xv = love.math.random(-100, 100)
+    bones[i].yv = love.math.random(-100, 100)
+    bones[i].t = mobType
+    bones[i].rotation = love.math.random(1, 360)
   end
 end
 
@@ -147,6 +197,7 @@ end
 
 function killMobs()
   mob = {}
+  bones = {}
 end
 
 function addMob(id)
@@ -168,7 +219,16 @@ function doesMobExist(id)
 end
 
 function updateMob(id,a,value)
+  if a == "hp" and mob[id][a] > 0 then
+    if value < 1 then
+      addBones(mob[id].type, mob[id].x, mob[id].y)
+    end
+  end
   mob[id][a] = value
+end
+
+function getMob(id,a)
+  return mob[id][a]
 end
 
 function attack(dir)
