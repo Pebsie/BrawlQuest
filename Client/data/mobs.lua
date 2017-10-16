@@ -10,6 +10,9 @@ mb.img = {} --width in this case
 mb.rng = {}
 mb.sfx = {}
 
+local tm = "Player" --for bones
+mb.img[tm] = love.graphics.newImage("img/dragon/Red.png")
+
 local tm = "Boar"
 mb.hp[tm] = 1
 mb.spd[tm] = 64
@@ -27,8 +30,8 @@ mb.sfx[tm] = {}
   mb.sfx[tm][4] = love.audio.newSource("sound/sfx/mob/Boar/4.ogg")
 
 local tm = "Big Boar"
-mb.hp[tm] = 5
-mb.spd[tm] = 64
+mb.hp[tm] = 3
+mb.spd[tm] = 35
 mb.atk[tm] = 4
 mb.sp1[tm] = "None"
 mb.sp1t[tm] = 0
@@ -41,3 +44,19 @@ mb.sfx[tm] = {}
   mb.sfx[tm][2] = love.audio.newSource("sound/sfx/mob/Boar/2.ogg")
   mb.sfx[tm][3] = love.audio.newSource("sound/sfx/mob/Boar/3.ogg")
   mb.sfx[tm][4] = love.audio.newSource("sound/sfx/mob/Boar/4.ogg")
+
+local tm = "Biggest Boar"
+  mb.hp[tm] = 20
+  mb.spd[tm] = 16
+  mb.atk[tm] = 20
+  mb.sp1[tm] = "None"
+  mb.sp1t[tm] = 0
+  mb.sp2[tm] = "None"
+  mb.sp2t[tm] = 0
+  mb.img[tm] = love.graphics.newImage("img/mob/Boar.png")
+  mb.rng[tm] = 16
+  mb.sfx[tm] = {}
+    mb.sfx[tm][1] = love.audio.newSource("sound/sfx/mob/Boar/1.ogg")
+    mb.sfx[tm][2] = love.audio.newSource("sound/sfx/mob/Boar/2.ogg")
+    mb.sfx[tm][3] = love.audio.newSource("sound/sfx/mob/Boar/3.ogg")
+    mb.sfx[tm][4] = love.audio.newSource("sound/sfx/mob/Boar/4.ogg")

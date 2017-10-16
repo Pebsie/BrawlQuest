@@ -113,6 +113,9 @@ function netUpdate(dt)
             updatePlayer(id,"tx",tonumber(param[tparam+1]))
             updatePlayer(id,"ty",tonumber(param[tparam+2]))
             updatePlayer(id,"arm",param[tparam+3])
+            if getPlayer(id,"hp") > tonumber(param[tparam+4]) then
+              addBones("Player",getPlayer(id,"tx"),getPlayer(id,"ty"))
+            end
             updatePlayer(id,"hp",tonumber(param[tparam+4]))
            --love.window.showMessageBox("Debug","Player in fight #"..i.." is ID #"..i.." "..getPlayerName(id))
             tparam = tparam + 5

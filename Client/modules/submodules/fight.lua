@@ -35,7 +35,7 @@ function createFightCanvas(t)
       y = y + 32
     end
 
-    --love.graphics.draw(worldImg[world[t].tile],300,200,0,4,4) <== will be cool but needs some work and thought
+    love.graphics.draw(worldImg[world[t].tile],300,200,0,4,4) <== will be cool but needs some work and thought
   end
 
   love.graphics.setCanvas()
@@ -47,14 +47,20 @@ function drawFight()
   --love.graphics.print("FIGHT!")
 
   for i = 1, #bones do
-    love.graphics.draw(mb.img[bones[i].t], bones[i].x, bones[i].y, math.rad(bones[i].rotation), 0.25, 0.25)
+    if bones[i].t == "Player" then
+      love.graphics.setColor(100,0,0)
+      love.graphics.rectangle("line",bones[i].x,bones[i].y,2,2)
+      love.graphics.setColor(255,255,255)
+    else
+      love.graphics.draw(mb.img[bones[i].t], bones[i].x, bones[i].y, math.rad(bones[i].rotation), 0.25, 0.25)
+    end
   end
 
   for i = 1, countMobs() do
     if mb.img[mob[i].type] then
-      if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INFO
+      if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
         love.graphics.draw(mb.img[mob[i].type], mob[i].x, mob[i].y)
-      elseif mob[i].tx < mob[i].x-1 then
+      else --if mob[i].tx < mob[i].x then
         love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2, mob[i].y+mb.img[mob[i].type]:getHeight()/2,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
       end
 

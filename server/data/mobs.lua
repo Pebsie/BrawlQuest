@@ -21,8 +21,8 @@ mb.img[tm] = 32
 mb.rng[tm] = 16
 
 local tm = "Big Boar"
-mb.hp[tm] = 5
-mb.spd[tm] = 64
+mb.hp[tm] = 3
+mb.spd[tm] = 35
 mb.atk[tm] = 4
 mb.sp1[tm] = "None"
 mb.sp1t[tm] = 0
@@ -30,3 +30,14 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 32
 mb.rng[tm] = 16
+
+local tm = "Biggest Boar"
+  mb.hp[tm] = 20
+  mb.spd[tm] = 16
+  mb.atk[tm] = 20
+  mb.sp1[tm] = "None"
+  mb.sp1t[tm] = 0
+  mb.sp2[tm] = "None"
+  mb.sp2t[tm] = 0
+  mb.img[tm] = 32
+  mb.rng[tm] = 16
