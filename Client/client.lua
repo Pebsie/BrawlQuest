@@ -89,7 +89,7 @@ function netUpdate(dt)
               updatePlayer(name,"t",tonumber(param[tparam+2]))
               updatePlayer(name,"arm",param[tparam+3])
               updatePlayer(name,"state",param[tparam+4])
-              --love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"arm"))
+
               tparam = tparam + 5
             end
           end
@@ -109,7 +109,7 @@ function netUpdate(dt)
 
           local tparam = 3
           for i = 1, plyrs do --id|x|y|arm|hp
-            local id = getPlayerName(tonumber(param[tparam]))
+            local id = param[tparam]
             updatePlayer(id,"tx",tonumber(param[tparam+1]))
             updatePlayer(id,"ty",tonumber(param[tparam+2]))
             updatePlayer(id,"arm",param[tparam+3])
@@ -117,6 +117,7 @@ function netUpdate(dt)
               addBones("Player",getPlayer(id,"tx"),getPlayer(id,"ty"))
             end
             updatePlayer(id,"hp",tonumber(param[tparam+4]))
+            --  love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"hp"))
            --love.window.showMessageBox("Debug","Player in fight #"..i.." is ID #"..i.." "..getPlayerName(id))
             tparam = tparam + 5
           end

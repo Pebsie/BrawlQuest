@@ -22,6 +22,7 @@ function love.load()
   newPlayer("demo","demo")
   newPlayer("JoeyFunWithMusic","demo")
   newPlayer("pebsie","demo")
+  newPlayer("matt","nigger")
   --newFight(1, "Boar Hunt")
   --addPlayerToFight(1, "Pebsie")
 end
@@ -53,7 +54,7 @@ function love.update(dt)
     elseif cmd == "char" then --client is requesting character info
     --  addMsg(param[1].." requested user info!")
       local i = param[1]
-      udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", round(pl.hp[i]), pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.msg[i]), msg_or_ip, port_or_nil)
+      udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.msg[i]), msg_or_ip, port_or_nil)
       pl.msg[i] = ""
     elseif cmd == "move" then
       parms = atComma(parms)
@@ -91,10 +92,10 @@ function love.update(dt)
       -- * Mob X,Y,Type and HP
       if id then
         msgToSend = countMobs(id).."|"..countPlayersInFight(id).."|"
-
+        local playersIF = listPlayersInFight(id)
         for i = 1, countPlayersInFight(id) do
           pdata = getPlayerData(id,i)
-          msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|",i,pdata["x"],pdata["y"],pdata["arm"],pdata["hp"]) --id|x|y|arm|hp
+          msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|",pdata["name"],pdata["x"],pdata["y"],pdata["arm"],pdata["hp"]) --id|x|y|arm|hp
         end
 
         for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)

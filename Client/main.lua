@@ -34,6 +34,7 @@ screenW,screenH = love.graphics.getDimensions()
 
 function love.load()
 
+  --local ipadd = "37.59.126.91"
   local ipadd = "127.0.0.1"
   netConnect(ipadd, "26650", 0.2)
 

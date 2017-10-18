@@ -12,6 +12,8 @@ ft.queue.current = {}
 ft.queue.amount = {} --mob list amount
 ft.tile = {} --tile in the world the fight is taking place
 ft.done = {} --Has the fight finished?
+ft.nextSpawn = {}
+ft.title = {} --title of fight
 
 function newFight(tile, fscript)
   local i = #ft.t + 1
@@ -24,6 +26,8 @@ function newFight(tile, fscript)
   ft.queue[i] = {}
   ft.queue.amount[i] = {}
   ft.done[i] = false
+  ft.nextSpawn[i] = 1.5
+  ft.title[i] = fscript
 
   fightScript = atComma(fs[fscript], ";") --break down fight script, data/fights
   local v = 1 --THIS IS WHERE WE'RE LEAVING THIS OFF. THIS NEEDS TO BE MADE INTO A TWO DIMENSIONAL ARRAY FOR STORING FIGHT AND CURRENT. HAVE FUN.
@@ -119,19 +123,23 @@ function listFightsOnTile(tile)
   return fightsOnTile
 end
 
-function spawnMob(fight, mob) --name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
+function spawnMob(fight, mob, x, y) --name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
   --print("Creating mob "..mob.." in fight #"..fight)
   local freshTarget = listPlayersInFight(fight)
   freshTarget = freshTarget[love.math.random(#freshTarget)]
   --print("Target is "..freshTarget)
   freshTarget = getPlayerName(tonumber(freshTarget))
-  local side = love.math.random(1, 3)
-  if side == 1 then --top
-    ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, 800)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
-  elseif side == 2 then --left
-    ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, 600)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
-  elseif side == 3 then --right
-    ft.mb[fight] = ft.mb[fight]..mob..";929;"..love.math.random(1, 600)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+  if not x then
+    local side = love.math.random(1, 3)
+    if side == 1 then --top
+      ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, 800)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+    elseif side == 2 then --left
+      ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, 600)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+    elseif side == 3 then --right
+      ft.mb[fight] = ft.mb[fight]..mob..";929;"..love.math.random(1, 600)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+    end
+  else
+      ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
   end
   --print(ft.mb[fight])
 end
@@ -183,13 +191,16 @@ function updateFights(dt) --the big one!!
       --print(ft.mb[i])
       --spawn new mobs
       local current = ft.queue.current[i]
+      ft.nextSpawn[i] = ft.nextSpawn[i] - 1*dt
       if (ft.queue.amount[i][current]) then
         if (ft.queue.amount[i][current] > 0) then
           hasFightEnded = false
-          if love.math.random(500) == 1 then
+
+          if ft.nextSpawn[i] < 0 then
           --print("Spawning a mob")
             spawnMob(i,ft.queue[i][current])
             ft.queue.amount[i][current] = ft.queue.amount[i][current] - 1
+            ft.nextSpawn[i] = fs.spawnTime[ft.title[i]]
           end
         else
           ft.queue.current[i] = ft.queue.current[i] + 1
@@ -297,6 +308,8 @@ function updateFights(dt) --the big one!!
               --cast spell here
               if spellCast == "die" then
                 killMob(v)
+              elseif string.sub(spellCast,1,6) == "spawn:" then
+                spawnMob(i,string.sub(spellCast,7),mob.x[v],mob.y[v])
               end
           end
         end
@@ -323,7 +336,9 @@ end
 function getPlayerData(fight, id)
   local playersInThisFight = listPlayersInFight(fight)
   local thisPlayer = getPlayerName(tonumber(playersInThisFight[id])) --get username
+  --addMsg("Getting data for "..thisPlayer)
   pdata = {}
+  pdata["name"] = thisPlayer
   pdata["hp"] = pl.hp[thisPlayer]
   pdata["en"] = pl.en[thisPlayer]
   pdata["s1"] = pl.s1[thisPlayer]

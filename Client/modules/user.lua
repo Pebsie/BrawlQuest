@@ -30,10 +30,10 @@ function enterGame()
 
   stopMusic() --stop title music
   --download map
-  if not love.filesystem.exists("map.txt") then
+--  if not love.filesystem.exists("map.txt") then
     b, c, h = http.request("http://peb.si/bq/dl/map.txt")
     love.filesystem.write("map.txt", b)
-  end
+ --end
       loadFog()
   --load map
     loadOverworld()

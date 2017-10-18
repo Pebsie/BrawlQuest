@@ -35,7 +35,7 @@ function createFightCanvas(t)
       y = y + 32
     end
 
-    love.graphics.draw(worldImg[world[t].tile],300,200,0,4,4) <== will be cool but needs some work and thought
+--    love.graphics.draw(worldImg[world[t].tile],300,200,0,4,4) <== will be cool but needs some work and thought
   end
 
   love.graphics.setCanvas()
@@ -47,6 +47,7 @@ function drawFight()
   --love.graphics.print("FIGHT!")
 
   for i = 1, #bones do
+    love.graphics.setColor(255,255,255,bones[i].a)
     if bones[i].t == "Player" then
       love.graphics.setColor(100,0,0)
       love.graphics.rectangle("line",bones[i].x,bones[i].y,2,2)
@@ -55,6 +56,8 @@ function drawFight()
       love.graphics.draw(mb.img[bones[i].t], bones[i].x, bones[i].y, math.rad(bones[i].rotation), 0.25, 0.25)
     end
   end
+
+  love.graphics.setColor(255,255,255,255)--reset colour
 
   for i = 1, countMobs() do
     if mb.img[mob[i].type] then
@@ -157,7 +160,7 @@ function updateFight(dt)
        mob[i].y =  mob[i].ty
     end
 
-    if love.math.random(1, 1000) == 1 then
+    if love.math.random(1, 1000) == 1 and mb.sfx[mob[i].type] then
       love.audio.play(mb.sfx[mob[i].type][love.math.random(1,#mb.sfx[mob[i].type])])
     end
   end
@@ -181,6 +184,20 @@ function updateFight(dt)
       else bones[i].yv = 0 end
     end
 
+    bones[i].a = bones[i].a - 50*dt
+    if bones[i].a < 0 and #bones > 1 then
+      bones[i] = bones[#bones]
+      bones[i].x = bones[#bones].x
+      bones[i].y = bones[#bones].y
+      bones[i].rotation = bones[#bones].rotation
+      bones[i].xv = bones[#bones].xv
+      bones[i].yv = bones[#bones].yv
+      bones[i].a = bones[#bones].a
+      bones[i].t = bones[#bones].t
+
+    elseif #bones == 1 then
+      bones = {}
+    end
   --  bones[i].rotation = bones[i].rotation + bones[i].xv
   end
 end
@@ -194,6 +211,7 @@ function addBones(mobType, x, y)
     bones[i].yv = love.math.random(-100, 100)
     bones[i].t = mobType
     bones[i].rotation = love.math.random(1, 360)
+    bones[i].a = 255
   end
 end
 
@@ -241,7 +259,7 @@ function attack(dir)
   if atkCooldown < 0 then
     netSend("atk",pl.name..","..dir)
 
-    local ferocity = 16
+    local ferocity = 30
 
     if dir == "up" then
       pl.y = pl.y - ferocity
@@ -253,6 +271,6 @@ function attack(dir)
       pl.x = pl.x + ferocity
     end
 
-    atkCooldown = 1
+    atkCooldown = 0.25
   end
 end
