@@ -47,7 +47,7 @@ function netUpdate(dt)
             pl.en = tonumber(param[2])
             pl.gold = tonumber(param[5])
             pl.lvl = tonumber(param[13])
-            pl.xp = tonumber(param[14]) print(pl.xp)
+            pl.xp = tonumber(param[14])
             pl.wep = param[10]
             pl.arm = param[11]
             pl.s1 = param[3]

@@ -95,4 +95,4 @@ local tm = "Wolf"
         mb.sp2[tm] = "None"
         mb.sp2t[tm] = 0
         mb.img[tm] = 16
-        mb.rng[tm] = 16
+        mb.rng[tm] = 32

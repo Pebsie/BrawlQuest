@@ -1,9 +1,8 @@
 love.graphics.setDefaultFilter("nearest", "nearest", 1) --set rendering scale style
 
-require "client"
 --load data
-require "data/audio"
 require "data/items"
+require "data/audio"
 require "data/world"
 require "data/ui"
 require "data/mobs"
@@ -15,6 +14,8 @@ require "modules/interface"
 require "modules/user"
 require "modules/game"
 require "modules/settings"
+--connect
+require "client"
 
 
 utf8 = require("utf8")
