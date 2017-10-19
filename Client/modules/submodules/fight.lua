@@ -49,9 +49,8 @@ function drawFight()
   for i = 1, #bones do
     love.graphics.setColor(255,255,255,bones[i].a)
     if bones[i].t == "Player" then
-      love.graphics.setColor(100,0,0)
+      love.graphics.setColor(100,0,0,bones[i].a)
       love.graphics.rectangle("line",bones[i].x,bones[i].y,2,2)
-      love.graphics.setColor(255,255,255)
     else
       love.graphics.draw(mb.img[bones[i].t], bones[i].x, bones[i].y, math.rad(bones[i].rotation), 0.25, 0.25)
     end
@@ -61,17 +60,20 @@ function drawFight()
 
   for i = 1, countMobs() do
     if mb.img[mob[i].type] then
-      if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
-        love.graphics.draw(mb.img[mob[i].type], mob[i].x, mob[i].y)
-      else --if mob[i].tx < mob[i].x then
-        love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2, mob[i].y+mb.img[mob[i].type]:getHeight()/2,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
+      if getMob(i,"hp") > 0 then
+
+        if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
+          love.graphics.draw(mb.img[mob[i].type], mob[i].x, mob[i].y)
+        else --if mob[i].tx < mob[i].x then
+          love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2, mob[i].y+mb.img[mob[i].type]:getHeight()/2,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
+        end
       end
 
       if getMob(i,"hp") > 0 then
         love.graphics.setColor(255,0,0)
-        love.graphics.rectangle("fill",mob[i].x,mob[i].y+32,(mob[i].hp/mb.hp[mob[i].type])*32,4)
+        love.graphics.rectangle("fill",mob[i].x,mob[i].y+mb.img[mob[i].type]:getWidth(),(mob[i].hp/mb.hp[mob[i].type])*mb.img[mob[i].type]:getWidth(),4)
         love.graphics.setColor(100,0,0)
-        love.graphics.rectangle("line",mob[i].x,mob[i].y+32,32,4)
+        love.graphics.rectangle("line",mob[i].x,mob[i].y+mb.img[mob[i].type]:getWidth(),mb.img[mob[i].type]:getWidth(),4)
       end
       love.graphics.setColor(255,255,255)
     else
@@ -97,6 +99,14 @@ function drawFight()
       love.graphics.rectangle("fill",x,y+32,(getPlayer(playerName,"hp")/100)*32,6)
       love.graphics.setColor(100,0,0)
       love.graphics.rectangle("line",x,y+32,32,6)
+
+      if pl.name == playerName then --energy
+        love.graphics.setColor(255,216,0)
+        love.graphics.rectangle("fill",x,y+32+8,(pl.en/100)*32,6)
+        love.graphics.setColor(205,166,0)
+        love.graphics.rectangle("line",x,y+32+8,32,6)
+      end
+
       love.graphics.setColor(255,255,255)
     end
   end
@@ -184,16 +194,18 @@ function updateFight(dt)
       else bones[i].yv = 0 end
     end
 
-    bones[i].a = bones[i].a - 50*dt
-    if bones[i].a < 0 and #bones > 1 then
-      bones[i] = bones[#bones]
-      bones[i].x = bones[#bones].x
-      bones[i].y = bones[#bones].y
-      bones[i].rotation = bones[#bones].rotation
-      bones[i].xv = bones[#bones].xv
-      bones[i].yv = bones[#bones].yv
-      bones[i].a = bones[#bones].a
-      bones[i].t = bones[#bones].t
+    if bones[i].t ~= "Player" then
+      bones[i].a = bones[i].a - 50*dt
+      if bones[i].a < 0 and #bones > 1 then
+        bones[i] = bones[#bones]
+        bones[i].x = bones[#bones].x
+        bones[i].y = bones[#bones].y
+        bones[i].rotation = bones[#bones].rotation
+        bones[i].xv = bones[#bones].xv
+        bones[i].yv = bones[#bones].yv
+        bones[i].a = bones[#bones].a
+        bones[i].t = bones[#bones].t
+      end
 
     elseif #bones == 1 then
       bones = {}
@@ -202,8 +214,9 @@ function updateFight(dt)
   end
 end
 
-function addBones(mobType, x, y)
-  for i = #bones+1, #bones+32 do
+function addBones(mobType, x, y, amount)
+  if not amount then amount = 32 end
+  for i = #bones+1, #bones+amount do
     bones[i] = {}
     bones[i].x = x + love.math.random(1, 32)
     bones[i].y = y + love.math.random(1, 32)
@@ -256,7 +269,7 @@ function getMob(id,a)
 end
 
 function attack(dir)
-  if atkCooldown < 0 then
+  if atkCooldown < 0 and pl.en > 20 then
     netSend("atk",pl.name..","..dir)
 
     local ferocity = 30

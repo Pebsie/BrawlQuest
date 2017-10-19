@@ -253,16 +253,18 @@ function updateFights(dt) --the big one!!
         if mob.hp[v] > 0 then
           hasFightEnded = false
           --movement
-          local speed = mb.spd[mob[v]]*dt
-
-          if mob.target.x[v] > mob.x[v] then mob.x[v] = mob.x[v] + speed end
-          if mob.target.y[v] > mob.y[v] then mob.y[v] = mob.y[v] + speed end
-          if mob.target.x[v] < mob.x[v] then mob.x[v] = mob.x[v] - speed end
-          if mob.target.y[v] < mob.y[v] then mob.y[v] = mob.y[v] - speed end
+          local width = mb.img[mob[v]]/2
+          if distanceFrom(mob.x[v]+width, mob.y[v]+width, mob.target.x[v], mob.target.y[v]) > mb.rng[mob[v]] then
+            local speed = mb.spd[mob[v]]*dt
+            if mob.target.x[v] > mob.x[v]+width then mob.x[v] = mob.x[v] + speed end
+            if mob.target.y[v] > mob.y[v]+width then mob.y[v] = mob.y[v] + speed end
+            if mob.target.x[v] < mob.x[v]+width then mob.x[v] = mob.x[v] - speed end
+            if mob.target.y[v] < mob.y[v]+width then mob.y[v] = mob.y[v] - speed end
+          end
 
           if mob.target.t[v] ~= "static" then
-            mob.target.x[v] = pl.x[mob.target.t[v]]
-            mob.target.y[v] = pl.y[mob.target.t[v]]
+            mob.target.x[v] = pl.x[mob.target.t[v]]+16
+            mob.target.y[v] = pl.y[mob.target.t[v]]+16
           end
 
           --take damage / give damage
@@ -275,13 +277,13 @@ function updateFights(dt) --the big one!!
             --addMsg(thisPlayer.." is "..tostring(atkInfo))
 
             if atkInfo == true then
-              if distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32 then
+              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32 then
                 local pdmg = item.val[pl.wep[thisPlayer]]
                 mob.hp[v] = mob.hp[v] - pdmg
                 addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
                 pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
               end
-            elseif distanceFrom(pl.x[thisPlayer]+8, pl.y[thisPlayer]+8, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] then --this has to be separate because of mob range
+            elseif distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] then --this has to be separate because of mob range
               local pdmg = love.math.random(mb.atk[mob[v]])*dt
               --print("A "..mob[v].." dealt "..pdmg.." damage to "..thisPlayer.."!")
               if isPlayerDead(thisPlayer) == false then

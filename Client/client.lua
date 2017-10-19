@@ -72,7 +72,7 @@ function netUpdate(dt)
           end
         elseif cmd == "world" then --update world
           for i = 1, 100*100 do --AAAAAH FIX THIS AWFUL CODE
-            world[i].isFight = false
+          --  world[i].isFight = false
           end
 
           local plyrs = tonumber(param[1])
@@ -114,7 +114,7 @@ function netUpdate(dt)
             updatePlayer(id,"ty",tonumber(param[tparam+2]))
             updatePlayer(id,"arm",param[tparam+3])
             if getPlayer(id,"hp") > tonumber(param[tparam+4]) then
-              addBones("Player",getPlayer(id,"tx"),getPlayer(id,"ty"))
+              addBones("Player",getPlayer(id,"tx"),getPlayer(id,"ty"),(getPlayer(id,"hp")-tonumber(param[tparam+4]))*4)
             end
             updatePlayer(id,"hp",tonumber(param[tparam+4]))
             --  love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"hp"))

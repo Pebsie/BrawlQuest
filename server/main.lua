@@ -109,9 +109,11 @@ function love.update(dt)
       parms = atComma(param[1])
       local name = parms[1]
       local dir = parms[2]
-
-      pl.at[name] = true
-      pl.atm[name] = 0.05
+      if pl.en[name] > 20 then
+        pl.at[name] = true
+        pl.atm[name] = 0.05
+        pl.en[name] = pl.en[name] - 20
+      end
     end
 
 

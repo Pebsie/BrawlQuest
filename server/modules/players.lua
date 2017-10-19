@@ -57,8 +57,12 @@ end
 function updatePlayers(dt)
   for i = 1, countPlayers() do
     local k = getPlayerName(i)
+    
     pl.atm[k] = pl.atm[k] - 1*dt
     if pl.atm[k] < 0 then pl.at[k] = false end
+
+    pl.en[k] = pl.en[k] + 25*dt
+    if pl.en[k] > 100 then pl.en[k] = 100 end
   end
 end
 

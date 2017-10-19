@@ -18,7 +18,7 @@ mb.sp1t[tm] = 0
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 69
-mb.rng[tm] = 16
+mb.rng[tm] =  32
 
 local tm = "Boar"
 mb.hp[tm] = 1
@@ -80,7 +80,7 @@ local tm = "Wolf"
       mb.spd[tm] = 40
       mb.atk[tm] = 30
       mb.sp1[tm] = "spawn:Cub"
-      mb.sp1t[tm] = 20
+      mb.sp1t[tm] = 5
       mb.sp2[tm] = "None"
       mb.sp2t[tm] = 0
       mb.img[tm] = 32
