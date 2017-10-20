@@ -308,8 +308,8 @@ function updateFights(dt) --the big one!!
             end
 
               --cast spell here
-              if spellCast == "die" then
-                killMob(v)
+              if spellCast == "suicide" then
+                mob.hp[v] = 0
               elseif string.sub(spellCast,1,6) == "spawn:" then
                 spawnMob(i,string.sub(spellCast,7),mob.x[v],mob.y[v])
               end
