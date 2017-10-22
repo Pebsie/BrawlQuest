@@ -54,6 +54,7 @@ function netUpdate(dt)
             pl.s2 = param[4]
             pl.msg = param[17]
             pl.inv = param[12]
+          --  love.window.showMessageBox("Debug",pl.inv)
             pl.pot = param[15]
             if param[16] ~= pl.state then  --if we are newly entering this fight
               music.curPlay:stop() --reset music

@@ -42,13 +42,29 @@ function enterGame()
     phase = "game"
     ui.selected = "map"
 
-    gameUI.x["char"] = 800-160
-    gameUI.y["char"] = 0
-    gameUI.isDrag["char"] = false
+    gameUI[1] = {}
+    gameUI[1].x = 800-160 --character info
+    gameUI[1].y = 0
+    gameUI[1].isDrag = false
+    gameUI[1].isVisible = true
+    gameUI[1].width = 160
+    gameUI[1].height = 300
 
-    gameUI.x["deb"] = 0
-    gameUI.y["deb"] = 0
-    gameUI.isDrag["deb"] = false
+    gameUI[2] = {}
+    gameUI[2].x = 0 --debug info
+    gameUI[2].y = 0
+    gameUI[2].isDrag = false
+    gameUI[2].isVisible = false
+    gameUI[2].width = 160
+    gameUI[2].height = 46
+
+    gameUI[3] = {}
+    gameUI[3].x = 0 --inventory
+    gameUI[3].y = 0
+    gameUI[3].isDrag = false
+    gameUI[3].isVisible = true
+    gameUI[3].width = 148
+    gameUI[3].height = 148
 end
 
 function requestUserInfo()

@@ -6,9 +6,6 @@ mx = 0
 my = 0
 
 gameUI = {}
-gameUI.x = {}
-gameUI.y = {}
-gameUI.isDrag = {}
 
 timeToMove = 0.5
 timeToUpdate = 0.5
@@ -26,8 +23,7 @@ end
 
 function updateGame(dt)
   if pl.state == "world" then
-    updateGameUI(dt,"char")
-    updateGameUI(dt,"deb")
+    updateOverworld(dt)
   --  if pl.t and moveQueue and #moveQueue > 0 then
   --    timeToMove = timeToMove - 1*dt
   --    if timeToMove < 0 then
