@@ -90,7 +90,7 @@ function drawOverworld()
       drawUIWindow(i)
     end
 
-  love.graphics.setFont(bFont)
+  love.graphics.setFont(font)
   love.graphics.setColor(255,255,255,areaTitleAlpha)
   love.graphics.printf(world[pl.t].name, 0,10,sw,"center")
   love.graphics.setFont(font)
@@ -107,7 +107,11 @@ function drawUIWindow(i)
 
     love.graphics.setColor(50,50,50)
     love.graphics.rectangle("fill", x, y, gameUI[i].width, gameUI[i].height)
-
+    love.graphics.setFont(font)
+    love.graphics.setColor(255,255,255)
+    love.graphics.printf(gameUI[i].label,x,y,gameUI[i].width,"center")
+    y = y + font:getHeight()+2
+    love.graphics.setFont(font)
     if i == 1 then
       --shapes
       love.graphics.setColor(50,50,50)
@@ -214,7 +218,7 @@ function drawUIWindow(i)
 
     --border
     love.graphics.setColor(150,150,150)
-    love.graphics.rectangle("line",x, y, gameUI[i].width, gameUI[i].height)
+    love.graphics.rectangle("line",x, y-font:getHeight()-2, gameUI[i].width, gameUI[i].height)
   end
 end
 

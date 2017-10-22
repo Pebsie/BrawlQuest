@@ -48,7 +48,8 @@ function enterGame()
     gameUI[1].isDrag = false
     gameUI[1].isVisible = true
     gameUI[1].width = 160
-    gameUI[1].height = 300
+    gameUI[1].height = 300+font:getHeight()+2
+    gameUI[1].label = "Character"
 
     gameUI[2] = {}
     gameUI[2].x = 0 --debug info
@@ -56,7 +57,8 @@ function enterGame()
     gameUI[2].isDrag = false
     gameUI[2].isVisible = false
     gameUI[2].width = 160
-    gameUI[2].height = 46
+    gameUI[2].height = 46+font:getHeight()+2
+    gameUI[2].label = "Debug"
 
     gameUI[3] = {}
     gameUI[3].x = 0 --inventory
@@ -64,7 +66,8 @@ function enterGame()
     gameUI[3].isDrag = false
     gameUI[3].isVisible = true
     gameUI[3].width = 148
-    gameUI[3].height = 148
+    gameUI[3].height = 148+font:getHeight()+2
+    gameUI[3].label = "Inventory"
 end
 
 function requestUserInfo()
