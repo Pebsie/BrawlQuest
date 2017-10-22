@@ -43,6 +43,12 @@ end
 
 function drawFight()
 --  love.graphics.setBackgroundColor(0,0,0)
+love.graphics.push()
+scalew = love.graphics.getWidth()/800
+scaley = love.graphics.getHeight()/600
+
+
+love.graphics.scale(scalew,scaley)
   love.graphics.draw(fightCanvas)
   --love.graphics.print("FIGHT!")
 
@@ -110,7 +116,7 @@ function drawFight()
       love.graphics.setColor(255,255,255)
     end
   end
-
+  love.graphics.pop()
   love.graphics.print(love.timer.getFPS().." FPS")
 end
 
