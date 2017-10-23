@@ -114,7 +114,7 @@ function givePlayerItem(name, ritem, amount)
   if alreadyOwned == false then
     curInv[#curInv + 1] = ritem
     curInv[#curInv + 1] = amount
-    addMsg(name.." obtained "..amount.."x "..ritem)
+  --  addMsg(name.." obtained "..amount.."x "..ritem)
   end
 
 
@@ -122,9 +122,9 @@ function givePlayerItem(name, ritem, amount)
   pl.inv[name] = ""
   --rebuild inventory string
   for i = 1, #curInv do
-    addMsg(curInv[i].." ("..i.."/"..#curInv..")")
+--    addMsg(curInv[i].." ("..i.."/"..#curInv..")")
     pl.inv[name] = pl.inv[name]..curInv[i]..";"
-    addMsg(pl.inv[name])
+  --  addMsg(pl.inv[name])
   end
 end
 

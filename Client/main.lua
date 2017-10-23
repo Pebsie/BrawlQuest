@@ -69,6 +69,12 @@ end
 
 function love.mousereleased(button, x, y)
   isMouseDown = false
+
+  if phase == "game" then
+    if pl.state == "world" then
+      useItem(pl.selItem)
+    end
+  end
 end
 
 function atComma(str, md)

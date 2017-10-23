@@ -34,7 +34,7 @@ function newFight(tile, fscript)
   for k = 1,#fightScript,2 do
     ft.queue[i][v] = fightScript[k]
     ft.queue.amount[i][v] = tonumber(fightScript[k+1])
-    addMsg("Added "..ft.queue.amount[i][v].." "..ft.queue[i][v].." to fight #"..i)
+  --  addMsg("Added "..ft.queue.amount[i][v].." "..ft.queue[i][v].." to fight #"..i)
     v = v + 1
   end
   ft.queue.current[i] = 1
@@ -50,7 +50,7 @@ function addPlayerToFight(fight, name)
     pl.state[name] = "fight"
     pl.x[name] = math.random(1, 800)
     pl.y[name] = math.random(1, 600)
-    addMsg(name.." has joined fight #"..fight)
+  --  addMsg(name.." has joined fight #"..fight)
     ft.pl[fight] = ft.pl[fight]..id..";" --semicolon at end to prevent repeat errors
   end
 end
@@ -74,10 +74,10 @@ function removePlayerFromFight(name)
 
     ft.pl[id] = ftpls
     pl.state[getPlayerName(name)] = "world"
-    addMsg(getPlayerName(name).." left fight #"..id)
+  --  addMsg(getPlayerName(name).." left fight #"..id)
 
     local curPlayers = listPlayersInFight(id)
-    if #curPlayers < 1 then endFight(id) addMsg("Fight #"..id.." has officially ended.") end
+    if #curPlayers < 1 then endFight(id) end
   else
     addMsg("ERROR: can't remove "..getPlayerName(name).." from the fight that they're in, as we can't find what fight it is tha they're in!")
   end
@@ -280,7 +280,7 @@ function updateFights(dt) --the big one!!
               if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32 then
                 local pdmg = item.val[pl.wep[thisPlayer]]
                 mob.hp[v] = mob.hp[v] - pdmg
-                addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
+              --  addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
                 pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
               end
             elseif distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] then --this has to be separate because of mob range

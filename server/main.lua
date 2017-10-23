@@ -37,9 +37,7 @@ function love.load()
   givePlayerItem("pebsie","Masterwork Long Sword",1)
   givePlayerItem("pebsie","Enrage",1)
   givePlayerItem("pebsie","Bastard Sword",1)
-  playerUse("pebsie","Legendary Blade")
-  playerUse("pebsie","Steel Armour")
-  newPlayer("matt","nigger")
+  givePlayerItem("pebsie","Legendary Blade",1)
   --newFight(1, "Boar Hunt")
   --addPlayerToFight(1, "Pebsie")
 end
@@ -54,7 +52,8 @@ function love.update(dt)
     entity, cmd, parms = data:match("^(%S*) (%S*) (.*)")
 
     param = {}
-    for word in parms:gmatch("([^%s]+)") do  param[#param+1] = word end --split params at space
+    --for word in parms:gmatch("([^%s]+)") do param[#param+1] = word end --split params at space
+    param[1] = parms
 
     if cmd == "login" then
 
@@ -123,7 +122,7 @@ function love.update(dt)
         udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
       end
     elseif cmd == "atk" then  --    netSend("atk",pl.name..","..dir)
-      parms = atComma(param[1])
+      parms = atComma(parms)
       local name = parms[1]
       local dir = parms[2]
       if pl.en[name] > 20 then
@@ -131,6 +130,11 @@ function love.update(dt)
         pl.atm[name] = 0.05
         pl.en[name] = pl.en[name] - 20
       end
+    elseif cmd == "use" then --use item
+      parms = atComma(param[1])
+      local name = parms[1]
+      local item = parms[2]
+      playerUse(name,item)
     end
 
 

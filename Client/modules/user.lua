@@ -19,6 +19,7 @@ pl.msg = ""
 pl.wis = 0
 pl.str = 0
 pl.state = "world"
+pl.selItem = "None"
 
 function login() --we'll attempt to login
   ui.selected = "logging in"
@@ -30,10 +31,10 @@ function enterGame()
 
   stopMusic() --stop title music
   --download map
---  if not love.filesystem.exists("map.txt") then
+  if not love.filesystem.exists("map.txt") then
     b, c, h = http.request("http://peb.si/bq/dl/map.txt")
     love.filesystem.write("map.txt", b)
- --end
+  end
       loadFog()
   --load map
     loadOverworld()
@@ -72,4 +73,8 @@ end
 
 function requestUserInfo()
   netSend("char", pl.name)
+end
+
+function useItem(item)
+  netSend("use", pl.name..","..item)
 end

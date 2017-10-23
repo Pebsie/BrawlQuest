@@ -195,7 +195,7 @@ function drawUIWindow(i)
             end
 
             addTT(inv[i],"Level "..item.lvl[inv[i]].." "..pit..".\n"..piv.."\nWorth "..item.price[inv[i]].." gold.",cx,cy)
-
+            pl.selItem = inv[i]
             love.graphics.setColor(150,150,150)
           else
             love.graphics.setColor(0,0,0)
