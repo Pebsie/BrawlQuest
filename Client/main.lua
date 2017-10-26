@@ -47,6 +47,7 @@ function love.load()
 
   worldCanvas = love.graphics.newCanvas(32*101,32*101)
   fightCanvas = love.graphics.newCanvas(800,600)
+  createLoginCanvas()
 
   loadMusic()
   bindKeys()

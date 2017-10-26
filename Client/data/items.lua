@@ -314,11 +314,11 @@
   item.price[ti] = 50
   item.img[ti] = ""
 
-  --spells VAL is seconds last for and energy consumed
+  --spells VAL is seconds cool down and energy consumed
   local ti = "Second Wind"
   item.type[ti] = "Spell"
   item.desc[ti] = "Recover 10% health and move at 200% speed for 3 seconds"
-  item.val[ti] = "5,50"
+  item.val[ti] = "3,50"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = love.graphics.newImage("img/items/scrolls/Second Wind.png")

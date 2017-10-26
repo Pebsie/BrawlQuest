@@ -68,6 +68,10 @@ function love.keypressed(key)
   elseif key == "x" then
     scale = scale - 0.05
     love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+  elseif key == "left" then
+    if phase == "login" then
+      biome = 1
+    end
   end
 
    if phase == "game" then
@@ -86,7 +90,9 @@ function love.resize(w,h) --reset sw and sh
   screenW = sw
   screenH = sh
 
-  if phase == "game" then
+  if phase == "login" then
+    createLoginCanvas()
+  elseif phase == "game" then
     createWorldCanvas()
   end
 end
