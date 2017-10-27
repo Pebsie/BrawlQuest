@@ -31,6 +31,9 @@ scale = 1
 
 selT = 0
 
+stdSH = 1920/2
+stdSW = 1080/2
+
 screenW,screenH = love.graphics.getDimensions()
 
 function love.load()
@@ -46,7 +49,7 @@ function love.load()
   ui.selected = "username" --used by the login phase
 
   worldCanvas = love.graphics.newCanvas(32*101,32*101)
-  fightCanvas = love.graphics.newCanvas(800,600)
+  fightCanvas = love.graphics.newCanvas(stdSH,stdSW)
   createLoginCanvas()
 
   loadMusic()

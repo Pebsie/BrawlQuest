@@ -27,10 +27,10 @@ function createFightCanvas(t)
   local x = 0
   local y = 0
 
-  for i = 1, 25*20 do
+  for i = 1, 30*18 do
     love.graphics.draw(worldImg[world[t].bg],x,y)
     x = x + 32
-    if x > 800 then
+    if x > 30*32 then
       x = 0
       y = y + 32
     end
@@ -43,22 +43,28 @@ end
 
 function drawFight()
 --  love.graphics.setBackgroundColor(0,0,0)
-love.graphics.push()
-scalew = love.graphics.getWidth()/800
-scaley = love.graphics.getHeight()/600
+ love.graphics.push()
 
 
-love.graphics.scale(scalew,scaley)
-  love.graphics.draw(fightCanvas)
+love.graphics.scale(scale,scale)
+
+  xoff = sw/2 - (stdSH/2)
+  yoff = sh/2 - (stdSW/2)
+
+  for i = 1, sw/64 do
+    love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
+  end
+
+  love.graphics.draw(fightCanvas,xoff,yoff)
   --love.graphics.print("FIGHT!")
 
   for i = 1, #bones do
     love.graphics.setColor(255,255,255,bones[i].a)
     if bones[i].t == "Player" then
       love.graphics.setColor(100,0,0,bones[i].a)
-      love.graphics.rectangle("line",bones[i].x,bones[i].y,2,2)
+      love.graphics.rectangle("line",bones[i].x+xoff,bones[i].y+yoff,2,2)
     else
-      love.graphics.draw(mb.img[bones[i].t], bones[i].x, bones[i].y, math.rad(bones[i].rotation), 0.25, 0.25)
+      love.graphics.draw(mb.img[bones[i].t], bones[i].x+xoff, bones[i].y+yoff, math.rad(bones[i].rotation), 0.25, 0.25)
     end
   end
 
@@ -69,21 +75,21 @@ love.graphics.scale(scalew,scaley)
       if getMob(i,"hp") > 0 then
 
         if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
-          love.graphics.draw(mb.img[mob[i].type], mob[i].x, mob[i].y)
+          love.graphics.draw(mb.img[mob[i].type], mob[i].x+xoff, mob[i].y+yoff)
         else --if mob[i].tx < mob[i].x then
-          love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2, mob[i].y+mb.img[mob[i].type]:getHeight()/2,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
+          love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2+xoff, mob[i].y+mb.img[mob[i].type]:getHeight()/2+yoff,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
         end
       end
 
       if getMob(i,"hp") > 0 then
         love.graphics.setColor(255,0,0)
-        love.graphics.rectangle("fill",mob[i].x,mob[i].y+mb.img[mob[i].type]:getWidth(),(mob[i].hp/mb.hp[mob[i].type])*mb.img[mob[i].type]:getWidth(),4)
+        love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,(mob[i].hp/mb.hp[mob[i].type])*mb.img[mob[i].type]:getWidth(),4)
         love.graphics.setColor(100,0,0)
-        love.graphics.rectangle("line",mob[i].x,mob[i].y+mb.img[mob[i].type]:getWidth(),mb.img[mob[i].type]:getWidth(),4)
+        love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,mb.img[mob[i].type]:getWidth(),4)
       end
       love.graphics.setColor(255,255,255)
     else
-      love.graphics.draw(uiImg["error"], mob[i].x, mob[i].y)
+      love.graphics.draw(uiImg["error"], mob[i].x+xoff, mob[i].y+yoff)
     end
   end
 
@@ -98,25 +104,29 @@ love.graphics.scale(scalew,scaley)
         y = getPlayer(playerName,"y")
       end
 
-      drawPlayer(playerName,x,y)
+      drawPlayer(playerName,x+xoff,y+yoff)
     --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
     --  love.window.showMessageBox("Debug","Player #"..i..": "..playerName.." at position "..getPlayer(playerName,"tx")..","..getPlayer(playerName,"ty"))
       love.graphics.setColor(255,0,0)
-      love.graphics.rectangle("fill",x,y+32,(getPlayer(playerName,"hp")/100)*32,6)
+      love.graphics.rectangle("fill",x+xoff,y+32+yoff,(getPlayer(playerName,"hp")/100)*32,6)
       love.graphics.setColor(100,0,0)
-      love.graphics.rectangle("line",x,y+32,32,6)
+      love.graphics.rectangle("line",x+xoff,y+32+yoff,32,6)
 
       if pl.name == playerName then --energy
         love.graphics.setColor(255,216,0)
-        love.graphics.rectangle("fill",x,y+32+8,(pl.en/100)*32,6)
+        love.graphics.rectangle("fill",x+xoff,y+32+8+yoff,(pl.en/100)*32,6)
         love.graphics.setColor(205,166,0)
-        love.graphics.rectangle("line",x,y+32+8,32,6)
+        love.graphics.rectangle("line",x+xoff,y+32+8+yoff,32,6)
       end
 
       love.graphics.setColor(255,255,255)
     end
   end
-  love.graphics.pop()
+  love.graphics.setColor(0,0,0)
+  love.graphics.rectangle("line",xoff,yoff,stdSH,stdSW)
+  love.graphics.setColor(255,255,255)
+
+ love.graphics.pop()
   love.graphics.print(love.timer.getFPS().." FPS")
 end
 
@@ -217,6 +227,18 @@ function updateFight(dt)
       bones = {}
     end
   --  bones[i].rotation = bones[i].rotation + bones[i].xv
+  end
+
+  for i = 1, sw/64 do
+    if not lclouds.x[i] or not lclouds.y[i] then
+      lclouds.x[i] = love.math.random(1, screenW)
+      lclouds.y[i] = love.math.random(1, screenH)
+    end
+
+    lclouds.x[i] = lclouds.x[i] + math.random(1,8)*dt
+    if lclouds.x[i] > sw then
+      lclouds.x[i] = love.math.random(-400,-200)
+    end
   end
 end
 

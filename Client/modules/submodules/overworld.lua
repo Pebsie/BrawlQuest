@@ -91,7 +91,7 @@ function drawOverworld()
     end
 
       local sw,sh = love.graphics.getDimensions()
-      
+
   love.graphics.setFont(bFont)
   love.graphics.setColor(255,255,255,areaTitleAlpha)
   love.graphics.printf(world[pl.t].name,0,10,sw,"center")

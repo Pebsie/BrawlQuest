@@ -44,7 +44,7 @@ function enterGame()
     ui.selected = "map"
 
     gameUI[1] = {}
-    gameUI[1].x = 800-160 --character info
+    gameUI[1].x = stdSH-160 --character info
     gameUI[1].y = 0
     gameUI[1].isDrag = false
     gameUI[1].isVisible = true

@@ -123,7 +123,10 @@ function listFightsOnTile(tile)
   return fightsOnTile
 end
 
-function spawnMob(fight, mob, x, y) --name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
+function spawnMob(fight, mob, x, y)
+  stdSW = 1920/2
+  stdSH = 1080/2
+   --name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
   --print("Creating mob "..mob.." in fight #"..fight)
   local freshTarget = listPlayersInFight(fight)
   freshTarget = freshTarget[love.math.random(#freshTarget)]
@@ -132,11 +135,11 @@ function spawnMob(fight, mob, x, y) --name;x;y;hp;target(x,y,static/playername);
   if not x then
     local side = love.math.random(1, 3)
     if side == 1 then --top
-      ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, 800)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+      ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
     elseif side == 2 then --left
-      ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, 600)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+      ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, stdsH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
     elseif side == 3 then --right
-      ft.mb[fight] = ft.mb[fight]..mob..";929;"..love.math.random(1, 600)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+      ft.mb[fight] = ft.mb[fight]..mob..";"..(stdSW+129)..";"..love.math.random(1, stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
     end
   else
       ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
