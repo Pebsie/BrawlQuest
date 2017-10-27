@@ -90,9 +90,11 @@ function drawOverworld()
       drawUIWindow(i)
     end
 
-  love.graphics.setFont(font)
+      local sw,sh = love.graphics.getDimensions()
+      
+  love.graphics.setFont(bFont)
   love.graphics.setColor(255,255,255,areaTitleAlpha)
-  love.graphics.printf(world[pl.t].name, 0,10,sw,"center")
+  love.graphics.printf(world[pl.t].name,0,10,sw,"center")
   love.graphics.setFont(font)
 
   drawTooltips()
