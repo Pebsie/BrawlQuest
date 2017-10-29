@@ -77,6 +77,7 @@ function love.mousereleased(button, x, y)
   if phase == "game" then
     if pl.state == "world" then
       useItem(pl.selItem)
+      frequentlyUpdate = true
     end
   end
 end

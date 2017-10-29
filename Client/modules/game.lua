@@ -10,6 +10,8 @@ gameUI = {}
 timeToMove = 0.5
 timeToUpdate = 0.5
 
+frequentlyUpdate = false
+
 function drawGame()
   if pl.state == "world" then
     drawOverworld()
@@ -38,6 +40,10 @@ function updateGame(dt)
     timeToUpdate = timeToUpdate - 1*dt
     if timeToUpdate < 0 then
       requestWorldInfo()
+      if frequentlyUpdate == true then
+        requestUserInfo()
+        frequentlyUpdate = false
+      end
       timeToUpdate = 0.5
     end
 

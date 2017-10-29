@@ -111,7 +111,7 @@ love.graphics.scale(scale,scale)
       drawPlayer(playerName,x+xoff,y+yoff)
     --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
     --  love.window.showMessageBox("Debug","Player #"..i..": "..playerName.." at position "..getPlayer(playerName,"tx")..","..getPlayer(playerName,"ty"))
-      love.graphics.setColor(255,0,0)
+      love.graphics.setColor(0,255,0)
       love.graphics.rectangle("fill",x+xoff,y+32+yoff,(getPlayer(playerName,"hp")/100)*32,6)
       love.graphics.setColor(100,0,0)
       love.graphics.rectangle("line",x+xoff,y+32+yoff,32,6)
@@ -157,7 +157,7 @@ function updateFight(dt)
 
   if updateTime[3] < 0 then
     requestUserInfo()
-    updateTime[3] = 1.5
+    updateTime[3] = 1
   end
 
 
