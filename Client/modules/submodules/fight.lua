@@ -18,6 +18,10 @@ atkCooldown = 1
 fight = {}
 mob = {}
 bones = {}
+updateTime = {}
+updateTime[1] = 0.1 --fight info
+updateTime[2] = 2 --world info
+updateTime[3] = 0.2 --player info
 
 function createFightCanvas(t)
   love.graphics.setColor(255,255,255,255)
@@ -137,14 +141,25 @@ end
 function updateFight(dt)
   --addBones("Boar",pl.x,pl.y)
 
-  updateFightTime = updateFightTime - 1*dt
-
-  if updateFightTime < 0 then
-    requestFightInfo()
-    requestUserInfo()
-    requestWorldInfo()
-    updateFightTime = 0.1
+  for i = 1, #updateTime do
+    updateTime[i] = updateTime[i] - 1*dt
   end
+
+  if updateTime[1] < 0 then
+    requestFightInfo()
+    updateTime[1] = 0.1
+  end
+
+  if updateTime[2] < 0 then
+    requestWorldInfo()
+    updateTime[2] = 5
+  end
+
+  if updateTime[3] < 0 then
+    requestUserInfo()
+    updateTime[3] = 1.5
+  end
+
 
   local speed = 128*dt
   if love.keyboard.isDown(KEY_UP) then
@@ -312,6 +327,6 @@ function attack(dir)
       pl.x = pl.x + ferocity
     end
 
-    atkCooldown = 0.25
+    atkCooldown = 0.2
   end
 end

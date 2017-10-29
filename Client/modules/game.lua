@@ -50,15 +50,17 @@ function updateGame(dt)
       else timeTomove = 0.1 end
     end
 
-    local pls = 64*dt
-    if pl.x > world[pl.t].x then pl.x = pl.x - pls end
-    if pl.x < world[pl.t].x then pl.x = pl.x + pls end
-    if pl.y > world[pl.t].y then pl.y = pl.y - pls end
-    if pl.y < world[pl.t].y then pl.y = pl.y + pls end
-    if distanceFrom(pl.x,pl.y,world[pl.t].x,world[pl.t].y) < 0.2 or distanceFrom(pl.x,pl.y,world[pl.t].x,world[pl.t].y) > 64 then pl.x = world[pl.t].x pl.y = world[pl.t].y end
-    centerCamera()
+    if pl.x then
+      local pls = 64*dt
+      if pl.x > world[pl.t].x then pl.x = pl.x - pls end
+      if pl.x < world[pl.t].x then pl.x = pl.x + pls end
+      if pl.y > world[pl.t].y then pl.y = pl.y - pls end
+      if pl.y < world[pl.t].y then pl.y = pl.y + pls end
+      if distanceFrom(pl.x,pl.y,world[pl.t].x,world[pl.t].y) < 0.2 or distanceFrom(pl.x,pl.y,world[pl.t].x,world[pl.t].y) > 64 then pl.x = world[pl.t].x pl.y = world[pl.t].y end
+      centerCamera()
 
-    updatePlayers(dt)
+      updatePlayers(dt)
+    end
   elseif pl.state == "fight" then
     updateFight(dt)
   end

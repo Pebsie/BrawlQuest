@@ -62,6 +62,7 @@ function netUpdate(dt)
               pl.y = 500
               createFightCanvas(pl.t)
               killMobs()
+              requestWorldInfo()
             end
             pl.state = param[16]
 
@@ -115,7 +116,7 @@ function netUpdate(dt)
             updatePlayer(id,"ty",tonumber(param[tparam+2]))
             updatePlayer(id,"arm",param[tparam+3])
             if getPlayer(id,"hp") > tonumber(param[tparam+4]) then
-              addBones("Player",getPlayer(id,"tx"),getPlayer(id,"ty"),(getPlayer(id,"hp")-tonumber(param[tparam+4]))*4)
+          --    addBones("Player",getPlayer(id,"tx"),getPlayer(id,"ty"),(getPlayer(id,"hp")-tonumber(param[tparam+4]))*4)
             end
             updatePlayer(id,"hp",tonumber(param[tparam+4]))
             --  love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"hp"))

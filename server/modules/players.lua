@@ -31,7 +31,7 @@ function newPlayer(name, password)
   acc.password[#acc.password + 1] = password
 
   local i = name
-  pl.hp[i] = 100
+  pl.hp[i] = 10000
   pl.en[i] = 100
   pl.s1[i] = "None"
   pl.s2[i] = "None"

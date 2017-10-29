@@ -3,9 +3,10 @@ local udp = socket.udp()
 http = require("socket.http")
 
 udp:settimeout(0)
-udp:setsockname("*", 26650)
+udp:setsockname("*", 26651)
 
 msgs = "Server started."
+nett = 0.1
 
 --game variables here
 require "modules/tools"
@@ -49,107 +50,115 @@ function love.draw()
 end
 
 function love.update(dt)
-  data, msg_or_ip, port_or_nil = udp:receivefrom()
-  if data then --REMINDER: when sending messages format is username command paramaters (split by |)
-    entity, cmd, parms = data:match("^(%S*) (%S*) (.*)")
+  --nett = nett - 1*dt
 
-    param = {}
-    --for word in parms:gmatch("([^%s]+)") do param[#param+1] = word end --split params at space
-    param[1] = parms
+--  if nett < 0 then
+    repeat
+      data, msg_or_ip, port_or_nil = udp:receivefrom()
+      if data then --REMINDER: when sending messages format is username command paramaters (split by |)
+        entity, cmd, parms = data:match("^(%S*) (%S*) (.*)")
 
-    if cmd == "login" then
+        param = {}
+        --for word in parms:gmatch("([^%s]+)") do param[#param+1] = word end --split params at space
+        param[1] = parms
 
-      namePass = atComma(parms)
-      addMsg("Player claiming to be "..namePass[1].." is trying to login.")
-      if loginPlayer(namePass[1], namePass[2]) then
-        udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
-        addMsg("They are who they claim to be. Let them in, boys!")
-      else
-        udp:sendto(string.format("%s %s %s", namePass[1], "login", "false"), msg_or_ip, port_or_nil)
-        addMsg("He wasn't "..namePass[1]..".")
-      end
+        if cmd == "login" then
 
-    elseif cmd == "char" then --client is requesting character info
-    --  addMsg(param[1].." requested user info!")
-      local i = param[1]
-      udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.msg[i]), msg_or_ip, port_or_nil)
-      pl.msg[i] = ""
-    elseif cmd == "move" then
-      parms = atComma(parms)
-      movePlayer(parms[1],parms[2])
-    elseif cmd == "world" then
-      local msgToSend = countPlayers().."|"..countFights().."|"
-      local name = parms
-      --compile location of current players, including ourselves
-      for i = 1, countPlayers() do
-        --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
-        if isPlayerOnline(getPlayerName(i)) then
-          msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)))
+          namePass = atComma(parms)
+          addMsg("Player claiming to be "..namePass[1].." is trying to login.")
+          if loginPlayer(namePass[1], namePass[2]) then
+            udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
+            addMsg("They are who they claim to be. Let them in, boys!")
+          else
+            udp:sendto(string.format("%s %s %s", namePass[1], "login", "false"), msg_or_ip, port_or_nil)
+            addMsg("He wasn't "..namePass[1]..".")
+          end
+
+        elseif cmd == "char" then --client is requesting character info
+        --  addMsg(param[1].." requested user info!")
+          local i = param[1]
+          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.msg[i]), msg_or_ip, port_or_nil)
+          pl.msg[i] = ""
+        elseif cmd == "move" then
+          parms = atComma(parms)
+          movePlayer(parms[1],parms[2])
+        elseif cmd == "world" then
+          local msgToSend = countPlayers().."|"..countFights().."|"
+          local name = parms
+          --compile location of current players, including ourselves
+          for i = 1, countPlayers() do
+            --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
+            if isPlayerOnline(getPlayerName(i)) then
+              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)))
+            end
+          end
+
+        --  for i = 1, 100*100 do
+      --      if world[i].isFight == true then
+      --        msgToSend = msgToSend..string.format("fight|%s|", i)
+    --        end
+    --      end
+
+          udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
+        elseif cmd == "fight" then
+          parms = atComma(param[1])
+          local i = parms[1]
+          local x = parms[2]
+          local y = parms[3]
+
+          local id = findFightPlayerIsIn(getPlayerID(i))
+          setPlayerPos(i,x,y)
+      --    addMsg("Player "..i.." is at "..x..","..y)
+          -- * Number of players, mobs and spells in fight
+          -- * Player X,Y,Armour and HP
+          -- * Spell X,Y and type
+          -- * Mob X,Y,Type and HP
+          if id then
+            msgToSend = countMobs(id).."|"..countPlayersInFight(id).."|"
+            local playersIF = listPlayersInFight(id)
+            for i = 1, countPlayersInFight(id) do
+              pdata = getPlayerData(id,i)
+              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|",pdata["name"],pdata["x"],pdata["y"],pdata["arm"],pdata["hp"]) --id|x|y|arm|hp
+            end
+
+            for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)
+              tmob = getMobData(id,i)
+              msgToSend = msgToSend..string.format("%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp)
+            end
+
+            udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
+          end
+        elseif cmd == "atk" then  --    netSend("atk",pl.name..","..dir)
+          parms = atComma(parms)
+          local name = parms[1]
+          local dir = parms[2]
+          if pl.en[name] > 20 then
+            pl.at[name] = true
+            pl.atm[name] = 0.05
+            pl.en[name] = pl.en[name] - 20
+          end
+        elseif cmd == "use" then --use item
+          parms = atComma(param[1])
+          local name = parms[1]
+          local item = parms[2]
+          playerUse(name,item)
         end
+
+
+
+      elseif msg_or_ip ~= 'timeout' then
+        addMsg("Unknown network error: "..tostring(msg))
       end
+    until not data
 
-      for i = 1, 100*100 do
-        if world[i].isFight == true then
-          msgToSend = msgToSend..string.format("fight|%s|", i)
-        end
-      end
-
-      udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
-    elseif cmd == "fight" then
-      parms = atComma(param[1])
-      local i = parms[1]
-      local x = parms[2]
-      local y = parms[3]
-
-      local id = findFightPlayerIsIn(getPlayerID(i))
-      setPlayerPos(i,x,y)
-  --    addMsg("Player "..i.." is at "..x..","..y)
-      -- * Number of players, mobs and spells in fight
-      -- * Player X,Y,Armour and HP
-      -- * Spell X,Y and type
-      -- * Mob X,Y,Type and HP
-      if id then
-        msgToSend = countMobs(id).."|"..countPlayersInFight(id).."|"
-        local playersIF = listPlayersInFight(id)
-        for i = 1, countPlayersInFight(id) do
-          pdata = getPlayerData(id,i)
-          msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|",pdata["name"],pdata["x"],pdata["y"],pdata["arm"],pdata["hp"]) --id|x|y|arm|hp
-        end
-
-        for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)
-          tmob = getMobData(id,i)
-          msgToSend = msgToSend..string.format("%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp)
-        end
-
-        udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
-      end
-    elseif cmd == "atk" then  --    netSend("atk",pl.name..","..dir)
-      parms = atComma(parms)
-      local name = parms[1]
-      local dir = parms[2]
-      if pl.en[name] > 20 then
-        pl.at[name] = true
-        pl.atm[name] = 0.05
-        pl.en[name] = pl.en[name] - 20
-      end
-    elseif cmd == "use" then --use item
-      parms = atComma(param[1])
-      local name = parms[1]
-      local item = parms[2]
-      playerUse(name,item)
-    end
-
-
-
-  elseif msg_or_ip ~= 'timeout' then
-    error("Unknown network error: "..tostring(msg))
-
-    socket.sleep(0.1)
-  end
+  --  nett = 0.1
+--  end
+--  socket.sleep(0.1)
 
   updateFights(dt)
   updateWorld(dt)
   updatePlayers(dt)
+
 end
 
 function addMsg(msg)
