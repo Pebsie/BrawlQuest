@@ -22,8 +22,14 @@ pl.state = "world"
 pl.selItem = "None"
 
 function login() --we'll attempt to login
-  ui.selected = "logging in"
-  netSend("login", pl.name..","..pl.cinput)
+  if pl.name ~= "" and pl.cinput ~= "" then
+    ui.selected = "logging in"
+    netSend("login", pl.name..","..pl.cinput)
+  else
+    phase = "login"
+    pl.cinput = ""
+    ui.selected = "username"
+  end
 end
 
 function enterGame()
