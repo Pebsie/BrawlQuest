@@ -266,8 +266,20 @@ function updateFights(dt) --the big one!!
           end
 
           if mob.target.t[v] ~= "static" then
-            mob.target.x[v] = pl.x[mob.target.t[v]]+16
-            mob.target.y[v] = pl.y[mob.target.t[v]]+16
+            if pl.state[mob.target.t[v]] == "fight" then
+              mob.target.x[v] = pl.x[mob.target.t[v]]+16
+              mob.target.y[v] = pl.y[mob.target.t[v]]+16
+            else --player is dead!
+              local freshTarget = listPlayersInFight(i)
+              freshTarget = freshTarget[love.math.random(#freshTarget)]
+
+              freshTarget = getPlayerName(tonumber(freshTarget))
+              if freshTarget then
+                mob.target.t[v] = freshTarget
+                mob.target.x[v] = pl.x[mob.target.t[v]]+16
+                mob.target.y[v] = pl.y[mob.target.t[v]]+16
+              end
+            end
           end
 
           --take damage / give damage
