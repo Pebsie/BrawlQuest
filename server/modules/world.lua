@@ -43,10 +43,10 @@ function loadOverworld()
 end
 
 function updateWorld(dt)
-  worldUpdate = worldUpdate - 1*dt
-  if worldUpdate < 0 then
+  --worldUpdate = worldUpdate - 1*dt
+  if worldUpdate < 0 then --this is the part that creates 100% fights on the world but it DOESN'T WORK
     for i = 1, 100*100 do
-      if 1 == 5 and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc  then
+      if 1== 5 and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc  then
         world[i].isFight = true
       else
         world[i].isFight = false

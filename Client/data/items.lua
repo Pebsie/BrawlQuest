@@ -13,14 +13,14 @@
   item.val[ti] = 1
   item.lvl[ti] = 1
   item.price[ti] = 0
-  item.img[ti] = love.graphics.newImage("img/items/weapons/Long Stick.png")
+  item.img[ti] = love.graphics.newImage("img/empty.png")
 
   local ti = "None"
   item.type[ti] = "none"
   item.val[ti] = 1
   item.lvl[ti] = 1
   item.price[ti] = 0
-  item.img[ti] = love.graphics.newImage("img/items/weapons/Long Stick.png")
+  item.img[ti] = love.graphics.newImage("img/empty.png")
 
   --weapons
   local ti = "Long Stick"
