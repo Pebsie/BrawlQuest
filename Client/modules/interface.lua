@@ -89,6 +89,8 @@ function love.resize(w,h) --reset sw and sh
   sh = h/scale
   screenW = sw
   screenH = sh
+  realScreenWidth = w
+  realScreenHeight = h
 
   if phase == "login" then
     createLoginCanvas()

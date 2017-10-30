@@ -31,7 +31,7 @@ function newPlayer(name, password)
   acc.password[#acc.password + 1] = password
 
   local i = name
-  pl.hp[i] = 10000
+  pl.hp[i] = 100
   pl.en[i] = 100
   pl.s1[i] = "None"
   pl.s2[i] = "None"
@@ -160,6 +160,28 @@ function playerUse(name, ritem)
       rebuiltInv[#rebuiltInv].item = pl.arm[name]
       rebuiltInv[#rebuiltInv].amount = 1
       pl.arm[name] = ritem
+    elseif item.type[ritem] == "Spell" then
+      local slot = 1
+
+      if pl.s1[name] == "" or pl.s1[name] == "None" then
+        pl.s1[name] = ritem
+      elseif pl.s2[name] == "" or pl.s2[name] == "None" then
+        pl.s2[name] = ritem
+      else
+        if pl.s1[name] ~= "" and pl.s1[name] ~= "None" then
+          rebuiltInv[#rebuiltInv + 1] = {}
+          rebuiltInv[#rebuiltInv].item = pl.s1[name]
+          rebuiltInv[#rebuiltInv].amount = 1
+          pl.s1[name] = ritem
+        elseif pl.s2[name] ~= "" and pl.s2[name] ~= "None" then
+          rebuiltInv[#rebuiltInv + 1] = {}
+          rebuiltInv[#rebuiltInv].item = pl.s2[name]
+          rebuiltInv[#rebuiltInv].amount = 1
+          pl.s2[name] = ritem
+        end
+      end
+
+
     end
   else
     addMsg(name.." tried to use an item ("..ritem..") that they don't own!")

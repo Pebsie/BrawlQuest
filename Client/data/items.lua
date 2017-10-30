@@ -387,7 +387,6 @@
   item.price[ti] = 10
   item.img[ti] = ""
 
-
   buddy = {}
   buddy["Baby Bat"] = love.graphics.newImage("img/pet/Baby Bat.png")
   buddy["Beholder"] = love.graphics.newImage("img/pet/Beholder.png")

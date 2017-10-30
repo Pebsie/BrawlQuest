@@ -36,10 +36,13 @@ stdSW = 1080/2
 
 screenW,screenH = love.graphics.getDimensions()
 
+realScreenWidth = screenW
+realScreenHeight = screenH
+
 function love.load()
 
-  local ipadd = "37.59.126.91"
-  --local ipadd = "127.0.0.1"
+  --local ipadd = "37.59.126.91"
+local ipadd = "127.0.0.1"
   netConnect(ipadd, "26651", 0.1)
 
   font = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",14)

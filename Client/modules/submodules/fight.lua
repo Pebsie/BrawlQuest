@@ -78,19 +78,23 @@ love.graphics.scale(scale,scale)
     if mb.img[mob[i].type] then
       if getMob(i,"hp") > 0 then
 
-        if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
-          love.graphics.draw(mb.img[mob[i].type], mob[i].x+xoff, mob[i].y+yoff)
-        else --if mob[i].tx < mob[i].x then
-          love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2+xoff, mob[i].y+mb.img[mob[i].type]:getHeight()/2+yoff,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
+        if mob[i].x > 0 and mob[i].x < stdSH and mob[i].y > 0 then
+          if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
+            love.graphics.draw(mb.img[mob[i].type], mob[i].x+xoff, mob[i].y+yoff)
+          else --if mob[i].tx < mob[i].x then
+            love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2+xoff, mob[i].y+mb.img[mob[i].type]:getHeight()/2+yoff,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
+          end
+
+          if getMob(i,"hp") > 0 then
+            love.graphics.setColor(255,0,0)
+            love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,(mob[i].hp/mb.hp[mob[i].type])*mb.img[mob[i].type]:getWidth(),4)
+            love.graphics.setColor(100,0,0)
+            love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,mb.img[mob[i].type]:getWidth(),4)
+          end
         end
       end
 
-      if getMob(i,"hp") > 0 then
-        love.graphics.setColor(255,0,0)
-        love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,(mob[i].hp/mb.hp[mob[i].type])*mb.img[mob[i].type]:getWidth(),4)
-        love.graphics.setColor(100,0,0)
-        love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,mb.img[mob[i].type]:getWidth(),4)
-      end
+
       love.graphics.setColor(255,255,255)
     else
       love.graphics.draw(uiImg["error"], mob[i].x+xoff, mob[i].y+yoff)
@@ -129,9 +133,10 @@ love.graphics.scale(scale,scale)
   love.graphics.setColor(0,0,0)
   love.graphics.rectangle("line",xoff,yoff,stdSH,stdSW)
   love.graphics.setColor(255,255,255)
-
+  drawFightUI(sw/2 - 320,sh-94)
  love.graphics.pop()
   love.graphics.print(love.timer.getFPS().." FPS")
+
 end
 
 function requestFightInfo()
@@ -173,6 +178,12 @@ function updateFight(dt)
     pl.x = pl.x + speed
   end
 
+  if pl.x > stdSH-32 then pl.x = stdSH-32 end
+  if pl.x < 0 then pl.x = 0 end
+  if pl.y > stdSW-32 then pl.y = stdSW-32 end
+  if pl.y < 0 then pl.y = 0 end
+
+
   --PLAYER LOGIC
   updatePlayers(dt,128) --move players to correct position
 
@@ -186,6 +197,10 @@ function updateFight(dt)
     attack("right")
   elseif love.keyboard.isDown(KEY_ATK_LEFT) then
     attack("left")
+  end
+
+  if pl.en < 100 then
+    pl.en = pl.en + 25*dt
   end
 
   --MOBS
@@ -326,7 +341,57 @@ function attack(dir)
     elseif dir == "right" then
       pl.x = pl.x + ferocity
     end
-
+    pl.en = pl.en - 20
     atkCooldown = 0.2
   end
+end
+
+function drawFightUI(x,y)
+  --boxes
+  love.graphics.setColor(51,51,51)
+  love.graphics.rectangle("fill",x,y,640,94) --main background
+  love.graphics.setColor(0,0,0) --item backgrounds
+  love.graphics.rectangle("fill",x+10,y+60,24,24) --wep image
+  love.graphics.rectangle("fill",x+43,y+60,24,24) --potion image
+  love.graphics.rectangle("fill",x+464,y+16,64,64) --spell 1
+  love.graphics.rectangle("fill",x+559,y+16,64,64) --spell 2
+  love.graphics.rectangle("fill",x+6,y+6,32,32) --character portrait
+  love.graphics.setColor(43,43,43)
+  love.graphics.rectangle("fill",x+173,y+7,268,79)
+
+  --stats
+  love.graphics.setColor(0,255,0)
+  love.graphics.rectangle("fill",x+40,y+12,(pl.hp/100)*63,6)
+  love.graphics.setColor(255,216,0)
+  love.graphics.rectangle("fill",x+40,y+24,(pl.en/100)*63,6)
+  love.graphics.setColor(0,100,0)
+  love.graphics.rectangle("line",x+40,y+12,63,6)
+  love.graphics.setColor(205,166,0)
+  love.graphics.rectangle("line",x+40,y+24,63,6)
+
+  love.graphics.setColor(255,255,255)
+  love.graphics.draw(item.img[pl.wep],x+9,y+56)
+  love.graphics.draw(item.img[pl.pot],x+43,y+56)
+  love.graphics.draw(item.img[pl.arm],x+6,y+6)
+  love.graphics.draw(uiImg["itemportrait"],x+6,y+56)
+  love.graphics.draw(uiImg["itemportrait"],x+39,y+56)
+  love.graphics.draw(uiImg["smallportrait"],x+6,y+6)
+
+  love.graphics.draw(item.img[pl.s1],x+464,y+16,0,2,2)
+  love.graphics.draw(item.img[pl.s2],x+559,y+16,0,2,2)
+
+  love.graphics.draw(uiImg["lvtmp"],x+13,y+37)
+  love.graphics.draw(uiImg["atkdef"],x+139,y+49)
+
+  --text
+  love.graphics.setFont(font)
+  love.graphics.setColor(76,255,0)
+  love.graphics.printf(item.val[pl.wep],x+114,y+52,24,"center")
+  love.graphics.printf(item.val[pl.arm],x+114,y+72,24,"center")
+
+  --border
+  love.graphics.setColor(0,0,0)
+  love.graphics.rectangle("line",x,y,640,94)
+
+  love.graphics.setColor(255,255,255)
 end

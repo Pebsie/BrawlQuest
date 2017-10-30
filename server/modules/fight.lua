@@ -48,8 +48,8 @@ function addPlayerToFight(fight, name)
   else
     local id = getPlayerID(name)
     pl.state[name] = "fight"
-    pl.x[name] = math.random(1, 800)
-    pl.y[name] = math.random(1, 600)
+    pl.x[name] = love.math.random(1, 800)
+    pl.y[name] = love.math.random(1, 600)
   --  addMsg(name.." has joined fight #"..fight)
     ft.pl[fight] = ft.pl[fight]..id..";" --semicolon at end to prevent repeat errors
   end

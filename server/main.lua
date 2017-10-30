@@ -14,6 +14,10 @@ require "modules/players"
 require "modules/fight"
 require "modules/world"
 
+
+stdSW = 1920/2
+stdSH = 1080/2
+
 local running = true
 print("Entering server loop...")
 
@@ -103,10 +107,15 @@ function love.update(dt)
         elseif cmd == "fight" then
           parms = atComma(param[1])
           local i = parms[1]
-          local x = parms[2]
-          local y = parms[3]
+          local x = tonumber(parms[2])
+          local y = tonumber(parms[3])
 
           local id = findFightPlayerIsIn(getPlayerID(i))
+          if x > stdSW-32 then x = stdSW-32 end
+          if x < 0 then x = 0 end
+          if y > stdSH-32 then y = stdSH-32 end
+          if y < 0 then y = 0 end
+
           setPlayerPos(i,x,y)
       --    addMsg("Player "..i.." is at "..x..","..y)
           -- * Number of players, mobs and spells in fight

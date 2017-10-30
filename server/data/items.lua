@@ -5,6 +5,7 @@ function initItems()
   item.lvl = {}
   item.price = {}
   item.img = {}
+  item.desc = {}
 
   --weapons
   local ti = "Long Stick"
@@ -289,6 +290,79 @@ function initItems()
   item.val[ti] = 1
   item.lvl[ti] = 10
   item.price[ti] = 50
+  item.img[ti] = ""
+
+  --spells VAL is seconds cool down and energy consumed
+  local ti = "Second Wind"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Recover 10% health and move at 200% speed for 3 seconds"
+  item.val[ti] = "3,50"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = 32
+
+  local ti = "Tornado"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Turn into a powerful tornado, increasing movement speed to 300% and causing damage to every opponent you touch for 5 seconds"
+  item.val[ti] = "30,100"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = 32
+
+  local ti = "Recovery"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Recover 30% health"
+  item.val[ti] = "120,50"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = 32
+
+  local ti = "Ground Slam"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Deal ATK*2 damage to all enemies within 5 meters"
+  item.val[ti] = "100,100"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = 32
+
+  local ti = "Rend"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Next attack applies bleeding to all enemies hit"
+  item.val[ti] = "10,20"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = 32
+
+  local ti = "Grace"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Heal all friendlies for 30% their max health"
+  item.val[ti] = "10,50"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = 32
+
+  local ti = "Flash of Light"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Turn into a flash of light, increasing movement speed to 200% and healing all friendlies you touch for 10 seconds"
+  item.val[ti] = "30,100"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = 32
+
+  local ti = "Enrage"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Taunt all enemies within 10 meters, causing them to change target and attack you"
+  item.val[ti] = "6,20"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
+  item.img[ti] = 32
+
+  local ti = "Phase Shift"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "All enemies target you switch to the nearest friendly and you cannot take damage for 5 seconds"
+  item.val[ti] = "60,50"
+  item.lvl[ti] = 10
+  item.price[ti] = 10
   item.img[ti] = ""
 
   local ti = ""
