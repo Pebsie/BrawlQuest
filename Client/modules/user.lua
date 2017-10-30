@@ -12,6 +12,7 @@ pl.lvl = 0
 pl.xp = 0
 pl.wep = "None"
 pl.arm = "None"
+pl.armd = 0
 pl.pot = "None"
 pl.s1 = ""
 pl.s2 = ""

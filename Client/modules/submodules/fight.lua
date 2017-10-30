@@ -222,6 +222,10 @@ function updateFight(dt)
     if love.math.random(1, 1000) == 1 and mb.sfx[mob[i].type] then
       love.audio.play(mb.sfx[mob[i].type][love.math.random(1,#mb.sfx[mob[i].type])])
     end
+
+    if distanceFrom(pl.x, pl.y, mob[i].x, mob[i].y) < mb.rng[mob[i].type] then
+      pl.armd = pl.armd + (mb.atk[mob[i].type]/2)*dt --for smoothing purposes
+     end
   end
 
   --bones
@@ -390,7 +394,18 @@ function drawFightUI(x,y)
   love.graphics.setFont(font)
   love.graphics.setColor(76,255,0)
   love.graphics.printf(item.val[pl.wep],x+114,y+52,24,"center")
-  love.graphics.printf(item.val[pl.arm],x+114,y+72,24,"center")
+  if round(pl.armd) ~= 0 then
+    love.graphics.setColor(255,0,0)
+  end
+  love.graphics.printf(round(item.val[pl.arm] - pl.armd),x+114,y+72,24,"center")
+
+  --action prompts (text)
+  love.graphics.setColor(200,200,255)
+  love.graphics.print("R",x+45+5,y+56+23)
+  love.graphics.setFont(bFont)
+  love.graphics.print("Q",x+464+28,y-5)
+  love.graphics.print("E",x+559+28,y-5)
+
 
   --border
   love.graphics.setColor(0,0,0)

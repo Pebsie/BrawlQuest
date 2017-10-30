@@ -80,6 +80,5 @@ function drawPlayer(name,x,y)
 
   if player[name].spell ~= "None" then
     drawSpell(player[name].spell,x,y)
-    love.graphics.print(player[name].spell,100,100)
   end
 end

@@ -75,6 +75,9 @@ function updateGame(dt)
     pl.hp = pl.hp + (item.val[pl.spell]/3)*dt
     if pl.hp > 100 then pl.hp = 100 end
   end
+
+  pl.armd = pl.armd - 1*dt
+  if pl.armd < 0 then pl.armd = 0 end
 end
 
 function movePlayer(dir)

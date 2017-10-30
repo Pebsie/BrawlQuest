@@ -186,7 +186,7 @@ function drawUIWindow(i)
             local civ = item.val[inv[i]]
             if cit == "wep" then pit = "Weapon" piv = "Deals up to "..civ.." damage."
             elseif cit == "arm" then pit = "Armour" piv = "Defends for "..civ.." damage."
-            elseif cit == "hp" then pit = "Health Potion" piv = "Instantly recovers "..civ.." health."
+            elseif cit == "hp" then pit = "Health Potion" piv = "Recovers "..civ.." health over 3 seconds."
             elseif cit == "en" then pit = "Energy Potion" piv = "Instantly recovers "..civ.." energy."
             elseif cit == "Craftable" then pit = "Craftable" piv = "Can be used in crafting."
             elseif cit == "Spell" then

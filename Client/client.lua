@@ -52,7 +52,7 @@ function netUpdate(dt)
             pl.arm = param[11]
             pl.s1 = param[3]
             pl.s2 = param[4]
-            pl.msg = param[17]
+          --  pl.msg = param[17]
             pl.inv = param[12]
           --  love.window.showMessageBox("Debug",pl.inv)
             pl.pot = param[15]
@@ -70,6 +70,9 @@ function netUpdate(dt)
               areaTitleAlpha = 400
               curAreaTitle = world[pl.t].name
             end
+      --      love.window.showMessageBox("Debug",param[17])
+            pl.armd = tonumber(param[17])
+
 
           end
         elseif cmd == "world" then --update world
@@ -121,7 +124,7 @@ function netUpdate(dt)
             end
             updatePlayer(id,"hp",tonumber(param[tparam+4]))
             updatePlayer(id,"spell",param[tparam+5])
-            
+
             --  love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"hp"))
            --love.window.showMessageBox("Debug","Player in fight #"..i.." is ID #"..i.." "..getPlayerName(id))
             tparam = tparam + 6

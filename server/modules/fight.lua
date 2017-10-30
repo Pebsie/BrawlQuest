@@ -299,7 +299,7 @@ function updateFights(dt) --the big one!!
                 pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
               end
             elseif distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] then --this has to be separate because of mob range
-              local pdmg = love.math.random(mb.atk[mob[v]])*dt
+              local pdmg = (mb.atk[mob[v]]/2)*dt
               --print("A "..mob[v].." dealt "..pdmg.." damage to "..thisPlayer.."!")
               if isPlayerDead(thisPlayer) == false then
                 damagePlayer(thisPlayer, pdmg)

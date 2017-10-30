@@ -12,6 +12,7 @@ pl.t = {} --tile
 pl.dt = {} --dead tile (home tile)
 pl.wep = {}
 pl.arm = {}
+pl.armd = {}
 pl.pot = {}
 pl.inv = {} --inventory
 pl.lvl = {}
@@ -43,6 +44,7 @@ function newPlayer(name, password)
   pl.t[i] = 9457 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
   pl.wep[i] = "Long Stick"
   pl.arm[i] = "Old Cloth"
+  pl.armd[i] = 0
   pl.inv[i] = "Legendary Blade;1"
   pl.pot[i] = "Red Potion"
   pl.lvl[i] = 1
@@ -75,6 +77,9 @@ function updatePlayers(dt)
       pl.hp[k] = pl.hp[k] + (item.val[pl.spell[k]]/3)*dt
       if pl.hp[k] > 100 then pl.hp[k] = 100 end
     end
+
+    pl.armd[k] = pl.armd[k] - 1*dt
+    if pl.armd[k] <0 then pl.armd[k] = 0 end
   end
 end
 
@@ -249,7 +254,11 @@ function setPlayerPos(name,x,y)
 end
 
 function damagePlayer(name, amount)
-  pl.hp[name] = pl.hp[name] - amount
+  pl.armd[name] = pl.armd[name] + amount
+  if pl.armd[name] > item.val[pl.arm[name]] then
+    pl.armd[name] = item.val[pl.arm[name]]
+    pl.hp[name] = pl.hp[name] - amount
+  end
 --  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";" --The client could figure this out itself
 
   if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] = 9457 addMsg(name.." died!") removePlayerFromFight(name) end
