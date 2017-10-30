@@ -368,6 +368,7 @@ function getPlayerData(fight, id)
   pdata["lvl"] = pl.lvl[thisPlayer]
   pdata["at"] = pl.at[thisPlayer]
   pdata["online"] = pl.online[thisPlayer]
+  pdata["spell"] = pl.spell[thisPlayer]
 
   return pdata
 end

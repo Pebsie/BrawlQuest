@@ -70,6 +70,11 @@ function updateGame(dt)
   elseif pl.state == "fight" then
     updateFight(dt)
   end
+
+  if item.type[pl.spell] == "hp" then
+    pl.hp = pl.hp + (item.val[pl.spell]/3)*dt
+    if pl.hp > 100 then pl.hp = 100 end
+  end
 end
 
 function movePlayer(dir)

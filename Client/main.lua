@@ -6,6 +6,7 @@ require "data/audio"
 require "data/world"
 require "data/ui"
 require "data/mobs"
+require "data/spells"
 --load libraries
 inspect = require("libraries/inspect")
 --load modules
@@ -67,6 +68,7 @@ function love.update(dt)
   netUpdate(dt)
   updatePhase(phase,dt)
   updateMusic(dt)
+  updateSpells(dt)
 end
 
 function love.mousepressed(button)

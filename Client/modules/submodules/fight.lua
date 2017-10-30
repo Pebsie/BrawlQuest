@@ -107,12 +107,14 @@ love.graphics.scale(scale,scale)
       if pl.name == playerName then --we want to draw us client side to reduce jankiness
         x = pl.x
         y = pl.y
+        pl.spell = getPlayer(playerName,"spell")
       else
         x = getPlayer(playerName,"x")
         y = getPlayer(playerName,"y")
       end
 
       drawPlayer(playerName,x+xoff,y+yoff)
+
     --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
     --  love.window.showMessageBox("Debug","Player #"..i..": "..playerName.." at position "..getPlayer(playerName,"tx")..","..getPlayer(playerName,"ty"))
       love.graphics.setColor(0,255,0)
@@ -126,6 +128,7 @@ love.graphics.scale(scale,scale)
         love.graphics.setColor(205,166,0)
         love.graphics.rectangle("line",x+xoff,y+32+8+yoff,32,6)
       end
+
 
       love.graphics.setColor(255,255,255)
     end

@@ -21,6 +21,8 @@ pl.atm = {} --time left before attack is no longer there
 pl.msg = {} --messages separated with semicolons
 pl.online = {}
 pl.state = {}
+pl.spell = {}
+pl.spellT = {}
 
 acc = {} --identified by number
 acc.username = {}
@@ -50,6 +52,8 @@ function newPlayer(name, password)
   pl.msg[i] = "world"
   pl.online[i] = true
   pl.state[i] = "world"
+  pl.spell[i] = "None"
+  pl.spellT[i] = 0
 
   addMsg("New player by the name of "..name)
 end
@@ -63,6 +67,14 @@ function updatePlayers(dt)
 
     pl.en[k] = pl.en[k] + 25*dt
     if pl.en[k] > 100 then pl.en[k] = 100 end
+
+    pl.spellT[k] = pl.spellT[k] - 1*dt
+    if pl.spellT[k] < 0 then pl.spell[k] = "None" end
+
+    if item.type[pl.spell[k]] == "hp" then
+      pl.hp[k] = pl.hp[k] + (item.val[pl.spell[k]]/3)*dt
+      if pl.hp[k] > 100 then pl.hp[k] = 100 end
+    end
   end
 end
 
@@ -177,11 +189,15 @@ function playerUse(name, ritem)
           rebuiltInv[#rebuiltInv + 1] = {}
           rebuiltInv[#rebuiltInv].item = pl.s2[name]
           rebuiltInv[#rebuiltInv].amount = 1
-          pl.s2[name] = ritem
         end
       end
-
-
+    elseif item.type[ritem] == "hp" then
+      if pl.pot[name] ~= "None" then
+        rebuiltInv[#rebuiltInv + 1] = {}
+        rebuiltInv[#rebuiltInv].item = pl.pot[name]
+        rebuiltInv[#rebuiltInv].amount = 1
+      end
+      pl.pot[name] = ritem
     end
   else
     addMsg(name.." tried to use an item ("..ritem..") that they don't own!")

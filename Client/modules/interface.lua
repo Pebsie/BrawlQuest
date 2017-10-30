@@ -72,6 +72,10 @@ function love.keypressed(key)
     if phase == "login" then
       biome = 1
     end
+  elseif key == "r" then
+    if phase == "game" or phase == "fight" then
+      netSend("potion", pl.name)
+    end
   end
 
    if phase == "game" then

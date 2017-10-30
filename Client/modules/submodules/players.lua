@@ -13,6 +13,7 @@ function addPlayer(name)
   player[name].arm = "Old Cloth"
   player[name].hp = 0
   player[name].state = "fight"
+  player[name].spell = "None"
   players = players + 1
   pli[players] = name
 end
@@ -76,4 +77,9 @@ function drawPlayer(name,x,y)
   love.graphics.setColor(255,255,255,255)
   love.graphics.setFont(sFont)
   love.graphics.printf(name,17+x-(round(sFont:getWidth(name)/2)),y-12,sFont:getWidth(name),"center")
+
+  if player[name].spell ~= "None" then
+    drawSpell(player[name].spell,x,y)
+    love.graphics.print(player[name].spell,100,100)
+  end
 end

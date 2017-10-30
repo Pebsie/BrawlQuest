@@ -93,7 +93,7 @@ function love.update(dt)
           for i = 1, countPlayers() do
             --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
             if isPlayerOnline(getPlayerName(i)) then
-              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)))
+              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)), pl.spell[i])
             end
           end
 
@@ -127,7 +127,7 @@ function love.update(dt)
             local playersIF = listPlayersInFight(id)
             for i = 1, countPlayersInFight(id) do
               pdata = getPlayerData(id,i)
-              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|",pdata["name"],pdata["x"],pdata["y"],pdata["arm"],pdata["hp"]) --id|x|y|arm|hp
+              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|",pdata["name"],pdata["x"],pdata["y"],pdata["arm"],pdata["hp"],pdata["spell"]) --id|x|y|arm|hp
             end
 
             for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)
@@ -147,10 +147,22 @@ function love.update(dt)
             pl.en[name] = pl.en[name] - 20
           end
         elseif cmd == "use" then --use item
+
           parms = atComma(param[1])
           local name = parms[1]
           local item = parms[2]
           playerUse(name,item)
+
+        elseif cmd == "potion" then --use potion
+          local name = param[1]
+
+          if pl.pot[name] ~= "None" then
+            if item.type[pl.pot[name]] == "hp" and pl.hp[name] < 100 then
+              pl.spell[name] = pl.pot[name]
+              pl.spellT[name] = 3
+              pl.pot[name] = "None"
+            end
+          end
         end
 
 
