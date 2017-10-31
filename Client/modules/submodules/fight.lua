@@ -127,6 +127,7 @@ love.graphics.scale(scale,scale)
         love.graphics.rectangle("fill",x+xoff,y+32+8+yoff,(pl.en/100)*32,6)
         love.graphics.setColor(205,166,0)
         love.graphics.rectangle("line",x+xoff,y+32+8+yoff,32,6)
+        love.graphics.print(getPlayer(playerName,"spell"),100,100)
       end
 
 

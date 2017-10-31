@@ -339,10 +339,10 @@
   item.price[ti] = 10
   item.img[ti] = love.graphics.newImage("img/items/scrolls/Recovery.png")
 
-  local ti = "Ground Slam"
+  local ti = "Slam"
   item.type[ti] = "Spell"
   item.desc[ti] = "Deal ATK*2 damage to all enemies within 5 meters"
-  item.val[ti] = "100,100"
+  item.val[ti] = "30,100,1"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = love.graphics.newImage("img/items/scrolls/Ground Slam.png")

@@ -73,8 +73,13 @@ function updateGame(dt)
 
   if item.type[pl.spell] == "hp" then
     pl.hp = pl.hp + (item.val[pl.spell]/3)*dt
-    if pl.hp > 100 then pl.hp = 100 end
   end
+
+  if pl.spell == "Recovery" then
+    pl.hp = pl.hp + 10*dt --increase by 10% per second
+  end
+
+  if pl.hp > 100 then pl.hp = 100 end
 
   pl.armd = pl.armd - 1*dt
   if pl.armd < 0 then pl.armd = 0 end

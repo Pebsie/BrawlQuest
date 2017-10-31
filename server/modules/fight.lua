@@ -57,6 +57,8 @@ end
 
 function removePlayerFromFight(name)
   --step 1: find out what fight the player is in
+  pl.s1t[name] = 0
+  pl.s2t[name] = 0
   name = getPlayerID(name)
 
   local id = findFightPlayerIsIn(name)
@@ -311,6 +313,10 @@ function updateFights(dt) --the big one!!
                 mob.target.t[v] = thisPlayer
                 mob.target.x[v] = pl.x[mob.target.t[v]]+16
                 mob.target.y[v] = pl.y[mob.target.t[v]]+16
+              end
+            elseif pl.spell[thisPlayer] == "Slam" then
+              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*5 then
+                mob.hp[v] = mob.hp[v] - item.val[pl.wep[thisPlayer]]*dt
               end
             end
           end

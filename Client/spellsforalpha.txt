@@ -1,6 +1,6 @@
 Second Wind
-Recovery
-Ground Slam
+Recovery *
+Ground Slam *
 Grace
-Enrage
-Phase Shift
+Enrage *
+Phase Shift *

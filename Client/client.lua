@@ -60,6 +60,8 @@ function netUpdate(dt)
               music.curPlay:stop() --reset music
               pl.x = love.math.random(200, 600) --place players in a line at the bottom of the arena
               pl.y = 380
+              pl.s1t = 0
+              pl.s2t = 0
               createFightCanvas(pl.t)
               killMobs()
               requestWorldInfo()
@@ -139,6 +141,10 @@ function netUpdate(dt)
             updateMob(i,"tx",tonumber(param[tparam]))
             updateMob(i,"ty",tonumber(param[tparam+1]))
             updateMob(i,"type",param[tparam+2])
+            if getMob(i,"hp") > tonumber(param[tparam+3]) then
+              addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
+              updateMob(i,"hp",tonumber(param[tparam+3]))
+            end
             updateMob(i,"hp",tonumber(param[tparam+3]))
 
 

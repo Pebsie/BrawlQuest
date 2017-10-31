@@ -79,7 +79,6 @@ function updatePlayers(dt)
 
     if item.type[pl.spell[k]] == "hp" then
       pl.hp[k] = pl.hp[k] + (item.val[pl.spell[k]]/3)*dt
-      if pl.hp[k] > 100 then pl.hp[k] = 100 end
     end
 
     pl.armd[k] = pl.armd[k] - 1*dt
@@ -87,6 +86,12 @@ function updatePlayers(dt)
 
     pl.s1t[k] = pl.s1t[k] - 1*dt
     pl.s2t[k] = pl.s2t[k] - 1*dt
+
+    if pl.spell[k] == "Recovery" then
+      pl.hp[k] = pl.hp[k] + 10*dt --increase by 10% per second
+    end
+
+    if pl.hp[k] > 100 then pl.hp[k] = 100 end
   end
 end
 
@@ -297,8 +302,9 @@ function useSpell(spellName,name)
   vals = atComma(item.val[spellName])
 
   if pl.spell[name] == "None" then
-    if tonumber(pl.en[name]) > tonumber(vals[2]) then
+    if tonumber(pl.en[name])+1 > tonumber(vals[2]) then
       pl.spell[name] = spellName
+      addMsg(name.." used "..spellName)
       pl.spellT[name] = tonumber(vals[3])
       pl.en[name] = pl.en[name] - tonumber(vals[2])
     end

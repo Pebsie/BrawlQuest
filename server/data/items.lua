@@ -311,13 +311,13 @@ function initItems()
 
   local ti = "Recovery"
   item.type[ti] = "Spell"
-  item.desc[ti] = "Recover 30% health"
-  item.val[ti] = "120,50,1"
+  item.desc[ti] = "Recover 30% health over 3 seconds"
+  item.val[ti] = "120,50,3"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = 32
 
-  local ti = "Ground Slam"
+  local ti = "Slam"
   item.type[ti] = "Spell"
   item.desc[ti] = "Deal ATK*2 damage to all enemies within 5 meters"
   item.val[ti] = "30,100,1"
@@ -335,7 +335,7 @@ function initItems()
 
   local ti = "Grace"
   item.type[ti] = "Spell"
-  item.desc[ti] = "Heal all friendlies for 30% their max health"
+  item.desc[ti] = "Heal all friendlies for 20% over 2 seconds"
   item.val[ti] = "60,50,2"
   item.lvl[ti] = 10
   item.price[ti] = 10
