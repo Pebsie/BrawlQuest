@@ -155,6 +155,7 @@ function drawUIWindow(i)
       love.graphics.print(item.val[pl.wep], 85+x, 230+y)
       love.graphics.print(item.val[pl.arm], 85+x, 264+y)
       love.graphics.setFont(font)
+      love.graphics.printf(pl.gold.." gold",x,300+y,gameUI[i].width,"center")
       love.graphics.setColor(255,255,255)
 
     elseif i == 2 then
@@ -194,7 +195,10 @@ function drawUIWindow(i)
               piv = '"'..item.desc[inv[i]]..'."'
               local stats = atComma(item.val[inv[i]])
               piv = piv.."\n"..stats[1].." second cooldown.\nRequires "..stats[2].." energy."
+            elseif cit == "Letter" then
+              pit = "Letter" piv = "A letter. Want to read it?"
             end
+
 
             addTT(inv[i],"Level "..item.lvl[inv[i]].." "..pit..".\n"..piv.."\nWorth "..item.price[inv[i]].." gold.",cx,cy)
             pl.selItem = inv[i]

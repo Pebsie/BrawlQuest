@@ -8,6 +8,8 @@ udp:setsockname("*", 26651)
 msgs = "Server started."
 nett = 0.1
 
+saveTime = 1
+
 --game variables here
 require "modules/tools"
 require "modules/players"
@@ -22,16 +24,9 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
+  loadGame()
   initItems()
   loadOverworld()
-  newPlayer("demo","demo")
-  newPlayer("JoeyFunWithMusic","demo")
-  newPlayer("pebsie","demo")
-    newPlayer("a","a")
-      newPlayer("b","b")
-  givePlayerItem("pebsie","Basic Leather",1)
-  givePlayerItem("pebsie","Slam",1)
-    givePlayerItem("pebsie","Recovery",1)
 
   --newFight(1, "Boar Hunt")
   --addPlayerToFight(1, "Pebsie")
@@ -61,9 +56,12 @@ function love.update(dt)
           if loginPlayer(namePass[1], namePass[2]) then
             udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
             addMsg("They are who they claim to be. Let them in, boys!")
-          else
+          elseif getPlayerID(namePass[1]) then
             udp:sendto(string.format("%s %s %s", namePass[1], "login", "false"), msg_or_ip, port_or_nil)
             addMsg("He wasn't "..namePass[1]..".")
+          else
+            newPlayer(namePass[1],namePass[2])
+              udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
           end
 
         elseif cmd == "char" then --client is requesting character info
@@ -85,11 +83,11 @@ function love.update(dt)
             end
           end
 
-        --  for i = 1, 100*100 do
-      --      if world[i].isFight == true then
-      --        msgToSend = msgToSend..string.format("fight|%s|", i)
-    --        end
-    --      end
+          for i = 1, 100*100 do
+            if world[i].isFight == true then
+             msgToSend = msgToSend..string.format("fight|%s|", i)
+           end
+         end
 
           udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
         elseif cmd == "fight" then
@@ -186,9 +184,57 @@ function love.update(dt)
   updateWorld(dt)
   updatePlayers(dt)
 
+  saveTime = saveTime - 1*dt
+  if saveTime < 0 then
+    saveGame()
+    saveTime = 10
+  end
 end
 
 function addMsg(msg)
   print(msg)
   msgs = msg.."\n"..msgs
+end
+
+function saveGame()
+  addMsg("Saving game.")
+  local fp = "bqplayers.txt"
+  local fs = ""
+  for i = 1, countPlayers() do
+      local k = getPlayerName(i)
+      if pl.state[k] ~= "fight" then
+
+        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|\n"
+      --fp = "map-new.txt"
+    end
+  end
+
+  love.filesystem.write(fp, fs)
+end
+
+function loadGame()
+  addMsg("Loading game.")
+  if love.filesystem.exists("bqplayers.txt") then
+    for line in love.filesystem.lines("bqplayers.txt") do
+      word = atComma(line,"|")
+      newPlayer(word[1],word[2])
+      i = getPlayerName(countPlayers())
+      pl.hp[i] = tonumber(word[3])
+      pl.en[i] = tonumber(word[4])
+      pl.s1[i] = word[5]
+      pl.s2[i] = word[6]
+      pl.gold[i] = tonumber(word[7])
+      pl.x[i] = tonumber(word[8])
+      pl.y[i] = tonumber(word[9])
+      pl.t[i] = tonumber(word[10])
+      pl.wep[i] = word[11]
+      pl.arm[i] = word[12]
+      pl.inv[i] = word[13]
+      pl.pot[i] = word[14]
+      pl.lvl[i] = tonumber(word[15])
+      pl.xp[i] = tonumber(word[16])
+    end
+  else
+    addMsg("Couldn't find save file.")
+  end
 end

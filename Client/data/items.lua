@@ -387,6 +387,13 @@
   item.price[ti] = 10
   item.img[ti] = love.graphics.newImage("img/items/scrolls/Flash of Light.png")
 
+  local ti = "A letter addressed to you"
+  item.type[ti] = "Letter"
+  item.val[ti] = "Hey!\n\nThanks so much for playing the BrawlQuest alpha.\n\nSincerely, Pebsie."
+  item.lvl[ti] = 10
+  item.price[ti] = 100
+  item.img[ti] = love.graphics.newImage("img/items/letter.png")
+
   buddy = {}
   buddy["Baby Bat"] = love.graphics.newImage("img/pet/Baby Bat.png")
   buddy["Beholder"] = love.graphics.newImage("img/pet/Beholder.png")

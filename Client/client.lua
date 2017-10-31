@@ -45,6 +45,9 @@ function netUpdate(dt)
             pl.dt = param[9]
             pl.hp = tonumber(param[1])
             pl.en = tonumber(param[2])
+            if pl.gold < tonumber(param[5]) then
+              addTT("Gold changed","You've now got "..tonumber(param[5]).." gold!",sw/2,sh/2,50)
+            end
             pl.gold = tonumber(param[5])
             pl.lvl = tonumber(param[13])
             pl.xp = tonumber(param[14])
@@ -142,10 +145,19 @@ function netUpdate(dt)
             updateMob(i,"ty",tonumber(param[tparam+1]))
             updateMob(i,"type",param[tparam+2])
             if getMob(i,"hp") > tonumber(param[tparam+3]) then
-              addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
-              updateMob(i,"hp",tonumber(param[tparam+3]))
+              if tonumber(param[tparam+3]) < 0.1 then
+                addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),32)
+              else
+                if getMob(i,"hp")-tonumber(param[tparam+3]) > 4 then
+                  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
+                else
+                  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
+                end
+              end
             end
+
             updateMob(i,"hp",tonumber(param[tparam+3]))
+
 
 
             tparam = tparam + 4

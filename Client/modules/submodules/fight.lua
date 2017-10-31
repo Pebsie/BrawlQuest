@@ -324,7 +324,7 @@ end
 
 function updateMob(id,a,value)
   if a == "hp" and mob[id][a] > 0 then
-    if value < 1 then
+    if value < 0 then
       addBones(mob[id].type, mob[id].x, mob[id].y)
     end
   end

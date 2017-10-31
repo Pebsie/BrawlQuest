@@ -49,8 +49,8 @@ function newPlayer(name, password)
   pl.wep[i] = "Long Stick"
   pl.arm[i] = "Old Cloth"
   pl.armd[i] = 0
-  pl.inv[i] = "Legendary Blade;1"
-  pl.pot[i] = "Red Potion"
+  pl.inv[i] = "A letter addressed to you;1"
+  pl.pot[i] = "None"
   pl.lvl[i] = 1
   pl.xp[i] = 0
   pl.at[i] = false
@@ -252,9 +252,6 @@ function movePlayer(name, dir)
           newFight(pl.t[name], "Ghostly Haunting")
         end
         addPlayerToFight(#ft.t, name)
-        addMsg(fightChance.." < "..world[pl.t[name]].fightc)
-      else
-          addMsg(fightChance.." > "..world[pl.t[name]].fightc)
       end
     end
   end

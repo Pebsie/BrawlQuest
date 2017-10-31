@@ -81,8 +81,10 @@ function updateGame(dt)
 
   if pl.hp > 100 then pl.hp = 100 end
 
-  pl.armd = pl.armd - 1*dt
-  if pl.armd < 0 then pl.armd = 0 end
+  if pl.armd then
+    pl.armd = pl.armd - 1*dt
+    if pl.armd < 0 then pl.armd = 0 end
+  end
 
   pl.s1t = pl.s1t - 1*dt
   pl.s2t = pl.s2t - 1*dt

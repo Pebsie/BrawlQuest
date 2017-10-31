@@ -1,6 +1,7 @@
 tt = {}
 
-function addTT(title,desc,x,y)
+function addTT(title,desc,x,y,decay)
+  if not decay then decay = 255 end
   i = 1
   tt[i] = {}
   tt[i].title = title
@@ -9,6 +10,7 @@ function addTT(title,desc,x,y)
   tt[i].y = y
   tt[i].visible = true
   tt[i].alpha = 255
+  tt[i].decay = decay
 end
 
 function drawTooltips()
@@ -32,7 +34,7 @@ end
 
 function updateTT(dt)
   for i = 1, #tt do
-    tt[i].alpha = tt[i].alpha - 255*dt
+    tt[i].alpha = tt[i].alpha - tt[i].decay*dt
     if tt[i].alpha < 0 then tt[i].alpha = 0 end
   end
 end

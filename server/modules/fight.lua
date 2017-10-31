@@ -91,6 +91,7 @@ function endFight(fight)
 
   local playersInFight = listPlayersInFight(fight)
   for i = 1, #playersInFight do
+    givePlayerGold(getPlayerName(tonumber(playersInFight[i])),fs.rewards[ft.title[fight]])
     removePlayerFromFight(getPlayerName(tonumber(playersInFight[i])))
   end
 end
@@ -252,10 +253,10 @@ function updateFights(dt) --the big one!!
         end
       end
 
-
       for v = 1,#mobInfo/7 do
 
         if mob.hp[v] > 0 then
+
           hasFightEnded = false
           --movement
           local width = mb.img[mob[v]]/2
@@ -349,13 +350,13 @@ function updateFights(dt) --the big one!!
 
       end
 
-      if hasFightEnded == true then
-        endFight(i)
-      end
-    end
+          for k = 1, countPlayersInFight(i) do
+            pl.at[getPlayerName(k)] = false
+          end
+          if hasFightEnded == true then
+            endFight(i)
+          end
 
-    for k = 1, countPlayersInFight(i) do
-      pl.at[getPlayerName(k)] = false
     end
   end --fight loop end
 end --function end

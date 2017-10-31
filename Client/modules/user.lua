@@ -58,7 +58,7 @@ function enterGame()
     gameUI[1].isDrag = false
     gameUI[1].isVisible = true
     gameUI[1].width = 160
-    gameUI[1].height = 300+font:getHeight()+2
+    gameUI[1].height = 316+font:getHeight()+2
     gameUI[1].label = "Character"
 
     gameUI[2] = {}
@@ -84,6 +84,10 @@ function requestUserInfo()
   netSend("char", pl.name)
 end
 
-function useItem(item)
-  netSend("use", pl.name..","..item)
+function useItem(titem)
+  if item.type[titem] == "Letter" then
+    love.window.showMessageBox("Letter",item.val[titem])
+  else
+    netSend("use", pl.name..","..titem)
+  end
 end

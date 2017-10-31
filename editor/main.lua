@@ -46,11 +46,6 @@ function love.load()
       if word[4] == "true" then world.collide[i] = true else world.collide[i] = false end
       world.name[i] = word[5]
       world.bg[i] = word[6]
-      print(world[i])
-      print(world.fight[i])
-      print(world.fightc[i])
-      print(tostring(world.collide[i]))
-      print(world.name[i])
       world.isFight[i] = false
       --print("Tile #"..i..", '"..world.name[i].."', fight is "..world.fight[i].." ("..world.fightc[i].."% chance). Collide="..tostring(world.collide[i]))
     end
