@@ -300,6 +300,7 @@ function useSpell(spellName,name)
     if tonumber(pl.en[name]) > tonumber(vals[2]) then
       pl.spell[name] = spellName
       pl.spellT[name] = tonumber(vals[3])
+      pl.en[name] = pl.en[name] - tonumber(vals[2])
     end
 
   end

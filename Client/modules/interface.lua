@@ -78,15 +78,21 @@ function love.keypressed(key)
     end
   elseif key == "q" then
     if phase == "game" then
-      netSend("spell1", pl.name)
       vals = atComma(item.val[pl.s1])
-      pl.s1t = vals[1]
+      if pl.s1t < 0 and pl.en > tonumber(vals[2]) then --HEY, changing this won't alter when you can and can't use spells, it'll only mess up the UI, so, stop.
+        netSend("spell1", pl.name)
+        pl.en = pl.en - tonumber(vals[2])
+        pl.s1t = vals[1]
+      end
     end
   elseif key == "e" then
     if phase == "game" then
-      netSend("spell2", pl.name)
       vals = atComma(item.val[pl.s2])
-      pl.s2t = vals[1]
+      if pl.s2t < 0 and pl.en > tonumber(vals[2]) then
+        netSend("spell2", pl.name)
+        pl.en = pl.en - tonumber(vals[2])
+        pl.s2t = vals[1]
+      end
     end
   end
 
