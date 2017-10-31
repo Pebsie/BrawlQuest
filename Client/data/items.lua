@@ -17,7 +17,7 @@
 
   local ti = "None"
   item.type[ti] = "none"
-  item.val[ti] = 1
+  item.val[ti] = "1,1,1"
   item.lvl[ti] = 1
   item.price[ti] = 0
   item.img[ti] = love.graphics.newImage("img/empty.png")
@@ -374,7 +374,7 @@
   local ti = "Enrage"
   item.type[ti] = "Spell"
   item.desc[ti] = "Taunt all enemies within 10 meters, causing them to change target and attack you"
-  item.val[ti] = "6,20"
+  item.val[ti] = "20,20"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = love.graphics.newImage("img/items/scrolls/Enrage.png")
@@ -385,7 +385,7 @@
   item.val[ti] = "60,50"
   item.lvl[ti] = 10
   item.price[ti] = 10
-  item.img[ti] = ""
+  item.img[ti] = love.graphics.newImage("img/items/scrolls/Flash of Light.png")
 
   buddy = {}
   buddy["Baby Bat"] = love.graphics.newImage("img/pet/Baby Bat.png")

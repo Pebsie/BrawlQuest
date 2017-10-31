@@ -167,7 +167,7 @@ function drawUIWindow(i)
       local inv = atComma(pl.inv,";")
 
       local cx, cy = love.mouse.getPosition()
-
+      pl.selItem = "None"
       local tx = 4
       local ty = 4
       love.graphics.setFont(sFont)

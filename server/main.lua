@@ -29,10 +29,10 @@ function love.load()
   newPlayer("pebsie","demo")
     newPlayer("a","a")
       newPlayer("b","b")
-  givePlayerItem("pebsie","Legendary Blade",4)
+  givePlayerItem("pebsie","Basic Leather",4)
   givePlayerItem("pebsie","Steel Armour",2)
   givePlayerItem("pebsie","Yellow Potion",10)
-  givePlayerItem("pebsie","Tornado",1)
+  givePlayerItem("pebsie","Phase Shift",1)
   givePlayerItem("pebsie","Second Wind",1)
   givePlayerItem("pebsie","Grace",1)
   givePlayerItem("pebsie","Flash of Light",1)
@@ -162,6 +162,24 @@ function love.update(dt)
               pl.spellT[name] = 3
               pl.pot[name] = "None"
             end
+          end
+        elseif cmd == "spell1" then
+          local name = param[1]
+
+          if pl.s1[name] ~= "None" and pl.s1t[name] < 0 then
+            vals = atComma(item.val[pl.s1[name]])
+
+            useSpell(pl.s1[name],name)
+            pl.s1t[name] = tonumber(vals[1])
+          end
+        elseif cmd == "spell2" then
+          local name = param[1]
+
+          if pl.s2[name] ~= "None" and pl.s2t[name] < 0 then
+            vals = atComma(item.val[pl.s2[name]])
+            useSpell(pl.s2[name],name)
+
+            pl.s2t[name] = tonumber(vals[1])
           end
         end
 

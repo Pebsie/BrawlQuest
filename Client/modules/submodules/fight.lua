@@ -223,8 +223,9 @@ function updateFight(dt)
       love.audio.play(mb.sfx[mob[i].type][love.math.random(1,#mb.sfx[mob[i].type])])
     end
 
-    if distanceFrom(pl.x, pl.y, mob[i].x, mob[i].y) < mb.rng[mob[i].type] then
+    if distanceFrom(pl.x, pl.y, mob[i].x, mob[i].y) < mb.rng[mob[i].type] and mob[i].hp > 0 then
       pl.armd = pl.armd + (mb.atk[mob[i].type]/2)*dt --for smoothing purposes
+      if pl.armd < 0 then pl.armd = 0 end
      end
   end
 
@@ -384,8 +385,18 @@ function drawFightUI(x,y)
   love.graphics.draw(uiImg["itemportrait"],x+39,y+56)
   love.graphics.draw(uiImg["smallportrait"],x+6,y+6)
 
+  if pl.s1t > 0 or pl.en < tonumber(atComma(item.val[pl.s1])[2]) then
+    love.graphics.setColor(255,255,255,100)
+  end
   love.graphics.draw(item.img[pl.s1],x+464,y+16,0,2,2)
+
+    if pl.s2t > 0 or pl.en <  tonumber(atComma(item.val[pl.s2])[2]) then
+      love.graphics.setColor(255,255,255,100)
+    else
+      love.graphics.setColor(255,255,255,255)
+    end
   love.graphics.draw(item.img[pl.s2],x+559,y+16,0,2,2)
+  love.graphics.setColor(255,255,255,255)
 
   love.graphics.draw(uiImg["lvtmp"],x+13,y+37)
   love.graphics.draw(uiImg["atkdef"],x+139,y+49)
@@ -406,6 +417,14 @@ function drawFightUI(x,y)
   love.graphics.print("Q",x+464+28,y-5)
   love.graphics.print("E",x+559+28,y-5)
 
+  --spell timers
+  love.graphics.setColor(255,0,0)
+      if pl.s1t > 0 then
+        love.graphics.print(round(pl.s1t),x+474,y+16)
+      end
+      if pl.s2t > 0 then
+        love.graphics.print(round(pl.s2t),x+569,y+16)
+      end
 
   --border
   love.graphics.setColor(0,0,0)

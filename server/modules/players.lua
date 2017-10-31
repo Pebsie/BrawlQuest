@@ -4,7 +4,9 @@ pl = {} --identified by username
 pl.hp = {}
 pl.en = {}
 pl.s1 = {} --scroll 2 (q)
+pl.s1t = {}
 pl.s2 = {} --scroll 2 (e)
+pl.s2t = {}
 pl.gold = {}
 pl.x = {}
 pl.y = {}
@@ -37,7 +39,9 @@ function newPlayer(name, password)
   pl.hp[i] = 100
   pl.en[i] = 100
   pl.s1[i] = "None"
+  pl.s1t[i] = 0
   pl.s2[i] = "None"
+  pl.s2t[i] = 0
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
@@ -80,6 +84,9 @@ function updatePlayers(dt)
 
     pl.armd[k] = pl.armd[k] - 1*dt
     if pl.armd[k] <0 then pl.armd[k] = 0 end
+
+    pl.s1t[k] = pl.s1t[k] - 1*dt
+    pl.s2t[k] = pl.s2t[k] - 1*dt
   end
 end
 
@@ -284,4 +291,16 @@ end
 
 function getPlayerState(name)
   return pl.state[name]
+end
+
+function useSpell(spellName,name)
+  vals = atComma(item.val[spellName])
+
+  if pl.spell[name] == "None" then
+    if tonumber(pl.en[name]) > tonumber(vals[2]) then
+      pl.spell[name] = spellName
+      pl.spellT[name] = tonumber(vals[3])
+    end
+
+  end
 end

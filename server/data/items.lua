@@ -292,11 +292,11 @@ function initItems()
   item.price[ti] = 50
   item.img[ti] = ""
 
-  --spells VAL is seconds cool down and energy consumed
+  --spells VAL is seconds cool down, energy consumed, duration
   local ti = "Second Wind"
   item.type[ti] = "Spell"
   item.desc[ti] = "Recover 10% health and move at 200% speed for 3 seconds"
-  item.val[ti] = "3,50"
+  item.val[ti] = "100,50,3"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = 32
@@ -304,7 +304,7 @@ function initItems()
   local ti = "Tornado"
   item.type[ti] = "Spell"
   item.desc[ti] = "Turn into a powerful tornado, increasing movement speed to 300% and causing damage to every opponent you touch for 5 seconds"
-  item.val[ti] = "30,100"
+  item.val[ti] = "30,100,5"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = 32
@@ -312,7 +312,7 @@ function initItems()
   local ti = "Recovery"
   item.type[ti] = "Spell"
   item.desc[ti] = "Recover 30% health"
-  item.val[ti] = "120,50"
+  item.val[ti] = "120,50,1"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = 32
@@ -320,7 +320,7 @@ function initItems()
   local ti = "Ground Slam"
   item.type[ti] = "Spell"
   item.desc[ti] = "Deal ATK*2 damage to all enemies within 5 meters"
-  item.val[ti] = "100,100"
+  item.val[ti] = "30,100,1"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = 32
@@ -328,7 +328,7 @@ function initItems()
   local ti = "Rend"
   item.type[ti] = "Spell"
   item.desc[ti] = "Next attack applies bleeding to all enemies hit"
-  item.val[ti] = "10,20"
+  item.val[ti] = "10,20,10"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = 32
@@ -336,7 +336,7 @@ function initItems()
   local ti = "Grace"
   item.type[ti] = "Spell"
   item.desc[ti] = "Heal all friendlies for 30% their max health"
-  item.val[ti] = "10,50"
+  item.val[ti] = "60,50,2"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = 32
@@ -344,7 +344,7 @@ function initItems()
   local ti = "Flash of Light"
   item.type[ti] = "Spell"
   item.desc[ti] = "Turn into a flash of light, increasing movement speed to 200% and healing all friendlies you touch for 10 seconds"
-  item.val[ti] = "30,100"
+  item.val[ti] = "30,100,10"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = 32
@@ -352,7 +352,7 @@ function initItems()
   local ti = "Enrage"
   item.type[ti] = "Spell"
   item.desc[ti] = "Taunt all enemies within 10 meters, causing them to change target and attack you"
-  item.val[ti] = "6,20"
+  item.val[ti] = "20,20,2"
   item.lvl[ti] = 10
   item.price[ti] = 10
   item.img[ti] = 32
@@ -360,10 +360,10 @@ function initItems()
   local ti = "Phase Shift"
   item.type[ti] = "Spell"
   item.desc[ti] = "All enemies target you switch to the nearest friendly and you cannot take damage for 5 seconds"
-  item.val[ti] = "60,50"
+  item.val[ti] = "60,50,5"
   item.lvl[ti] = 10
   item.price[ti] = 10
-  item.img[ti] = ""
+  item.img[ti] = 32
 
   local ti = ""
   item.type[ti] = ""

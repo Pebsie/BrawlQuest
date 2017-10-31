@@ -78,6 +78,9 @@ function updateGame(dt)
 
   pl.armd = pl.armd - 1*dt
   if pl.armd < 0 then pl.armd = 0 end
+
+  pl.s1t = pl.s1t - 1*dt
+  pl.s2t = pl.s2t - 1*dt
 end
 
 function movePlayer(dir)

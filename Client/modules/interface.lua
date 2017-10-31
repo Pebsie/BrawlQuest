@@ -76,6 +76,18 @@ function love.keypressed(key)
     if phase == "game" or phase == "fight" then
       netSend("potion", pl.name)
     end
+  elseif key == "q" then
+    if phase == "game" then
+      netSend("spell1", pl.name)
+      vals = atComma(item.val[pl.s1])
+      pl.s1t = vals[1]
+    end
+  elseif key == "e" then
+    if phase == "game" then
+      netSend("spell2", pl.name)
+      vals = atComma(item.val[pl.s2])
+      pl.s2t = vals[1]
+    end
   end
 
    if phase == "game" then

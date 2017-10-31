@@ -266,7 +266,7 @@ function updateFights(dt) --the big one!!
           end
 
           if mob.target.t[v] ~= "static" then
-            if pl.state[mob.target.t[v]] == "fight" then
+            if pl.state[mob.target.t[v]] == "fight" and pl.spell[mob.target.t[v]] ~= "Phase Shift" then
               mob.target.x[v] = pl.x[mob.target.t[v]]+16
               mob.target.y[v] = pl.y[mob.target.t[v]]+16
             else --player is dead!
@@ -306,6 +306,15 @@ function updateFights(dt) --the big one!!
               end
             end
 
+            if pl.spell[thisPlayer] == "Enrage" then
+              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 320 then
+                mob.target.t[v] = thisPlayer
+                mob.target.x[v] = pl.x[mob.target.t[v]]+16
+                mob.target.y[v] = pl.y[mob.target.t[v]]+16
+              end
+            end
+          end
+
             --spell casting
             mob.spell1time[v] = mob.spell1time[v] - 1*dt
             mob.spell2time[v] = mob.spell2time[v] - 1*dt
@@ -328,7 +337,6 @@ function updateFights(dt) --the big one!!
               elseif string.sub(spellCast,1,6) == "spawn:" then
                 spawnMob(i,string.sub(spellCast,7),mob.x[v],mob.y[v])
               end
-          end
         end
         --rebuild mob string  name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
         ft.mb[i] = ft.mb[i]..mob[v]..";"..mob.x[v]..";"..mob.y[v]..";"..mob.hp[v]..";"..mob.target.x[v]..","..mob.target.y[v]..","..mob.target.t[v]..";"..mob.spell1time[v]..";"..mob.spell2time[v]..";"
