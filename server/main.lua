@@ -30,6 +30,9 @@ function love.load()
 
   --newFight(1, "Boar Hunt")
   --addPlayerToFight(1, "Pebsie")
+  givePlayerItem("pebsie","Rend")
+  givePlayerItem("pebsie","Enrage")
+  givePlayerItem("pebsie","Recovery")
 end
 
 function love.draw()
@@ -137,7 +140,11 @@ function love.update(dt)
           parms = atComma(param[1])
           local name = parms[1]
           local item = parms[2]
-          playerUse(name,item)
+          if parms[3] then
+            playerUse(name,item,parms[3])
+          else
+            playerUse(name,item)
+          end
 
         elseif cmd == "potion" then --use potion
           local name = param[1]

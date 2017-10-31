@@ -102,6 +102,7 @@ end
 
 --UI elements
 function drawUIWindow(i)
+        local cx, cy = love.mouse.getPosition()
 
   if gameUI[i].isVisible == true then
     local x = gameUI[i].x
@@ -129,8 +130,11 @@ function drawUIWindow(i)
       love.graphics.setColor(0,0,150)
       love.graphics.rectangle("line", 38+x, 124+y, 84, 16)
       love.graphics.setColor(200,200,200)
-      love.graphics.rectangle("fill", 32+x, 148+y, 32, 32)
-      love.graphics.rectangle("fill", 96+x, 148+y, 32, 32)
+      if pl.selSpell == 1 then love.graphics.setColor(100,100,100) end
+      love.graphics.rectangle("fill", 32+x, 148+y, 32, 32) --spell1
+      if pl.selSpell == 2 then love.graphics.setColor(100,100,100) else   love.graphics.setColor(200,200,200)  end
+      love.graphics.rectangle("fill", 96+x, 148+y, 32, 32) --spell2
+      love.graphics.setColor(200,200,200)
       love.graphics.rectangle("fill", 32+x, 194+y, 32, 32)
       love.graphics.rectangle("fill", 96+x, 194+y, 32, 32)
       love.graphics.draw(uiImg["atk"], 45+x, 230+y)
@@ -142,7 +146,9 @@ function drawUIWindow(i)
       love.graphics.draw(item.img[pl.arm],48+x,16+y,0,2,2) --player avatar image
       love.graphics.draw(uiImg["portrait"],48+x,16+y)
       love.graphics.draw(item.img[pl.s1],32+x,148+y)
+      if cx > 32+x and cx < x+32+32 and cy > 148+y and cy < 148+y+32 then pl.selSpell = 1 end
       love.graphics.draw(item.img[pl.s2],96+x,148+y)
+      if cx > 96+x and cx < x+96+32 and cy > 148+y and cy < 148+y+32 then pl.selSpell = 2 end
       love.graphics.draw(item.img[pl.wep],32+x, 194+y)
       if item.img[pl.pot] then love.graphics.draw(item.img[pl.pot],96+x,194+y) end
 
@@ -167,7 +173,6 @@ function drawUIWindow(i)
 
       local inv = atComma(pl.inv,";")
 
-      local cx, cy = love.mouse.getPosition()
       pl.selItem = "None"
       local tx = 4
       local ty = 4

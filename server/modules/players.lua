@@ -157,7 +157,7 @@ function givePlayerItem(name, ritem, amount)
   end
 end
 
-function playerUse(name, ritem)
+function playerUse(name, ritem, index)
   curInv = atComma(pl.inv[name],";")
   local hasItem = false
 
@@ -190,19 +190,19 @@ function playerUse(name, ritem)
       rebuiltInv[#rebuiltInv].amount = 1
       pl.arm[name] = ritem
     elseif item.type[ritem] == "Spell" then
-      local slot = 1
+      local slot = tonumber(index)
 
-      if pl.s1[name] == "" or pl.s1[name] == "None" then
+      if slot == 1 and pl.s1[name] == "None" then
         pl.s1[name] = ritem
-      elseif pl.s2[name] == "" or pl.s2[name] == "None" then
+      elseif slot == 2 and pl.s2[name] == "None" then
         pl.s2[name] = ritem
       else
-        if pl.s1[name] ~= "" and pl.s1[name] ~= "None" then
+        if slot == 1 and pl.s1[name] ~= "None" then
           rebuiltInv[#rebuiltInv + 1] = {}
           rebuiltInv[#rebuiltInv].item = pl.s1[name]
           rebuiltInv[#rebuiltInv].amount = 1
           pl.s1[name] = ritem
-        elseif pl.s2[name] ~= "" and pl.s2[name] ~= "None" then
+        elseif slot == 2 and pl.s2[name] ~= "None" then
           rebuiltInv[#rebuiltInv + 1] = {}
           rebuiltInv[#rebuiltInv].item = pl.s2[name]
           rebuiltInv[#rebuiltInv].amount = 1
