@@ -83,12 +83,13 @@ function drawOverworld()
     love.graphics.print("Awaiting character info...")
   end
 
+  for i = 1, 4 do
+    drawUIWindow(i)
+  end
 
     love.graphics.pop()
 
-    for i = 1, 4 do
-      drawUIWindow(i)
-    end
+
 
       local sw,sh = love.graphics.getDimensions()
       if pl.t == 717 then
@@ -186,54 +187,7 @@ function drawUIWindow(i)
     y = y + font:getHeight()+2
     love.graphics.setFont(font)
     if i == 1 then
-      --shapes
-      love.graphics.setColor(50,50,50)
-      love.graphics.rectangle("fill", x, y, 160, 300)
-      love.graphics.setColor(0,0,0)
-      love.graphics.rectangle("fill", 48+x, 16+y, 64, 64)
-      love.graphics.setColor(255,0,0)
-      love.graphics.rectangle("fill", 38+x, 104+y, (pl.hp/100)*84, 16)
-      love.graphics.setColor(150,0,0)
-      love.graphics.rectangle("line", 38+x, 104+y, 84, 16)
-      love.graphics.setColor(0,0,255)
-      love.graphics.rectangle("fill", 38+x, 124+y, (pl.xp/100)*84, 16)
-      love.graphics.setColor(0,0,150)
-      love.graphics.rectangle("line", 38+x, 124+y, 84, 16)
-      love.graphics.setColor(200,200,200)
-      if pl.selSpell == 1 then love.graphics.setColor(100,100,100) end
-      love.graphics.rectangle("fill", 32+x, 148+y, 32, 32) --spell1
-      if pl.selSpell == 2 then love.graphics.setColor(100,100,100) else   love.graphics.setColor(200,200,200)  end
-      love.graphics.rectangle("fill", 96+x, 148+y, 32, 32) --spell2
-      love.graphics.setColor(200,200,200)
-      love.graphics.rectangle("fill", 32+x, 194+y, 32, 32)
-      love.graphics.rectangle("fill", 96+x, 194+y, 32, 32)
-      love.graphics.draw(uiImg["atk"], 45+x, 230+y)
-      love.graphics.draw(uiImg["def"], 45+x, 264+y)
-
-      --objects
-      love.graphics.setColor(255,255,255)
-      love.graphics.draw(worldImg["Grass"],48+x,16+y,0,2,2)
-      love.graphics.draw(item.img[pl.arm],48+x,16+y,0,2,2) --player avatar image
-      love.graphics.draw(uiImg["portrait"],48+x,16+y)
-      love.graphics.draw(item.img[pl.s1],32+x,148+y)
-      if cx > 32+x and cx < x+32+32 and cy > 148+y and cy < 148+y+32 then pl.selSpell = 1 end
-      love.graphics.draw(item.img[pl.s2],96+x,148+y)
-      if cx > 96+x and cx < x+96+32 and cy > 148+y and cy < 148+y+32 then pl.selSpell = 2 end
-      love.graphics.draw(item.img[pl.wep],32+x, 194+y)
-      if item.img[pl.pot] then love.graphics.draw(item.img[pl.pot],96+x,194+y) end
-
-      --text
-      love.graphics.printf(pl.name,x,84+y,160,"center")
-      love.graphics.print("Q", 58+x, 176+y)
-      love.graphics.print("E", 90+x, 176+y)
-      love.graphics.setColor(0,180,0)
-      love.graphics.setFont(bFont)
-      love.graphics.print(item.val[pl.wep], 85+x, 230+y)
-      love.graphics.print(item.val[pl.arm], 85+x, 264+y)
-      love.graphics.setFont(font)
-      love.graphics.printf(pl.gold.." gold",x,300+y,gameUI[i].width,"center")
-      love.graphics.setColor(255,255,255)
-
+      drawFightUI(x,y)
     elseif i == 2 then
 
       love.graphics.setColor(255,255,255)

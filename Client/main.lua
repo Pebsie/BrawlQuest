@@ -21,7 +21,7 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Alpha Event - Realm of the Skeleton King"
+version = "Pre-Alpha v0.2"
 phase = "read"
 
 isMouseDown = false
