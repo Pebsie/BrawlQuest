@@ -21,14 +21,16 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Alpha 0.1"
-phase = "login"
+version = "Alpha Event - Realm of the Skeleton King"
+phase = "read"
 
 isMouseDown = false
 cox = 0
 coy = 0
 
 scale = 1
+
+cx, cy = love.mouse.getPosition()
 
 selT = 0
 
@@ -40,11 +42,20 @@ screenW,screenH = love.graphics.getDimensions()
 realScreenWidth = screenW
 realScreenHeight = screenH
 
+news = ""
+
 function love.load()
 
-  --local ipadd = "37.59.126.91"
+
 local ipadd = "127.0.0.1"
-  netConnect(ipadd, "26651", 0.1)
+ local ipadd = "37.59.126.91"
+  netConnect(ipadd, "26654", 0.1)
+  love.mouse.setVisible(false)
+  b, c, h = http.request("http://brawlquest.com/dl/news-2.txt")
+  love.filesystem.write("news-2.txt", b)
+  for line in love.filesystem.lines("news-2.txt") do
+    news = news..line.."\n"
+  end
 
   font = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",14)
   sFont = love.graphics.newFont(9)
@@ -62,9 +73,16 @@ end
 
 function love.draw()
   drawPhase(phase)
+  love.graphics.setColor(255,255,255)
+  love.graphics.draw(uiImg["cursor"],cx,cy)
+  if pl.state ~= "fight" then --this appeared to cause a strange flickering when on a fight. Bodge fix, UPDATE AFTER ALPHA EVENT!!!
+    drawTooltips()
+  end
 end
 
+
 function love.update(dt)
+  cx, cy = love.mouse.getPosition()
   netUpdate(dt)
   updatePhase(phase,dt)
   updateMusic(dt)
@@ -76,13 +94,49 @@ function love.mousepressed(button)
   cox, coy = love.mouse.getPosition()
 end
 
-function love.mousereleased(button, x, y)
+function love.mousereleased(button, cx, cy)
   isMouseDown = false
-
+  cx, cy = love.mouse.getPosition()
   if phase == "game" then
     if pl.state == "world" then
-      useItem(pl.selItem)
-      frequentlyUpdate = true
+      if pl.t == 717 then
+        cy = cy - 32
+        local sw,sh = love.graphics.getDimensions()
+        x = sw/2-75
+        y = sh/2-125
+          x = x + 2
+        for k = 1, 4 do
+          if k == 1 then titype = "Armour"
+          elseif k == 2 then titype = "Weapons"
+          elseif k == 3 then titype = "Spells"
+          elseif k == 4 then titype = "Potions" end
+          for i = 1, #shop[titype] do
+        --    love.window.showMessageBox("debug",shop[titype][i].." at "..x.." ("..(x+32).."),"..y.." ("..(y+32).."), cursor at "..cx..","..cy)
+            if cx > x and cx < x+32 and cy > y and cy < y+32 then
+
+              if pl.gold > item.price[shop[titype][i]]-1 then
+                netSend("buy",pl.name..","..shop[titype][i])
+                  frequentlyUpdate = true
+                  love.audio.play(sfx["hit"])
+              else
+                gameUI[4].isVisible = true
+                gameUI[4].msg = "You don't have enough gold!"
+              end
+            end
+
+            x = x + 34
+          end
+          x = (sw/2-75)+2
+          y = y + 34 + font:getHeight()
+        end
+      end
+        if pl.selItem ~= "None" then
+          useItem(pl.selItem)
+
+          love.audio.play(sfx["hit"])
+          frequentlyUpdate = true
+        end
+
     end
   end
 end

@@ -1,0 +1,55 @@
+==SERVER DOCUMENTATION==
+
+  ADD ISSUE TO GITHUB: attacking is done client side whilst it should be done server side
+
+
+=PLAYERS=
+countPlayers() - Returns the number of accounts
+newPlayer(name, password) - Creates a new ACCOUNT and player. Returns nothing.
+getPlayerID(name) - Returns account table ID of player username.
+getPlayerName(id) - Returns player username of account table ID.
+getPlayerTile(name) - Returns the tile that the player is currently on.
+loginPlayer(name, password) - Checks name and password of account. Returns a boolean.
+givePlayerXP(name, xp) - Gives player name XP equal to xp. Player levels up if above cap, set by data/level.lua
+givePlayerGold(name, gold) - Gives player name gold equal to gold
+givePlayerItem(name, item, amount) - Gives player name item item. Amount is an optional parameter and defaults to 1.
+damagePlayer(name, amount) - Damage player name by amount amount. Lower cap is 0.
+isPlayerDead(name) - Returns whether or not a player is alive or dead
+isPlayerOnline(name) - Returns whether or not a player is online
+
+=FIGHT=
+newFight(tile, fscript) - Starts a fight on tile using fscript.
+addPlayerToFight(fight, name) - Adds player name to fight fight.
+listFightsOnTile(tile) - Returns an array with all fights taking place on that tile in format id;first player;time elapsed;
+listPlayersInFight(fight) - Returns an array of all player IDs currently in this fight
+countFights() - returns the number of fights currently taking place
+findFightPlayerIsIn(name) - Returns the ID of the fight that player name is currently in, returns -1 if not found
+removePlayerFromFight(name) - Removes player name from the fight that they're in
+
+updateFights(dt)
+  This gets its own section because I need to explain a bit more about its behaviour.
+  We cycle through all fights.
+  Mobs are broken down and assigned into the "mob" array.
+  Mobs then move towards their target at the speed set in data/mobs
+  If their target isn't a static point then their target x and y is updated to the player they've got targeted
+
+=UI=
+When the player takes damage they'll receive a message for feedback in the UI, formatted as follows:
+  dmg,dmga,x,y - Means you've dealt dmga to the mob at x,y
+  tdmg,dmg - Means you've taken dmg damage. Make sure these messages all add up to the current amount before displaying.
+
+==MESSAGES==
+If the server is sent any of the following messages, it'll reply with the info stated.
+login - Arguments: username, password. Replies "*name*,login,true" if correct username and password is entered, "*name*,login,false" otherwise.
+char - Arguments: username. Replies "*name*,char *hp*|*en*|*s1*|*s2*|*gold|*x*|*y*|*t*|*dt*|*wep*|*arm*|*inv*|*lvl*|*xp*|*msg*|*pot*" for the username entered.
+
+==MODULE VARIABLES==
+pl - Player
+acc - Account
+lvlXP - Level XP boundary
+mb - Mob (directory)
+ft - Fight
+fs - Fight script
+
+==EXPANSION INFORMATION==
+To add multiple character slots, add "other names" to acc. Many other systems RELY on acc.username.

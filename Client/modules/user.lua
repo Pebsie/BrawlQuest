@@ -42,7 +42,7 @@ function enterGame()
   stopMusic() --stop title music
   --download map
   --if not love.filesystem.exists("map.txt") then
-    b, c, h = http.request("http://brawlquest.com/dl/map.txt")
+    b, c, h = http.request("http://brawlquest.com/dl/skeleking-map-2.txt")
     love.filesystem.write("map.txt", b)
   --end
       loadFog()
@@ -79,6 +79,16 @@ function enterGame()
     gameUI[3].width = 148
     gameUI[3].height = 148+font:getHeight()+2
     gameUI[3].label = "Inventory"
+
+    gameUI[4] = {}
+    gameUI[4].x = sw/2
+    gameUI[4].y = sh/2
+    gameUI[4].isDrag = false
+    gameUI[4].isVisible = false
+    gameUI[4].width = 1
+    gameUI[4].height = 16
+    gameUI[4].label = "Alert"
+    gameUI[4].msg = ""
 end
 
 function requestUserInfo()
@@ -86,8 +96,9 @@ function requestUserInfo()
 end
 
 function useItem(titem)
-  if item.type[titem] == "Letter" then
-    love.window.showMessageBox("Letter",item.val[titem])
+  if item.type[titem] == "Letter" or item.type[titem] == "Key" then
+    gameUI[4].isVisible = true
+    gameUI[4].msg = item.val[titem]
   else
     netSend("use", pl.name..","..titem..","..pl.selSpell)
   end

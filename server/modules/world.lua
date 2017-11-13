@@ -2,11 +2,11 @@ world = {}
 worldUpdate = 0
 
 function loadOverworld()
-  if not love.filesystem.exists("map.txt") then
+--  if not love.filesystem.exists("map.txt") then
     addMsg("Downloading world...")
-    b, c, h = http.request("http://peb.si/bq/dl/map.txt")
+    b, c, h = http.request("http://brawlquest.com/dl/skeleking-map-2.txt")
     love.filesystem.write("map.txt", b)
-  end
+  --end
 
   --unpack
   addMsg("Unpacking world...")

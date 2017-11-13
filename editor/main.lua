@@ -52,21 +52,21 @@ function love.load()
   else
     print("Generating new map...")
     for i = 1, 100*100 do
-      if i < 100*20 then --top 20 rows are all trees
-        world[i] = "Tree"
-        world.name[i] = "The Great Forest"
-        world.fight[i] = "None"
-        world.fightc[i] = 0
+    --  if i < 100*20 then --top 20 rows are all trees
+  --      world[i] = "Tree"
+  --      world.name[i] = "The Great Forest"
+  --      world.fight[i] = "None"
+--        world.fightc[i] = 0
+--        world.collide[i] = true
+--        world.bg[i] = "Grass"
+--      else
+        world[i] = "Dead Tree"
+        world.name[i] = "The Dark Forest"
+        world.fight[i] = "Forest Haunting"
+        world.fightc[i] = 0 --5%
         world.collide[i] = true
         world.bg[i] = "Grass"
-      else
-        world[i] = "Grass"
-        world.name[i] = "The Great Plains"
-        world.fight[i] = "Boar Hunt"
-        world.fightc[i] = 5 --5%
-        world.collide[i] = false
-        world.bg[i] = "Grass"
-      end
+  --    end
 
       world.isFight[i] = false
     end

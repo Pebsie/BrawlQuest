@@ -26,6 +26,7 @@ pl.online = {}
 pl.state = {}
 pl.spell = {}
 pl.spellT = {}
+pl.timeout = {}
 
 acc = {} --identified by number
 acc.username = {}
@@ -45,11 +46,11 @@ function newPlayer(name, password)
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
-  pl.t[i] = 9457 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
+  pl.t[i] = 515 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
   pl.wep[i] = "Long Stick"
   pl.arm[i] = "Old Cloth"
   pl.armd[i] = 0
-  pl.inv[i] = "A letter addressed to you;1"
+  pl.inv[i] = "A letter addressed to you;1;Healing Potion;5"
   pl.pot[i] = "None"
   pl.lvl[i] = 1
   pl.xp[i] = 0
@@ -60,6 +61,7 @@ function newPlayer(name, password)
   pl.state[i] = "world"
   pl.spell[i] = "None"
   pl.spellT[i] = 0
+  pl.timeout[i] = 100
 
   addMsg("New player by the name of "..name)
 end
@@ -74,24 +76,31 @@ function updatePlayers(dt)
     pl.en[k] = pl.en[k] + 25*dt
     if pl.en[k] > 100 then pl.en[k] = 100 end
 
-    pl.spellT[k] = pl.spellT[k] - 1*dt
-    if pl.spellT[k] < 0 then pl.spell[k] = "None" end
+    if pl.spellT[k] then
+      pl.spellT[k] = pl.spellT[k] - 1*dt
+      if pl.spellT[k] < 0 then pl.spell[k] = "None" end
+    else
+      pl.spellT[k] = 1
+    end
 
     if item.type[pl.spell[k]] == "hp" then
       pl.hp[k] = pl.hp[k] + (item.val[pl.spell[k]]/3)*dt
     end
 
-    pl.armd[k] = pl.armd[k] - 1*dt
+    pl.armd[k] = pl.armd[k] - 0.25*dt
     if pl.armd[k] <0 then pl.armd[k] = 0 end
 
     pl.s1t[k] = pl.s1t[k] - 1*dt
     pl.s2t[k] = pl.s2t[k] - 1*dt
 
     if pl.spell[k] == "Recovery" then
-      pl.hp[k] = pl.hp[k] + 10*dt --increase by 10% per second
+      pl.hp[k] = pl.hp[k] + 50*dt --increase by 10% per second
     end
 
     if pl.hp[k] > 100 then pl.hp[k] = 100 end
+    pl.at[k] = false
+
+  --  pl.timeout[i] = pl.timeout[i] - 1*dt
   end
 end
 
@@ -229,6 +238,18 @@ function playerUse(name, ritem, index)
   end
 end
 
+--IMPLEMENT TO FULL GAME
+
+function playerHasItem(name,item)
+  local hasItem = false
+    curInv = atComma(pl.inv[name],";")
+  for i = 1, #curInv, 2 do
+    if curInv[i] == item then hasItem = true end
+  end
+
+  return hasItem
+end
+
 function movePlayer(name, dir)
   local curt = pl.t[name]
   if dir == "up" then pl.t[name] = pl.t[name] - 101
@@ -236,9 +257,14 @@ function movePlayer(name, dir)
   elseif dir == "left" then pl.t[name] = pl.t[name] - 1
   elseif dir == "right" then pl.t[name] = pl.t[name] + 1 end
 
-  if world[pl.t[name]].collide then
+  if world[pl.t[name]].collide and pl.t[name] ~= 4971 then
     pl.t[name] = curt
   else
+    if pl.t[name] == 4971 then
+      if not playerHasItem(name,"Skeleton Key") then
+        pl.t[name] = curt
+      end
+    end
     if world[pl.t[name]].isFight == true then
       local fightsOnTile = listFightsOnTile(pl.t[name])
       addPlayerToFight(fightsOnTile[1],name)
@@ -270,7 +296,7 @@ function damagePlayer(name, amount)
   end
 --  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";" --The client could figure this out itself
 
-  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] = 9457 addMsg(name.." died!") removePlayerFromFight(name) end
+  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] =  515 addMsg(name.." died!") removePlayerFromFight(name) end
 end
 
 --return info functions

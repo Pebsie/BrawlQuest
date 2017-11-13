@@ -2,11 +2,13 @@
 biome = love.math.random(1, 4)
 
 function drawLogin() --login screen
-  love.graphics.setBackgroundColor(45, 139, 255)
+  love.graphics.setBackgroundColor(31,0,45)
 
-  for i = 1, 3 do
+  for i = 1, 10 do
     love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
   end
+
+  love.graphics.draw(loginImg["king"],sw/2-200,sh-460)
   love.graphics.setBlendMode("alpha", "premultiplied")
 
   love.graphics.draw(uiMountains, litems["mountains"], sh-128-63)
@@ -39,7 +41,9 @@ function drawLogin() --login screen
 
   love.graphics.printf("LOGIN",xpos,ypos+32,(407/2),"center")
   love.graphics.print("BrawlQuest "..version)
+
   love.graphics.setFont(sFont)
+  love.graphics.printf(news,0,sh/2+10,sw,"center")
   love.graphics.print("Created and programmed by Thomas Lock (http://peb.si)\nGraphics by D.Gervais (used here under a Creative Commons Attribution 3.0 licence)\nMusic by Eric Matyas (used here under a Creative Commons Attribution 4.0 license)\nLogo created by Danjoe Stubbs\nSpecial thanks to Sam Warland for letting me ramble on about MMO design in recent months", 0, 18)
   love.graphics.setFont(font)
 
@@ -60,7 +64,7 @@ end
 
 function updateLogin(dt)
   local speed = 64*dt
-  for i = 1, 3 do
+  for i = 1, 10 do
     lclouds.x[i] = lclouds.x[i] - (speed/8)
     if lclouds.x[i] < -260 then
       lclouds.x[i] = sw+love.math.random(1, 100)

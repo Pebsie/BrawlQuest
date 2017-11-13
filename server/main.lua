@@ -3,7 +3,7 @@ local udp = socket.udp()
 http = require("socket.http")
 
 udp:settimeout(0)
-udp:setsockname("*", 26651)
+udp:setsockname("*", 26654)
 
 msgs = "Server started."
 nett = 0.1
@@ -24,15 +24,17 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
-  loadGame()
-  initItems()
+ loadGame()
+-- givePlayerItem("pebsie","Guardian's Padding",1)
+-- givePlayerItem("pebsie","Guardian's Blade",1)
+-- givePlayerItem("pebsie","Slam",1)
+-- givePlayerGold("b",100000)
+
+  --initItems()
   loadOverworld()
 
   --newFight(1, "Boar Hunt")
   --addPlayerToFight(1, "Pebsie")
-  givePlayerItem("pebsie","Rend")
-  givePlayerItem("pebsie","Enrage")
-  givePlayerItem("pebsie","Recovery")
 end
 
 function love.draw()
@@ -145,7 +147,17 @@ function love.update(dt)
           else
             playerUse(name,item)
           end
-
+        elseif cmd == "buy" then
+          parms = atComma(param[1])
+          local name = parms[1]
+          local titem = parms[2]
+          addMsg(name.." is trying to buy "..titem)
+          if pl.t[name] == 717 then --check that they're on the right shop tile
+            if pl.gold[name] > item.price[titem]-1 then
+              pl.gold[name] = pl.gold[name] - item.price[titem]
+              givePlayerItem(name,titem)
+            end
+          end
         elseif cmd == "potion" then --use potion
           local name = param[1]
 
@@ -174,6 +186,7 @@ function love.update(dt)
 
             pl.s2t[name] = tonumber(vals[1])
           end
+
         end
 
 
@@ -204,23 +217,21 @@ function addMsg(msg)
 end
 
 function saveGame()
-  addMsg("Saving game.")
+--  addMsg("Saving game.")
   local fp = "bqplayers.txt"
   local fs = ""
   for i = 1, countPlayers() do
       local k = getPlayerName(i)
-      if pl.state[k] ~= "fight" then
-
+      --if pl.state[k] ~= "fight" then
         fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|\n"
       --fp = "map-new.txt"
-    end
+    --  end
   end
 
   love.filesystem.write(fp, fs)
 end
 
 function loadGame()
-  addMsg("Loading game.")
   if love.filesystem.exists("bqplayers.txt") then
     for line in love.filesystem.lines("bqplayers.txt") do
       word = atComma(line,"|")
@@ -241,6 +252,7 @@ function loadGame()
       pl.lvl[i] = tonumber(word[15])
       pl.xp[i] = tonumber(word[16])
     end
+    addMsg("Game loaded.")
   else
     addMsg("Couldn't find save file.")
   end

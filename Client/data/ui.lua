@@ -5,6 +5,7 @@ loginImg.x["ground"] = 0
 loginImg["mountain"] = love.graphics.newImage("img/cinematic/login/mountain.png")
 loginImg["cloud"] = love.graphics.newImage("img/cinematic/login/cloud.png")
 loginImg["tree"] = love.graphics.newImage("img/cinematic/login/tree.png")
+loginImg["king"] = love.graphics.newImage("img/cinematic/login/king.png")
 logo = love.graphics.newImage("img/logo.png")
 
 bli = {}
@@ -28,14 +29,10 @@ lclouds = {}
 lclouds.x = {}
 lclouds.y = {}
 
-lclouds.x[1] = 28
-lclouds.y[1] = 97
-
-lclouds.x[2] = 292
-lclouds.y[2] = 273
-
-lclouds.x[3] = 793
-lclouds.y[3] = 238
+for i = 1, 10 do
+  lclouds.x[i] = love.math.random(1, 1920)
+  lclouds.y[i] = love.math.random(1, 1080)
+end
 
 litems["mountains"] = 0
 
@@ -56,3 +53,5 @@ uiImg["fight"] = love.graphics.newImage("img/ui/fight.png")
 uiImg["error"] = love.graphics.newImage("img/ui/error.png")
 uiImg["lvtmp"] = love.graphics.newImage("img/ui/lvtmp.png")
 uiImg["atkdef"] = love.graphics.newImage("img/ui/atkdef.png")
+uiImg["readme"] = love.graphics.newImage("img/ui/readme.png")
+uiImg["cursor"] = love.graphics.newImage("img/ui/mouse.png")

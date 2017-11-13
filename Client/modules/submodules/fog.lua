@@ -20,7 +20,7 @@ function loadFog()
 end
 
 function checkFog(tile)
-  return fog[tile]
+  return true
 end
 
 function addFog(t)

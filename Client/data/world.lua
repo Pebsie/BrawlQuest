@@ -31,6 +31,12 @@ worldImg["PS"] = love.graphics.newImage("img/world/objects/pathway/Side.png")
 worldImg["PUL"] = love.graphics.newImage("img/world/objects/pathway/Up Left.png")
 worldImg["PUR"] = love.graphics.newImage("img/world/objects/pathway/Up Right.png")
 worldImg["Well"] = love.graphics.newImage("img/world/objects/Well.png")
+worldImg["Skeleton1"] = love.graphics.newImage("img/world/objects/Skeleton1.png")
+worldImg["Web"] = love.graphics.newImage("img/world/objects/Web.png")
+worldImg["Castle"] = love.graphics.newImage("img/world/floors/Castle.png")
+worldImg["Gate"] = love.graphics.newImage("img/world/objects/Gate.png")
+worldImg["Quest"] = love.graphics.newImage("img/world/objects/quest.png")
+
 worldImg["Cloud"] = love.graphics.newImage("img/world/objects/Cloud.png")
 
 function setWColour(wname)

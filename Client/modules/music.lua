@@ -28,6 +28,7 @@ function updateMusic(dt)
       if love.math.random(1, 200) == 1 then
         music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
         music.curPlay:setLooping(false)
+        music.curPlay:setVolume(0.05)
         love.audio.play(music.curPlay)
       end
     end

@@ -16,6 +16,13 @@ function drawPhase(phase)
     drawLogin()
   elseif phase == "game" then
     drawGame()
+  elseif phase == "read" then
+    love.graphics.push()
+    local xscale = realScreenWidth/stdSH
+    local yscale = realScreenHeight/stdSW
+   love.graphics.scale(xscale,yscale)
+    love.graphics.draw(uiImg["readme"])
+    love.graphics.pop()
   else
     love.graphics.print("ERROR: Unknown phase '"..phase.."'. Please report this error message.")
   end
@@ -56,6 +63,8 @@ function love.keypressed(key)
       if phase == "login" then
         if ui.selected == "username" then pl.cinput = "" ui.selected = "password"
         elseif ui.selected == "password" then login() end
+      elseif phase == "read" then
+        phase = "login"
       end
   elseif key == "u" then
     if phase == "game" then
@@ -116,7 +125,7 @@ function love.resize(w,h) --reset sw and sh
   realScreenWidth = w
   realScreenHeight = h
 
-  if phase == "login" then
+  if phase == "login" or phase == "read" then
     createLoginCanvas()
   elseif phase == "game" then
     createWorldCanvas()

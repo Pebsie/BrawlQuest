@@ -50,6 +50,8 @@ function addPlayerToFight(fight, name)
     pl.state[name] = "fight"
     pl.x[name] = love.math.random(1, 800)
     pl.y[name] = love.math.random(1, 600)
+    pl.s1t[name] = 0
+    pl.s2t[name] = 0
   --  addMsg(name.." has joined fight #"..fight)
     ft.pl[fight] = ft.pl[fight]..id..";" --semicolon at end to prevent repeat errors
   end
@@ -86,12 +88,18 @@ function removePlayerFromFight(name)
 end
 
 function endFight(fight)
+  addMsg("Fight #"..fight.." ended!")
   ft.done[fight] = true
   world[ft.tile[fight]].isFight = false
 
   local playersInFight = listPlayersInFight(fight)
   for i = 1, #playersInFight do
     givePlayerGold(getPlayerName(tonumber(playersInFight[i])),fs.rewards[ft.title[fight]])
+    if ft.title[fight] == "Army of the Dead" then
+      if love.math.random(1,100) < 26 then
+        givePlayerItem(getPlayerName(tonumber(playersInFight[i])),"Skeleton Key",1)
+      end
+    end
     removePlayerFromFight(getPlayerName(tonumber(playersInFight[i])))
   end
 end
@@ -118,7 +126,7 @@ function listFightsOnTile(tile)
   local fightsOnTile = {} --id;first player;time;
 
   for i = 1, #ft.t do
-    if ft.tile[i] == tile then
+    if ft.tile[i] == tile and ft.done[i] == false then
       fightsOnTile[#fightsOnTile + 1] = i
     end
   end
@@ -127,26 +135,29 @@ function listFightsOnTile(tile)
 end
 
 function spawnMob(fight, mob, x, y)
-  stdSW = 1920/2
-  stdSH = 1080/2
-   --name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
-  --print("Creating mob "..mob.." in fight #"..fight)
-  local freshTarget = listPlayersInFight(fight)
-  freshTarget = freshTarget[love.math.random(#freshTarget)]
-  --print("Target is "..freshTarget)
-  freshTarget = getPlayerName(tonumber(freshTarget))
-  if not x then
-    local side = love.math.random(1, 3)
-    if side == 1 then --top
-      ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
-    elseif side == 2 then --left
-      ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, stdsH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
-    elseif side == 3 then --right
-      ft.mb[fight] = ft.mb[fight]..mob..";"..(stdSW+129)..";"..love.math.random(1, stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+    stdSW = 1920/2
+    stdSH = 1080/2
+     --name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
+    --print("Creating mob "..mob.." in fight #"..fight)
+    local freshTarget = listPlayersInFight(fight)
+    if freshTarget then
+      freshTarget = freshTarget[love.math.random(#freshTarget)]
+      --print("Target is "..freshTarget)
+      freshTarget = getPlayerName(tonumber(freshTarget))
+      if not x and freshTarget then
+        local side = love.math.random(1, 3)
+        if side == 1 then --top
+          ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+        elseif side == 2 then --left
+          ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, stdsH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+        elseif side == 3 then --right
+          ft.mb[fight] = ft.mb[fight]..mob..";"..(stdSW+129)..";"..love.math.random(1, stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+        end
+      else
+          ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+      end
     end
-  else
-      ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
-  end
+      return true
   --print(ft.mb[fight])
 end
 
@@ -204,9 +215,10 @@ function updateFights(dt) --the big one!!
 
           if ft.nextSpawn[i] < 0 then
           --print("Spawning a mob")
-            spawnMob(i,ft.queue[i][current])
-            ft.queue.amount[i][current] = ft.queue.amount[i][current] - 1
-            ft.nextSpawn[i] = fs.spawnTime[ft.title[i]]
+            if spawnMob(i,ft.queue[i][current]) then
+              ft.queue.amount[i][current] = ft.queue.amount[i][current] - 1
+              ft.nextSpawn[i] = fs.spawnTime[ft.title[i]]
+            end
           end
         else
           ft.queue.current[i] = ft.queue.current[i] + 1
@@ -294,7 +306,7 @@ function updateFights(dt) --the big one!!
             local atkInfo = pl.at[thisPlayer]
             --addMsg(thisPlayer.." is "..tostring(atkInfo))
 
-            if atkInfo == true then
+            if tostring(atkInfo) == "true" then
               if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32 then
                 local pdmg = item.val[pl.wep[thisPlayer]]
                 mob.hp[v] = mob.hp[v] - pdmg
@@ -317,7 +329,7 @@ function updateFights(dt) --the big one!!
               end
             elseif pl.spell[thisPlayer] == "Slam" then
               if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*5 then
-                mob.hp[v] = mob.hp[v] - item.val[pl.wep[thisPlayer]]*dt
+                mob.hp[v] = mob.hp[v] - (item.val[pl.wep[thisPlayer]]*4)*dt
               end
             end
           end
@@ -350,12 +362,12 @@ function updateFights(dt) --the big one!!
 
       end
 
-          for k = 1, countPlayersInFight(i) do
-            pl.at[getPlayerName(k)] = false
-          end
-          if hasFightEnded == true then
-            endFight(i)
-          end
+      for v = 1, #listPlayersInFight(i) do
+        pl.at[getPlayerName(v)] = false
+      end
+      if hasFightEnded == true then
+        endFight(i)
+      end
 
     end
   end --fight loop end

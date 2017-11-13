@@ -86,27 +86,97 @@ function drawOverworld()
 
     love.graphics.pop()
 
-    for i = 1, 3 do
+    for i = 1, 4 do
       drawUIWindow(i)
     end
 
       local sw,sh = love.graphics.getDimensions()
+      if pl.t == 717 then
+        drawShop(sw/2-75,sh/2-125)
+      end
 
   love.graphics.setFont(bFont)
   love.graphics.setColor(255,255,255,areaTitleAlpha)
   love.graphics.printf(world[pl.t].name,0,10,sw,"center")
   love.graphics.setFont(font)
+end
 
-  drawTooltips()
+function drawShop(tx,ty)
+  x = tx
+  y = ty
+  love.graphics.setColor(50,50,50)
+  love.graphics.rectangle("fill", x, y, 140+32, 240)
+  love.graphics.setFont(font)
+  love.graphics.setColor(255,255,255)
+  love.graphics.printf("Shop",x,y,140+32,"center")
+  y = y + font:getHeight()+2
+  love.graphics.setFont(font)
+
+  x = x + 2
+
+  for k = 1, 4 do
+
+    if k == 1 then titype = "Armour"
+    elseif k == 2 then titype = "Weapons"
+    elseif k == 3 then titype = "Spells"
+    elseif k == 4 then titype = "Potions" end
+    love.graphics.print(titype,x,y)
+    y = y + font:getHeight()
+    for i = 1, #shop[titype] do
+
+      love.graphics.draw(item.img[shop[titype][i]],x,y)
+      if cx > x and cx < x+32 and cy > y and cy < y+32 then
+        --get phonetic item type name
+        local pit = "unknown"
+        local cit = item.type[shop[titype][i]]
+        local piv = "None"
+        local civ = item.val[shop[titype][i]]
+        if cit == "wep" then pit = "Weapon" piv = "Deals up to "..civ.." damage."
+        elseif cit == "arm" then pit = titype piv = "Defends for "..civ.." damage."
+        elseif cit == "hp" then pit = "Health Potion" piv = "Recovers "..civ.." health over 3 seconds."
+        elseif cit == "en" then pit = "Energy Potion" piv = "Instantly recovers "..civ.." energy."
+        elseif cit == "Craftable" then pit = "Craftable" piv = "Can be used in crafting."
+        elseif cit == "Spell" then
+          pit = "Spell"
+          piv = '"'..item.desc[shop[titype][i]]..'."'
+          local stats = atComma(item.val[shop[titype][i]])
+          piv = piv.."\n"..stats[1].." second cooldown.\nRequires "..stats[2].." energy."
+        elseif cit == "Letter" then
+          pit = "Letter" piv = "A letter. Want to read it?"
+        end
+        addTT(shop[titype][i],"Level "..item.lvl[shop[titype][i]].." "..pit..".\n"..piv.."\nCosts "..item.price[shop[titype][i]].." gold.",cx,cy)
+      end
+
+      x = x + 34
+    end
+    x = tx+2
+    y = y + 34
+
+  end
+
+
+  --border
+  love.graphics.setColor(150,150,150)
+  love.graphics.rectangle("line",tx,ty, 140+32, 240)
 end
 
 --UI elements
 function drawUIWindow(i)
-        local cx, cy = love.mouse.getPosition()
+
 
   if gameUI[i].isVisible == true then
     local x = gameUI[i].x
     local y = gameUI[i].y
+
+    if i == 4 then
+      local wid = font:getWidth(gameUI[i].msg)+32
+      if wid < 128 then
+        wid = 128
+      end
+      width, wrappedText = font:getWrap(gameUI[i].msg,wid)
+      gameUI[i].width = wid
+      gameUI[i].height = font:getHeight()*(#wrappedText+2)
+    end
 
     love.graphics.setColor(50,50,50)
     love.graphics.rectangle("fill", x, y, gameUI[i].width, gameUI[i].height)
@@ -195,6 +265,7 @@ function drawUIWindow(i)
             elseif cit == "hp" then pit = "Health Potion" piv = "Recovers "..civ.." health over 3 seconds."
             elseif cit == "en" then pit = "Energy Potion" piv = "Instantly recovers "..civ.." energy."
             elseif cit == "Craftable" then pit = "Craftable" piv = "Can be used in crafting."
+            elseif cit == "Key" then pit = "Key" piv = "Opens doors."
             elseif cit == "Spell" then
               pit = "Spell"
               piv = '"'..item.desc[inv[i]]..'."'
@@ -225,7 +296,13 @@ function drawUIWindow(i)
           ty = ty + 36
         end
       end
+    elseif i == 4 then
+      love.graphics.print(gameUI[4].msg,x+1,y)
+      --close button
+      love.graphics.setColor(100,0,0)
+      love.graphics.rectangle("fill",x+gameUI[i].width-16,y-font:getHeight()-2,16,16)
     end
+
 
     --border
     love.graphics.setColor(150,150,150)
@@ -254,7 +331,9 @@ function updateOverworld(dt)
 
   for i = 1, #gameUI do
     if isMouseDown then
-      if cy < gameUI[i].y+12 and cy > gameUI[i].y and cx > gameUI[i].x and cx < gameUI[i].x+gameUI[i].width then
+      if cx > gameUI[i].x+gameUI[i].width-16 and cx < gameUI[i].x+gameUI[i].width and cy > gameUI[i].y and cy < gameUI[i].y + 16 and i == 4 then
+        gameUI[i].isVisible = false
+      elseif cy < gameUI[i].y+12 and cy > gameUI[i].y and cx > gameUI[i].x and cx < gameUI[i].x+gameUI[i].width then
         gameUI[i].isDrag = true
       end
     else

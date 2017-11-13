@@ -79,6 +79,9 @@ love.graphics.scale(scale,scale)
       if getMob(i,"hp") > 0 then
 
         if mob[i].x > 0 and mob[i].x < stdSH and mob[i].y > 0 then
+          if distanceFrom(mob[i].x,mob[i].y, pl.x, pl.y)-1 < mb.rng[mob[i].type]+32 then
+            love.graphics.line(mob[i].x+xoff+mb.img[mob[i].type]:getWidth()/2,mob[i].y+yoff+mb.img[mob[i].type]:getHeight()/2,pl.x+xoff+16,pl.y+yoff+16)
+          end
           if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
             love.graphics.draw(mb.img[mob[i].type], mob[i].x+xoff, mob[i].y+yoff)
           else --if mob[i].tx < mob[i].x then
@@ -127,7 +130,6 @@ love.graphics.scale(scale,scale)
         love.graphics.rectangle("fill",x+xoff,y+32+8+yoff,(pl.en/100)*32,6)
         love.graphics.setColor(205,166,0)
         love.graphics.rectangle("line",x+xoff,y+32+8+yoff,32,6)
-        love.graphics.print(getPlayer(playerName,"spell"),100,100)
       end
 
 
@@ -311,7 +313,7 @@ function addMob(id)
   mob[id].ty = -32
   mob[id].y = -32
   mob[id].type = "Boar"
-  mob[id].hp = 0
+  mob[id].hp = -100
 end
 
 function doesMobExist(id)

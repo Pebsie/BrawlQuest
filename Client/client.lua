@@ -46,7 +46,14 @@ function netUpdate(dt)
             pl.hp = tonumber(param[1])
             pl.en = tonumber(param[2])
             if pl.gold < tonumber(param[5]) then
-              addTT("Gold changed","You've now got "..tonumber(param[5]).." gold!",sw/2,sh/2,50)
+              local msg = ""
+              if pl.gold < tonumber(param[5]) then
+                msg = "Gained "..tonumber(param[5])-pl.gold.." gold!"
+              else
+                msg = "Spent "..pl.gold-tonumber(param[5]).." gold!"
+              end
+              gameUI[4].isVisible = true
+              gameUI[4].msg = msg
             end
             pl.gold = tonumber(param[5])
             pl.lvl = tonumber(param[13])
@@ -55,7 +62,7 @@ function netUpdate(dt)
             pl.arm = param[11]
             pl.s1 = param[3]
             pl.s2 = param[4]
-          --  pl.msg = param[17]
+            --pl.msg = param[18]
             pl.inv = param[12]
           --  love.window.showMessageBox("Debug",pl.inv)
             pl.pot = param[15]
@@ -126,6 +133,7 @@ function netUpdate(dt)
             updatePlayer(id,"arm",param[tparam+3])
             if getPlayer(id,"hp") > tonumber(param[tparam+4]) then
              addBones("Player",getPlayer(id,"tx"),getPlayer(id,"ty"),(getPlayer(id,"hp")-tonumber(param[tparam+4]))*4)
+
             end
             updatePlayer(id,"hp",tonumber(param[tparam+4]))
             updatePlayer(id,"spell",param[tparam+5])
@@ -147,12 +155,14 @@ function netUpdate(dt)
             if getMob(i,"hp") > tonumber(param[tparam+3]) then
               if tonumber(param[tparam+3]) < 0.1 then
                 addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),32)
+                love.audio.play(sfx["kill"])
               else
                 if getMob(i,"hp")-tonumber(param[tparam+3]) > 4 then
                   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
                 else
                   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
                 end
+                love.audio.play(sfx["hit"])
               end
             end
 

@@ -82,7 +82,7 @@ function updateGame(dt)
   if pl.hp > 100 then pl.hp = 100 end
 
   if pl.armd then
-    pl.armd = pl.armd - 1*dt
+    pl.armd = pl.armd - 0.25*dt
     if pl.armd < 0 then pl.armd = 0 end
   end
 
@@ -116,6 +116,26 @@ function movePlayer(dir)
   elseif dir == "left" then pl.t = pl.t - 1
   elseif dir == "right" then pl.t = pl.t + 1 end
   addFog(pl.t)
+  if pl.t == 4971 then
+    gameUI[4].msg = "Requires skeleton key."
+    gameUI[4].isVisible = true
+  elseif pl.t == 717 then
+  --  gameUI[5].isVisible = true
+    love.audio.play(fredSound[love.math.random(1,#fredSound)])
+  elseif pl.t == 617 then
+    love.audio.play(questSound[1])
+  elseif pl.t == 3148 then
+    love.audio.play(questSound[2])
+  elseif pl.t == 3759 then
+    love.audio.play(questSound[3])
+  elseif pl.t == 5076 then
+    love.audio.play(questSound[4])
+  elseif pl.t == 929 or pl.t == 3967 then
+    love.audio.play(questSound[5])
+
+  else
+  --  gameUI[5].isVisible = false
+  end
 
   createWorldCanvas()
 end
