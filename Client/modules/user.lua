@@ -42,7 +42,7 @@ function enterGame()
   stopMusic() --stop title music
   --download map
   --if not love.filesystem.exists("map.txt") then
-    b, c, h = http.request("http://brawlquest.com/dl/skeleking-map-2.txt")
+    b, c, h = http.request("http://brawlquest.com/dl/map.txt")
     love.filesystem.write("map.txt", b)
   --end
       loadFog()

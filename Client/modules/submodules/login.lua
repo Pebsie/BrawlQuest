@@ -2,13 +2,13 @@
 biome = love.math.random(1, 4)
 
 function drawLogin() --login screen
-  love.graphics.setBackgroundColor(31,0,45)
+  love.graphics.setBackgroundColor(45, 139, 255)
 
   for i = 1, 10 do
     love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
   end
 
-  love.graphics.draw(loginImg["king"],sw/2-200,sh-460)
+
   love.graphics.setBlendMode("alpha", "premultiplied")
 
   love.graphics.draw(uiMountains, litems["mountains"], sh-128-63)

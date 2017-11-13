@@ -46,7 +46,7 @@ function newPlayer(name, password)
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
-  pl.t[i] = 515 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
+  pl.t[i] = 9457 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
   pl.wep[i] = "Long Stick"
   pl.arm[i] = "Old Cloth"
   pl.armd[i] = 0
@@ -296,7 +296,7 @@ function damagePlayer(name, amount)
   end
 --  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";" --The client could figure this out itself
 
-  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] =  515 addMsg(name.." died!") removePlayerFromFight(name) end
+  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] =  9457 addMsg(name.." died!") removePlayerFromFight(name) end
 end
 
 --return info functions
