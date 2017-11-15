@@ -1,6 +1,7 @@
 require "modules/submodules/players"
 require "modules/submodules/fight"
 require "modules/submodules/overworld"
+require "modules/submodules/buddy"
 
 mx = 0
 my = 0
@@ -88,6 +89,8 @@ function updateGame(dt)
 
   pl.s1t = pl.s1t - 1*dt
   pl.s2t = pl.s2t - 1*dt
+
+  updateBuddies(dt)
 end
 
 function movePlayer(dir)

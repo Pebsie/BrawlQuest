@@ -84,6 +84,7 @@ function netUpdate(dt)
             end
       --      love.window.showMessageBox("Debug",param[17])
             pl.armd = tonumber(param[17])
+          --  pl.bud = param[18]
 
 
           end
@@ -107,8 +108,9 @@ function netUpdate(dt)
               updatePlayer(name,"arm",param[tparam+3])
               updatePlayer(name,"state",param[tparam+4])
               updatePlayer(name,"spell",param[tparam+5])
+              updatePlayer(name,"buddy",param[tparam+6])
 
-              tparam = tparam + 6
+              tparam = tparam + 7
             end
           end
 
@@ -133,14 +135,15 @@ function netUpdate(dt)
             updatePlayer(id,"arm",param[tparam+3])
             if getPlayer(id,"hp") > tonumber(param[tparam+4]) then
              addBones("Player",getPlayer(id,"tx"),getPlayer(id,"ty"),(getPlayer(id,"hp")-tonumber(param[tparam+4]))*4)
-
             end
             updatePlayer(id,"hp",tonumber(param[tparam+4]))
             updatePlayer(id,"spell",param[tparam+5])
+            updatePlayer(id,"buddy",param[tparam+6])
 
-            --  love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"hp"))
+
+            --  love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"buddy"))
            --love.window.showMessageBox("Debug","Player in fight #"..i.." is ID #"..i.." "..getPlayerName(id))
-            tparam = tparam + 6
+            tparam = tparam + 7
           end
 
           for i = 1, mbs do -- * All mob info (X,Y,Type,HP)

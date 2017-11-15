@@ -14,6 +14,7 @@ function addPlayer(name)
   player[name].hp = 0
   player[name].state = "fight"
   player[name].spell = "None"
+  player[name].buddy = "None"
   players = players + 1
   pli[players] = name
 end
@@ -72,6 +73,9 @@ end
 
 function drawPlayer(name,x,y)
   love.graphics.draw(item.img[player[name].arm],x,y)
+
+  drawBuddy(name)
+
   love.graphics.setColor(0,0,0,100)
   love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
   love.graphics.setColor(255,255,255,255)

@@ -15,6 +15,7 @@ pl.dt = {} --dead tile (home tile)
 pl.wep = {}
 pl.arm = {}
 pl.armd = {}
+pl.bud = {}
 pl.pot = {}
 pl.inv = {} --inventory
 pl.lvl = {}
@@ -62,6 +63,7 @@ function newPlayer(name, password)
   pl.spell[i] = "None"
   pl.spellT[i] = 0
   pl.timeout[i] = 100
+  pl.bud[i] = "Dragonling"
 
   addMsg("New player by the name of "..name)
 end
