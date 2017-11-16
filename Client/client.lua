@@ -138,12 +138,12 @@ function netUpdate(dt)
             end
             updatePlayer(id,"hp",tonumber(param[tparam+4]))
             updatePlayer(id,"spell",param[tparam+5])
-            updatePlayer(id,"buddy",param[tparam+6])
+        --    updatePlayer(id,"buddy",param[tparam+6])
 
 
             --  love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"buddy"))
            --love.window.showMessageBox("Debug","Player in fight #"..i.." is ID #"..i.." "..getPlayerName(id))
-            tparam = tparam + 7
+            tparam = tparam + 6
           end
 
           for i = 1, mbs do -- * All mob info (X,Y,Type,HP)

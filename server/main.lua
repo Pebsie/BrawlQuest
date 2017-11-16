@@ -84,7 +84,7 @@ function love.update(dt)
           for i = 1, countPlayers() do
             --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
             if isPlayerOnline(getPlayerName(i)) then
-              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)), pl.spell[getPlayerName(i)], pl.bud[getPlayerName(i)])
+              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)), pl.spell[getPlayerName(i)], pl.bud[getPlayerName(i)])
             end
           end
 
@@ -118,7 +118,7 @@ function love.update(dt)
             local playersIF = listPlayersInFight(id)
             for i = 1, countPlayersInFight(id) do
               pdata = getPlayerData(id,i)
-              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|%s|",pdata["name"],pdata["x"],pdata["y"],pdata["arm"],pdata["hp"],pdata["spell"],pdata["bud"]) --id|x|y|arm|hp
+              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|",pdata["name"],pdata["x"],pdata["y"],pdata["arm"],pdata["hp"],pdata["spell"]) --id|x|y|arm|hp
             end
 
             for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)

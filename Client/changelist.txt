@@ -1,0 +1,2 @@
++ Added Buddies, your NEW BEST FRIEND!
+* Fixed FPS drop in longer fights
