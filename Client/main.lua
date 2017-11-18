@@ -141,6 +141,10 @@ function love.mousereleased(button, cx, cy)
   end
 end
 
+function love.quit()
+  saveFog("fog.txt")
+end
+
 function atComma(str, md)
   if not md then md = "," end
 	local word = {}
