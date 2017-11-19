@@ -245,6 +245,11 @@ function countMobs()
   return #mob
 end
 
+function killMob(i)
+  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
+  addMob(i)
+end
+
 function killMobs()
   mob = {}
   bones = {}
@@ -258,6 +263,7 @@ function addMob(id)
   mob[id].y = -32
   mob[id].type = "Boar"
   mob[id].hp = -100
+  mob[id].id = -1
 end
 
 function doesMobExist(id)

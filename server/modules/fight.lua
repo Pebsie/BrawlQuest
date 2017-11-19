@@ -147,14 +147,14 @@ function spawnMob(fight, mob, x, y)
       if not x and freshTarget then
         local side = love.math.random(1, 3)
         if side == 1 then --top
-          ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+          ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
         elseif side == 2 then --left
-          ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, stdsH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+          ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, stdsH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
         elseif side == 3 then --right
-          ft.mb[fight] = ft.mb[fight]..mob..";"..(stdSW+129)..";"..love.math.random(1, stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+          ft.mb[fight] = ft.mb[fight]..mob..";"..(stdSW+129)..";"..love.math.random(1, stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
         end
       else
-          ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"
+          ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
       end
     end
       return true
@@ -163,7 +163,7 @@ end
 
 function countMobs(fight)
   if fight then
-    return #atComma(ft.mb[fight],";")/7
+    return #atComma(ft.mb[fight],";")/8
   end
 end
 
@@ -171,7 +171,7 @@ function getMobData(fight,id)
   local mob = {}
   local cid = 1
   local mobInfo = atComma(ft.mb[fight], ";") --get mob info
-  for i = 1,#mobInfo,7 do
+  for i = 1,#mobInfo,8 do
     if cid == id then
       mob.type = mobInfo[i]
       mob.x = tonumber(mobInfo[i+1])
@@ -180,6 +180,7 @@ function getMobData(fight,id)
       mob.target = mobInfo[i+4]
       mob.spell1time = mobInfo[i+5]
       mob.spell2time = mobInfo[i+6]
+      mob.id = mobInfo[i+7]
 
       local targetInfo = atComma(mob.target)
     --[[  mob.target = {}
@@ -213,7 +214,7 @@ function updateFights(dt) --the big one!!
         if (ft.queue.amount[i][current] > 0) then
           hasFightEnded = false
 
-          if ft.nextSpawn[i] < 0 then
+          if ft.nextSpawn[i] < 0 and countMobs(i) < 100 then
           --print("Spawning a mob")
             if spawnMob(i,ft.queue[i][current]) then
               ft.queue.amount[i][current] = ft.queue.amount[i][current] - 1
@@ -238,10 +239,11 @@ function updateFights(dt) --the big one!!
       mob.target.t = {}
       mob.spell1time = {}
       mob.spell2time = {}
+      mob.id = {}
 
       local v = 1
       --print("\n\nWe've got "..(#mobInfo/7).." mobs to cycle through!\n\n")
-      for k = 1,#mobInfo,7 do --break it down
+      for k = 1,#mobInfo,8 do --break it down
 
         if mobInfo[k] then
           --print("Gathering information on this "..mobInfo[k])
@@ -257,6 +259,7 @@ function updateFights(dt) --the big one!!
           mob.target.x[v] = tonumber(targetInfo[1])
           mob.target.y[v] = tonumber(targetInfo[2])
           mob.target.t[v] = targetInfo[3]
+          mob.id[v] = mobInfo[k+7]
 
           --print("Mob #"..v.." is a "..mob[v].." at "..mob.x[v]..","..mob.y[v].." and "..mob.hp[v].."HP. They're targetting "..mob.target.t[v].." which is currently at "..mob.target.x[v]..","..mob.target.y[v]..". They'll be casting spell 1 in "..mob.spell1time[v].." seconds and spell 2 in "..mob.spell2time[v].." seconds.")
           v = v + 1
@@ -265,7 +268,7 @@ function updateFights(dt) --the big one!!
         end
       end
 
-      for v = 1,#mobInfo/7 do
+      for v = 1,#mobInfo/8 do
 
         if mob.hp[v] > 0 then
 
@@ -358,7 +361,9 @@ function updateFights(dt) --the big one!!
               end
         end
         --rebuild mob string  name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
-        ft.mb[i] = ft.mb[i]..mob[v]..";"..mob.x[v]..";"..mob.y[v]..";"..mob.hp[v]..";"..mob.target.x[v]..","..mob.target.y[v]..","..mob.target.t[v]..";"..mob.spell1time[v]..";"..mob.spell2time[v]..";"
+        if mob.hp[v] > 0 then
+          ft.mb[i] = ft.mb[i]..mob[v]..";"..mob.x[v]..";"..mob.y[v]..";"..mob.hp[v]..";"..mob.target.x[v]..","..mob.target.y[v]..","..mob.target.t[v]..";"..mob.spell1time[v]..";"..mob.spell2time[v]..";"..mob.id[v]..";"
+        end
 
       end
 

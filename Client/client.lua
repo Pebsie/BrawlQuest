@@ -148,9 +148,12 @@ function netUpdate(dt)
 
           for i = 1, mbs do -- * All mob info (X,Y,Type,HP)
           --  love.window.showMessageBox("Debug","Mob "..param[tparam+3].." at ")
-            if not doesMobExist(i) then
+
+          if not doesMobExist(i) or not getMob(i,"hp") then
               addMob(i)
-            end
+          elseif  param[tparam+4] ~= getMob(i,"id") then
+            killMob(i)
+          end
 
             updateMob(i,"tx",tonumber(param[tparam]))
             updateMob(i,"ty",tonumber(param[tparam+1]))
@@ -170,10 +173,10 @@ function netUpdate(dt)
             end
 
             updateMob(i,"hp",tonumber(param[tparam+3]))
+            updateMob(i,"id",param[tparam+4])
 
 
-
-            tparam = tparam + 4
+            tparam = tparam + 5
           end
         end
 

@@ -123,7 +123,7 @@ function love.update(dt)
 
             for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)
               tmob = getMobData(id,i)
-              msgToSend = msgToSend..string.format("%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp)
+              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp,tmob.id)
             end
 
             udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
