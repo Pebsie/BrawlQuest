@@ -3,16 +3,21 @@ require "modules/submodules/tooltip"
 
 --ui variables, use as you wish
 ui = {}
-ui.selected = "username"
+ui.selected = 0 --default username
 ui.window = {}
 ui.window.x = 0
 ui.window.y = 0
-ui.window.content = "Nothing."
+ui.window.content = "up"
 
 sw,sh = love.graphics.getDimensions()
 
 function drawPhase(phase)
-  if phase == "login" then
+  if phase == "splash" then
+    love.graphics.setColor(255,255,255,ui.selected)
+    love.graphics.setFont(bFont)
+    love.graphics.print("PEB.SI",sw/2-(bFont:getWidth("PEB.SI")/2),sh/4)
+    love.graphics.draw(uiImg["love"],sw/2-(uiImg["love"]:getWidth()/2),sh/2)
+  elseif phase == "login" then
     drawLogin()
   elseif phase == "game" then
     drawGame()
@@ -29,7 +34,17 @@ function drawPhase(phase)
 end
 
 function updatePhase(phase, dt)
-  if phase == "login" then
+  if phase == "splash" then
+    if ui.window.content == "up" then
+      ui.selected = ui.selected + 300*dt
+      if ui.selected > 400 then ui.window.content = "down" end
+    elseif ui.window.content == "down" then
+      ui.selected = ui.selected - 300*dt
+      if ui.selected < 1 then
+        love.keypressed()
+      end
+    end
+  elseif phase == "login" then
     updateLogin(dt)
   elseif phase == "game" then
     updateGame(dt)
@@ -107,13 +122,9 @@ function love.keypressed(key)
     end
   end
 
-   if phase == "game" then
-    -- if key == "w" then movePlayer("up") end
-    -- if key == "s" then movePlayer("down") end
-    -- if key == "d" then  movePlayer("right") end
-    -- if key == "a" then movePlayer("left") end
-  --   if key == "space" then centerCamera() end --center camera on player
-    -- if key == "p" then movePlayer(selT) end
+   if phase == "splash" then
+     phase = "login"
+     ui.selected = "username"
    end
 end
 

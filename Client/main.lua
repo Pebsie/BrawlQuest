@@ -22,7 +22,7 @@ require "client"
 utf8 = require("utf8")
 
 version = "Pre-Alpha v0.2"
-phase = "read"
+phase = "splash"
 
 isMouseDown = false
 cox = 0
@@ -61,7 +61,7 @@ local ipadd = "127.0.0.1"
   sFont = love.graphics.newFont(9)
   bFont = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",26)
 
-  ui.selected = "username" --used by the login phase
+  --ui.selected = "username" --used by the login phase
 
   worldCanvas = love.graphics.newCanvas(32*101,32*101)
   fightCanvas = love.graphics.newCanvas(stdSH,stdSW)
@@ -142,7 +142,9 @@ function love.mousereleased(button, cx, cy)
 end
 
 function love.quit()
-  saveFog("fog.txt")
+  if phase == "game" then
+    saveFog("fog.txt")
+  end
 end
 
 function atComma(str, md)
