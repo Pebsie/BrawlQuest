@@ -246,7 +246,7 @@ function countMobs()
 end
 
 function killMob(i)
-  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
+  --addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
   addMob(i)
 end
 
@@ -270,6 +270,20 @@ function doesMobExist(id)
   if mob[id] then
     return true
   else
+    return false
+  end
+end
+
+function findMob(a,val) --find mob by attribute
+  local found = false
+  for i = 1, countMobs() do
+    if getMob(i,a) == val then
+      local found = true
+      return i
+    end
+  end
+
+  if found == false then
     return false
   end
 end

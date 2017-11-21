@@ -149,10 +149,17 @@ function netUpdate(dt)
           for i = 1, mbs do -- * All mob info (X,Y,Type,HP)
           --  love.window.showMessageBox("Debug","Mob "..param[tparam+3].." at ")
 
+
           if not doesMobExist(i) or not getMob(i,"hp") then
               addMob(i)
           elseif  param[tparam+4] ~= getMob(i,"id") then
-            killMob(i)
+            if findMob("id",param[tparam+4]) then
+              local k = findMob("id",param[tparam+4])
+              updateMob(i,"x",tonumber(getMob(k,"x")))
+              updateMob(i,"y",tonumber(getMob(k,"y")))
+            else
+             killMob(i)
+           end
           end
 
             updateMob(i,"tx",tonumber(param[tparam]))
@@ -162,6 +169,7 @@ function netUpdate(dt)
               if tonumber(param[tparam+3]) < 0.1 then
                 addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),32)
                 love.audio.play(sfx["kill"])
+                killMob(i)
               else
                 if getMob(i,"hp")-tonumber(param[tparam+3]) > 4 then
                   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
