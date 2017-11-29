@@ -35,9 +35,9 @@ ts = 1
 function love.load()
   heroImg = love.graphics.newImage("img/human/Legend.png")
   --load map data
-  if love.filesystem.exists("map.txt") then
+  if love.filesystem.exists("map-snow.txt") then
     print("Found world file!")
-    for line in love.filesystem.lines("map.txt") do
+    for line in love.filesystem.lines("map-snow.txt") do
       word = atComma(line)
       i = #world + 1
       world[i] = word[1]
@@ -60,12 +60,12 @@ function love.load()
 --        world.collide[i] = true
 --        world.bg[i] = "Grass"
 --      else
-        world[i] = "Dead Tree"
-        world.name[i] = "The Dark Forest"
-        world.fight[i] = "Forest Haunting"
+        world[i] = "Mountain"
+        world.name[i] = "The Southern Mountains"
+        world.fight[i] = "None"
         world.fightc[i] = 0 --5%
         world.collide[i] = true
-        world.bg[i] = "Grass"
+        world.bg[i] = "Snow"
   --    end
 
       world.isFight[i] = false
@@ -281,7 +281,7 @@ function love.textinput(t)
 end
 
 function saveWorld()
-  local fp = "map.txt"
+  local fp = "map-snow.txt"
   local fs = ""
   for i = 1, 100*100 do
     if not world[i] then print("Missing tile info.") end
