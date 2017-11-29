@@ -24,10 +24,10 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
- --loadGame()
+ loadGame()
 -- givePlayerItem("pebsie","Guardian's Padding",1)
 -- givePlayerItem("pebsie","Guardian's Blade",1)
--- givePlayerItem("pebsie","Slam",1)
+ givePlayerItem("a","Slam",1)
 -- givePlayerGold("b",100000)
 
   --initItems()

@@ -13,6 +13,11 @@ sw,sh = love.graphics.getDimensions()
 
 function drawPhase(phase)
   if phase == "splash" then
+    if ui.window.content == "down" then
+      drawLogin()
+    end
+    love.graphics.setColor(0,0,0,ui.selected)
+    love.graphics.rectangle("fill",0,0,sw,sh)
     love.graphics.setColor(255,255,255,ui.selected)
     love.graphics.setFont(bFont)
     love.graphics.print("PEB.SI",sw/2-(bFont:getWidth("PEB.SI")/2),sh/4)
@@ -37,9 +42,9 @@ function updatePhase(phase, dt)
   if phase == "splash" then
     if ui.window.content == "up" then
       ui.selected = ui.selected + 300*dt
-      if ui.selected > 400 then ui.window.content = "down" end
+      if ui.selected > 600 then ui.window.content = "down" end
     elseif ui.window.content == "down" then
-      ui.selected = ui.selected - 300*dt
+      ui.selected = ui.selected - 400*dt
       if ui.selected < 1 then
         love.keypressed()
       end

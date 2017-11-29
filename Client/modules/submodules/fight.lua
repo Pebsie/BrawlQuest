@@ -246,7 +246,7 @@ function countMobs()
 end
 
 function killMob(i)
-  --addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
+  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),32)
   addMob(i)
 end
 

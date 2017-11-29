@@ -21,7 +21,7 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Pre-Alpha v0.2"
+version = "Pre-Alpha v0.3"
 phase = "splash"
 
 isMouseDown = false
