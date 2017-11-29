@@ -162,7 +162,10 @@ function updateFight(dt)
   end
 
 
-  local speed = 128*dt
+  local speed = 128*dt --change this if you want but you'll find yourself running out of stamina CONSTANTLY
+  if love.keyboard.isDown(KEY_RUN) then
+    speed = 256*dt
+  end
   if love.keyboard.isDown(KEY_UP) then
     pl.y = pl.y - speed
   elseif love.keyboard.isDown(KEY_DOWN) then
@@ -173,6 +176,11 @@ function updateFight(dt)
   elseif love.keyboard.isDown(KEY_RIGHT) then
     pl.x = pl.x + speed
   end
+
+  if love.keyboard.isDown(KEY_UP) or love.keyboard.isDown(KEY_DOWN) or love.keyboard.isDown(KEY_LEFT) or love.keyboard.isDown(KEY_RIGHT) then
+      pl.en = pl.en - speed*0.15
+  end
+
 
   if pl.x > stdSH-32 then pl.x = stdSH-32 end
   if pl.x < 0 then pl.x = 0 end

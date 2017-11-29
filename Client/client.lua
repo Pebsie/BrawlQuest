@@ -192,7 +192,8 @@ function netUpdate(dt)
           createWorldCanvas() --finally, update the world
         end
       elseif msg ~= 'timeout' then
-          error("Network error: "..tostring(msg))
+        phase = "login"
+        news = news.."\nUnable to connect to the server."
       end
 
     until not data

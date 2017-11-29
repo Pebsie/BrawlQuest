@@ -286,8 +286,11 @@ function movePlayer(name, dir)
 end
 
 function setPlayerPos(name,x,y)
+  pl.en[name] = pl.en[name] - distanceFrom(pl.x[name],pl.y[name],x,y)*0.15
+  if pl.en[name] < 0 then pl.en[name] = 0 end
   pl.x[name] = x
   pl.y[name] = y
+
 end
 
 function damagePlayer(name, amount)

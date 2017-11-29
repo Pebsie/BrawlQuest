@@ -3,6 +3,7 @@ function bindKeys()
   KEY_DOWN = "s"
   KEY_LEFT = "a"
   KEY_RIGHT = "d"
+  KEY_RUN = "lshift"
 
   KEY_ATK_UP = "up"
   KEY_ATK_DOWN = "down"
