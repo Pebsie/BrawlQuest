@@ -4,8 +4,8 @@ worldUpdate = 0
 function loadOverworld()
 --  if not love.filesystem.exists("map.txt") then
     addMsg("Downloading world...")
-    b, c, h = http.request("http://brawlquest.com/dl/map.txt")
-    love.filesystem.write("map.txt", b)
+  --  b, c, h = http.request("http://brawlquest.com/dl/map.txt")
+    --love.filesystem.write("map.txt", b)
   --end
 
   --unpack
@@ -45,13 +45,13 @@ end
 function updateWorld(dt)
   --worldUpdate = worldUpdate - 1*dt
   if worldUpdate < 0 then --this is the part that creates 100% fights on the world but it DOESN'T WORK
-    for i = 1, 100*100 do
-      if 1== 5 and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc  then
-        world[i].isFight = true
-      else
-        world[i].isFight = false
-      end
-    end
+    --for i = 1, 100*100 do
+    --  if 1==5 and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc  then
+    --    world[i].isFight = true
+    --  else
+    --    world[i].isFight = false
+    --  end
+    --end
 
     worldUpdate = 10
   end

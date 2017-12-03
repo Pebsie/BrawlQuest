@@ -139,6 +139,62 @@ item.img[ti] = ""
   item.price[ti] = 500
 item.img[ti] = ""
 
+local ti = "Dog"
+item.type[ti] = "buddy"
+item.desc[ti] = "Left behind by the wolf pack, rejected for its domestic tendencies."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = 32
+
+local ti = "Snake"
+item.type[ti] = "buddy"
+item.desc[ti] = "Don't step on it!"
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = 32
+
+local ti = "Beholder"
+item.type[ti] = "buddy"
+item.desc[ti] = "He might look at you funny, but, it's okay: his teeth aren't fully formed just yet."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = 32
+
+local ti = "Baby Bat"
+item.type[ti] = "buddy"
+item.desc[ti] = "Click click click"
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = 32
+
+local ti = "Earth Elementling"
+item.type[ti] = "buddy"
+item.desc[ti] = "These little guys appeared after the mana spill."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = 32
+
+local ti = "Fire Elementling"
+item.type[ti] = "buddy"
+item.desc[ti] = "These little guys appeared after the mana spill."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = 32
+
+local ti = "Dragonling"
+item.type[ti] = "buddy"
+item.desc[ti] = "Like a dragon, but smol."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = 32
+
 --special
   local ti = "A letter addressed to you"
   item.type[ti] = "Letter"

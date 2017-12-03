@@ -94,8 +94,10 @@ function love.draw()
 
         if world.isFight[i] == true then love.graphics.draw(heroImg, x-camX, y-camY) end
         if view == 1 then
+          love.graphics.setColor(0,0,0)
           love.graphics.print(world.fightc[i].."%", x-camX, y-camY)
         end
+          love.graphics.setColor(255,255,255)
       else
         love.graphics.setColor(255,0,0)
         love.graphics.rectangle("line", x-camX, y-camY, 32, 32)

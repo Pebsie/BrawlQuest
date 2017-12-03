@@ -47,7 +47,7 @@ function newPlayer(name, password)
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
-  pl.t[i] = 9457 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
+  pl.t[i] = 1931 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
   pl.wep[i] = "Long Stick"
   pl.arm[i] = "Old Cloth"
   pl.armd[i] = 0
@@ -226,6 +226,13 @@ function playerUse(name, ritem, index)
         rebuiltInv[#rebuiltInv].amount = 1
       end
       pl.pot[name] = ritem
+    elseif item.type[ritem] == "buddy" then
+      if pl.bud[name] ~= "None" then
+        rebuiltInv[#rebuiltInv + 1] = {}
+        rebuiltInv[#rebuiltInv].item = pl.bud[name]
+        rebuiltInv[#rebuiltInv].amount = 1
+      end
+      pl.bud[name] = ritem
     end
   else
     addMsg(name.." tried to use an item ("..ritem..") that they don't own!")

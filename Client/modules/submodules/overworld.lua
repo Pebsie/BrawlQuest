@@ -15,6 +15,7 @@ function loadOverworld()
       world[i] = {}
       world[i].tile = word[1]
       world[i].fight = word[2]
+      world[i].fightc = word[3]
       if word[4] == "true" then world[i].collide = true else world[i].collide = false end
       world[i].name = word[5]
       world[i].bg = word[6]
@@ -96,6 +97,8 @@ function drawOverworld()
         drawShop(sw/2-75,sh/2-125)
       end
 
+  love.graphics.setColor(0,0,0,areaTitleAlpha)
+  love.graphics.rectangle("fill",(sw/2)-(bFont:getWidth(world[pl.t].name)+10)/2,5,bFont:getWidth(world[pl.t].name)+10,bFont:getHeight()+10)
   love.graphics.setFont(bFont)
   love.graphics.setColor(255,255,255,areaTitleAlpha)
   love.graphics.printf(world[pl.t].name,0,10,sw,"center")
@@ -220,6 +223,7 @@ function drawUIWindow(i)
             elseif cit == "en" then pit = "Energy Potion" piv = "Instantly recovers "..civ.." energy."
             elseif cit == "Craftable" then pit = "Craftable" piv = "Can be used in crafting."
             elseif cit == "Key" then pit = "Key" piv = "Opens doors."
+            elseif cit == "buddy" then pit = "Buddy" piv = "Your new best friend."
             elseif cit == "Spell" then
               pit = "Spell"
               piv = '"'..item.desc[inv[i]]..'."'
@@ -329,8 +333,15 @@ function createWorldCanvas()
               love.graphics.setColor(255,255,255,50)
               love.graphics.draw(worldImg["Cloud"], x, y)
               love.graphics.setColor(255,255,255,255)
-            elseif world[i].isFight == true then
-              love.graphics.draw(uiImg["fight"], x, y)
+            else
+              if world[i].isFight == true then
+                love.graphics.draw(uiImg["fight"], x, y)
+              end
+              if world[i].fightc == "100" then
+                love.graphics.draw(mb.img["Boar"],x,y)
+              else
+              --  love.graphics.print(world[i].fightc,x,y)
+              end
             end
           else
             love.graphics.setColor(255,255,255,50)

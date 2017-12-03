@@ -155,6 +155,77 @@ item.img[ti] = love.graphics.newImage("img/items/scrolls/Ground Slam.png")
   item.price[ti] = 500
   item.img[ti] = love.graphics.newImage("img/items/scrolls/Flash of Light.png")
 
+--buddy (Wolf, Snake, Beholder, Baby Bat, Earth Elementling, Fire Elementling, Dragonling)
+buddy = {}
+buddy["Baby Bat"] = love.graphics.newImage("img/pet/Baby Bat.png")
+buddy["Beholder"] = love.graphics.newImage("img/pet/Beholder.png")
+buddy["Beholdling"] = love.graphics.newImage("img/pet/Beholdling.png")
+buddy["Chicken"] = love.graphics.newImage("img/pet/Chicken.png")
+buddy["Dog"] = love.graphics.newImage("img/pet/Dog.png")
+buddy["Dragonling"] = love.graphics.newImage("img/pet/Dragonling.png")
+buddy["Earth Elementling"] = love.graphics.newImage("img/pet/Earth Elementling.png")
+buddy["Fire Elementling"] = love.graphics.newImage("img/pet/Fire Elementling.png")
+buddy["Scorpion"] = love.graphics.newImage("img/pet/Scorpion.png")
+buddy["Sheep"] = love.graphics.newImage("img/pet/Sheep.png")
+buddy["Snake"] = love.graphics.newImage("img/pet/Snake.png")
+buddy["Water Elementling"] = love.graphics.newImage("img/pet/Water Elementling.png")
+
+local ti = "Dog"
+item.type[ti] = "buddy"
+item.desc[ti] = "Left behind by the wolf pack, rejected for its domestic tendencies."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = buddy[ti]
+
+local ti = "Snake"
+item.type[ti] = "buddy"
+item.desc[ti] = "Don't step on it!"
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = buddy[ti]
+
+local ti = "Beholder"
+item.type[ti] = "buddy"
+item.desc[ti] = "He might look at you funny, but, it's okay: his teeth aren't fully formed just yet."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = buddy[ti]
+
+local ti = "Baby Bat"
+item.type[ti] = "buddy"
+item.desc[ti] = "Click click click"
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = buddy[ti]
+
+local ti = "Earth Elementling"
+item.type[ti] = "buddy"
+item.desc[ti] = "These little guys appeared after the mana spill."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = buddy[ti]
+
+local ti = "Fire Elementling"
+item.type[ti] = "buddy"
+item.desc[ti] = "These little guys appeared after the mana spill."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = buddy[ti]
+
+local ti = "Dragonling"
+item.type[ti] = "buddy"
+item.desc[ti] = "Like a dragon, but smol."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = buddy[ti]
+
 --special
   local ti = "A letter addressed to you"
   item.type[ti] = "Letter"
@@ -175,17 +246,3 @@ shop["Armour"] = {"Basic Cloth", "Leather Armour", "Chainmail Armour", "Guardian
 shop["Weapons"] = {"Short Sword", "Bastard Sword", "Long Sword", "Guardian's Blade", "Legendary Sword"}
 shop["Potions"] = {"Healing Potion", "Potent Healing Potion"}
 shop["Spells"] = {"Recovery","Slam","Enrage","Phase Shift"}
-
-buddy = {}
-buddy["Baby Bat"] = love.graphics.newImage("img/pet/Baby Bat.png")
-buddy["Beholder"] = love.graphics.newImage("img/pet/Beholder.png")
-buddy["Beholdling"] = love.graphics.newImage("img/pet/Beholdling.png")
-buddy["Chicken"] = love.graphics.newImage("img/pet/Chicken.png")
-buddy["Dog"] = love.graphics.newImage("img/pet/Dog.png")
-buddy["Dragonling"] = love.graphics.newImage("img/pet/Dragonling.png")
-buddy["Earth Elementling"] = love.graphics.newImage("img/pet/Earth Elementling.png")
-buddy["Fire Elementling"] = love.graphics.newImage("img/pet/Fire Elementling.png")
-buddy["Scorpion"] = love.graphics.newImage("img/pet/Scorpion.png")
-buddy["Sheep"] = love.graphics.newImage("img/pet/Sheep.png")
-buddy["Snake"] = love.graphics.newImage("img/pet/Snake.png")
-buddy["Water Elementling"] = love.graphics.newImage("img/pet/Water Elementling.png")

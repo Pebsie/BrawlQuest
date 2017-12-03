@@ -51,8 +51,8 @@ local ipadd = "127.0.0.1"
  --local ipadd = "37.59.126.91"
   netConnect(ipadd, "26654", 0.1)
   love.mouse.setVisible(false)
-  b, c, h = http.request("http://brawlquest.com/dl/news.txt")
-  love.filesystem.write("news.txt", b)
+  --b, c, h = http.request("http://brawlquest.com/dl/news.txt")
+--  love.filesystem.write("news.txt", b)
   for line in love.filesystem.lines("news.txt") do
     news = news..line.."\n"
   end
