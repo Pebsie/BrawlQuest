@@ -30,9 +30,25 @@ function createFightCanvas(t)
 
   local x = 0
   local y = 0
+  local v = 1
+  extraImages = {}
+
+  for k = -195,305,101 do
+    for i = -9, -5 do
+      extraImages[v] = worldImg[world[t+i+k].tile]
+      v = v + 1
+    end
+  end
 
   for i = 1, 30*18 do
+
     love.graphics.draw(worldImg[world[t].bg],x,y)
+    if love.math.random(1, 8) == 1 then
+      if x < 120 or x > stdSH-120 then
+        love.graphics.draw(extraImages[love.math.random(1,#extraImages)],x,y)
+      end
+    end
+
     x = x + 32
     if x > 30*32 then
       x = 0
@@ -324,7 +340,7 @@ function attack(dir)
     elseif dir == "right" then
       pl.x = pl.x + ferocity
     end
-    pl.en = pl.en - 20
+    pl.en = pl.en - 5
     atkCooldown = 0.2
   end
 end

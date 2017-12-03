@@ -137,7 +137,7 @@ function love.update(dt)
           if pl.en[name] > 20 then
             pl.at[name] = true
             pl.atm[name] = 0.05
-            pl.en[name] = pl.en[name] - 20
+            pl.en[name] = pl.en[name] - 5
           end
         elseif cmd == "use" then --use item
 

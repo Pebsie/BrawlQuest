@@ -284,7 +284,7 @@ function movePlayer(name, dir)
         if fs[world[pl.t[name]].fight] then
           newFight(pl.t[name], world[pl.t[name]].fight)
         else
-          newFight(pl.t[name], "Ghostly Haunting")
+          newFight(pl.t[name], "Wolf Hunt")
         end
         addPlayerToFight(#ft.t, name)
       end
@@ -293,11 +293,10 @@ function movePlayer(name, dir)
 end
 
 function setPlayerPos(name,x,y)
-  pl.en[name] = pl.en[name] - distanceFrom(pl.x[name],pl.y[name],x,y)*0.15
+  pl.en[name] = pl.en[name] - distanceFrom(pl.x[name],pl.y[name],x,y)*0.1
   if pl.en[name] < 0 then pl.en[name] = 0 end
   pl.x[name] = x
   pl.y[name] = y
-
 end
 
 function damagePlayer(name, amount)

@@ -34,7 +34,7 @@ function loadFog()
   fog.ignore["PS"] = true
   fog.ignore["PUL"] = true
   fog.ignore["PUR"] = true
-  fog.ignore["Gravestone"] = true
+  fog.ignore["Graveyard"] = true
 end
 
 function checkFog(tile)

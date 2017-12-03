@@ -21,7 +21,7 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Pre-Alpha v0.3"
+version = "Alpha 0.2: The Cursed Tribe"
 phase = "splash"
 
 isMouseDown = false
