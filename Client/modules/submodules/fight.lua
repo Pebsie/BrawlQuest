@@ -290,7 +290,7 @@ function addMob(id)
   mob[id].id = -1
 end
 
-function doesMobExist(id)
+function doesMobExist(id) --id, server id
   if mob[id] then
     return true
   else

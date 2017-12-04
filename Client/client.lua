@@ -19,9 +19,9 @@ function netUpdate(dt)
       data, msg = udp:receive()
 
       if data then
-        print("We've got a message!" .. data)
+      --  print("We've got a message!" .. data)
         ent, cmd, parms = data:match("^(%S*) (%S*) (.*)")
-        print("Entity is "..ent..", command is "..cmd.." with parameters ("..parms..")")
+        --print("Entity is "..ent..", command is "..cmd.." with parameters ("..parms..")")
 
         param = atComma(parms, "|")
 
@@ -153,13 +153,14 @@ function netUpdate(dt)
           if not doesMobExist(i) or not getMob(i,"hp") then
               addMob(i)
           elseif  param[tparam+4] ~= getMob(i,"id") then
-            if findMob("id",param[tparam+4]) then
               local k = findMob("id",param[tparam+4])
-              updateMob(i,"x",tonumber(getMob(k,"x")))
-              updateMob(i,"y",tonumber(getMob(k,"y")))
-            else
-             killMob(i)
-           end
+              if k then
+                --new version of mob (order rejigged) so set x and y
+                updateMob(i,"x",tonumber(getMob(k,"x")))
+                updateMob(i,"y",tonumber(getMob(k,"y")))
+             end
+          else
+
           end
 
             updateMob(i,"tx",tonumber(param[tparam]))
@@ -174,7 +175,7 @@ function netUpdate(dt)
                 if getMob(i,"hp")-tonumber(param[tparam+3]) > 4 then
                   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
                 else
-                  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
+                  --addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
                 end
                 love.audio.play(sfx["hit"])
               end
