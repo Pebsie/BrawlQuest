@@ -39,6 +39,16 @@ worldImg["Fell Tree"] = love.graphics.newImage("img/world/objects/Fell Tree.png"
 worldImg["Snowy Dead Tree"] = love.graphics.newImage("img/world/objects/Snowy Dead Tree.png")
 worldImg["Snowy Tree"] = love.graphics.newImage("img/world/objects/Snowy Tree.png")
 worldImg["Stone Floor"] = love.graphics.newImage("img/world/floors/Stone Floor.png")
+worldImg["Cave Floor"] = love.graphics.newImage("img/world/floors/Cave Floor.png")
+worldImg["Blacksmith"] = love.graphics.newImage("img/world/objects/Blacksmith.png")
+worldImg["Boat"] = love.graphics.newImage("img/world/objects/Boat.png")
+worldImg["Chest"] = love.graphics.newImage("img/world/objects/Chest.png")
+worldImg["Crystal"] = love.graphics.newImage("img/world/objects/Crystal.png")
+worldImg["Knight"] = love.graphics.newImage("img/world/objects/Knight.png")
+worldImg["Lantern"] = love.graphics.newImage("img/world/objects/Lantern.png")
+worldImg["Pillar"] = love.graphics.newImage("img/world/objects/Pillar.png")
+worldImg["Red Walkway"] = love.graphics.newImage("img/world/objects/Red Walkway.png")
+worldImg["Wall Mounted Torch"] = love.graphics.newImage("img/world/objects/Wall Mounted Torch.png")
 
 function setWColour(wname)
   if wname == "Grass" then
