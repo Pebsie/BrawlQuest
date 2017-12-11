@@ -137,7 +137,7 @@ function givePlayerXP(name, xp)
 end
 
 function givePlayerGold(name, gold)
-  pl.gold[name] = pl.gold[name] + gold
+  pl.gold[name] = pl.gold[name] + tonumber(gold)
 end
 
 function givePlayerItem(name, ritem, amount)

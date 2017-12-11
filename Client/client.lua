@@ -175,7 +175,7 @@ function netUpdate(dt)
                 if getMob(i,"hp")-tonumber(param[tparam+3]) > 4 then
                   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
                 else
-                  --addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
+                  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
                 end
                 love.audio.play(sfx["hit"])
               end

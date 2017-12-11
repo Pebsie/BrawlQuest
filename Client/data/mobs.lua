@@ -126,3 +126,36 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = love.graphics.newImage("img/mob/Sorcerer.png")
 mb.rng[tm] = 16
+
+local tm = "Cursed Human"
+mb.hp[tm] = 1
+mb.spd[tm] = 96
+mb.atk[tm] = 2
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
+mb.rng[tm] =  32
+
+local tm = "Cursed Guard"
+mb.hp[tm] = 5
+mb.spd[tm] = 70
+mb.atk[tm] = 4
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
+mb.rng[tm] =  32
+
+local tm = "Cursed King"
+mb.hp[tm] = 25
+mb.spd[tm] = 60
+mb.atk[tm] = 8
+mb.sp1[tm] = "spawn:Cursed Human"
+mb.sp1t[tm] = 10
+mb.sp2[tm] = "spawn:Cursed Guard"
+mb.sp2t[tm] = 30
+mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
+mb.rng[tm] =  32
