@@ -1,6 +1,9 @@
 require "modules/submodules/fog"
 
 world = {}
+world.weather = "snow"
+world.weatherX = 0
+world.weatherY = 0
 
 areaTitleAlpha = 255
 curAreaTitle = "The Great Plains"
@@ -84,7 +87,7 @@ function drawOverworld()
     love.graphics.print("Awaiting character info...")
   end
 
-
+  love.graphics.draw(weatherImg[world.weather],world.weatherX,world.weatherY)
 
     love.graphics.pop()
 
@@ -93,8 +96,10 @@ function drawOverworld()
     end
 
       local sw,sh = love.graphics.getDimensions()
-      if pl.t == 717 then
+      if pl.t == 3352 then
         drawShop(sw/2-75,sh/2-125)
+      elseif world[pl.t].tile == "Graveyard" then
+        drawGraveyard(sw/2-75,sh/2-(72/2))
       end
 
   love.graphics.setColor(0,0,0,areaTitleAlpha)
@@ -103,6 +108,33 @@ function drawOverworld()
   love.graphics.setColor(255,255,255,areaTitleAlpha)
   love.graphics.printf(world[pl.t].name,0,10,sw,"center")
   love.graphics.setFont(font)
+end
+
+function drawGraveyard(tx,ty)
+  x = tx
+  y = ty
+  love.graphics.setColor(50,50,50)
+  love.graphics.rectangle("fill", x, y, 140+32, 72)
+  love.graphics.setFont(font)
+  love.graphics.setColor(255,255,255)
+  love.graphics.printf("Graveyard",x,y,140+32,"center")
+  y = y + font:getHeight()+6
+  love.graphics.setFont(sFont)
+  love.graphics.printf("Praying here will set this Graveyard to be your respawn point.",x,y,140+32,"center")
+  y = y + 36
+  love.graphics.setFont(font)
+  if cx > x and cx < x+140+32 and cy > y-1 and cy < y+font:getHeight() then
+    love.graphics.setColor(100,100,100)
+  else
+    love.graphics.setColor(0,0,0)
+  end
+  love.graphics.rectangle("fill",x,y,140+32,font:getHeight())
+  love.graphics.setColor(255,255,255)
+  love.graphics.printf("Pray",x,y,140+32,"center")
+
+  --border
+  love.graphics.setColor(150,150,150)
+  love.graphics.rectangle("line",tx,ty, 140+32, 72)
 end
 
 function drawShop(tx,ty)
@@ -261,7 +293,6 @@ function drawUIWindow(i)
       love.graphics.rectangle("fill",x+gameUI[i].width-16,y-font:getHeight()-2,16,16)
     end
 
-
     --border
     love.graphics.setColor(150,150,150)
     love.graphics.rectangle("line",x, y-font:getHeight()-2, gameUI[i].width, gameUI[i].height)
@@ -283,6 +314,14 @@ function updateOverworld(dt)
 
   areaTitleAlpha = areaTitleAlpha - 25*dt
   if areaTitleAlpha < 0 then areaTitleAlpha = 0 end
+
+  local windSpeed = 512*dt
+  world.weatherX = world.weatherX + windSpeed
+  world.weatherY = world.weatherY + windSpeed
+  if world.weatherX > 0 then --TODO: make this not an arbitrary value
+    world.weatherX = -1280
+    world.weatherY = -1280
+  end
 
   local cx, cy = love.mouse.getPosition()
   local sw,sh = love.graphics.getDimensions()

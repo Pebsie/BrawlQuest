@@ -1,5 +1,6 @@
 world = {}
 worldUpdate = 0
+weather = "snow"
 
 function loadOverworld()
 --  if not love.filesystem.exists("map.txt") then

@@ -192,7 +192,12 @@ function love.update(dt)
 
             pl.s2t[name] = tonumber(vals[1])
           end
+        elseif cmd == "pray" then
+          local name = param[1]
 
+          if world[pl.t[name]].tile == "Graveyard" then
+            setPlayerDT(name,pl.t[name])
+          end
         end
 
 

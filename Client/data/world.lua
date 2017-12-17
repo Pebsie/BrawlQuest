@@ -53,6 +53,9 @@ worldImg["Wall Mounted Torch"] = love.graphics.newImage("img/world/objects/Wall 
 worldImg["DT"] = love.graphics.newImage("img/world/objects/Ghoul.png")
 worldImg["Cloud"] = love.graphics.newImage("img/world/objects/Cloud.png")
 
+weatherImg = {}
+weatherImg["snow"] = love.graphics.newImage("img/world/snow.png")
+
 function setWColour(wname)
   if wname == "Grass" then
     love.graphics.setColor(0,255,0)

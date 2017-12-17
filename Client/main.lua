@@ -99,7 +99,7 @@ function love.mousereleased(button, cx, cy)
   cx, cy = love.mouse.getPosition()
   if phase == "game" then
     if pl.state == "world" then
-      if pl.t == 717 then
+      if world[pl.t].tile == "Blacksmith" then
         cy = cy - 32
         local sw,sh = love.graphics.getDimensions()
         x = sw/2-75
@@ -129,6 +129,10 @@ function love.mousereleased(button, cx, cy)
           x = (sw/2-75)+2
           y = y + 34 + font:getHeight()
         end
+      elseif world[pl.t].tile == "Graveyard" then
+        netSend("pray",pl.name)
+        frequentlyUpdate = true
+        love.audio.play(sfx["hit"])
       end
         if pl.selItem ~= "None" then
           useItem(pl.selItem)
