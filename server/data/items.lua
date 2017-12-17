@@ -139,6 +139,15 @@ item.img[ti] = ""
   item.price[ti] = 500
 item.img[ti] = ""
 
+local ti = "Polymorph"
+item.type[ti] = "Spell"
+item.desc[ti] = "All enemies within 3 meters turn into Angry Chickens that explode after 3 seconds."
+item.val[ti] = "60,50"
+item.lvl[ti] = 10
+item.price[ti] = 500
+item.img[ti] = ""
+
+
 local ti = "Dog"
 item.type[ti] = "buddy"
 item.desc[ti] = "Left behind by the wolf pack, rejected for its domestic tendencies."

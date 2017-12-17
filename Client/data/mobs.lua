@@ -13,6 +13,17 @@ mb.sfx = {}
 local tm = "Player" --for bones
 mb.img[tm] = love.graphics.newImage("img/dragon/Red.png")
 
+local tm = "Angry Chicken"
+mb.hp[tm] = 1
+mb.spd[tm] = 64
+mb.atk[tm] = 1
+mb.sp1[tm] = "Suicide"
+mb.sp1t[tm] = 5
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Chicken.png")
+mb.rng[tm] = 16
+
 local tm = "Boar"
 mb.hp[tm] = 1
 mb.spd[tm] = 64

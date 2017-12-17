@@ -155,6 +155,15 @@ item.img[ti] = love.graphics.newImage("img/items/scrolls/Ground Slam.png")
   item.price[ti] = 500
   item.img[ti] = love.graphics.newImage("img/items/scrolls/Flash of Light.png")
 
+  local ti = "Polymorph"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "All enemies within 3 meters turn into Angry Chickens that explode after 3 seconds."
+  item.val[ti] = "60,50"
+  item.lvl[ti] = 10
+  item.price[ti] = 500
+  item.img[ti] = love.graphics.newImage("img/items/scrolls/Polymorph.png")
+
+
 --buddy (Wolf, Snake, Beholder, Baby Bat, Earth Elementling, Fire Elementling, Dragonling)
 buddy = {}
 buddy["Baby Bat"] = love.graphics.newImage("img/pet/Baby Bat.png")

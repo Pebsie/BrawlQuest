@@ -3,6 +3,7 @@
 ---ensure that the map.txt file is in the filesystem directory before running or a new map will be created
 utf8 = require("utf8")
 require "data/world"
+http = require("socket.http")
 
 world = {}
 world.bg = {}
@@ -33,6 +34,9 @@ isType = false
 ts = 1
 
 function love.load()
+
+  b, c, h = http.request("http://brawlquest.com/dl/map-snow.txt")
+  love.filesystem.write("map-snow.txt", b)
   heroImg = love.graphics.newImage("img/human/Legend.png")
   --load map data
   if love.filesystem.exists("map-snow.txt") then
