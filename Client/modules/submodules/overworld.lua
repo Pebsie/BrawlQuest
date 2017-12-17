@@ -84,13 +84,13 @@ function drawOverworld()
     love.graphics.print("Awaiting character info...")
   end
 
-  for i = 1, 4 do
-    drawUIWindow(i)
-  end
+
 
     love.graphics.pop()
 
-
+    for i = 1, 4 do
+      drawUIWindow(i)
+    end
 
       local sw,sh = love.graphics.getDimensions()
       if pl.t == 717 then

@@ -53,6 +53,14 @@ function updatePhase(phase, dt)
     updateLogin(dt)
   elseif phase == "game" then
     updateGame(dt)
+
+    if love.keyboard.isDown("z") then
+      scale = scale + 0.5*dt
+        love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+    elseif love.keyboard.isDown("x") then
+      scale = scale - 0.5*dt
+        love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+    end
   end
 end
 
@@ -92,10 +100,10 @@ function love.keypressed(key)
       requestWorldInfo()
     end
   elseif key == "z" then
-    scale = scale + 0.05
+  --  scale = scale + 0.05
   love.resize(love.graphics.getWidth(),love.graphics.getHeight())
   elseif key == "x" then
-    scale = scale - 0.05
+--    scale = scale - 0.05
     love.resize(love.graphics.getWidth(),love.graphics.getHeight())
   elseif key == "left" then
     if phase == "login" then
