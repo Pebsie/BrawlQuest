@@ -268,7 +268,7 @@ function updateFights(dt) --the big one!!
         end
       end
 
-      for v = 1,#mobInfo/8 do
+      for v = 1,#mobInfo/8 do --this mob
 
         if mob.hp[v] > 0 then
 
@@ -284,18 +284,37 @@ function updateFights(dt) --the big one!!
           end
 
           if mob.target.t[v] ~= "static" then
-            if pl.state[mob.target.t[v]] == "fight" and pl.spell[mob.target.t[v]] ~= "Phase Shift" then
+            if pl.state[mob.target.t[v]] == "fight" and pl.spell[mob.target.t[v]] ~= "Phase Shift" and mb.friend[mob[v]] == false then
               mob.target.x[v] = pl.x[mob.target.t[v]]+16
               mob.target.y[v] = pl.y[mob.target.t[v]]+16
             else --player is dead!
-              local freshTarget = listPlayersInFight(i)
-              freshTarget = freshTarget[love.math.random(#freshTarget)]
+              if mb.friend[mob[v]] then --this is a friendly mob who will attack other mobs
+                for k = 1,#mobInfo/8 do
+                  if k ~= v and not mb.friend[mob[k]] then
+                    if mob.target.x[v] == mob.x[k] then
+                      mob.target.x[v] = math.random(1, 800)
+                      mob.target.y[v] = math.random(1, 600)
+                    end
+                    if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < distanceFrom(mob.target.x[v], mob.target.y[v], mob.x[v], mob.y[v]) then
+                      mob.target.x[v] = mob.x[k]
+                      mob.target.y[v] = mob.y[k]
 
-              freshTarget = getPlayerName(tonumber(freshTarget))
-              if freshTarget then
-                mob.target.t[v] = freshTarget
-                mob.target.x[v] = pl.x[mob.target.t[v]]+16
-                mob.target.y[v] = pl.y[mob.target.t[v]]+16
+                      if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < mb.rng[mob[v]] then
+                        mob.hp[k] = mob.hp[k] - mb.atk[mob[k]]
+                      end
+                    end
+                  end
+                end
+              else
+                local freshTarget = listPlayersInFight(i)
+                freshTarget = freshTarget[love.math.random(#freshTarget)]
+
+                freshTarget = getPlayerName(tonumber(freshTarget))
+                if freshTarget then
+                  mob.target.t[v] = freshTarget
+                  mob.target.x[v] = pl.x[mob.target.t[v]]+16
+                  mob.target.y[v] = pl.y[mob.target.t[v]]+16
+                end
               end
             end
           end
@@ -303,7 +322,7 @@ function updateFights(dt) --the big one!!
           --take damage / give damage
           local playersInThisFight = listPlayersInFight(i)
           --print("There are "..#playersInThisFight.." players in this fight.")
-          for k = 1, #playersInThisFight do
+          for k = 1, #playersInThisFight do --cycle through plkayers
             --print("Player #"..k.." ID of "..playersInThisFight[k])
             local thisPlayer = getPlayerName(tonumber(playersInThisFight[k])) --get username
             local atkInfo = pl.at[thisPlayer]

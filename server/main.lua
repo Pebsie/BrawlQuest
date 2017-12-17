@@ -24,10 +24,10 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
- --loadGame()
+ loadGame()
 -- givePlayerItem("pebsie","Guardian's Padding",1)
 -- givePlayerItem("pebsie","Guardian's Blade",1)
-newPlayer("a","a")
+--newPlayer("a","a")
  givePlayerItem("a","Slam",1)
  givePlayerItem("a","Dog",1)
  givePlayerItem("a","Beholder",1)
@@ -78,7 +78,7 @@ function love.update(dt)
         elseif cmd == "char" then --client is requesting character info
         --  addMsg(param[1].." requested user info!")
           local i = param[1]
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i]), msg_or_ip, port_or_nil)
+          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i]), msg_or_ip, port_or_nil)
           pl.msg[i] = ""
         elseif cmd == "move" then
           parms = atComma(parms)
@@ -229,7 +229,7 @@ function saveGame()
   for i = 1, countPlayers() do
       local k = getPlayerName(i)
       --if pl.state[k] ~= "fight" then
-        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|\n"
+        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|\n"
       --fp = "map-new.txt"
     --  end
   end
@@ -257,6 +257,7 @@ function loadGame()
       pl.pot[i] = word[14]
       pl.lvl[i] = tonumber(word[15])
       pl.xp[i] = tonumber(word[16])
+      pl.bud[i] = word[17]
     end
     addMsg("Game loaded.")
   else

@@ -9,6 +9,7 @@ mb.sp2t = {}
 mb.img = {} --width in this case
 mb.rng = {}
 mb.sfx = {}
+mb.friend = {}
 
 local tm = "Player" --for bones
 mb.img[tm] = love.graphics.newImage("img/dragon/Red.png")
@@ -23,6 +24,7 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = love.graphics.newImage("img/mob/Chicken.png")
 mb.rng[tm] = 16
+mb.friend[tm] = true
 
 local tm = "Boar"
 mb.hp[tm] = 1

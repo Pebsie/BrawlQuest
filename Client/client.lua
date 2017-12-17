@@ -84,6 +84,7 @@ function netUpdate(dt)
             end
       --      love.window.showMessageBox("Debug",param[17])
             pl.armd = tonumber(param[17])
+            pl.dt = tonumber(param[19])
           --  pl.bud = param[18]
 
 

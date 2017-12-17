@@ -342,6 +342,9 @@ function createWorldCanvas()
               else
               --  love.graphics.print(world[i].fightc,x,y)
               end
+              if tonumber(pl.dt) == i then
+                love.graphics.draw(worldImg["DT"],x,y)
+              end
             end
           else
             love.graphics.setColor(255,255,255,50)
