@@ -42,8 +42,8 @@ function enterGame()
   stopMusic() --stop title music
   --download map
   --if not love.filesystem.exists("map.txt") then
-   b, c, h = http.request("http://brawlquest.com/dl/map-snow.txt")
-  love.filesystem.write("map.txt", b)
+  --b, c, h = http.request("http://brawlquest.com/dl/map-snow.txt")
+  --love.filesystem.write("map.txt", b)
   --end
       loadFog()
   --load map

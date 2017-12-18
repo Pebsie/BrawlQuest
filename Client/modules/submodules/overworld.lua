@@ -255,7 +255,7 @@ function drawUIWindow(i)
             elseif cit == "en" then pit = "Energy Potion" piv = "Instantly recovers "..civ.." energy."
             elseif cit == "Craftable" then pit = "Craftable" piv = "Can be used in crafting."
             elseif cit == "Key" then pit = "Key" piv = "Opens doors."
-            elseif cit == "buddy" then pit = "Buddy" piv = "Your new best friend."
+            elseif cit == "buddy" then pit = "Buddy" piv = "Your new best friend. "..item.desc[inv[i]]
             elseif cit == "Spell" then
               pit = "Spell"
               piv = '"'..item.desc[inv[i]]..'."'
@@ -318,9 +318,9 @@ function updateOverworld(dt)
   local windSpeed = 512*dt
   world.weatherX = world.weatherX + windSpeed
   world.weatherY = world.weatherY + windSpeed
-  if world.weatherX > 0 then --TODO: make this not an arbitrary value
-    world.weatherX = -1280
-    world.weatherY = -1280
+  if world.weatherY > 0 then --TODO: make this not an arbitrary value
+    world.weatherX = -800
+    world.weatherY = -800
   end
 
   local cx, cy = love.mouse.getPosition()

@@ -157,7 +157,7 @@ item.img[ti] = love.graphics.newImage("img/items/scrolls/Ground Slam.png")
 
   local ti = "Polymorph"
   item.type[ti] = "Spell"
-  item.desc[ti] = "All enemies within 3 meters turn into Angry Chickens that explode after 3 seconds."
+  item.desc[ti] = "All enemies within 3 meters with HP equal to or less than your weapon's attack turn into Angry Chickens that attack opponents and explode after 5 seconds."
   item.val[ti] = "60,50"
   item.lvl[ti] = 10
   item.price[ti] = 500
