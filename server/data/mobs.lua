@@ -12,14 +12,14 @@ mb.friend = {}
 
 local tm = "Angry Chicken"
 mb.hp[tm] = 1
-mb.spd[tm] = 64
-mb.atk[tm] = 1
+mb.spd[tm] = 128
+mb.atk[tm] = 2
 mb.sp1[tm] = "suicide"
-mb.sp1t[tm] = 60
+mb.sp1t[tm] = 5
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 32
-mb.rng[tm] = 16
+mb.rng[tm] = 32
 mb.friend[tm] = true
 
 local tm = "Ghost"

@@ -294,14 +294,14 @@ function updateFights(dt) --the big one!!
                   if k ~= v and not mb.friend[mob[k]] then --we don't want to attack ourselves nor other friends
                     --addMsg("Is "..distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]).." < "..curMaxDist)
                     if curMaxDist > distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) then
-                      mob.target.x[v] = mob.x[k]
-                      mob.target.y[v] = mob.y[k]
+                      mob.target.x[v] = mob.x[k]+mb.img[mob[k]]/2
+                      mob.target.y[v] = mob.y[k]+mb.img[mob[k]]/2
                     --  addMsg("Mob #"..v.." switched target.")
                       curMaxDist = distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v])
                     end
 
                     if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < mb.rng[mob[v]] then
-                      mob.hp[k] = mob.hp[k] - mb.atk[mob[k]]
+                      mob.hp[k] = mob.hp[k] - mb.atk[mob[k]]*dt
                     end
                   end
                 end

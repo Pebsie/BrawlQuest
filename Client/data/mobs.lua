@@ -16,8 +16,8 @@ mb.img[tm] = love.graphics.newImage("img/dragon/Red.png")
 
 local tm = "Angry Chicken"
 mb.hp[tm] = 1
-mb.spd[tm] = 64
-mb.atk[tm] = 1
+mb.spd[tm] = 128
+mb.atk[tm] = 2
 mb.sp1[tm] = "Suicide"
 mb.sp1t[tm] = 5
 mb.sp2[tm] = "None"
