@@ -289,19 +289,19 @@ function updateFights(dt) --the big one!!
               mob.target.y[v] = pl.y[mob.target.t[v]]+16
             else --player is dead!
               if mb.friend[mob[v]] then --this is a friendly mob who will attack other mobs
+                local curMaxDist = 1000 --for changing targets
                 for k = 1,#mobInfo/8 do
-                  if k ~= v and not mb.friend[mob[k]] then
-                    if mob.target.x[v] == mob.x[k] then
-                      mob.target.x[v] = math.random(1, 800)
-                      mob.target.y[v] = math.random(1, 600)
-                    end
-                    if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < distanceFrom(mob.target.x[v], mob.target.y[v], mob.x[v], mob.y[v]) then
+                  if k ~= v and not mb.friend[mob[k]] then --we don't want to attack ourselves nor other friends
+                    --addMsg("Is "..distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]).." < "..curMaxDist)
+                    if curMaxDist > distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) then
                       mob.target.x[v] = mob.x[k]
                       mob.target.y[v] = mob.y[k]
+                    --  addMsg("Mob #"..v.." switched target.")
+                      curMaxDist = distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v])
+                    end
 
-                      if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < mb.rng[mob[v]] then
-                        mob.hp[k] = mob.hp[k] - mb.atk[mob[k]]
-                      end
+                    if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < mb.rng[mob[v]] then
+                      mob.hp[k] = mob.hp[k] - mb.atk[mob[k]]
                     end
                   end
                 end
