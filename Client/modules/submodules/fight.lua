@@ -271,7 +271,7 @@ end
 
 function killMob(i)
   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),32)
-  addMob(i)
+  addMob(i) --reset this mob for possible reuse
 end
 
 function killMobs()

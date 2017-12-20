@@ -354,7 +354,7 @@ function updateFights(dt) --the big one!!
                 mob.hp[v] = mob.hp[v] - (item.val[pl.wep[thisPlayer]]*4)*dt
               end
             elseif pl.spell[thisPlayer] == "Polymorph" then
-              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*3 and item.val[pl.wep[thisPlayer]]-1 > mob.hp[v] then
+              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*3 and item.val[pl.wep[thisPlayer]]+1 > mob.hp[v] then
                 mob.hp[v] = 0
                 spawnMob(i, "Angry Chicken", mob.x[v], mob.y[v])
               end

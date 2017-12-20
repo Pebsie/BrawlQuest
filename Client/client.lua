@@ -147,11 +147,15 @@ function netUpdate(dt)
             tparam = tparam + 6
           end
 
+          --we need to cycle through every existing mob and set their "updated" attribute to false so that we can see who is and isn't still alive
+          for i = 1, countMobs() do
+            updateMob(i,"updated",false)
+          end
+
           for i = 1, mbs do -- * All mob info (X,Y,Type,HP)
           --  love.window.showMessageBox("Debug","Mob "..param[tparam+3].." at ")
 
-
-          if not doesMobExist(i) or not getMob(i,"hp") then
+          if not doesMobExist(i) then
               addMob(i)
           elseif  param[tparam+4] ~= getMob(i,"id") then
               local k = findMob("id",param[tparam+4])
@@ -168,10 +172,8 @@ function netUpdate(dt)
             updateMob(i,"ty",tonumber(param[tparam+1]))
             updateMob(i,"type",param[tparam+2])
             if getMob(i,"hp") > tonumber(param[tparam+3]) then
-              if tonumber(param[tparam+3]) < 0.1 then
-                addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),32)
+              if tonumber(param[tparam+3]) < 1 then
                 love.audio.play(sfx["kill"])
-                killMob(i)
               else
                 if getMob(i,"hp")-tonumber(param[tparam+3]) > 4 then
                   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
@@ -184,9 +186,16 @@ function netUpdate(dt)
 
             updateMob(i,"hp",tonumber(param[tparam+3]))
             updateMob(i,"id",param[tparam+4])
-
+            updateMob(i,"updated",true)
 
             tparam = tparam + 5
+          end
+
+          --now we need to cycle through every mob and kill those that no longer exist
+          for i = 1, countMobs() do
+            if getMob(i,"updated") == false and getMob(i,"id") ~= -1 then
+              killMob(i)
+            end
           end
         end
 
