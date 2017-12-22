@@ -84,7 +84,7 @@ function love.update(dt)
           parms = atComma(parms)
           movePlayer(parms[1],parms[2])
         elseif cmd == "world" then
-          local msgToSend = countPlayers().."|"..countFights().."|"
+          local msgToSend = countPlayers().."|"..countFights().."|"..weather.."|"
           local name = parms
           --compile location of current players, including ourselves
           for i = 1, countPlayers() do

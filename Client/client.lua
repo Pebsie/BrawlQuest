@@ -96,7 +96,8 @@ function netUpdate(dt)
 
           local plyrs = tonumber(param[1])
           local fghts = tonumber(param[2])
-          local tparam = 3
+          world.weather = param[3]
+          local tparam = 4
           for i = 1, plyrs do --this is awful please stop doing this
             if param[tparam] == "user" then
               local name = param[tparam+1]

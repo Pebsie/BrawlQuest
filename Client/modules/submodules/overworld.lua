@@ -4,6 +4,7 @@ world = {}
 world.weather = "snow"
 world.weatherX = 0
 world.weatherY = 0
+world.weatherA = 0
 
 areaTitleAlpha = 255
 curAreaTitle = "The Great Plains"
@@ -86,8 +87,10 @@ function drawOverworld()
   if not item.val[pl.wep] and not item.val[pl.arm] then
     love.graphics.print("Awaiting character info...")
   end
-
-  love.graphics.draw(weatherImg[world.weather],world.weatherX,world.weatherY)
+  --weather
+  love.graphics.setColor(255,255,255,world.weatherA)
+  love.graphics.draw(weatherImg["snow"],world.weatherX,world.weatherY)
+  love.graphics.setColor(255,255,255,255)
 
     love.graphics.pop()
 
@@ -322,6 +325,10 @@ function updateOverworld(dt)
     world.weatherX = -800
     world.weatherY = -800
   end
+
+  if world.weather == "snow" then world.weatherA = world.weatherA + 100*dt end
+  if world.weather == "clear" then world.weatherA = world.weatherA - 100*dt end
+  if world.weatherA > 255 then world.weatherA = 255 elseif world.weatherA < 0 then world.weatherA = 0 end
 
   local cx, cy = love.mouse.getPosition()
   local sw,sh = love.graphics.getDimensions()
