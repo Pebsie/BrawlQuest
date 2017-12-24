@@ -103,3 +103,26 @@ function useItem(titem)
     netSend("use", pl.name..","..titem..","..pl.selSpell)
   end
 end
+
+function movePlayer(dir)
+  netSend("move", pl.name..","..dir)
+  requestUserInfo()
+
+  curT = pl.t
+  --perform on client side pre-confirmation to make things smoother
+  if dir == "up" then pl.t = pl.t - 101
+  elseif dir == "down" then pl.t = pl.t + 101
+  elseif dir == "left" then pl.t = pl.t - 1
+  elseif dir == "right" then pl.t = pl.t + 1 end
+
+  if world[pl.t].collide == false then
+    if world[pl.t].tile == "Curse" then
+      gameUI[4].msg = "Requires Adver Ring"
+      gameUI[4].isVisible = true
+    end
+    addFog(pl.t)
+  end
+
+
+  createWorldCanvas()
+end

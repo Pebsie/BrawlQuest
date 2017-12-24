@@ -49,6 +49,7 @@ worldImg["Lantern"] = love.graphics.newImage("img/world/objects/Lantern.png")
 worldImg["Pillar"] = love.graphics.newImage("img/world/objects/Pillar.png")
 worldImg["Red Walkway"] = love.graphics.newImage("img/world/objects/Red Walkway.png")
 worldImg["Wall Mounted Torch"] = love.graphics.newImage("img/world/objects/Wall Mounted Torch.png")
+worldImg["Curse"] = love.graphics.newImage("img/world/objects/Curse.png")
 
 worldImg["DT"] = love.graphics.newImage("img/world/objects/Ghoul.png")
 worldImg["Cloud"] = love.graphics.newImage("img/world/objects/Cloud.png")

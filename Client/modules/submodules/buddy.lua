@@ -33,6 +33,6 @@ function drawBuddy(name)
       love.graphics.draw(buddy[getPlayer(name,"buddy")],bud[name].x+xoff,bud[name].y+yoff)
     end
   else
-    updatePlayer(name,"buddy","Water Elementling")
+  --  updatePlayer(name,"buddy","Water Elementling")
   end
 end

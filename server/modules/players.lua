@@ -64,7 +64,7 @@ function newPlayer(name, password)
   pl.spell[i] = "None"
   pl.spellT[i] = 0
   pl.timeout[i] = 100
-  pl.bud[i] = "Dragonling"
+  pl.bud[i] = "None"
 
   addMsg("New player by the name of "..name)
 end
@@ -138,7 +138,8 @@ function givePlayerXP(name, xp)
 end
 
 function givePlayerGold(name, gold)
-  pl.gold[name] = pl.gold[name] + tonumber(gold)
+  --pl.gold[name] = pl.gold[name] + tonumber(gold)
+  givePlayerItem(name,"Gold",gold)
 end
 
 function givePlayerItem(name, ritem, amount)
@@ -270,8 +271,8 @@ function movePlayer(name, dir)
   if world[pl.t[name]].collide and pl.t[name] ~= 4971 then
     pl.t[name] = curt
   else
-    if pl.t[name] == 4971 then
-      if not playerHasItem(name,"Skeleton Key") then
+    if world[pl.t[name]].tile == "Curse" then
+      if not playerHasItem(name,"Adver Ring") then
         pl.t[name] = curt
       end
     end

@@ -218,3 +218,17 @@ item.val[ti] = 0
 item.lvl[ti] = "??"
 item.price[ti] = 0
 item.img[ti] = ""
+
+local ti = "Adver Ring"
+item.type[ti] = "Key"
+item.val[ti] = "Allows you to pass through cursed areas of The Southern Mountains"
+item.lvl[ti] = "??"
+item.price[ti] = 0
+item.img[ti] = ""
+
+local ti = "Gold"
+item.type[ti] = "currency"
+item.val[ti] = "1"
+item.lvl[ti] = 1
+item.price[ti] = 0
+item.img[ti] = ""

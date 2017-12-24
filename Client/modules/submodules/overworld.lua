@@ -266,6 +266,8 @@ function drawUIWindow(i)
               piv = piv.."\n"..stats[1].." second cooldown.\nRequires "..stats[2].." energy."
             elseif cit == "Letter" then
               pit = "Letter" piv = "A letter. Want to read it?"
+            elseif cit == "currency" then
+              pit = "Coinage" piv = "Can be exchanged for goods and services." item.price[inv[i]] = inv[i+1]
             end
 
 

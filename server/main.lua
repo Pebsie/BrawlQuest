@@ -34,6 +34,7 @@ function love.load()
  givePlayerItem("a","Legendary Padding",1)
  givePlayerItem("a","Legendary Sword",1)
  givePlayerItem("a","Polymorph",1)
+ givePlayerItem("a","Adver Ring",1)
 -- givePlayerGold("b",100000)
 
   --initItems()

@@ -250,6 +250,20 @@ item.img[ti] = buddy[ti]
   item.price[ti] = 0
   item.img[ti] = love.graphics.newImage("img/items/key.png")
 
+  local ti = "Adver Ring"
+  item.type[ti] = "Key"
+  item.val[ti] = "Allows you to pass through cursed areas of The Southern Mountains"
+  item.lvl[ti] = "??"
+  item.price[ti] = 0
+  item.img[ti] = love.graphics.newImage("img/items/Adver Ring.png")
+
+  local ti = "Gold"
+  item.type[ti] = "currency"
+  item.val[ti] = "1"
+  item.lvl[ti] = 1
+  item.price[ti] = 0
+  item.img[ti] = love.graphics.newImage("img/items/gold.png")
+
 shop = {}
 shop["Armour"] = {"Basic Cloth", "Leather Armour", "Chainmail Armour", "Guardian's Padding", "Legendary Padding"}
 shop["Weapons"] = {"Short Sword", "Bastard Sword", "Long Sword", "Guardian's Blade", "Legendary Sword"}
