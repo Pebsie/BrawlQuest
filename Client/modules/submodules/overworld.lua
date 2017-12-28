@@ -162,30 +162,7 @@ function drawShop(tx,ty)
     love.graphics.print(titype,x,y)
     y = y + font:getHeight()
     for i = 1, #shop[titype] do
-
-      love.graphics.draw(item.img[shop[titype][i]],x,y)
-      if cx > x and cx < x+32 and cy > y and cy < y+32 then
-        --get phonetic item type name
-        local pit = "unknown"
-        local cit = item.type[shop[titype][i]]
-        local piv = "None"
-        local civ = item.val[shop[titype][i]]
-        if cit == "wep" then pit = "Weapon" piv = "Deals up to "..civ.." damage."
-        elseif cit == "arm" then pit = titype piv = "Defends for "..civ.." damage."
-        elseif cit == "hp" then pit = "Health Potion" piv = "Recovers "..civ.." health over 3 seconds."
-        elseif cit == "en" then pit = "Energy Potion" piv = "Instantly recovers "..civ.." energy."
-        elseif cit == "Craftable" then pit = "Craftable" piv = "Can be used in crafting."
-        elseif cit == "Spell" then
-          pit = "Spell"
-          piv = '"'..item.desc[shop[titype][i]]..'."'
-          local stats = atComma(item.val[shop[titype][i]])
-          piv = piv.."\n"..stats[1].." second cooldown.\nRequires "..stats[2].." energy."
-        elseif cit == "Letter" then
-          pit = "Letter" piv = "A letter. Want to read it?"
-        end
-        addTT(shop[titype][i],"Level "..item.lvl[shop[titype][i]].." "..pit..".\n"..piv.."\nCosts "..item.price[shop[titype][i]].." gold.",cx,cy)
-      end
-
+      drawItem(shop[titype][i],-1,x,y)
       x = x + 34
     end
     x = tx+2
@@ -246,45 +223,12 @@ function drawUIWindow(i)
         if item.img[inv[i]] then
 
           --display tooltip
+          drawItem(inv[i],inv[i+1],x+tx, y+ty)
           if cx > x+tx and cx < x+tx+32 and cy > y+ty and cy < y+ty+32 then
-            --get phonetic item type name
-            local pit = "unknown"
-            local cit = item.type[inv[i]]
-            local piv = "None"
-            local civ = item.val[inv[i]]
-            if cit == "wep" then pit = "Weapon" piv = "Deals up to "..civ.." damage."
-            elseif cit == "arm" then pit = "Armour" piv = "Defends for "..civ.." damage."
-            elseif cit == "hp" then pit = "Health Potion" piv = "Recovers "..civ.." health over 3 seconds."
-            elseif cit == "en" then pit = "Energy Potion" piv = "Instantly recovers "..civ.." energy."
-            elseif cit == "Craftable" then pit = "Craftable" piv = "Can be used in crafting."
-            elseif cit == "Key" then pit = "Key" piv = "Opens doors."
-            elseif cit == "buddy" then pit = "Buddy" piv = "Your new best friend. "..item.desc[inv[i]]
-            elseif cit == "Spell" then
-              pit = "Spell"
-              piv = '"'..item.desc[inv[i]]..'."'
-              local stats = atComma(item.val[inv[i]])
-              piv = piv.."\n"..stats[1].." second cooldown.\nRequires "..stats[2].." energy."
-            elseif cit == "Letter" then
-              pit = "Letter" piv = "A letter. Want to read it?"
-            elseif cit == "currency" then
-              pit = "Coinage" piv = "Can be exchanged for goods and services." item.price[inv[i]] = inv[i+1]
-            end
-
-
-            addTT(inv[i],"Level "..item.lvl[inv[i]].." "..pit..".\n"..piv.."\nWorth "..item.price[inv[i]].." gold.",cx,cy)
             pl.selItem = inv[i]
-            love.graphics.setColor(150,150,150)
-          else
-            love.graphics.setColor(0,0,0)
           end
-          love.graphics.rectangle("fill",x+tx,y+ty,32,32)
-          love.graphics.setColor(255,255,255)
-          love.graphics.draw(item.img[inv[i]],x+tx,y+ty)
-        else
-          love.graphics.draw(uiImg["error"],x+tx,y+ty)
         end
-        love.graphics.print("x"..inv[i+1],x+tx+20,y+ty+20)
-
+        
         tx = tx + 36
         if tx > (36*4) then
           tx = 2

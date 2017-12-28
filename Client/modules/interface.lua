@@ -1,5 +1,6 @@
 require "modules/submodules/login"
 require "modules/submodules/tooltip"
+require "modules/ui/master"
 
 --ui variables, use as you wish
 ui = {}
