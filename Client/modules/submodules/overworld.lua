@@ -228,7 +228,7 @@ function drawUIWindow(i)
             pl.selItem = inv[i]
           end
         end
-        
+
         tx = tx + 36
         if tx > (36*4) then
           tx = 2

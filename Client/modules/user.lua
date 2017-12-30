@@ -99,7 +99,7 @@ function useItem(titem)
   if item.type[titem] == "Letter" or item.type[titem] == "Key" then
     gameUI[4].isVisible = true
     gameUI[4].msg = item.val[titem]
-  else
+  elseif item.type[titem] ~= "currency" then
     netSend("use", pl.name..","..titem..","..pl.selSpell)
   end
 end
@@ -125,4 +125,17 @@ function movePlayer(dir)
 
 
   createWorldCanvas()
+end
+
+function playerHasItem(item,amount)
+  if not amount then amount = 1 end
+  local inv = atComma(pl.inv,";")
+
+  for i = 1, #inv, 2 do
+    if inv[i] == item and tonumber(inv[i+1]) > tonumber(amount) then
+      return true
+    end
+  end
+
+  return false
 end

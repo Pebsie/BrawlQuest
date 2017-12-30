@@ -113,14 +113,15 @@ function love.mousereleased(button, cx, cy)
           for i = 1, #shop[titype] do
         --    love.window.showMessageBox("debug",shop[titype][i].." at "..x.." ("..(x+32).."),"..y.." ("..(y+32).."), cursor at "..cx..","..cy)
             if cx > x and cx < x+32 and cy > y and cy < y+32 then
-
-              if pl.gold > item.price[shop[titype][i]]-1 then
+              titem = shop[titype][i]
+              local itemCost = atComma(item.price[titem])
+              if playerHasItem(itemCost[2],itemCost[1]-1) then
                 netSend("buy",pl.name..","..shop[titype][i])
                   frequentlyUpdate = true
                   love.audio.play(sfx["hit"])
               else
                 gameUI[4].isVisible = true
-                gameUI[4].msg = "You don't have enough gold!"
+                gameUI[4].msg = "You don't have enough "..itemCost[2].."!"
               end
             end
 

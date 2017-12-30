@@ -27,6 +27,7 @@ function drawPhase(phase)
     drawLogin()
   elseif phase == "game" then
     drawGame()
+    drawUI()
   elseif phase == "read" then
     love.graphics.push()
     local xscale = realScreenWidth/stdSH
@@ -54,7 +55,7 @@ function updatePhase(phase, dt)
     updateLogin(dt)
   elseif phase == "game" then
     updateGame(dt)
-
+    updateUI(dt)
     if love.keyboard.isDown("z") then
       scale = scale + 0.5*dt
         love.resize(love.graphics.getWidth(),love.graphics.getHeight())
@@ -133,6 +134,7 @@ function love.keypressed(key)
         pl.s2t = vals[1]
         pl.spell = pl.s2
       end
+      newLoot("Polymorph",1)
     end
   end
 

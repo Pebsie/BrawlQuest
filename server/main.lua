@@ -159,10 +159,11 @@ function love.update(dt)
           local name = parms[1]
           local titem = parms[2]
           addMsg(name.." is trying to buy "..titem)
-          if pl.t[name] == 717 then --check that they're on the right shop tile
-            if pl.gold[name] > item.price[titem]-1 then
-              pl.gold[name] = pl.gold[name] - item.price[titem]
-              givePlayerItem(name,titem)
+          local itemCost = atComma(item.price[titem])
+          if world[pl.t[name]].tile == "Blacksmith" then --check that they're on the right shop tile
+            if playerHasItem(name,itemCost[2],tonumber(itemCost[1])) then
+              playerUse(name,itemCost[2],0,tonumber(itemCost[1])) --remove gold from player
+              givePlayerItem(name,titem) --give player item they've bought
             end
           end
         elseif cmd == "potion" then --use potion

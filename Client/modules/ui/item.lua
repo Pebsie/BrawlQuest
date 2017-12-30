@@ -1,8 +1,10 @@
 --this makes it a lot easier to draw the standardised item. Woo!
 
-function drawItem(name,amount,x,y)
+function drawItem(name,amount,x,y,alpha)
+  if not alpha then alpha = 255 end
 
   if cx > x and cx < x+32 and cy > y and cy < y+32 then
+    local itemCost = atComma(item.price[name])
     --get phonetic item type name
     local pit = "unknown"
     local cit = item.type[name]
@@ -23,19 +25,22 @@ function drawItem(name,amount,x,y)
     elseif cit == "Letter" then
       pit = "Letter" piv = "A letter. Want to read it?"
     elseif cit == "currency" then
-      pit = "Coinage" piv = "Can be exchanged for goods and services." item.price[name] = amount
+      pit = "Coinage" piv = "Can be exchanged for goods and services." itemCost[1] = amount
     end
-    addTT(name,"Level "..item.lvl[name].." "..pit..".\n"..piv.."\nWorth "..item.price[name].." gold.",cx,cy)
-    love.graphics.setColor(150,150,150)
+    addTT(name,"Level "..item.lvl[name].." "..pit..".\n"..piv.."\nWorth "..itemCost[1].." "..itemCost[2].." .",cx,cy)
+    love.graphics.setColor(150,150,150,alpha)
   else
-    love.graphics.setColor(0,0,0)
+    love.graphics.setColor(0,0,0,alpha)
   end
   love.graphics.rectangle("fill",x,y,32,32)
-  love.graphics.setColor(255,255,255)
+  love.graphics.setColor(255,255,255,alpha)
   love.graphics.draw(item.img[name],x,y)
 
 
-  if amount ~= -1 then
-    love.graphics.print("x"..amount,x+20,y+20)
+  if tonumber(amount) > 1 then
+    love.graphics.setColor(0,0,0,150)
+    love.graphics.rectangle("fill",x,y+20,32,sFont:getHeight())
+    love.graphics.setColor(255,255,255,alpha)
+    love.graphics.printf("x"..amount,x,y+20,32,"right")
   end
 end

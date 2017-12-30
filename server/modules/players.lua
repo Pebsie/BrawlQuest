@@ -170,18 +170,19 @@ function givePlayerItem(name, ritem, amount)
   end
 end
 
-function playerUse(name, ritem, index)
+function playerUse(name, ritem, index, amount)
+  if not amount then amount = 1 end
   curInv = atComma(pl.inv[name],";")
   local hasItem = false
 
   rebuiltInv = {}
   local k = 1
 
-  for i = 1, #curInv, 2 do
+  for i = 1, #curInv, 2 do --do we have this item?
     curInv[i+1] = tonumber(curInv[i+1])
     if curInv[i] == ritem then --found item in inventory
       hasItem = true
-      curInv[i+1] = curInv[i+1] - 1
+      curInv[i+1] = curInv[i+1] - amount
     end
 
     rebuiltInv[k] = {}
@@ -251,11 +252,12 @@ end
 
 --IMPLEMENT TO FULL GAME
 
-function playerHasItem(name,item)
+function playerHasItem(name,item,amount)
+  if not amount then amount = 0 end
   local hasItem = false
-    curInv = atComma(pl.inv[name],";")
+  curInv = atComma(pl.inv[name],";")
   for i = 1, #curInv, 2 do
-    if curInv[i] == item then hasItem = true end
+    if curInv[i] == item and tonumber(curInv[i+1]) > tonumber(amount) then hasItem = true end
   end
 
   return hasItem
