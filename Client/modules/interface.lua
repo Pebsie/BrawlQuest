@@ -135,6 +135,8 @@ function love.keypressed(key)
         pl.spell = pl.s2
       end
     end
+
+    mobSpeak("Sorcerer","To the East is a village. They were the original tribe that ventured up here centuries ago. Maybe they found something useful.",10)
   end
 
    if phase == "splash" then

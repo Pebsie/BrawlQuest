@@ -21,6 +21,7 @@ function drawLootBox(x,y)
 
     love.graphics.setColor(255,255,255,LQalpha)
     drawItem(lootQueue[LQcurrent].title,lootQueue[LQcurrent].amount,x+4,y,LQalpha)
+    love.graphics.setFont(font)
     love.graphics.printf(lootQueue[LQcurrent].title,x+32,y+6,200-32,"center")
     love.graphics.setFont(sFont)
     love.graphics.printf(lootQueue[LQcurrent].amount,x+32,y+6+(font:getHeight()),200-32,"center")
