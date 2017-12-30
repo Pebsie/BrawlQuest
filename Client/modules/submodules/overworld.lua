@@ -27,7 +27,7 @@ function loadOverworld()
       world[i].players = ""
       world[i].x = x
       world[i].y = y
-      world[i].i = i --I don't like this, but I couldn't do A* pathfinding myself so this is it :'(
+      world[i].i = i
       x = x + 32
       if x > 100*32 then
         x = 0

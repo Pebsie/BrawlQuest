@@ -38,6 +38,7 @@ function drawItem(name,amount,x,y,alpha)
 
 
   if tonumber(amount) > 1 then
+    love.graphics.setFont(sFont)
     love.graphics.setColor(0,0,0,150)
     love.graphics.rectangle("fill",x,y+20,32,sFont:getHeight())
     love.graphics.setColor(255,255,255,alpha)

@@ -3,7 +3,7 @@ require "modules/ui/loot"
 require "modules/ui/item"
 
 function drawUI(dt)
-  drawLootBox(sw/2-100,sh/2-(72/2))
+  drawLootBox(sw/2-100,(sh/3)*2-(72/2))
 end
 
 function updateUI(dt)

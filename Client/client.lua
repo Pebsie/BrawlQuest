@@ -63,6 +63,32 @@ function netUpdate(dt)
             pl.s1 = param[3]
             pl.s2 = param[4]
             --pl.msg = param[18]
+            if param[12] ~= pl.inv and pl.inv then --inventory has changed, we need to display the changes!
+              local oldInv = atComma(pl.inv,";")
+              local newInv = atComma(param[12],";")
+
+              for i = 1, #newInv, 2 do
+                local isNewItem = "No" --not a bool to save having to create variables for each condition
+                if oldInv[i] then --does this part even exist?
+                  if oldInv[i] == newInv[i] then
+                    if oldInv[i+1] ~= newInv[i+1] then
+                      isNewItem = "NewAmount"
+                    end
+                  else
+                    isNewItem = "Yes"
+                  end
+                else
+                  isNewItem = "Yes"
+                end
+
+                if isNewItem == "Yes" then
+                  newLoot(newInv[i],newInv[i+1])
+                elseif isNewItem == "NewAmount" then
+                  newLoot(newInv[i],tonumber(newInv[i+1])-tonumber(oldInv[i+1]))
+                end
+              end
+            end
+
             pl.inv = param[12]
           --  love.window.showMessageBox("Debug",pl.inv)
             pl.pot = param[15]

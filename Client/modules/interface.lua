@@ -134,7 +134,6 @@ function love.keypressed(key)
         pl.s2t = vals[1]
         pl.spell = pl.s2
       end
-      newLoot("Polymorph",1)
     end
   end
 
