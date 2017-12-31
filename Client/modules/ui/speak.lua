@@ -7,11 +7,13 @@ speak.totalTime = 0
 speak.alpha = 0
 
 function mobSpeak(mobSpeaking,text,time)
-  speak.mob = mobSpeaking
-  speak.text = text
-  speak.time = 0
-  speak.totalTime = time
-  speak.alpha = 255
+  if text ~= speak.text then --as "speak" is a mob, this allows the time bar to work with messages sent from the server
+    speak.mob = mobSpeaking
+    speak.text = text
+    speak.time = 0
+    speak.totalTime = tonumber(time)
+    speak.alpha = 255
+  end
 end
 
 function drawSpeak(x,y)

@@ -14,6 +14,32 @@ mb.friend = {}
 local tm = "Player" --for bones
 mb.img[tm] = love.graphics.newImage("img/dragon/Red.png")
 
+mb.img["Mortus"] = love.graphics.newImage("img/human/Mortus.png")
+
+local tm = "Guard"
+mb.hp[tm] = 5
+mb.spd[tm] = 64
+mb.atk[tm] = 1
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 5
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/human/Guard.png")
+mb.rng[tm] = 64
+mb.friend[tm] = true
+
+local tm = "Mortus"
+mb.hp[tm] = 100
+mb.spd[tm] = 128
+mb.atk[tm] = 4
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/human/Mortus.png")
+mb.rng[tm] = 60
+mb.friend[tm] = true
+
 local tm = "Angry Chicken"
 mb.hp[tm] = 1
 mb.spd[tm] = 128
@@ -84,6 +110,17 @@ mb.sfx[tm] = {}
     mb.sp2t[tm] = 0
     mb.img[tm] = love.graphics.newImage("img/mob/Ghost.png")
     mb.rng[tm] = 16
+
+    local tm = "Savage Wolf"
+        mb.hp[tm] = 1
+        mb.spd[tm] = 100
+        mb.atk[tm] = 1
+        mb.sp1[tm] = "None"
+        mb.sp1t[tm] = 0
+        mb.sp2[tm] = "None"
+        mb.sp2t[tm] = 0
+        mb.img[tm] = love.graphics.newImage("img/mob/Savage Wolf.png")
+        mb.rng[tm] = 16
 
     local tm = "Wolf"
         mb.hp[tm] = 5

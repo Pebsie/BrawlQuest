@@ -3,6 +3,7 @@ function loadMusic()
   music.title = {}
   music.world = {}
   music.fight = {}
+  music.weather = {}
 
   music.title[1] = love.audio.newSource("sound/music/title.mp3", "stream")
   --music.title[2] = love.audio.newSource("sound/music/title2.mp3", "stream")
@@ -20,8 +21,11 @@ function loadMusic()
   music.fight[3] = love.audio.newSource("sound/music/fight3.mp3", "stream")
   music.fight[4] = love.audio.newSource("sound/music/fight4.mp3", "stream")
 
+  music.weather["snow"] = love.audio.newSource("sound/sfx/snow.mp3","stream")
+
   music.curPlay = music.title[love.math.random(1, #music.title)]
-  love.audio.play(love.audio.newSource("sound/sfx/snow.mp3","stream"))
+  music.curWet = music.weather["snow"]
+
   love.audio.play(music.curPlay)
 end
 
@@ -34,6 +38,17 @@ function updateMusic(dt)
       --love   music.curPlay:setVolume(0.05)
         love.audio.play(music.curPlay)
       end
+    end
+
+    if not music.curWet:isPlaying() then
+      if music.weather[world.weather] then
+        music.curWet = music.weather[world.weather]
+        love.audio.play(music.curWet)
+      end
+    end
+
+    if not music.weather[world.weather] then
+      love.audio.stop(music.curWet)
     end
   end
 end

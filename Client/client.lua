@@ -203,9 +203,9 @@ function netUpdate(dt)
                 love.audio.play(sfx["kill"])
               else
                 if getMob(i,"hp")-tonumber(param[tparam+3]) > 4 then
-                  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
+                --  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
                 else
-                  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
+                  --addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
                 end
                 love.audio.play(sfx["hit"])
               end
@@ -214,6 +214,12 @@ function netUpdate(dt)
             updateMob(i,"hp",tonumber(param[tparam+3]))
             updateMob(i,"id",param[tparam+4])
             updateMob(i,"updated",true)
+
+            if string.sub(param[tparam+2],1,5) == "speak" then
+              local speakInfo = atComma(param[tparam+2])
+              mobSpeak(speakInfo[2],speakInfo[3],speakInfo[4])
+              killMob(i)
+            end
 
             tparam = tparam + 5
           end

@@ -67,6 +67,9 @@ function newPlayer(name, password)
   pl.bud[i] = "None"
 
   addMsg("New player by the name of "..name)
+
+  newFight(pl.t[name], "Ambush")
+  addPlayerToFight(#ft.t, name)
 end
 
 function updatePlayers(dt)

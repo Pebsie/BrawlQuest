@@ -144,17 +144,23 @@ function spawnMob(fight, mob, x, y)
       freshTarget = freshTarget[love.math.random(#freshTarget)]
       --print("Target is "..freshTarget)
       freshTarget = getPlayerName(tonumber(freshTarget))
-      if not x and freshTarget then
-        local side = love.math.random(1, 3)
-        if side == 1 then --top
-          ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
-        elseif side == 2 then --left
-          ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, stdsH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
-        elseif side == 3 then --right
-          ft.mb[fight] = ft.mb[fight]..mob..";"..(stdSW+129)..";"..love.math.random(1, stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
-        end
+    --  addMsg(string.sub(mob,1,5))
+      if string.sub(mob,1,5) == "speak" then
+        ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp["speak"]..";320,240,"..freshTarget..";"..mb.sp1t["speak"]..";"..mb.sp2t["speak"]..";"..love.math.random(1,9999)..";"
       else
-          ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+        if not x and freshTarget then
+          local side = love.math.random(1, 3)
+
+          if side == 1 then --top
+            ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+          elseif side == 2 then --left
+            ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, stdsH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+          elseif side == 3 then --right
+            ft.mb[fight] = ft.mb[fight]..mob..";"..(stdSW+129)..";"..love.math.random(1, stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+          end
+        else
+            ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+        end
       end
     end
       return true
@@ -216,9 +222,16 @@ function updateFights(dt) --the big one!!
 
           if ft.nextSpawn[i] < 0 and countMobs(i) < 100 then
           --print("Spawning a mob")
+          addMsg(ft.queue[i][current])
             if spawnMob(i,ft.queue[i][current]) then
-              ft.queue.amount[i][current] = ft.queue.amount[i][current] - 1
-              ft.nextSpawn[i] = fs.spawnTime[ft.title[i]]
+
+              if string.sub(ft.queue[i][current],1,5) == "speak" then
+                ft.nextSpawn[i] = ft.queue.amount[i][current]--set to speak timer
+                ft.queue.current[i] = ft.queue.current[i] + 1
+              else
+                ft.queue.amount[i][current] = ft.queue.amount[i][current] - 1
+                ft.nextSpawn[i] = fs.spawnTime[ft.title[i]]
+              end
             end
           end
         else
@@ -248,6 +261,7 @@ function updateFights(dt) --the big one!!
         if mobInfo[k] then
           --print("Gathering information on this "..mobInfo[k])
           mob[v] = mobInfo[k]
+
           mob.x[v] = tonumber(mobInfo[k+1])
           mob.y[v] = tonumber(mobInfo[k+2])
           mob.hp[v] = tonumber(mobInfo[k+3])
@@ -270,7 +284,7 @@ function updateFights(dt) --the big one!!
 
       for v = 1,#mobInfo/8 do --this mob
 
-        if mob.hp[v] > 0 then
+        if mob.hp[v] > 0 and string.sub(mob[v],1,5) ~= "speak" then
 
           hasFightEnded = false
           --movement
@@ -291,7 +305,7 @@ function updateFights(dt) --the big one!!
               if mb.friend[mob[v]] then --this is a friendly mob who will attack other mobs
                 local curMaxDist = 1000 --for changing targets
                 for k = 1,#mobInfo/8 do
-                  if k ~= v and not mb.friend[mob[k]] then --we don't want to attack ourselves nor other friends
+                  if k ~= v and not mb.friend[mob[k]] and string.sub(mob[k],1,5) ~= "speak" then --we don't want to attack ourselves nor other friends
                     --addMsg("Is "..distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]).." < "..curMaxDist)
                     if curMaxDist > distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) then
                       mob.target.x[v] = mob.x[k]+mb.img[mob[k]]/2
@@ -383,6 +397,9 @@ function updateFights(dt) --the big one!!
               elseif string.sub(spellCast,1,6) == "spawn:" then
                 spawnMob(i,string.sub(spellCast,7),mob.x[v],mob.y[v])
               end
+        elseif string.sub(mob[v],1,5) == "speak" then
+          --mob.hp[v] = 0
+          hasFightEnded = false
         end
         --rebuild mob string  name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
         if mob.hp[v] > 0 then

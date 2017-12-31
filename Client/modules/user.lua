@@ -117,8 +117,7 @@ function movePlayer(dir)
 
   if world[pl.t].collide == false then
     if world[pl.t].tile == "Curse" then
-      gameUI[4].msg = "Requires Adver Ring"
-      gameUI[4].isVisible = true
+      mobSpeak("Mortus","You'll need an Adver Ring to pass through this cursed patch of land!",4)
     end
     addFog(pl.t)
   end

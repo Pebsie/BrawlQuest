@@ -136,7 +136,7 @@ function love.keypressed(key)
       end
     end
 
-    mobSpeak("Sorcerer","To the East is a village. They were the original tribe that ventured up here centuries ago. Maybe they found something useful.",10)
+    mobSpeak("Sorcerer","Hahahahaha! You won't get me that easy!",4)
   end
 
    if phase == "splash" then
