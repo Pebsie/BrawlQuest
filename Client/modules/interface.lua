@@ -136,7 +136,7 @@ function love.keypressed(key)
       end
     end
 
-    mobSpeak("Sorcerer","Hahahahaha! You won't get me that easy!",4)
+  
   end
 
    if phase == "splash" then

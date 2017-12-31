@@ -85,16 +85,19 @@ love.graphics.scale(scale,scale)
       if getMob(i,"hp") > 0 then
 
         if mob[i].x > 0 and mob[i].x < stdSH and mob[i].y > 0 then
-          if distanceFrom(mob[i].x,mob[i].y, pl.x, pl.y)-1 < mb.rng[mob[i].type]+32 then
+          if distanceFrom(mob[i].x,mob[i].y, pl.x, pl.y)-1 < mb.rng[mob[i].type]+32 and not mb.friend[mob[i].type] then
+            love.graphics.setColor(100,0,0)
             love.graphics.line(mob[i].x+xoff+mb.img[mob[i].type]:getWidth()/2,mob[i].y+yoff+mb.img[mob[i].type]:getHeight()/2,pl.x+xoff+16,pl.y+yoff+16)
+            love.graphics.setColor(255,255,255)
           end
+
           if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
             love.graphics.draw(mb.img[mob[i].type], mob[i].x+xoff, mob[i].y+yoff)
           else --if mob[i].tx < mob[i].x then
             love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2+xoff, mob[i].y+mb.img[mob[i].type]:getHeight()/2+yoff,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
           end
 
-          if getMob(i,"hp") > 0 then
+          if getMob(i,"hp") > 0 and mb.friend[mob[i].type] ~= true then
             love.graphics.setColor(255,0,0)
             love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,(mob[i].hp/mb.hp[mob[i].type])*mb.img[mob[i].type]:getWidth(),4)
             love.graphics.setColor(100,0,0)
@@ -272,6 +275,7 @@ end
 function killMob(i)
 --love   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),32)
   addMob(i) --reset this mob for possible reuse
+  love.audio.play(sfx["kill"])
 end
 
 function killMobs()

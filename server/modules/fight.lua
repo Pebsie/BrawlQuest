@@ -94,12 +94,14 @@ function endFight(fight)
 
   local playersInFight = listPlayersInFight(fight)
   for i = 1, #playersInFight do
-    givePlayerGold(getPlayerName(tonumber(playersInFight[i])),fs.rewards[ft.title[fight]])
-    if ft.title[fight] == "Army of the Dead" then
-      if love.math.random(1,100) < 26 then
-        givePlayerItem(getPlayerName(tonumber(playersInFight[i])),"Skeleton Key",1)
+
+   rwds = atComma(fs.rewards[ft.title[fight]]) --give loot to players
+    for k = 1, #rwds, 3 do
+      if love.math.random(1,100) < tonumber(rwds[k+2]) then
+        givePlayerItem(getPlayerName(tonumber(playersInFight[i])),rwds[k],tonumber(rwds[k+1]))
       end
     end
+
     removePlayerFromFight(getPlayerName(tonumber(playersInFight[i])))
   end
 end
@@ -218,11 +220,11 @@ function updateFights(dt) --the big one!!
       ft.nextSpawn[i] = ft.nextSpawn[i] - 1*dt
       if (ft.queue.amount[i][current]) then
         if (ft.queue.amount[i][current] > 0) then
-          hasFightEnded = false
+
 
           if ft.nextSpawn[i] < 0 and countMobs(i) < 100 then
           --print("Spawning a mob")
-          addMsg(ft.queue[i][current])
+        --  addMsg(ft.queue[i][current])
             if spawnMob(i,ft.queue[i][current]) then
 
               if string.sub(ft.queue[i][current],1,5) == "speak" then
@@ -285,8 +287,9 @@ function updateFights(dt) --the big one!!
       for v = 1,#mobInfo/8 do --this mob
 
         if mob.hp[v] > 0 and string.sub(mob[v],1,5) ~= "speak" then
-
-          hasFightEnded = false
+          if not mb.friend[mob[v]] then
+            hasFightEnded = false
+          end
           --movement
           local width = mb.img[mob[v]]/2
           if distanceFrom(mob.x[v]+width, mob.y[v]+width, mob.target.x[v], mob.target.y[v]) > mb.rng[mob[v]] then
@@ -315,7 +318,8 @@ function updateFights(dt) --the big one!!
                     end
 
                     if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < mb.rng[mob[v]] then
-                      mob.hp[k] = mob.hp[k] - mb.atk[mob[k]]*dt
+                      mob.hp[k] = mob.hp[k] - mb.atk[mob[v]]*dt
+                      mob.hp[v] = mob.hp[v] - mb.atk[mob[k]]*dt
                     end
                   end
                 end
@@ -343,13 +347,13 @@ function updateFights(dt) --the big one!!
             --addMsg(thisPlayer.." is "..tostring(atkInfo))
 
             if tostring(atkInfo) == "true" then
-              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32 then
+              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.img[mob[v]]/2 and not mb.friend[mob[v]] then
                 local pdmg = item.val[pl.wep[thisPlayer]]
                 mob.hp[v] = mob.hp[v] - pdmg
               --  addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
                 pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
               end
-            elseif distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] then --this has to be separate because of mob range
+            elseif distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] and not mb.friend[mob[v]] then --this has to be separate because of mob range
               local pdmg = (mb.atk[mob[v]]/2)*dt
               --print("A "..mob[v].." dealt "..pdmg.." damage to "..thisPlayer.."!")
               if isPlayerDead(thisPlayer) == false then
@@ -398,8 +402,9 @@ function updateFights(dt) --the big one!!
                 spawnMob(i,string.sub(spellCast,7),mob.x[v],mob.y[v])
               end
         elseif string.sub(mob[v],1,5) == "speak" then
-          --mob.hp[v] = 0
           hasFightEnded = false
+          mob.spell1time[v] = mob.spell1time[v] - 1*dt
+          if mob.spell1time[v] < 0 then mob.hp[v] = 0 end
         end
         --rebuild mob string  name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
         if mob.hp[v] > 0 then
@@ -411,7 +416,7 @@ function updateFights(dt) --the big one!!
       for v = 1, #listPlayersInFight(i) do
         pl.at[getPlayerName(v)] = false
       end
-      if hasFightEnded == true then
+      if hasFightEnded == true and ft.queue.current[i] > #ft.queue[i] and ft.nextSpawn[i] < 0 then
         endFight(i)
       end
 

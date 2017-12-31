@@ -212,7 +212,14 @@ item.img[ti] = 32
   item.price[ti] = "0,Gold"
 item.img[ti] = ""
 
-local ti = "Skeleton Key"
+local ti = "Eastern Tribe Secrets"
+item.type[ti] = "Letter"
+item.val[ti] = "Hey!\n\nThanks so much for playing the BrawlQuest alpha.\n\nSincerely, Pebsie."
+item.lvl[ti] = 10
+item.price[ti] = "0,Gold"
+item.img[ti] = ""
+
+local ti = "Crypt Key"
 item.type[ti] = "Key"
 item.val[ti] = 0
 item.lvl[ti] = "??"
@@ -231,4 +238,11 @@ item.type[ti] = "currency"
 item.val[ti] = "1"
 item.lvl[ti] = 1
 item.price[ti] = "0,Gold"
+item.img[ti] = ""
+
+local ti = "Adver"
+item.type[ti] = "currency"
+item.val[ti] = "1"
+item.lvl[ti] = 1
+item.price[ti] = "0,Adver"
 item.img[ti] = ""

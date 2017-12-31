@@ -330,7 +330,11 @@ function createWorldCanvas()
                 love.graphics.draw(uiImg["fight"], x, y)
               end
               if world[i].fightc == "100" then
-                love.graphics.draw(mb.img["Sorcerer"],x,y)
+                if world[i].tile == "Camp" then
+                  love.graphics.draw(mb.img["Mortus"],x,y)
+                else
+                  love.graphics.draw(mb.img["Sorcerer"],x,y)
+                end
               else
               --  love.graphics.print(world[i].fightc,x,y)
               end

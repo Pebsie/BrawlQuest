@@ -243,9 +243,16 @@ item.img[ti] = buddy[ti]
   item.price[ti] = "0,Gold"
   item.img[ti] = love.graphics.newImage("img/items/letter.png")
 
-  local ti = "Skeleton Key"
+  local ti = "Eastern Tribe Secrets"
+  item.type[ti] = "Letter"
+  item.val[ti] = "The note contains blueprints for a type of medallion that can be crafted by a Blacksmith.\nYou recognise the style from those the Blacksmith at Mortus’ camp uses.\nIt says that this will allow passage through the Sorcerer's cursed land and requires\n4 “Adver Crystals”, found in a mine to the South."
+  item.lvl[ti] = 10
+  item.price[ti] = "0,Gold"
+  item.img[ti] = love.graphics.newImage("img/items/letter.png")
+
+  local ti = "Crypt Key"
   item.type[ti] = "Key"
-  item.val[ti] = "Opens the doorway to the Skeleton King's castle! Attack!"
+  item.val[ti] = "Opens the crypt that the Eastern tribe used to keep their dead in."
   item.lvl[ti] = "??"
   item.price[ti] = "0,Gold"
   item.img[ti] = love.graphics.newImage("img/items/key.png")
@@ -254,7 +261,7 @@ item.img[ti] = buddy[ti]
   item.type[ti] = "Key"
   item.val[ti] = "Allows you to pass through cursed areas of The Southern Mountains"
   item.lvl[ti] = "??"
-  item.price[ti] = "0,Gold"
+  item.price[ti] = "4,Adver"
   item.img[ti] = love.graphics.newImage("img/items/Adver Ring.png")
 
   local ti = "Gold"
@@ -264,8 +271,15 @@ item.img[ti] = buddy[ti]
   item.price[ti] = "0,Gold"
   item.img[ti] = love.graphics.newImage("img/items/gold.png")
 
+  local ti = "Adver"
+  item.type[ti] = "currency"
+  item.val[ti] = "1"
+  item.lvl[ti] = 1
+  item.price[ti] = "0,Adver"
+  item.img[ti] = love.graphics.newImage("img/world/objects/Crystal.png")
+
 shop = {}
 shop["Armour"] = {"Basic Cloth", "Leather Armour", "Chainmail Armour", "Guardian's Padding", "Legendary Padding"}
 shop["Weapons"] = {"Short Sword", "Bastard Sword", "Long Sword", "Guardian's Blade", "Legendary Sword"}
-shop["Potions"] = {"Healing Potion", "Potent Healing Potion"}
+shop["Potions"] = {"Healing Potion", "Potent Healing Potion", "Adver Ring"}
 shop["Spells"] = {"Recovery","Slam","Enrage","Phase Shift","Polymorph"}

@@ -24,8 +24,9 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
- --loadGame()
--- givePlayerItem("pebsie","Guardian's Padding",1)
+  loadGame()
+ givePlayerItem("a","Adver",1000)
+ givePlayerItem("a","Gold",1000)
 -- givePlayerItem("pebsie","Guardian's Blade",1)
 
 
@@ -65,6 +66,9 @@ function love.update(dt)
             addMsg("He wasn't "..namePass[1]..".")
           else
             newPlayer(namePass[1],namePass[2])
+
+              newFight(pl.t[namePass[1]], "Ambush")
+              addPlayerToFight(#ft.t, namePass[1])
               udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
           end
 

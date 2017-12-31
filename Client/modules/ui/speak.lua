@@ -10,6 +10,7 @@ function mobSpeak(mobSpeaking,text,time)
   if text ~= speak.text then --as "speak" is a mob, this allows the time bar to work with messages sent from the server
     speak.mob = mobSpeaking
     speak.text = text
+
     speak.time = 0
     speak.totalTime = tonumber(time)
     speak.alpha = 255

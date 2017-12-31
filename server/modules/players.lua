@@ -67,9 +67,6 @@ function newPlayer(name, password)
   pl.bud[i] = "None"
 
   addMsg("New player by the name of "..name)
-
-  newFight(pl.t[name], "Ambush")
-  addPlayerToFight(#ft.t, name)
 end
 
 function updatePlayers(dt)
@@ -280,13 +277,22 @@ function movePlayer(name, dir)
       if not playerHasItem(name,"Adver Ring") then
         pl.t[name] = curt
       end
+    elseif pl.t[name] == 2877 and not playerHasItem(name,"Crypt Key") then
+      pl.t[name] = curt
+    elseif pl.t[name] == 4513 then
+      givePlayerItem(name,"Eastern Tribe Secrets",1)
+    elseif pl.t[name] == 2780 then
+      givePlayerItem(name,"Beholder",1)
+      givePlayerItem(name,"Basic Cloth",1)
+      givePlayerItem(name,"Gold",5)
+      pl.t[name] = 3079
     end
     if world[pl.t[name]].isFight == true then
       local fightsOnTile = listFightsOnTile(pl.t[name])
       addPlayerToFight(fightsOnTile[1],name)
     else
       local fightChance = love.math.random(1,299)
-      if fightChance < world[pl.t[name]].fightc then
+      if fightChance < world[pl.t[name]].fightc or world[pl.t[name]].fightc == 100 then
         world[pl.t[name]].isFight = true
         if fs[world[pl.t[name]].fight] then
           newFight(pl.t[name], world[pl.t[name]].fight)
