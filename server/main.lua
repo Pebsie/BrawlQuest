@@ -3,7 +3,7 @@ local udp = socket.udp()
 http = require("socket.http")
 
 udp:settimeout(0)
-udp:setsockname("*", 26654)
+udp:setsockname("*", 26655)
 
 msgs = "Server started."
 nett = 0.1
@@ -15,6 +15,7 @@ require "modules/tools"
 require "modules/players"
 require "modules/fight"
 require "modules/world"
+require "modules/char"
 
 
 stdSW = 1920/2
@@ -25,10 +26,10 @@ print("Entering server loop...")
 
 function love.load()
   loadGame()
- givePlayerItem("a","Adver",1000)
- givePlayerItem("a","Gold",1000)
--- givePlayerItem("pebsie","Guardian's Blade",1)
-
+ --givePlayerItem("a","Adver",1000)
+ givePlayerItem("a","Potent Healing Potion",1000)
+ --givePlayerItem("pebsie","Guardian's Blade",1)
+  --uploadCharacter("Pebsie")
 
   --initItems()
   loadOverworld()
@@ -83,6 +84,7 @@ function love.update(dt)
         elseif cmd == "world" then
           local msgToSend = countPlayers().."|"..countFights().."|"..weather.."|"
           local name = parms
+          pl.timeout[name] = 30
           --compile location of current players, including ourselves
           for i = 1, countPlayers() do
             --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
@@ -232,11 +234,12 @@ function saveGame()
   for i = 1, countPlayers() do
       local k = getPlayerName(i)
       --if pl.state[k] ~= "fight" then
-        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|\n"
+        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|\n"
       --fp = "map-new.txt"
     --  end
+      uploadCharacter(k)
   end
-
+  outputCharacterList()
   love.filesystem.write(fp, fs)
 end
 
@@ -262,6 +265,9 @@ function loadGame()
       pl.xp[i] = tonumber(word[16])
       pl.bud[i] = word[17]
       pl.dt[i] = word[18]
+      if word[19] then
+      pl.playtime[i] = word[19]
+      end
     end
     addMsg("Game loaded.")
   else

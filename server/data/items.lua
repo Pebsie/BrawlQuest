@@ -204,6 +204,39 @@ item.lvl[ti] = 10
 item.price[ti] = "0,Gold"
 item.img[ti] = 32
 
+local ti = "Protector"
+item.type[ti] = "buddy"
+item.desc[ti] = "He might be whispering things... dark things."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = "0,Gold"
+item.img[ti] = 32
+
+local ti = "Fly"
+item.type[ti] = "buddy"
+item.desc[ti] = "Bzzzzzz..."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = "0,Gold"
+item.img[ti] = 32
+
+local ti = "Horse"
+item.type[ti] = "buddy"
+item.desc[ti] = "It's a shame that you don't have a saddle. Yet."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = "0,Gold"
+item.img[ti] = 32
+
+local ti = "Spirit Of Death"
+item.type[ti] = "buddy"
+item.desc[ti] = "Not to be confused with Face of Death or Heart of Death."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = "0,Gold"
+item.img[ti] = 32
+
+
 --special
   local ti = "A letter addressed to you"
   item.type[ti] = "Letter"
@@ -220,6 +253,13 @@ item.price[ti] = "0,Gold"
 item.img[ti] = ""
 
 local ti = "Crypt Key"
+item.type[ti] = "Key"
+item.val[ti] = 0
+item.lvl[ti] = "??"
+item.price[ti] = "0,Gold"
+item.img[ti] = ""
+
+local ti = "Lair Key"
 item.type[ti] = "Key"
 item.val[ti] = 0
 item.lvl[ti] = "??"

@@ -28,6 +28,8 @@ pl.state = {}
 pl.spell = {}
 pl.spellT = {}
 pl.timeout = {}
+pl.playtime = {}
+pl.lastEquip = {}
 
 acc = {} --identified by number
 acc.username = {}
@@ -65,6 +67,8 @@ function newPlayer(name, password)
   pl.spellT[i] = 0
   pl.timeout[i] = 100
   pl.bud[i] = "None"
+  pl.playtime[i] = 0
+  pl.lastEquip[i] = 0
 
   addMsg("New player by the name of "..name)
 end
@@ -103,7 +107,11 @@ function updatePlayers(dt)
     if pl.hp[k] > 100 then pl.hp[k] = 100 end
     pl.at[k] = false
 
-  --  pl.timeout[i] = pl.timeout[i] - 1*dt
+    if pl.timeout[k] > 0 then
+      pl.playtime[k] = pl.playtime[k] + 1*dt
+    end
+
+    pl.timeout[k] = pl.timeout[k] - 1*dt
   end
 end
 
@@ -204,22 +212,27 @@ function playerUse(name, ritem, index, amount)
       rebuiltInv[#rebuiltInv].amount = 1
       pl.arm[name] = ritem
     elseif item.type[ritem] == "Spell" then
-      local slot = tonumber(index)
+      local slot = pl.lastEquip[name]
 
-      if slot == 1 and pl.s1[name] == "None" then
+      if slot == 0 and pl.s1[name] == "None" then
         pl.s1[name] = ritem
-      elseif slot == 2 and pl.s2[name] == "None" then
+          pl.lastEquip[name] = 1
+      elseif slot == 1 and pl.s2[name] == "None" then
         pl.s2[name] = ritem
+          pl.lastEquip[name] = 0
       else
-        if slot == 1 and pl.s1[name] ~= "None" then
+        if slot == 0 and pl.s1[name] ~= "None" then
           rebuiltInv[#rebuiltInv + 1] = {}
           rebuiltInv[#rebuiltInv].item = pl.s1[name]
           rebuiltInv[#rebuiltInv].amount = 1
           pl.s1[name] = ritem
-        elseif slot == 2 and pl.s2[name] ~= "None" then
+          pl.lastEquip[name] = 1
+        elseif slot == 1 and pl.s2[name] ~= "None" then
           rebuiltInv[#rebuiltInv + 1] = {}
           rebuiltInv[#rebuiltInv].item = pl.s2[name]
           rebuiltInv[#rebuiltInv].amount = 1
+          pl.s2[name] = ritem
+          pl.lastEquip[name] = 0
         end
       end
     elseif item.type[ritem] == "hp" then
@@ -257,7 +270,7 @@ function playerHasItem(name,item,amount)
   local hasItem = false
   curInv = atComma(pl.inv[name],";")
   for i = 1, #curInv, 2 do
-    if curInv[i] == item and tonumber(curInv[i+1]) > tonumber(amount) then hasItem = true end
+    if curInv[i] == item and tonumber(curInv[i+1]) > (tonumber(amount)-1) then hasItem = true end
   end
 
   return hasItem
@@ -280,19 +293,21 @@ function movePlayer(name, dir)
     elseif pl.t[name] == 2877 and not playerHasItem(name,"Crypt Key") then
       pl.t[name] = curt
     elseif pl.t[name] == 4513 then
-      givePlayerItem(name,"Eastern Tribe Secrets",1)
+      newFight(pl.t[name],world[pl.t[name]].fight)
+      addPlayerToFight(#ft.t, name)
     elseif pl.t[name] == 2780 then
       givePlayerItem(name,"Beholder",1)
       givePlayerItem(name,"Basic Cloth",1)
       givePlayerItem(name,"Gold",5)
       pl.t[name] = 3079
-    end
-    if world[pl.t[name]].isFight == true then
+    elseif pl.t[name] == 5433 then
+      pl.t[name] = 4055
+    elseif world[pl.t[name]].isFight == true then
       local fightsOnTile = listFightsOnTile(pl.t[name])
       addPlayerToFight(fightsOnTile[1],name)
     else
       local fightChance = love.math.random(1,299)
-      if fightChance < world[pl.t[name]].fightc or world[pl.t[name]].fightc == 100 then
+      if fightChance < world[pl.t[name]].fightc or world[pl.t[name]].fightc > 90 then
         world[pl.t[name]].isFight = true
         if fs[world[pl.t[name]].fight] then
           newFight(pl.t[name], world[pl.t[name]].fight)

@@ -160,8 +160,8 @@ function spawnMob(fight, mob, x, y)
           elseif side == 3 then --right
             ft.mb[fight] = ft.mb[fight]..mob..";"..(stdSW+129)..";"..love.math.random(1, stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
           end
-        else
-            ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+        elseif freshTarget then
+          ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
         end
       end
     end
@@ -347,7 +347,7 @@ function updateFights(dt) --the big one!!
             --addMsg(thisPlayer.." is "..tostring(atkInfo))
 
             if tostring(atkInfo) == "true" then
-              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.img[mob[v]]/2 and not mb.friend[mob[v]] then
+              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.img[mob[v]] and not mb.friend[mob[v]] then
                 local pdmg = item.val[pl.wep[thisPlayer]]
                 mob.hp[v] = mob.hp[v] - pdmg
               --  addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
@@ -398,8 +398,19 @@ function updateFights(dt) --the big one!!
               --cast spell here
               if spellCast == "suicide" then
                 mob.hp[v] = 0
-              elseif string.sub(spellCast,1,6) == "spawn:" then
+              elseif string.sub(spellCast,1,6) == "spawn:" or string.sub(spellCast,1,6) == "spawn," then
                 spawnMob(i,string.sub(spellCast,7),mob.x[v],mob.y[v])
+              elseif string.sub(spellCast,1,10) == "spawnFeet," then
+                for k = 1, #playersInThisFight do
+                  local thisPlayer = getPlayerName(tonumber(playersInThisFight[k]))
+                  spawnMob(i,string.sub(spellCast,11),pl.x[thisPlayer],pl.y[thisPlayer])
+                end
+              elseif string.sub(spellCast,1,4) == "dmg," then
+                for k = 1, #playersInThisFight do --cycle through plkayers
+                  --print("Player #"..k.." ID of "..playersInThisFight[k])
+                  local thisPlayer = getPlayerName(tonumber(playersInThisFight[k])) --get username
+                  damagePlayer(thisPlayer,love.math.random(1,tonumber(string.sub(spellCast,5))))
+                end
               end
         elseif string.sub(mob[v],1,5) == "speak" then
           hasFightEnded = false

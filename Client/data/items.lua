@@ -178,6 +178,11 @@ buddy["Scorpion"] = love.graphics.newImage("img/pet/Scorpion.png")
 buddy["Sheep"] = love.graphics.newImage("img/pet/Sheep.png")
 buddy["Snake"] = love.graphics.newImage("img/pet/Snake.png")
 buddy["Water Elementling"] = love.graphics.newImage("img/pet/Water Elementling.png")
+buddy["Protector"] = love.graphics.newImage("img/pet/Protector.png")
+buddy["Fly"] = love.graphics.newImage("img/pet/Fly.png")
+buddy["Horse"] = love.graphics.newImage("img/pet/Horse.png")
+buddy["Silver Dragonling"] = love.graphics.newImage("img/pet/Silver Dragonling.png")
+buddy["Spirit Of Death"] = love.graphics.newImage("img/pet/Spirit Of Death.png")
 
 local ti = "Dog"
 item.type[ti] = "buddy"
@@ -235,6 +240,38 @@ item.lvl[ti] = 10
 item.price[ti] = "0,Gold"
 item.img[ti] = buddy[ti]
 
+local ti = "Protector"
+item.type[ti] = "buddy"
+item.desc[ti] = "He might be whispering things... dark things."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = "0,Gold"
+item.img[ti] = buddy[ti]
+
+local ti = "Fly"
+item.type[ti] = "buddy"
+item.desc[ti] = "Bzzzzzz..."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = "0,Gold"
+item.img[ti] = buddy[ti]
+
+local ti = "Horse"
+item.type[ti] = "buddy"
+item.desc[ti] = "It's a shame that you don't have a saddle. Yet."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = "0,Gold"
+item.img[ti] = buddy[ti]
+
+local ti = "Spirit Of Death"
+item.type[ti] = "buddy"
+item.desc[ti] = "Not to be confused with Face of Death or Heart of Death."
+item.val[ti] = "0"
+item.lvl[ti] = 10
+item.price[ti] = "0,Gold"
+item.img[ti] = buddy[ti]
+
 --special
   local ti = "A letter addressed to you"
   item.type[ti] = "Letter"
@@ -253,6 +290,13 @@ item.img[ti] = buddy[ti]
   local ti = "Crypt Key"
   item.type[ti] = "Key"
   item.val[ti] = "Opens the crypt that the Eastern tribe used to keep their dead in."
+  item.lvl[ti] = "??"
+  item.price[ti] = "0,Gold"
+  item.img[ti] = love.graphics.newImage("img/items/key.png")
+
+  local ti = "Lair Key"
+  item.type[ti] = "Key"
+  item.val[ti] = "Opens the Sorcerer's Lair."
   item.lvl[ti] = "??"
   item.price[ti] = "0,Gold"
   item.img[ti] = love.graphics.newImage("img/items/key.png")
@@ -277,6 +321,13 @@ item.img[ti] = buddy[ti]
   item.lvl[ti] = 1
   item.price[ti] = "0,Adver"
   item.img[ti] = love.graphics.newImage("img/world/objects/Crystal.png")
+
+  local ti = "Quia"
+  item.type[ti] = "currency"
+  item.val[ti] = "1"
+  item.lvl[ti] = 1
+  item.price[ti] = "0,Quia"
+  item.img[ti] = love.graphics.newImage("img/items/Quia.png")
 
 shop = {}
 shop["Armour"] = {"Basic Cloth", "Leather Armour", "Chainmail Armour", "Guardian's Padding", "Legendary Padding"}

@@ -276,3 +276,66 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
 mb.rng[tm] = 64
+
+local tm = "Quake"
+mb.hp[tm] = 100000
+mb.spd[tm] = 0
+mb.atk[tm] = 30
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Quake.png")
+mb.rng[tm] = 8
+mb.friend[tm] = false
+
+local tm = "Venom"
+mb.hp[tm] = 100
+mb.spd[tm] = 0
+mb.atk[tm] = 0
+mb.sp1[tm] = "dmg,20"
+mb.sp1t[tm] = 5
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Venom.png")
+mb.rng[tm] = 0
+mb.friend[tm] = false
+
+local tm = "Savage Giant"
+mb.hp[tm] = 4000
+mb.spd[tm] = 18
+mb.atk[tm] = 10
+mb.sp1[tm] = "spawnFeet,Quake"
+mb.sp1t[tm] = 5
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Savage Giant.png")
+mb.rng[tm] = 80
+mb.friend[tm] = false
+
+local tm = "Hydra"
+mb.hp[tm] = 4000
+mb.spd[tm] = 32
+mb.atk[tm] = 20
+mb.sp1[tm] = "spawn,Venom"
+mb.sp1t[tm] = 5
+mb.sp2[tm] = "spawn,Savage Hydra"
+mb.sp2t[tm] = 15
+mb.img[tm] = love.graphics.newImage("img/mob/Hydra.png")
+mb.rng[tm] = 32
+mb.friend[tm] = false
+
+local tm = "Skeleton King"
+mb.hp[tm] = 6000
+mb.spd[tm] = 20
+mb.atk[tm] = 15
+mb.sp1[tm] = "spawnFeet,Venom"
+mb.sp1t[tm] = 30
+mb.sp2[tm] = "spawnFeet,Quake"
+mb.sp2t[tm] = 20
+mb.img[tm] = love.graphics.newImage("img/mob/Skeleton King.png")
+mb.rng[tm] = 32
+mb.friend[tm] = false
+
+local tm = "The Skeleton King"
+mb.img[tm] = love.graphics.newImage("img/mob/Mini Skeleton King.png")

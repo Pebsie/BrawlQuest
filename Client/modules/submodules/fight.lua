@@ -45,7 +45,9 @@ function createFightCanvas(t)
     love.graphics.draw(worldImg[world[t].bg],x,y)
     if love.math.random(1, 8) == 1 then
       if x < 120 or x > stdSH-120 then
-        love.graphics.draw(extraImages[love.math.random(1,#extraImages)],x,y)
+        if world[t].tile ~= "Dungeon" then
+          love.graphics.draw(extraImages[love.math.random(1,#extraImages)],x,y)
+        end
       end
     end
 
@@ -84,7 +86,7 @@ love.graphics.scale(scale,scale)
     if mb.img[mob[i].type] then
       if getMob(i,"hp") > 0 then
 
-        if mob[i].x > 0 and mob[i].x < stdSH and mob[i].y > 0 then
+        if mob[i].x > -mb.img[mob[i].type]:getWidth() and mob[i].x < stdSH and mob[i].y > -mb.img[mob[i].type]:getHeight() then
           if distanceFrom(mob[i].x,mob[i].y, pl.x, pl.y)-1 < mb.rng[mob[i].type]+32 and not mb.friend[mob[i].type] then
             love.graphics.setColor(100,0,0)
             love.graphics.line(mob[i].x+xoff+mb.img[mob[i].type]:getWidth()/2,mob[i].y+yoff+mb.img[mob[i].type]:getHeight()/2,pl.x+xoff+16,pl.y+yoff+16)
