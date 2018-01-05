@@ -286,8 +286,8 @@ function updateFights(dt) --the big one!!
 
       for v = 1,#mobInfo/8 do --this mob
 
-        if mob.hp[v] > 0 and string.sub(mob[v],1,5) ~= "speak" then
-          if not mb.friend[mob[v]] then
+        if mob.hp[v] > 0 and string.sub(mob[v],1,5) ~= "speak"  then
+          if not mb.friend[mob[v]] and mob[v] ~= "Quake" and mob[v] ~= "Venom" then
             hasFightEnded = false
           end
           --movement
