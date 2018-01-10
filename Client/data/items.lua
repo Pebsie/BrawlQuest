@@ -296,7 +296,7 @@ item.img[ti] = buddy[ti]
 
   local ti = "Lair Key"
   item.type[ti] = "Key"
-  item.val[ti] = "Opens the Sorcerer's Lair."
+  item.val[ti] = "Opens the Sorcerer's Lair, south East of the White Forest."
   item.lvl[ti] = "??"
   item.price[ti] = "0,Gold"
   item.img[ti] = love.graphics.newImage("img/items/key.png")
@@ -326,7 +326,7 @@ item.img[ti] = buddy[ti]
   item.type[ti] = "currency"
   item.val[ti] = "1"
   item.lvl[ti] = 1
-  item.price[ti] = "0,Quia"
+  item.price[ti] = ",Quia"
   item.img[ti] = love.graphics.newImage("img/items/Quia.png")
 
 shop = {}
