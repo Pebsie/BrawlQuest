@@ -72,17 +72,20 @@ function getPlayer(name,a) --where a is attribute
 end
 
 function drawPlayer(name,x,y)
-  love.graphics.draw(item.img[player[name].arm],x,y)
+  if player[name] and item.img[player[name].arm] then
+    love.graphics.draw(item.img[player[name].arm],x,y)
+
+    if player[name].spell ~= "None" then
+      drawSpell(player[name].spell,x,y)
+    end
+  end
 
   drawBuddy(name)
 
-  love.graphics.setColor(0,0,0,100)
+  love.graphics.setColor(0,0,0,200)
   love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
   love.graphics.setColor(255,255,255,255)
   love.graphics.setFont(sFont)
   love.graphics.printf(name,17+x-(round(sFont:getWidth(name)/2)),y-12,sFont:getWidth(name),"center")
 
-  if player[name].spell ~= "None" then
-    drawSpell(player[name].spell,x,y)
-  end
 end

@@ -321,6 +321,8 @@ function createWorldCanvas()
           love.graphics.draw(worldImg[world[i].bg], x, y)
           if checkFog(i) or fog.ignore[world[i].tile] == true then
             love.graphics.draw(worldImg[world[i].tile], x, y)
+            if world[i].tile == "Blacksmith" then drawPlayer("<NPC> Shop",x,y) end
+
             if checkFog(i) == false then
               love.graphics.setColor(255,255,255,50)
               love.graphics.draw(worldImg["Cloud"], x, y)
@@ -335,6 +337,7 @@ function createWorldCanvas()
                 else
                   love.graphics.draw(mb.img["Sorcerer"],x,y)
                 end
+
               else
               --  love.graphics.print(world[i].fightc,x,y)
               end
