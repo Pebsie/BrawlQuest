@@ -29,6 +29,9 @@ pl.spell = {}
 pl.spellT = {}
 pl.timeout = {}
 pl.playtime = {}
+pl.kills = {}
+pl.deaths = {}
+pl.distance = {}
 pl.lastEquip = {}
 
 acc = {} --identified by number
@@ -65,10 +68,14 @@ function newPlayer(name, password)
   pl.state[i] = "world"
   pl.spell[i] = "None"
   pl.spellT[i] = 0
-  pl.timeout[i] = 100
+  pl.timeout[i] = 0
   pl.bud[i] = "None"
   pl.playtime[i] = 0
+  pl.kills[i] = 0
+  pl.deaths[i] = 0
+  pl.distance[i] = 0
   pl.lastEquip[i] = 0
+
 
   addMsg("New player by the name of "..name)
 end
@@ -316,6 +323,8 @@ function movePlayer(name, dir)
         end
         addPlayerToFight(#ft.t, name)
       end
+
+      pl.distance[name] = pl.distance[name] + 1
     end
   end
 end
@@ -340,7 +349,7 @@ function damagePlayer(name, amount)
   end
 --  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";" --The client could figure this out itself
 
-  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] =  pl.dt[name] addMsg(name.." died!") removePlayerFromFight(name) end
+  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] =  pl.dt[name] addMsg(name.." died!") removePlayerFromFight(name) pl.deaths[name] = pl.deaths[name] + 1 end
 end
 
 --return info functions

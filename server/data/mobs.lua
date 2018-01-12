@@ -35,7 +35,7 @@ mb.rng[tm] = 32
 mb.friend[tm] = true
 
 local tm = "Guard"
-mb.hp[tm] = 60
+mb.hp[tm] = 30
 mb.spd[tm] = 64
 mb.atk[tm] = 1
 mb.sp1[tm] = "None"
@@ -47,7 +47,7 @@ mb.rng[tm] = 60
 mb.friend[tm] = true
 
 local tm = "Mortus"
-mb.hp[tm] = 1000
+mb.hp[tm] = 99999
 mb.spd[tm] = 128
 mb.atk[tm] = 10
 mb.sp1[tm] = "None"
@@ -294,7 +294,7 @@ mb.rng[tm] = 80
 mb.friend[tm] = false
 
 local tm = "Hydra"
-mb.hp[tm] = 4000
+mb.hp[tm] = 6000
 mb.spd[tm] = 32
 mb.atk[tm] = 20
 mb.sp1[tm] = "spawnFeet,Venom"
@@ -306,13 +306,13 @@ mb.rng[tm] = 32
 mb.friend[tm] = false
 
 local tm = "Skeleton King"
-mb.hp[tm] = 6000
+mb.hp[tm] = 12000
 mb.spd[tm] = 20
-mb.atk[tm] = 12
+mb.atk[tm] = 20
 mb.sp1[tm] = "spawnFeet,Venom"
-mb.sp1t[tm] = 5
+mb.sp1t[tm] = 20
 mb.sp2[tm] = "spawnFeet,Quake"
-mb.sp2t[tm] = 2
+mb.sp2t[tm] = 3
 mb.img[tm] = 182
 mb.rng[tm] = 64
 mb.friend[tm] = false

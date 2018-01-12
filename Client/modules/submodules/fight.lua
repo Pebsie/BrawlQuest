@@ -87,7 +87,7 @@ love.graphics.scale(scale,scale)
       if getMob(i,"hp") > 0 then
 
         if mob[i].x > -mb.img[mob[i].type]:getWidth() and mob[i].x < stdSH and mob[i].y > -mb.img[mob[i].type]:getHeight() then
-          if distanceFrom(mob[i].x,mob[i].y, pl.x, pl.y)-1 < mb.rng[mob[i].type]+32 and not mb.friend[mob[i].type] then
+          if distanceFrom(mob[i].x,mob[i].y, pl.x, pl.y)-1 < mb.rng[mob[i].type]+16 and not mb.friend[mob[i].type] then
             love.graphics.setColor(100,0,0)
             love.graphics.line(mob[i].x+xoff+mb.img[mob[i].type]:getWidth()/2,mob[i].y+yoff+mb.img[mob[i].type]:getHeight()/2,pl.x+xoff+16,pl.y+yoff+16)
             love.graphics.setColor(255,255,255)
@@ -101,7 +101,7 @@ love.graphics.scale(scale,scale)
 
           if getMob(i,"hp") > 0 and mb.friend[mob[i].type] ~= true then
             love.graphics.setColor(255,0,0)
-            love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,(mob[i].hp/mb.hp[mob[i].type])*mb.img[mob[i].type]:getWidth(),4)
+            love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,(mob[i].hp/getMob(i,"mhp"))*mb.img[mob[i].type]:getWidth(),4)
             love.graphics.setColor(100,0,0)
             love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,mb.img[mob[i].type]:getWidth(),4)
           end
@@ -169,7 +169,7 @@ function updateFight(dt)
 
   if updateTime[1] < 0 then
     requestFightInfo()
-    updateTime[1] = 0.1
+    updateTime[1] = 0.25
   end
 
   if updateTime[2] < 0 then

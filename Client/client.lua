@@ -184,8 +184,8 @@ function netUpdate(dt)
 
           if not doesMobExist(i) then
               addMob(i)
-          elseif  param[tparam+4] ~= getMob(i,"id") then
-              local k = findMob("id",param[tparam+4])
+          elseif  param[tparam+5] ~= getMob(i,"id") then
+              local k = findMob("id",param[tparam+5])
               if k then
                 --new version of mob (order rejigged) so set x and y
                 updateMob(i,"x",tonumber(getMob(k,"x")))
@@ -212,7 +212,8 @@ function netUpdate(dt)
             end
 
             updateMob(i,"hp",tonumber(param[tparam+3]))
-            updateMob(i,"id",param[tparam+4])
+            updateMob(i,"mhp",tonumber(param[tparam+4]))
+            updateMob(i,"id",param[tparam+5])
             updateMob(i,"updated",true)
 
             if string.sub(param[tparam+2],1,5) == "speak" then
@@ -221,7 +222,7 @@ function netUpdate(dt)
               killMob(i)
             end
 
-            tparam = tparam + 5
+            tparam = tparam + 6
           end
 
           --now we need to cycle through every mob and kill those that no longer exist

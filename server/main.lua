@@ -26,8 +26,9 @@ print("Entering server loop...")
 
 function love.load()
   loadGame()
+--  newPlayer("a","a")
  --givePlayerItem("a","Adver",1000)
- givePlayerItem("a","Potent Healing Potion",1000)
+ --givePlayerItem("a","Potent Healing Potion",1000)
  --givePlayerItem("pebsie","Guardian's Blade",1)
   --uploadCharacter("Pebsie")
 
@@ -84,7 +85,7 @@ function love.update(dt)
         elseif cmd == "world" then
           local msgToSend = countPlayers().."|"..countFights().."|"..weather.."|"
           local name = parms
-          pl.timeout[name] = 30
+          pl.timeout[name] = 5
           --compile location of current players, including ourselves
           for i = 1, countPlayers() do
             --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
@@ -128,7 +129,7 @@ function love.update(dt)
 
             for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)
               tmob = getMobData(id,i)
-              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp,tmob.id)
+              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp,mb.hp[tmob.type],tmob.id)
             end
 
             udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
@@ -234,7 +235,7 @@ function saveGame()
   for i = 1, countPlayers() do
       local k = getPlayerName(i)
       --if pl.state[k] ~= "fight" then
-        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|\n"
+        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|\n"
       --fp = "map-new.txt"
     --  end
       uploadCharacter(k)
@@ -267,6 +268,9 @@ function loadGame()
       pl.dt[i] = word[18]
       if word[19] then
       pl.playtime[i] = word[19]
+      pl.kills[i] = word[20]
+      pl.deaths[i] = word[21]
+      pl.distance[i] = word[22]
       end
     end
     addMsg("Game loaded.")

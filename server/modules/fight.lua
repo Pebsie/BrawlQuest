@@ -350,6 +350,7 @@ function updateFights(dt) --the big one!!
               if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.img[mob[v]] and not mb.friend[mob[v]] then
                 local pdmg = item.val[pl.wep[thisPlayer]]
                 mob.hp[v] = mob.hp[v] - pdmg
+                if mob.hp[v] < 0 then pl.kills[thisPlayer] = pl.kills[thisPlayer] + 1 end
               --  addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
                 pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
               end

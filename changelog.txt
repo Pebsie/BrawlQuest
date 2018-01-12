@@ -3,3 +3,14 @@ Alpha v1.2
 * Changed the sprite for Dog
 * Nameplates are now darker
 * The Blacksmith now has "<NPC> Shop" above his name
+* Reduced number of world updates to increase FPS
+* Allowed the server to send data on maximum HP allowing HP changes without requiring client updates
+* Increased accuracy of playtime reporting
+* Server now tracks kills, deaths and distance travelled
+
+##Content
+* Increased Skeleton King's HP from 6000 to 12000
+	* Increased Skeleton King's venom spawn time from 5s to 20s
+* Increased Hydra's HP from 4000 to 6000
+* Made Mortus invincible
+* Reduced Guard's HP from 60 to 30

@@ -73,7 +73,12 @@ end
 
 function drawPlayer(name,x,y)
   if player[name] and item.img[player[name].arm] then
-    love.graphics.draw(item.img[player[name].arm],x,y)
+    if player[name].x - player[name].tx > 1  then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
+      love.graphics.draw(item.img[player[name].arm],x,y,0,-1,1,32,0)
+    else
+      love.graphics.draw(item.img[player[name].arm],x,y)
+    end
+
 
     if player[name].spell ~= "None" then
       drawSpell(player[name].spell,x,y)

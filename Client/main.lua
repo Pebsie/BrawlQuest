@@ -48,7 +48,7 @@ function love.load()
 
 
 local ipadd = "127.0.0.1"
- local ipadd = "37.59.126.91"
+-- local ipadd = "37.59.126.91"
   netConnect(ipadd, "26655", 0.1)
   love.mouse.setVisible(false)
   b, c, h = http.request("http://brawlquest.com/dl/news-2.txt")
@@ -116,7 +116,7 @@ function love.mousereleased(button, cx, cy)
               titem = shop[titype][i]
               local itemCost = atComma(item.price[titem])
               if playerHasItem(itemCost[2],itemCost[1]-1) then
-                netSend("buy",pl.name..","..shop[titype][i])
+                  netSend("buy",pl.name..","..shop[titype][i])
                   frequentlyUpdate = true
                   love.audio.play(sfx["hit"])
               else
