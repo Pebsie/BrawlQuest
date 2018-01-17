@@ -326,11 +326,18 @@ item.img[ti] = buddy[ti]
   item.type[ti] = "currency"
   item.val[ti] = "1"
   item.lvl[ti] = 1
-  item.price[ti] = ",Quia"
+  item.price[ti] = "5,Adver"
   item.img[ti] = love.graphics.newImage("img/items/Quia.png")
+
+  local ti = "Orb of Power"
+  item.type[ti] = "upgrade"
+  item.val[ti] = "1,ATK"
+  item.lvl[ti] = 10
+  item.price[ti] = "350,Quia"
+  item.img[ti] = love.graphics.newImage("img/items/Orb of Power.png")
 
 shop = {}
 shop["Armour"] = {"Basic Cloth", "Leather Armour", "Chainmail Armour", "Guardian's Padding", "Legendary Padding"}
 shop["Weapons"] = {"Short Sword", "Bastard Sword", "Long Sword", "Guardian's Blade", "Legendary Sword"}
-shop["Potions"] = {"Healing Potion", "Potent Healing Potion", "Adver Ring"}
+shop["Potions"] = {"Healing Potion", "Potent Healing Potion", "Adver Ring", "Quia", "Orb of Power"}
 shop["Spells"] = {"Recovery","Slam","Enrage","Phase Shift","Polymorph"}

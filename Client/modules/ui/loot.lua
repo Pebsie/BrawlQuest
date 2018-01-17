@@ -4,10 +4,19 @@ LQaction = "off"
 LQcurrent = 0
 
 function newLoot(title,amount)
-  local cLootQueue = #lootQueue + 1 --get current loot queue item here
-  lootQueue[cLootQueue] = {}
-  lootQueue[cLootQueue].title = title
-  lootQueue[cLootQueue].amount = amount
+  itemAlreadyQueued = false
+  for i = LQcurrent, #lootQueue do
+    if lootQueue[i] and title == lootQueue[i].title then
+      itemAlreadyQueued = true
+      lootQueue[i].amount = lootQueue[i].amount + amount
+    end
+  end
+  if not itemAlreadyQueued then
+    local cLootQueue = #lootQueue + 1 --get current loot queue item here
+    lootQueue[cLootQueue] = {}
+    lootQueue[cLootQueue].title = title
+    lootQueue[cLootQueue].amount = amount
+  end
 end
 
 function drawLootBox(x,y)
@@ -20,11 +29,18 @@ function drawLootBox(x,y)
     y = y + font:getHeight()+6
 
     love.graphics.setColor(255,255,255,LQalpha)
+    if #lootQueue > 5 then
+      for i = 1, #lootQueue-LQcurrent do
+        drawItem(lootQueue[LQcurrent],x+4+(32*i),y,LQalpha)
+        LQcurrent = LQcurrent + 1
+      end
+    else
     drawItem(lootQueue[LQcurrent].title,lootQueue[LQcurrent].amount,x+4,y,LQalpha)
-    love.graphics.setFont(font)
-    love.graphics.printf(lootQueue[LQcurrent].title,x+32,y+6,200-32,"center")
-    love.graphics.setFont(sFont)
-    love.graphics.printf(lootQueue[LQcurrent].amount,x+32,y+6+(font:getHeight()),200-32,"center")
+      love.graphics.setFont(font)
+      love.graphics.printf(lootQueue[LQcurrent].title,x+32,y+6,200-32,"center")
+      love.graphics.setFont(sFont)
+      love.graphics.printf(lootQueue[LQcurrent].amount,x+32,y+6+(font:getHeight()),200-32,"center")
+    end
 
     --border
     love.graphics.setColor(150,150,150,LQalpha)

@@ -33,6 +33,7 @@ pl.kills = {}
 pl.deaths = {}
 pl.distance = {}
 pl.lastEquip = {}
+pl.fightsPlayed = {}
 
 acc = {} --identified by number
 acc.username = {}
@@ -75,6 +76,7 @@ function newPlayer(name, password)
   pl.deaths[i] = 0
   pl.distance[i] = 0
   pl.lastEquip[i] = 0
+  pl.fightsPlayed[i] = {}
 
 
   addMsg("New player by the name of "..name)
@@ -313,15 +315,17 @@ function movePlayer(name, dir)
       local fightsOnTile = listFightsOnTile(pl.t[name])
       addPlayerToFight(fightsOnTile[1],name)
     else
-      local fightChance = love.math.random(1,299)
-      if fightChance < world[pl.t[name]].fightc or world[pl.t[name]].fightc > 90 then
-        world[pl.t[name]].isFight = true
-        if fs[world[pl.t[name]].fight] then
-          newFight(pl.t[name], world[pl.t[name]].fight)
-        else
-          newFight(pl.t[name], "Wolf Hunt")
+      if not pl.fightsPlayed[name][pl.t[name]] then
+        local fightChance = love.math.random(1,299)
+        if fightChance < world[pl.t[name]].fightc or world[pl.t[name]].fightc > 90 then
+          world[pl.t[name]].isFight = true
+          if fs[world[pl.t[name]].fight] then
+            newFight(pl.t[name], world[pl.t[name]].fight)
+          else
+            newFight(pl.t[name], "Wolf Hunt")
+          end
+          addPlayerToFight(#ft.t, name)
         end
-        addPlayerToFight(#ft.t, name)
       end
 
       pl.distance[name] = pl.distance[name] + 1

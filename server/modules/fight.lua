@@ -94,13 +94,22 @@ function endFight(fight)
 
   local playersInFight = listPlayersInFight(fight)
   for i = 1, #playersInFight do
-
+    local thisPlayerName = getPlayerName(tonumber(playersInFight[i]))
+    pl.msg[thisPlayerName] = ""
    rwds = atComma(fs.rewards[ft.title[fight]]) --give loot to players
+   if not pl.fightsPlayed[thisPlayerName][pl.t[thisPlayerName]] then
+     rwdsRoll = {}
     for k = 1, #rwds, 3 do
-      if love.math.random(1,100) < tonumber(rwds[k+2]) then
+      local trr = #rwdsRoll + 1
+      rwdsRoll[trr] = love.math.random(1,100)
+      if rwdsRoll[trr] < tonumber(rwds[k+2]) then
         givePlayerItem(getPlayerName(tonumber(playersInFight[i])),rwds[k],tonumber(rwds[k+1]))
       end
+      pl.msg = rwdsRoll[trr].."% / "..rwds[k+2].."\n"
     end
+  end
+
+    pl.fightsPlayed[getPlayerName(tonumber(playersInFight[i]))][pl.t[getPlayerName(tonumber(playersInFight[i]))]] = true --set this fight to complete for today
 
     removePlayerFromFight(getPlayerName(tonumber(playersInFight[i])))
   end
@@ -287,7 +296,7 @@ function updateFights(dt) --the big one!!
       for v = 1,#mobInfo/8 do --this mob
 
         if mob.hp[v] > 0 and string.sub(mob[v],1,5) ~= "speak"  then
-          if not mb.friend[mob[v]] and mob[v] ~= "Quake" and mob[v] ~= "Venom" then
+          if not mb.friend[mob[v]] and mb.spd[mob[v]] ~= 0 then
             hasFightEnded = false
           end
           --movement
@@ -352,7 +361,7 @@ function updateFights(dt) --the big one!!
                 mob.hp[v] = mob.hp[v] - pdmg
                 if mob.hp[v] < 0 then pl.kills[thisPlayer] = pl.kills[thisPlayer] + 1 end
               --  addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
-                pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
+              --  pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
               end
             elseif distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] and not mb.friend[mob[v]] then --this has to be separate because of mob range
               local pdmg = (mb.atk[mob[v]]/2)*dt

@@ -1,14 +1,23 @@
 Alpha v1.2
+##Graphics & UI
 * Changed the sprite for Basic Cloth
 * Changed the sprite for Dog
 * Nameplates are now darker
 * The Blacksmith now has "<NPC> Shop" above his name
+* The "Pray" window no longer shows up on your current spawn point (this also acts as temporary visual feedback that the spawn point is set)
+
+##Misc
 * Reduced number of world updates to increase FPS
 * Allowed the server to send data on maximum HP allowing HP changes without requiring client updates
 * Increased accuracy of playtime reporting
 * Server now tracks kills, deaths and distance travelled
 
+
 ##Content
+* New zone: Isle of Giants
+	* Features 3 miniboss fights that each reward 500 Adver
+* You can now exchange 5 Adver for 1 Quia at the shop
+* The shop outside the dungeon "Prison of the Sorcerer" is now open for business!
 * Increased Skeleton King's HP from 6000 to 12000
 	* Increased Skeleton King's venom spawn time from 5s to 20s
 * Increased Hydra's HP from 4000 to 6000

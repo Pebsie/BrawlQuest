@@ -99,9 +99,9 @@ function drawOverworld()
     end
 
       local sw,sh = love.graphics.getDimensions()
-      if pl.t == 3352 then
+      if world[pl.t].tile == "Blacksmith" then
         drawShop(sw/2-75,sh/2-125)
-      elseif world[pl.t].tile == "Graveyard" then
+      elseif world[pl.t].tile == "Graveyard" and pl.dt ~= pl.t then
         drawGraveyard(sw/2-75,sh/2-(72/2))
       end
 

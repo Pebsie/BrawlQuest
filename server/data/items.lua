@@ -286,3 +286,17 @@ item.val[ti] = "1"
 item.lvl[ti] = 1
 item.price[ti] = "0,Adver"
 item.img[ti] = ""
+
+local ti = "Quia"
+item.type[ti] = "currency"
+item.val[ti] = "1"
+item.lvl[ti] = 1
+item.price[ti] = "5,Adver"
+item.img[ti] = ""
+
+local ti = "Orb of Power"
+item.type[ti] = "upgrade"
+item.val[ti] = "1,ATK"
+item.lvl[ti] = 10
+item.price[ti] = "350,Quia"
+item.img[ti] = ""

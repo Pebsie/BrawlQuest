@@ -9,6 +9,7 @@ msgs = "Server started."
 nett = 0.1
 
 saveTime = 1
+currentDay = os.date("*t").wday
 
 --game variables here
 require "modules/tools"
@@ -27,8 +28,8 @@ print("Entering server loop...")
 function love.load()
   loadGame()
 --  newPlayer("a","a")
- --givePlayerItem("a","Adver",1000)
- --givePlayerItem("a","Potent Healing Potion",1000)
+ givePlayerItem("a","Adver",1000)
+ givePlayerItem("a","Potent Healing Potion",1000)
  --givePlayerItem("pebsie","Guardian's Blade",1)
   --uploadCharacter("Pebsie")
 
@@ -77,8 +78,8 @@ function love.update(dt)
         elseif cmd == "char" then --client is requesting character info
         --  addMsg(param[1].." requested user info!")
           local i = param[1]
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i]), msg_or_ip, port_or_nil)
-          pl.msg[i] = ""
+          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i], pl.msg[i]), msg_or_ip, port_or_nil)
+        --  pl.msg[i] = ""
         elseif cmd == "move" then
           parms = atComma(parms)
           movePlayer(parms[1],parms[2])
@@ -239,9 +240,15 @@ function saveGame()
       --fp = "map-new.txt"
     --  end
       uploadCharacter(k)
+      --now we check if it's tomorrow!
+      if os.date("*t").wday ~= currentDay then
+        pl.playedFights[k] = {} --reset
+      end
   end
   outputCharacterList()
   love.filesystem.write(fp, fs)
+
+  currentDay = os.date("*t").wday
 end
 
 function loadGame()

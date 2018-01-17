@@ -46,16 +46,16 @@ fs.rewards["Savage Creatures"] = "Gold,35,100,Adver,5,90,Fire Elementling,1,10,E
 
 fs["Prison"] = "Mortus;1;speak,Mortus,The Adver that you obtained is now able to protect our camp indefinitely. I cannot thank you enough.,5;5;speak,Mortus,Now we must set our sights to ending the Sorcerer's reign for good and ending this terrible curse,5;5;speak,Mortus,We are joined by your friends.,3;3;Adventurer;5;Guard;2;speak,Guard,I am sorry for doubting you friend.,2;2;speak,Mortus,This is the Sorcerer's prison... and my blacksmith tells me that it holds a more concentrated type of Adver: Quia.,4;4;speak,Mortus,It also holds a series of terrible beasts that are protecting those crystals: and possibly the key to the sorcerers lair itself.,4;4;speak,Mortus,If we can't kill these beasts and acquire this Quia then we stand no chance against the Sorcerer.,4;4;speak,Guard,We know what we need to do.,3;3;speak,Mortus,Hang on... what's that noise?,3;3;speak,Guard,...,2;2;Savage Golem;1;speak,Mortus,It begins...,3;3;Savage Golem;20"
 fs.spawnTime["Prison"] = 1
-fs.rewards["Prison"] = "Gold,50,100,Quia,1,100"
+fs.rewards["Prison"] = "Gold,50,100,Quia,10,100"
 
 fs["Savage Giant"] = "Mortus;1;Guard;2;speak,Mortus,We lost many to those Golems...,3;3;speak,Mortus,But after seeing you all I couldn't tell them no. They were inspired. They died as heroes.,5;5;speak,Guard,So what's next?,3;3;speak,Mortus,We are about to be graced by the presence of another Savage. A giant.,4;4;speak,Mortus,He was once the protector of these mountains and was the first to be slain by the Sorcerer. Now he does his bidding here.,5;5;Savage Giant;1"
 fs.spawnTime["Savage Giant"] = 2
-fs.rewards["Savage Giant"] = "Gold,75,100,Quia,2,100"
+fs.rewards["Savage Giant"] = "Gold,75,100,Quia,40,100"
 
 fs["Hydra"] = "Guard;1;Mortus;1;speak,Mortus,The Hydra fought the sorcerer for supremecy but just wasn't strong enough.,4;4;speak,Mortus,It only makes sense that he'd brainwash the Hydra to protect Quia.,3;3;speak,Mortus,If we can't kill this Hydra then we stand no chance against the Sorcerers might.,3;3;Hydra;1"
 fs.spawnTime["Hydra"] = 0.01
-fs.rewards["Hydra"] = "Quia,4,100"
+fs.rewards["Hydra"] = "Quia,40,100"
 
 fs["Skeleton King"] = "Mortus;1;speak,Mortus,At least WE survived...,2;2;speak,Mortus,I've no idea what is next. Our scouting efforts didn't acknowledge this room in particular...,5;5;speak,The Skeleton King,So we meet again...,3;3;speak,Mortus,You... know this thing?,3;3;speak,The Skeleton King,I believe that your friends here are big fans of my... body of work.,4;4;speak,The Skeleton King,Remember Southvale? I can still hear the glorious screams of the innocent...,5;5;speak,The Skeleton King,Did you really think that all it would take to be rid of an undead Lord is a few hits with some swords? HAHA! You fool!,5;5;speak,The Skeleton King,No bother. It's time to finish what I started all those years ago.,5;5;Skeleton King;1"
 fs.spawnTime["Skeleton King"] = 1
-fs.rewards["Skeleton King"] = "Quia,8,100,Lair Key,1,100,Spirit Of Death,1,1,Horse,1,5,Gold,700,100"
+fs.rewards["Skeleton King"] = "Quia,150,100,Lair Key,1,100,Spirit Of Death,1,1,Horse,1,5,Gold,700,100"

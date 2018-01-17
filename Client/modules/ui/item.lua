@@ -25,7 +25,10 @@ function drawItem(name,amount,x,y,alpha)
     elseif cit == "Letter" then
       pit = "Letter" piv = "A letter. Want to read it?"
     elseif cit == "currency" then
-      pit = "Coinage" piv = "Can be exchanged for goods and services." itemCost[1] = amount
+      pit = "Coinage" piv = "Can be exchanged for goods and services." --itemCost[1] = amount
+    elseif cit == "upgrade" then
+      local stats = atComma(item.val[name])
+      pit = "Upgrade" piv = "Upgrades your "..stats[2].." by "..stats[1]
     end
     addTT(name,"Level "..item.lvl[name].." "..pit..".\n"..piv.."\nWorth "..itemCost[1].." "..itemCost[2].." .",cx,cy)
     love.graphics.setColor(150,150,150,alpha)
@@ -34,7 +37,9 @@ function drawItem(name,amount,x,y,alpha)
   end
   love.graphics.rectangle("fill",x,y,32,32)
   love.graphics.setColor(255,255,255,alpha)
-  love.graphics.draw(item.img[name],x,y)
+  if item.img[name] then
+    love.graphics.draw(item.img[name],x,y)
+  end
 
 
   if tonumber(amount) > 1 then
