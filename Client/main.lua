@@ -21,7 +21,7 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Alpha 0.2: The Cursed Tribe"
+version = "Alpha 0.2: The Cursed Tribe v1.3"
 phase = "splash"
 
 isMouseDown = false
@@ -47,12 +47,12 @@ news = ""
 function love.load()
 
 
---local ipadd = "127.0.0.1"
+local ipadd = "127.0.0.1"
 local ipadd = "37.59.126.91"
   netConnect(ipadd, "26656", 0.1)
   love.mouse.setVisible(false)
-  b, c, h = http.request("http://brawlquest.com/dl/news-3.txt")
-  love.filesystem.write("news.txt", b)
+  --b, c, h = http.request("http://brawlquest.com/dl/news-3.txt")
+--  love.filesystem.write("news.txt", b)
   for line in love.filesystem.lines("news.txt") do
     news = news..line.."\n"
   end
@@ -172,3 +172,11 @@ function round(x)
 end
 
 function distanceFrom(x1,y1,x2,y2) return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2) end
+
+function isMouseOver(xpos, width, ypos, height)
+  if cx > xpos and cx < xpos+width and cy > ypos and cy < ypos+height then
+    return true
+  else
+    return false
+  end
+end

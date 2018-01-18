@@ -1,6 +1,31 @@
 --called by interface
 biome = love.math.random(1, 4)
 
+loadedCharacter = {}
+
+--temporary
+loadedCharacter[1] = {}
+loadedCharacter[1].arm = "Old Cloth"
+loadedCharacter[1].name = "Pebsie"
+loadedCharacter[1].lvl = 3
+loadedCharacter[1].wep = "Long Stick"
+loadedCharacter[1].bud = "Snake"
+
+loadedCharacter[2] = {}
+loadedCharacter[2].arm = "Legendary Padding"
+loadedCharacter[2].name = "a"
+loadedCharacter[2].lvl = 10
+loadedCharacter[2].wep = "Legendary Sword"
+loadedCharacter[2].bud = "Protector"
+
+loadedCharacter[3] = {}
+loadedCharacter[3].arm = "Guardian's Padding"
+loadedCharacter[3].name = "CrimsnMonkey"
+loadedCharacter[3].lvl = 9
+loadedCharacter[3].wep = "Guardian's Blade"
+loadedCharacter[3].bud = "Baby Bat"
+
+
 function drawLogin() --login screen
   love.graphics.setBackgroundColor(45, 139, 255)
 
@@ -25,7 +50,7 @@ function drawLogin() --login screen
 
   local xpos = sw/2-(181/2)-11
   local ypos = sh/2-(145/2)
-  love.graphics.setColor(64,64,64) --background for text entry
+  --[[love.graphics.setColor(64,64,64) --background for text entry
   love.graphics.rectangle("fill",xpos,ypos,(407/2),32)
   love.graphics.setColor(0,127,14) --login button
   love.graphics.rectangle("fill",xpos,ypos+32,(407/2),16)
@@ -33,7 +58,7 @@ function drawLogin() --login screen
   love.graphics.rectangle("line",xpos,ypos,(407/2),16)
   love.graphics.rectangle("line",xpos,ypos+16,(407/2),16)
   love.graphics.rectangle("line",xpos,ypos+32,(407/2),16)
-  love.graphics.setColor(255,255,255)
+  love.graphics.setColor(255,255,255)]]
 
 
   local pstring = ""
@@ -43,14 +68,70 @@ function drawLogin() --login screen
   love.graphics.print("BrawlQuest "..version)
 
   love.graphics.setFont(sFont)
-  love.graphics.printf(news,0,sh/2+10,sw,"center")
-  love.graphics.print("Created and programmed by Thomas Lock (http://peb.si)\nGraphics by D.Gervais (used here under a Creative Commons Attribution 3.0 licence)\nMusic by Eric Matyas (used here under a Creative Commons Attribution 4.0 license)\nLogo created by Danjoe Stubbs\nSpecial thanks to Sam Warland for letting me ramble on about MMO design in recent months", 0, 18)
+
+  love.graphics.print("Created and programmed by Thomas Lock (http://peb.si)\nGraphics by D.Gervais (used here under a Creative Commons Attribution 3.0 licence)\nTitle theme composed by Joey Pearce (YouTube @JoeyFunWithMusic)\nMusic by Eric Matyas (used here under a Creative Commons Attribution 4.0 license)\nLogo created by Danjoe Stubbs\n", 0, 18)
 --  love.graphics.setFont(font)
 
     love.graphics.draw(logo,(sw/2-(181/2)),(sh/2-(145/2))-160,0,0.5)--logo is 362x290 which at this size is
     --which at this size is 181x145
   ypos = ypos + 4
-  if ui.selected == "username" then
+
+  for i = 1, #loadedCharacter do
+    local isSel = false
+    if isMouseOver(xpos,204,ypos,66) then
+      love.graphics.setColor(100,100,100)
+    else
+      love.graphics.setColor(50,50,50)
+    end
+
+    love.graphics.rectangle("fill",xpos,ypos,204,66)
+    love.graphics.setColor(255,255,255)
+    love.graphics.setFont(font)
+    love.graphics.printf( loadedCharacter[i].name , xpos+64 , ypos , 140 , "center" )
+    love.graphics.setFont(sFont)
+    love.graphics.printf( "Level "..loadedCharacter[i].lvl.."\n"..loadedCharacter[i].arm.." ("..item.val[loadedCharacter[i].arm].." DEF)\n"..loadedCharacter[i].wep.." ("..item.val[loadedCharacter[i].wep].." ATK)", xpos+64 , ypos+font:getHeight() , 140 , "center")
+
+    if isMouseOver(xpos,204,ypos,66) then
+      love.graphics.draw(item.img[loadedCharacter[i].arm],xpos+4,ypos,0,2,2)
+    else
+      love.graphics.draw(item.img[loadedCharacter[i].arm],xpos,ypos,0,2,2)
+    end
+
+    local budPos = ypos
+    while budPos+buddy[loadedCharacter[i].bud]:getHeight()*2 < ypos+64 do
+      budPos = budPos + 1
+    end
+
+    if isMouseOver(xpos,204,ypos,66) then
+      love.graphics.draw(buddy[loadedCharacter[i].bud],xpos+30+2,budPos,0,2,2)
+    else
+      love.graphics.draw(buddy[loadedCharacter[i].bud],xpos+30,budPos,0,2,2)
+    end
+    love.graphics.setColor(150,150,150)
+    love.graphics.rectangle("line",xpos,ypos,204,66)
+
+    ypos = ypos + 68
+  end
+
+  if isMouseOver(xpos,204,ypos,66) then
+    love.graphics.setColor(100,100,100)
+  else
+    love.graphics.setColor(50,50,50)
+  end
+  love.graphics.rectangle("fill",xpos,ypos,204,66)
+  love.graphics.setColor(255,255,255)
+  love.graphics.setFont(font)
+  love.graphics.printf( "New Character" , xpos , ypos+33-font:getHeight() , 204 , "center" )
+  love.graphics.setColor(150,150,150)
+  love.graphics.rectangle("line",xpos,ypos,204,66)
+
+  ypos = ypos + 80
+  love.graphics.setFont(sFont)
+  love.graphics.setColor( 255, 255, 255 )
+  love.graphics.printf(news,0,ypos,sw,"center")
+
+  --OLD LOGIN SYSTEM
+  --[[if ui.selected == "username" then
     love.graphics.printf(pl.cinput.."|",xpos,ypos,(407/2),"center")
   elseif ui.selected == "password" then
     love.graphics.printf(pl.name.."",xpos,ypos,(407/2),"center")
@@ -59,7 +140,7 @@ function drawLogin() --login screen
     love.graphics.printf(pl.name.."",xpos,ypos,(407/2),"center")
     love.graphics.printf(pstring.."",xpos,ypos+16,(407/2),"center")
     love.graphics.print("Logging in...",0,36*12)
-  end
+  end]]
 end
 
 function updateLogin(dt)
