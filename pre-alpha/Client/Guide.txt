@@ -1,4 +1,0 @@
-=PLAYER FUNCTIONS=
-addPlayer(name) -- creates new player name with values of 0
-doesPlayerExist(name) -- checks if player name exists, returns true or false
-updatePlayer(name,attribute,value) -- updates player name's attribute to value
