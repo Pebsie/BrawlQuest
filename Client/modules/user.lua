@@ -24,6 +24,7 @@ pl.str = 0
 pl.state = "world"
 pl.selItem = "None"
 pl.selSpell = 1
+pl.str = 0
 
 function login() --we'll attempt to login
   if pl.name ~= "" and pl.cinput ~= "" then

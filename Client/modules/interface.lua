@@ -135,8 +135,14 @@ function love.keypressed(key)
         pl.spell = pl.s2
       end
     end
+  elseif key == "f" then
+    fullscreen, fstype = love.window.getFullscreen( )
+    if fullscreen == true then
+      love.window.setFullscreen(false)
+    else
+      love.window.setFullscreen(true,"desktop")
+    end
 
-  
   end
 
    if phase == "splash" then

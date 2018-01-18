@@ -228,7 +228,7 @@ item.lvl[ti] = 10
 item.price[ti] = "0,Gold"
 item.img[ti] = 32
 
-local ti = "Spirit Of Death"
+local ti = "Spirit of Death"
 item.type[ti] = "buddy"
 item.desc[ti] = "Not to be confused with Face of Death or Heart of Death."
 item.val[ti] = "0"

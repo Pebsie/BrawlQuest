@@ -47,11 +47,11 @@ news = ""
 function love.load()
 
 
-local ipadd = "127.0.0.1"
--- local ipadd = "37.59.126.91"
-  netConnect(ipadd, "26655", 0.1)
+--local ipadd = "127.0.0.1"
+local ipadd = "37.59.126.91"
+  netConnect(ipadd, "26656", 0.1)
   love.mouse.setVisible(false)
-  b, c, h = http.request("http://brawlquest.com/dl/news-2.txt")
+  b, c, h = http.request("http://brawlquest.com/dl/news-3.txt")
   love.filesystem.write("news.txt", b)
   for line in love.filesystem.lines("news.txt") do
     news = news..line.."\n"
@@ -109,7 +109,7 @@ function love.mousereleased(button, cx, cy)
           if k == 1 then titype = "Armour"
           elseif k == 2 then titype = "Weapons"
           elseif k == 3 then titype = "Spells"
-          elseif k == 4 then titype = "Potions" end
+          elseif k == 4 then titype = "Misc" end
           for i = 1, #shop[titype] do
         --    love.window.showMessageBox("debug",shop[titype][i].." at "..x.." ("..(x+32).."),"..y.." ("..(y+32).."), cursor at "..cx..","..cy)
             if cx > x and cx < x+32 and cy > y and cy < y+32 then

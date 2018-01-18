@@ -401,7 +401,7 @@ function drawFightUI(x,y)
   --text
   love.graphics.setFont(font)
   love.graphics.setColor(76,255,0)
-  love.graphics.printf(item.val[pl.wep],x+114,y+52,24,"center")
+  love.graphics.printf(item.val[pl.wep]+pl.str,x+114,y+52,24,"center")
   if round(pl.armd) ~= 0 then
     love.graphics.setColor(255,0,0)
   end

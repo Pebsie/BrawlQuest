@@ -15,6 +15,7 @@ function addPlayer(name)
   player[name].state = "fight"
   player[name].spell = "None"
   player[name].buddy = "None"
+  player[name].online = "false"
   players = players + 1
   pli[players] = name
 end
@@ -72,7 +73,8 @@ function getPlayer(name,a) --where a is attribute
 end
 
 function drawPlayer(name,x,y)
-  if player[name] and item.img[player[name].arm] then
+
+  if player[name] and item.img[player[name].arm] and player[name].online == "true" then
     if player[name].x - player[name].tx > 1  then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
       love.graphics.draw(item.img[player[name].arm],x,y,0,-1,1,32,0)
     else
@@ -87,10 +89,12 @@ function drawPlayer(name,x,y)
 
   drawBuddy(name)
 
-  love.graphics.setColor(0,0,0,200)
-  love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
-  love.graphics.setColor(255,255,255,255)
-  love.graphics.setFont(sFont)
-  love.graphics.printf(name,17+x-(round(sFont:getWidth(name)/2)),y-12,sFont:getWidth(name),"center")
+  if not player[name] or player[name].online == "true" then --so that <npc> shop still works
+    love.graphics.setColor(0,0,0,200)
+    love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
+    love.graphics.setColor(255,255,255,255)
+    love.graphics.setFont(sFont)
+    love.graphics.printf(name,17+x-(round(sFont:getWidth(name)/2)),y-12,sFont:getWidth(name),"center")
+  end
 
 end

@@ -111,7 +111,7 @@ function netUpdate(dt)
       --      love.window.showMessageBox("Debug",param[17])
             pl.armd = tonumber(param[17])
             pl.dt = tonumber(param[19])
-            pl.msg = param[20]
+            pl.str = param[20]
 
 
           end
@@ -137,8 +137,9 @@ function netUpdate(dt)
               updatePlayer(name,"state",param[tparam+4])
               updatePlayer(name,"spell",param[tparam+5])
               updatePlayer(name,"buddy",param[tparam+6])
+              updatePlayer(name,"online",param[tparam+7])
 
-              tparam = tparam + 7
+              tparam = tparam + 8
             end
           end
 

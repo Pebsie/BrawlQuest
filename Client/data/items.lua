@@ -182,7 +182,7 @@ buddy["Protector"] = love.graphics.newImage("img/pet/Protector.png")
 buddy["Fly"] = love.graphics.newImage("img/pet/Fly.png")
 buddy["Horse"] = love.graphics.newImage("img/pet/Horse.png")
 buddy["Silver Dragonling"] = love.graphics.newImage("img/pet/Silver Dragonling.png")
-buddy["Spirit Of Death"] = love.graphics.newImage("img/pet/Spirit Of Death.png")
+buddy["Spirit of Death"] = love.graphics.newImage("img/pet/Spirit Of Death.png")
 
 local ti = "Dog"
 item.type[ti] = "buddy"
@@ -264,7 +264,7 @@ item.lvl[ti] = 10
 item.price[ti] = "0,Gold"
 item.img[ti] = buddy[ti]
 
-local ti = "Spirit Of Death"
+local ti = "Spirit of Death"
 item.type[ti] = "buddy"
 item.desc[ti] = "Not to be confused with Face of Death or Heart of Death."
 item.val[ti] = "0"
@@ -339,5 +339,5 @@ item.img[ti] = buddy[ti]
 shop = {}
 shop["Armour"] = {"Basic Cloth", "Leather Armour", "Chainmail Armour", "Guardian's Padding", "Legendary Padding"}
 shop["Weapons"] = {"Short Sword", "Bastard Sword", "Long Sword", "Guardian's Blade", "Legendary Sword"}
-shop["Potions"] = {"Healing Potion", "Potent Healing Potion", "Adver Ring", "Quia", "Orb of Power"}
+shop["Misc"] = {"Healing Potion", "Potent Healing Potion", "Adver Ring", "Quia", "Orb of Power"}
 shop["Spells"] = {"Recovery","Slam","Enrage","Phase Shift","Polymorph"}

@@ -3,7 +3,7 @@ local udp = socket.udp()
 http = require("socket.http")
 
 udp:settimeout(0)
-udp:setsockname("*", 26655)
+udp:setsockname("*", 26656)
 
 msgs = "Server started."
 nett = 0.1
@@ -27,8 +27,8 @@ print("Entering server loop...")
 
 function love.load()
   loadGame()
---  newPlayer("a","a")
- givePlayerItem("a","Adver",1000)
+  newPlayer("a","a")
+ givePlayerItem("a","Orb of Power",1000)
  givePlayerItem("a","Potent Healing Potion",1000)
  --givePlayerItem("pebsie","Guardian's Blade",1)
   --uploadCharacter("Pebsie")
@@ -78,7 +78,7 @@ function love.update(dt)
         elseif cmd == "char" then --client is requesting character info
         --  addMsg(param[1].." requested user info!")
           local i = param[1]
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i], pl.msg[i]), msg_or_ip, port_or_nil)
+          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i], pl.str[i]), msg_or_ip, port_or_nil)
         --  pl.msg[i] = ""
         elseif cmd == "move" then
           parms = atComma(parms)
@@ -90,8 +90,14 @@ function love.update(dt)
           --compile location of current players, including ourselves
           for i = 1, countPlayers() do
             --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
+            local isOnline = true
+            if pl.timeout[getPlayerName(i)] < 1 then
+              isOnline = false
+            else
+              isOnline = true
+            end
             if isPlayerOnline(getPlayerName(i)) then
-              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)), pl.spell[getPlayerName(i)], pl.bud[getPlayerName(i)])
+              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)), pl.spell[getPlayerName(i)], pl.bud[getPlayerName(i)], isOnline)
             end
           end
 
@@ -236,7 +242,7 @@ function saveGame()
   for i = 1, countPlayers() do
       local k = getPlayerName(i)
       --if pl.state[k] ~= "fight" then
-        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|\n"
+        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|"..pl.str[k].."\n"
       --fp = "map-new.txt"
     --  end
       uploadCharacter(k)
@@ -275,10 +281,12 @@ function loadGame()
       pl.dt[i] = word[18]
       if word[19] then
       pl.playtime[i] = word[19]
-      pl.kills[i] = word[20]
-      pl.deaths[i] = word[21]
-      pl.distance[i] = word[22]
       end
+
+      if word[20] then pl.kills[i] = word[20] end
+      if word[21] then pl.deaths[i] = word[21] end
+      if word[22] then  pl.distance[i] = word[22] end
+      if word[23] then pl.str[i] = tonumber(word[23]) end
     end
     addMsg("Game loaded.")
   else

@@ -22,6 +22,7 @@ pl.lvl = {}
 pl.xp = {}
 pl.at = {} --attack info. true/false
 pl.atm = {} --time left before attack is no longer there
+pl.str = {} --strength
 pl.msg = {} --messages separated with semicolons
 pl.online = {}
 pl.state = {}
@@ -77,6 +78,7 @@ function newPlayer(name, password)
   pl.distance[i] = 0
   pl.lastEquip[i] = 0
   pl.fightsPlayed[i] = {}
+  pl.str[i] = 0
 
 
   addMsg("New player by the name of "..name)
@@ -103,7 +105,7 @@ function updatePlayers(dt)
       pl.hp[k] = pl.hp[k] + (item.val[pl.spell[k]]/3)*dt
     end
 
-    pl.armd[k] = pl.armd[k] - 0.25*dt
+    pl.armd[k] = pl.armd[k] - 1*dt
     if pl.armd[k] <0 then pl.armd[k] = 0 end
 
     pl.s1t[k] = pl.s1t[k] - 1*dt
@@ -258,6 +260,11 @@ function playerUse(name, ritem, index, amount)
         rebuiltInv[#rebuiltInv].amount = 1
       end
       pl.bud[name] = ritem
+    elseif item.type[ritem] == "upgrade" then
+      local stat = atComma(item.val[ritem])
+      if stat[2] == "ATK" then
+        pl.str[name] = pl.str[name] + tonumber(stat[1])
+      end
     end
   else
     addMsg(name.." tried to use an item ("..ritem..") that they don't own!")

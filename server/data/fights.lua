@@ -58,4 +58,20 @@ fs.rewards["Hydra"] = "Quia,40,100"
 
 fs["Skeleton King"] = "Mortus;1;speak,Mortus,At least WE survived...,2;2;speak,Mortus,I've no idea what is next. Our scouting efforts didn't acknowledge this room in particular...,5;5;speak,The Skeleton King,So we meet again...,3;3;speak,Mortus,You... know this thing?,3;3;speak,The Skeleton King,I believe that your friends here are big fans of my... body of work.,4;4;speak,The Skeleton King,Remember Southvale? I can still hear the glorious screams of the innocent...,5;5;speak,The Skeleton King,Did you really think that all it would take to be rid of an undead Lord is a few hits with some swords? HAHA! You fool!,5;5;speak,The Skeleton King,No bother. It's time to finish what I started all those years ago.,5;5;Skeleton King;1"
 fs.spawnTime["Skeleton King"] = 1
-fs.rewards["Skeleton King"] = "Quia,150,100,Lair Key,1,100,Spirit Of Death,1,1,Horse,1,5,Gold,700,100"
+fs.rewards["Skeleton King"] = "Quia,150,100,Lair Key,1,100,Spirit of Death,1,1,Horse,1,5,Gold,700,100"
+
+fs["Giant"] = "Giant;1"
+fs.spawnTime["Giant"] = 1
+fs.rewards["Giant"] = "Adver,500,100,Dog,1,10"
+
+fs["Ice Giant"] = "Ice Giant;1"
+fs.spawnTime["Ice Giant"] = 1
+fs.rewards["Ice Giant"] = "Adver,500,100,Horse,1,10"
+
+fs["Fire Giant"] = "Fire Giant;1"
+fs.spawnTime["Fire Giant"] = 1
+fs.rewards["Fire Giant"] = "Adver,500,100,Protector,1,10"
+
+fs["Giants"] = "Giant;1;Ice Giant;1;Fire Giant;1"
+fs.spawnTime["Giants"] = 1
+fs.rewards["Giants"] = "Quia,200,1,Spirit of Death,1,50"

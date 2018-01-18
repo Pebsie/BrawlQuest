@@ -339,3 +339,63 @@ mb.friend[tm] = false
 
 local tm = "The Skeleton King"
 mb.img[tm] = love.graphics.newImage("img/mob/Mini Skeleton King.png")
+
+local tm = "Giant"
+mb.hp[tm] = 6000
+mb.spd[tm] = 20
+mb.atk[tm] = 15
+mb.sp1[tm] = "spawnFeet,Quake"
+mb.sp1t[tm] = 3
+mb.sp2[tm] = "spawn,Golem"
+mb.sp2t[tm] = 10
+mb.img[tm] = love.graphics.newImage("img/mob/Giant.png")
+mb.rng[tm] = 50
+mb.friend[tm] = false
+
+local tm = "Ice Giant"
+mb.hp[tm] = 4000
+mb.spd[tm] = 10
+mb.atk[tm] = 5
+mb.sp1[tm] = "spawnFeet,Ice"
+mb.sp1t[tm] = 3
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Ice Giant.png")
+mb.rng[tm] = 50
+mb.friend[tm] = false
+
+local tm = "Ice"
+mb.hp[tm] = 60000
+mb.spd[tm] = 5
+mb.atk[tm] = 30
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 30
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 20
+mb.img[tm] = love.graphics.newImage("img/mob/Ice.png")
+mb.rng[tm] = 32
+mb.friend[tm] = false
+
+local tm = "Fire Giant"
+mb.hp[tm] = 2000
+mb.spd[tm] = 30
+mb.atk[tm] = 10
+mb.sp1[tm] = "spawn,Fire"
+mb.sp1t[tm] = 2
+mb.sp2[tm] = "spawn,Fire"
+mb.sp2t[tm] = 5
+mb.img[tm] = love.graphics.newImage("img/mob/Fire Giant.png")
+mb.rng[tm] = 50
+mb.friend[tm] = false
+
+local tm = "Fire"
+mb.hp[tm] = 2000000
+mb.spd[tm] = 120
+mb.atk[tm] = 40
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 3
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Fire.png")
+mb.rng[tm] = 32
+mb.friend[tm] = false

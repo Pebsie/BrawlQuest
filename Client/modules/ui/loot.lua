@@ -29,7 +29,7 @@ function drawLootBox(x,y)
     y = y + font:getHeight()+6
 
     love.graphics.setColor(255,255,255,LQalpha)
-    if #lootQueue > 5 then
+    if #lootQueue-LQcurrent > 5 then
       for i = 1, #lootQueue-LQcurrent do
         drawItem(lootQueue[LQcurrent],x+4+(32*i),y,LQalpha)
         LQcurrent = LQcurrent + 1

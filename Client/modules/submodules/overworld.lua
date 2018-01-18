@@ -158,7 +158,7 @@ function drawShop(tx,ty)
     if k == 1 then titype = "Armour"
     elseif k == 2 then titype = "Weapons"
     elseif k == 3 then titype = "Spells"
-    elseif k == 4 then titype = "Potions" end
+    elseif k == 4 then titype = "Misc" end
     love.graphics.print(titype,x,y)
     y = y + font:getHeight()
     for i = 1, #shop[titype] do

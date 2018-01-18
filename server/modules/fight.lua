@@ -95,7 +95,7 @@ function endFight(fight)
   local playersInFight = listPlayersInFight(fight)
   for i = 1, #playersInFight do
     local thisPlayerName = getPlayerName(tonumber(playersInFight[i]))
-    pl.msg[thisPlayerName] = ""
+  --  pl.msg[thisPlayerName] = ""
    rwds = atComma(fs.rewards[ft.title[fight]]) --give loot to players
    if not pl.fightsPlayed[thisPlayerName][pl.t[thisPlayerName]] then
      rwdsRoll = {}
@@ -105,7 +105,7 @@ function endFight(fight)
       if rwdsRoll[trr] < tonumber(rwds[k+2]) then
         givePlayerItem(getPlayerName(tonumber(playersInFight[i])),rwds[k],tonumber(rwds[k+1]))
       end
-      pl.msg = rwdsRoll[trr].."% / "..rwds[k+2].."\n"
+      --pl.msg = rwdsRoll[trr].."% / "..rwds[k+2].."\n"
     end
   end
 
@@ -357,7 +357,7 @@ function updateFights(dt) --the big one!!
 
             if tostring(atkInfo) == "true" then
               if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.img[mob[v]] and not mb.friend[mob[v]] then
-                local pdmg = item.val[pl.wep[thisPlayer]]
+                local pdmg = item.val[pl.wep[thisPlayer]] + pl.str[thisPlayer]
                 mob.hp[v] = mob.hp[v] - pdmg
                 if mob.hp[v] < 0 then pl.kills[thisPlayer] = pl.kills[thisPlayer] + 1 end
               --  addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
