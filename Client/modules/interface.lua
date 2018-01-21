@@ -1,4 +1,4 @@
-require "modules/submodules/login"
+require "modules/ui/login"
 require "modules/submodules/tooltip"
 require "modules/ui/master"
 
@@ -90,9 +90,9 @@ function love.keypressed(key)
            pl.cinput = string.sub(pl.cinput, 1, byteoffset - 1)
        end
   elseif key == "return" then
-      if phase == "login" then
+      if phase == "login" and loginI.status == "create" then
         if ui.selected == "username" then pl.cinput = "" ui.selected = "password"
-        elseif ui.selected == "password" then login() end
+        elseif ui.selected == "password" then addLoginCharacter() end--login() end
       elseif phase == "read" then
         phase = "login"
       end
