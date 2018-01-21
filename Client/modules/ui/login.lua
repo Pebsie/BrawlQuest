@@ -97,6 +97,12 @@ function drawLogin() --login screen
 
       if isMouseOver(xpos,204,ypos,66) then
         love.graphics.draw(item.img[loadedCharacter[i].arm],xpos+4,ypos,0,2,2)
+        if isMouseDown then
+          pl.name = loadedCharacter[i].name
+          pl.cinput = loadedCharacter[i].pw
+          login()
+          isMouseDown = false
+        end
       else
         love.graphics.draw(item.img[loadedCharacter[i].arm],xpos,ypos,0,2,2)
       end
@@ -306,6 +312,7 @@ function addLoginCharacter()
   loadedCharacter[loginI.select].lvl = 1
   loadedCharacter[loginI.select].wep = "Long Stick"
   loadedCharacter[loginI.select].bud = "None"
+  loadedCharacter[loginI.select].pw = pl.cinput
   loginI.status = "select"
   pl.name = ""
   pl.cinput = ""
