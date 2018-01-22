@@ -101,7 +101,7 @@ function endFight(fight)
      rwdsRoll = {}
     for k = 1, #rwds, 3 do
       local trr = #rwdsRoll + 1
-      rwdsRoll[trr] = love.math.random(1,100)
+      rwdsRoll[trr] = love.math.random(1,99)
       if rwdsRoll[trr] < tonumber(rwds[k+2]) then
         givePlayerItem(getPlayerName(tonumber(playersInFight[i])),rwds[k],tonumber(rwds[k+1]))
       end
