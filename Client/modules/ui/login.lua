@@ -51,8 +51,8 @@ function drawLogin() --login screen
   love.graphics.draw(item.img["Old Cloth"],litems["player"],sh-40)
   love.graphics.draw(bli[bli.s],litems["player"]+40,sh-40)
 
-  local xpos = sw/2-(181/2)-11
-  local ypos = sh/2-(145/2)
+  local xpos = round(sw/2-(181/2)-11)
+  local ypos = round(sh/2-(145/2))
   --[[love.graphics.setColor(64,64,64) --background for text entry
   love.graphics.rectangle("fill",xpos,ypos,(407/2),32)
   love.graphics.setColor(0,127,14) --login button
