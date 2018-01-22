@@ -3,8 +3,8 @@ biome = love.math.random(1, 4)
 
 loadedCharacter = {}
 
---[[temporary
-loadedCharacter[1] = {}
+
+--[[loadedCharacter[1] = {}
 loadedCharacter[1].arm = "Old Cloth"
 loadedCharacter[1].name = "Pebsie"
 loadedCharacter[1].lvl = 3
@@ -23,8 +23,8 @@ loadedCharacter[3].arm = "Guardian's Padding"
 loadedCharacter[3].name = "CrimsnMonkey"
 loadedCharacter[3].lvl = 9
 loadedCharacter[3].wep = "Guardian's Blade"
-loadedCharacter[3].bud = "Baby Bat"]]
-
+loadedCharacter[3].bud = "Baby Bat"
+]]
 loginI = {}
 loginI.status = "select"
 loginI.select = 1
@@ -317,4 +317,33 @@ function addLoginCharacter()
   pl.name = ""
   pl.cinput = ""
   ui.selected = "username"
+  saveCharacters()
+end
+
+function saveCharacters()
+  local str = ""
+  for i = 1, #loadedCharacter do
+    str = str..loadedCharacter[i].arm..","..loadedCharacter[i].name..","..loadedCharacter[i].lvl..","..loadedCharacter[i].wep..","..loadedCharacter[i].bud.."\n"
+  end
+
+  love.filesystem.write("char.txt",str)
+end
+
+function loadCharacters()
+  local i = 1
+  if love.filesystem.exists("char.txt") then
+    for line in love.filesystem.lines("char.txt") do
+      local words = atComma(line)
+      loadedCharacter[i] = {}
+      loadedCharacter[i].arm = words[1]
+      loadedCharacter[i].name = words[2]
+      loadedCharacter[i].lvl = words[3]
+      loadedCharacter[i].wep = words[4]
+      loadedCharacter[i].bud = words[5]
+      i = i + 1
+    end
+
+  end
+
+  loginI.select = i
 end

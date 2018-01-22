@@ -87,6 +87,7 @@ function love.update(dt)
   updatePhase(phase,dt)
   updateMusic(dt)
   updateSpells(dt)
+  loadCharacters()
 end
 
 function love.mousepressed(button)
