@@ -46,13 +46,13 @@ news = ""
 
 function love.load()
 
-
+love.filesystem.setIdentity( "bq" )
 local ipadd = "127.0.0.1"
 --local ipadd = "37.59.126.91"
   netConnect(ipadd, "26656", 0.1)
   love.mouse.setVisible(false)
-  --b, c, h = http.request("http://brawlquest.com/dl/news-3.txt")
---  love.filesystem.write("news.txt", b)
+  b, c, h = http.request("http://brawlquest.com/dl/news-3.txt")
+  love.filesystem.write("news.txt", b)
   for line in love.filesystem.lines("news.txt") do
     news = news..line.."\n"
   end

@@ -4,7 +4,11 @@ biome = love.math.random(1, 4)
 loadedCharacter = {}
 
 
+
 --[[loadedCharacter[1] = {}
+=======
+loadedCharacter[1] = {}
+>>>>>>> Stashed changes
 loadedCharacter[1].arm = "Old Cloth"
 loadedCharacter[1].name = "Pebsie"
 loadedCharacter[1].lvl = 3

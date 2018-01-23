@@ -315,15 +315,15 @@ function updateFights(dt) --the big one!!
               mob.target.y[v] = pl.y[mob.target.t[v]]+16
             else --player is dead!
               if mb.friend[mob[v]] then --this is a friendly mob who will attack other mobs
-                local curMaxDist = 1000 --for changing targets
+                local curMaxHP = 1000 --for changing targets
                 for k = 1,#mobInfo/8 do
                   if k ~= v and not mb.friend[mob[k]] and string.sub(mob[k],1,5) ~= "speak" then --we don't want to attack ourselves nor other friends
                     --addMsg("Is "..distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]).." < "..curMaxDist)
-                    if curMaxDist > distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) then
+                    if curMaxHP > mob.hp[k] then
                       mob.target.x[v] = mob.x[k]+mb.img[mob[k]]/2
                       mob.target.y[v] = mob.y[k]+mb.img[mob[k]]/2
                     --  addMsg("Mob #"..v.." switched target.")
-                      curMaxDist = distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v])
+                      curMaxHP = mob.hp[k]
                     end
 
                     if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < mb.rng[mob[v]] then
@@ -379,7 +379,7 @@ function updateFights(dt) --the big one!!
               end
             elseif pl.spell[thisPlayer] == "Slam" then
               if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*5 then
-                mob.hp[v] = mob.hp[v] - (item.val[pl.wep[thisPlayer]]*4)*dt
+                mob.hp[v] = mob.hp[v] - (item.val[pl.wep[thisPlayer]]*8)*dt
               end
             elseif pl.spell[thisPlayer] == "Polymorph" then
               if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*3 and item.val[pl.wep[thisPlayer]]+1 > mob.hp[v] then
