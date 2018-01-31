@@ -102,9 +102,15 @@ function drawLogin() --login screen
       if isMouseOver(xpos,204,ypos,66) then
         love.graphics.draw(item.img[loadedCharacter[i].arm],xpos+4,ypos,0,2,2)
         if isMouseDown then
-          pl.name = loadedCharacter[i].name
-          pl.cinput = loadedCharacter[i].pw
-          login()
+          if loadedCharacter[i].pw then
+            pl.name = loadedCharacter[i].name
+            pl.cinput = loadedCharacter[i].pw
+            login()
+          else
+            loginI.status = "pw"
+            loginI.select = i
+            ui.selected = "password"
+          end
           isMouseDown = false
         end
       else
@@ -182,7 +188,6 @@ function drawLogin() --login screen
       if isMouseDown then
         ui.selected = "password"
         pl.cinput = ""
-
       end
     else
       love.graphics.setColor(0,0,0)
@@ -221,6 +226,74 @@ function drawLogin() --login screen
       love.graphics.print(pl.name.."",xpos+103,ypos-(font:getHeight()+4)*2)
       love.graphics.print(pstring.."|",xpos+103,ypos-(font:getHeight()+4))
     end
+    love.graphics.printf("Back",xpos,ypos,102,"center")
+    love.graphics.printf("Add",xpos+102,ypos,102,"center")
+
+    love.graphics.setColor(150,150,150)
+    love.graphics.rectangle("line",xpos,oypos,204,180)
+
+    ypos = ypos + 180
+  elseif loginI.status == "pw" then
+    local oypos = ypos --original ypos
+    love.graphics.setColor(50,50,50)
+    love.graphics.rectangle("fill",xpos,ypos,204,180)
+
+  --  love.graphics.setColor(0,0,0)
+    --love.graphics.rectangle("fill",xpos+102-(32*1.5),ypos+font:getHeight()+3,94,94)
+    love.graphics.setColor(255,255,255)
+    love.graphics.draw(worldImg["Grass"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
+    love.graphics.setFont(font)
+    love.graphics.printf( "Enter Password" , xpos , ypos , 204 , "center" )
+  --  love.graphics.draw(item.img[loadedCharacter[loginI.select].arm],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
+    love.graphics.setColor(150,150,150)
+    love.graphics.rectangle("line",xpos+102-(32*1.5),ypos+font:getHeight()+3,96,96)
+
+    ypos = ypos + font:getHeight()+3+96+4
+    love.graphics.setColor(255,255,255)
+    love.graphics.setFont(font)
+    love.graphics.printf("Password:",xpos-2,ypos,100,"center")
+    if isMouseOver(xpos+101,100,ypos,font:getHeight()) then
+      love.graphics.setColor(100,100,100)
+      if isMouseDown then
+        ui.selected = "username"
+        pl.cinput = ""
+      end
+    else
+      love.graphics.setColor(0,0,0)
+    end
+    love.graphics.rectangle("fill",xpos+101,ypos,100,font:getHeight())
+    ypos = ypos + font:getHeight()+4
+
+    ypos = ypos + font:getHeight() + 4
+
+    if isMouseOver(xpos,102,ypos,font:getHeight()) then --back
+      love.graphics.setColor(200,0,0)
+      if isMouseDown then
+        loginI.status = "select"
+        pl.name = ""
+        pl.cinput = ""
+        isMouseDown = false
+      end
+    else
+      love.graphics.setColor(100,0,0)
+    end
+
+    love.graphics.rectangle("fill",xpos,ypos,102,font:getHeight())
+    if isMouseOver(xpos+102,102,ypos,font:getHeight()) then --add
+      love.graphics.setColor(0,200,0)
+      if isMouseDown and pl.name ~= "" then
+        addLoginCharacter()
+        isMouseDown = false
+      end
+    else
+      love.graphics.setColor(0,100,0)
+    end
+
+    love.graphics.rectangle("fill",xpos+102,ypos,102,font:getHeight())
+    love.graphics.setColor(255,255,255)
+
+    love.graphics.print(pstring.."|",xpos+103,ypos-(font:getHeight()+4)*2)
+
     love.graphics.printf("Back",xpos,ypos,102,"center")
     love.graphics.printf("Add",xpos+102,ypos,102,"center")
 

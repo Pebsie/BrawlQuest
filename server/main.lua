@@ -248,7 +248,7 @@ function saveGame()
       uploadCharacter(k)
       --now we check if it's tomorrow!
       if os.date("*t").wday ~= currentDay then
-        pl.playedFights[k] = {} --reset
+        pl.fightsPlayed[k] = {} --reset
       end
   end
   outputCharacterList()
