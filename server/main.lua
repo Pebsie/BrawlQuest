@@ -30,6 +30,8 @@ function love.load()
   newPlayer("a","a")
  givePlayerItem("a","Orb of Power",1000)
  givePlayerItem("a","Potent Healing Potion",1000)
+ givePlayerItem("a","Adver",1000000)
+ givePlayerItem("a","Adver Ring",1)
  --givePlayerItem("pebsie","Guardian's Blade",1)
   --uploadCharacter("Pebsie")
 

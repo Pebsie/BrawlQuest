@@ -3,12 +3,10 @@ biome = love.math.random(1, 4)
 
 loadedCharacter = {}
 
+--TODO: tirelessly treck through this code and replace all love.mouse.isDown to a love.mousepressed function
 
-
---[[loadedCharacter[1] = {}
-=======
+--[[
 loadedCharacter[1] = {}
->>>>>>> Stashed changes
 loadedCharacter[1].arm = "Old Cloth"
 loadedCharacter[1].name = "Pebsie"
 loadedCharacter[1].lvl = 3
@@ -27,11 +25,14 @@ loadedCharacter[3].arm = "Guardian's Padding"
 loadedCharacter[3].name = "CrimsnMonkey"
 loadedCharacter[3].lvl = 9
 loadedCharacter[3].wep = "Guardian's Blade"
-loadedCharacter[3].bud = "Baby Bat"
-]]
+loadedCharacter[3].bud = "Baby Bat"]]
+
 loginI = {}
 loginI.status = "select"
 loginI.select = 1
+
+--let me save you the leg work, future Tom
+--When logging in, pl.name is used as username and pl.cinput is used as password. Why? Who knows.
 
 function drawLogin() --login screen
   love.graphics.setBackgroundColor(45, 139, 255)
@@ -85,72 +86,78 @@ function drawLogin() --login screen
 
   if loginI.status == "select" then
     for i = 1, #loadedCharacter do
-      local isSel = false
+      if #loadedCharacter then
+        local isSel = false
+        if isMouseOver(xpos,204,ypos,66) then
+          love.graphics.setColor(100,100,100)
+        else
+          love.graphics.setColor(50,50,50)
+        end
+
+        love.graphics.rectangle("fill",xpos,ypos,204,66)
+        love.graphics.setColor(255,255,255)
+        love.graphics.setFont(font)
+        love.graphics.printf( loadedCharacter[i].name , xpos+64 , ypos , 140 , "center" )
+        love.graphics.setFont(sFont)
+        love.graphics.printf( "Level "..loadedCharacter[i].lvl.."\n"..loadedCharacter[i].arm.." ("..item.val[loadedCharacter[i].arm].." DEF)\n"..loadedCharacter[i].wep.." ("..item.val[loadedCharacter[i].wep].." ATK)", xpos+64 , ypos+font:getHeight() , 140 , "center")
+
+        if isMouseOver(xpos,204,ypos,66) then
+          love.graphics.draw(item.img[loadedCharacter[i].arm],xpos+4,ypos,0,2,2)
+          if isMouseDown then
+            if loadedCharacter[i].pw then
+              pl.name = loadedCharacter[i].name
+              pl.cinput = loadedCharacter[i].pw
+              login()
+            else
+              loginI.status = "pw"
+              loginI.select = i
+              ui.selected = "password"
+
+              pl.name = loadedCharacter[i].name
+            end
+            isMouseDown = false
+          end
+        else
+          love.graphics.draw(item.img[loadedCharacter[i].arm],xpos,ypos,0,2,2)
+        end
+
+        if buddy[loadedCharacter[i].bud] then
+          local budPos = ypos
+          while budPos+buddy[loadedCharacter[i].bud]:getHeight()*2 < ypos+64 do
+            budPos = budPos + 1
+          end
+
+          if isMouseOver(xpos,204,ypos,66) then
+            love.graphics.draw(buddy[loadedCharacter[i].bud],xpos+30+2,budPos,0,2,2)
+          else
+            love.graphics.draw(buddy[loadedCharacter[i].bud],xpos+30,budPos,0,2,2)
+          end
+        end
+        love.graphics.setColor(150,150,150)
+        love.graphics.rectangle("line",xpos,ypos,204,66)
+
+        ypos = ypos + 68
+      end
+    end
+
       if isMouseOver(xpos,204,ypos,66) then
         love.graphics.setColor(100,100,100)
-      else
-        love.graphics.setColor(50,50,50)
-      end
-
-      love.graphics.rectangle("fill",xpos,ypos,204,66)
-      love.graphics.setColor(255,255,255)
-      love.graphics.setFont(font)
-      love.graphics.printf( loadedCharacter[i].name , xpos+64 , ypos , 140 , "center" )
-      love.graphics.setFont(sFont)
-      love.graphics.printf( "Level "..loadedCharacter[i].lvl.."\n"..loadedCharacter[i].arm.." ("..item.val[loadedCharacter[i].arm].." DEF)\n"..loadedCharacter[i].wep.." ("..item.val[loadedCharacter[i].wep].." ATK)", xpos+64 , ypos+font:getHeight() , 140 , "center")
-
-      if isMouseOver(xpos,204,ypos,66) then
-        love.graphics.draw(item.img[loadedCharacter[i].arm],xpos+4,ypos,0,2,2)
         if isMouseDown then
-          if loadedCharacter[i].pw then
-            pl.name = loadedCharacter[i].name
-            pl.cinput = loadedCharacter[i].pw
-            login()
-          else
-            loginI.status = "pw"
-            loginI.select = i
-            ui.selected = "password"
-          end
+          loginI.status = "create"
+          loginI.select = #loadedCharacter+1
+          love.window.showMessageBox("set lc","setlc")
           isMouseDown = false
         end
       else
-        love.graphics.draw(item.img[loadedCharacter[i].arm],xpos,ypos,0,2,2)
+        love.graphics.setColor(50,50,50)
       end
-
-      if buddy[loadedCharacter[i].bud] then
-        local budPos = ypos
-        while budPos+buddy[loadedCharacter[i].bud]:getHeight()*2 < ypos+64 do
-          budPos = budPos + 1
-        end
-
-        if isMouseOver(xpos,204,ypos,66) then
-          love.graphics.draw(buddy[loadedCharacter[i].bud],xpos+30+2,budPos,0,2,2)
-        else
-          love.graphics.draw(buddy[loadedCharacter[i].bud],xpos+30,budPos,0,2,2)
-        end
-      end
+      love.graphics.rectangle("fill",xpos,ypos,204,66)
+      love.graphics.setColor(255,255,255)
+      love.graphics.setFont(font)
+      love.graphics.printf( "Add Character" , xpos , ypos+33-font:getHeight() , 204 , "center" )
       love.graphics.setColor(150,150,150)
       love.graphics.rectangle("line",xpos,ypos,204,66)
 
-      ypos = ypos + 68
-    end
-
-    if isMouseOver(xpos,204,ypos,66) then
-      love.graphics.setColor(100,100,100)
-      if isMouseDown then
-        loginI.status = "create"
-        loginI.select = #loadedCharacter+1
-        isMouseDown = false
-      end
-    else
-      love.graphics.setColor(50,50,50)
-    end
-    love.graphics.rectangle("fill",xpos,ypos,204,66)
-    love.graphics.setColor(255,255,255)
-    love.graphics.setFont(font)
-    love.graphics.printf( "Add Character" , xpos , ypos+33-font:getHeight() , 204 , "center" )
-    love.graphics.setColor(150,150,150)
-    love.graphics.rectangle("line",xpos,ypos,204,66)
   elseif loginI.status == "create" then
     local oypos = ypos --original ypos
     love.graphics.setColor(50,50,50)
@@ -234,6 +241,7 @@ function drawLogin() --login screen
 
     ypos = ypos + 180
   elseif loginI.status == "pw" then
+
     local oypos = ypos --original ypos
     love.graphics.setColor(50,50,50)
     love.graphics.rectangle("fill",xpos,ypos,204,180)
@@ -242,8 +250,9 @@ function drawLogin() --login screen
     --love.graphics.rectangle("fill",xpos+102-(32*1.5),ypos+font:getHeight()+3,94,94)
     love.graphics.setColor(255,255,255)
     love.graphics.draw(worldImg["Grass"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
+    love.graphics.draw(item.img["Old Cloth"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
     love.graphics.setFont(font)
-    love.graphics.printf( "Enter Password" , xpos , ypos , 204 , "center" )
+    love.graphics.printf( "#"..loginI.select..": "..pl.name , xpos , ypos , 204 , "center" )
   --  love.graphics.draw(item.img[loadedCharacter[loginI.select].arm],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
     love.graphics.setColor(150,150,150)
     love.graphics.rectangle("line",xpos+102-(32*1.5),ypos+font:getHeight()+3,96,96)
@@ -266,7 +275,7 @@ function drawLogin() --login screen
 
     ypos = ypos + font:getHeight() + 4
 
-    if isMouseOver(xpos,102,ypos,font:getHeight()) then --back
+    if isMouseOver(xpos,68,ypos,font:getHeight()) then --back button
       love.graphics.setColor(200,0,0)
       if isMouseDown then
         loginI.status = "select"
@@ -277,25 +286,37 @@ function drawLogin() --login screen
     else
       love.graphics.setColor(100,0,0)
     end
+    love.graphics.rectangle("fill",xpos,ypos,68,font:getHeight())
 
-    love.graphics.rectangle("fill",xpos,ypos,102,font:getHeight())
-    if isMouseOver(xpos+102,102,ypos,font:getHeight()) then --add
+    if isMouseOver(xpos+68,68,ypos,font:getHeight()) then --delete button
+      love.graphics.setColor(100,200,0)
+      if isMouseDown then
+        deleteChar(tonumber(loginI.select))
+      end
+    else
+      love.graphics.setColor(200,100,0)
+    end
+    love.graphics.rectangle("fill",xpos+68,ypos,68,font:getHeight())
+
+
+    if isMouseOver(xpos+136,68,ypos,font:getHeight()) then --add button
       love.graphics.setColor(0,200,0)
-      if isMouseDown and pl.name ~= "" then
-        addLoginCharacter()
-        isMouseDown = false
+      if isMouseDown then
+        login()
       end
     else
       love.graphics.setColor(0,100,0)
     end
+    love.graphics.rectangle("fill",xpos+136,ypos,68,font:getHeight())
 
-    love.graphics.rectangle("fill",xpos+102,ypos,102,font:getHeight())
     love.graphics.setColor(255,255,255)
+
 
     love.graphics.print(pstring.."|",xpos+103,ypos-(font:getHeight()+4)*2)
 
-    love.graphics.printf("Back",xpos,ypos,102,"center")
-    love.graphics.printf("Add",xpos+102,ypos,102,"center")
+    love.graphics.printf("Back",xpos,ypos,68,"center")
+    love.graphics.printf("Delete",xpos+68,ypos,68,"center")
+    love.graphics.printf("Login",xpos+136,ypos,68,"center")
 
     love.graphics.setColor(150,150,150)
     love.graphics.rectangle("line",xpos,oypos,204,180)
@@ -397,10 +418,31 @@ function addLoginCharacter()
   saveCharacters()
 end
 
+function deleteChar(i)
+
+  --love.window.showMessageBox("debug",loadedCharacter[i].lvl.." / "..pl.name)
+  if i ~= #loadedCharacter then --if we aren't the last element
+
+    loadedCharacter[i] = loadedCharacter[#loadedCharacter] --copy the element
+  --  love.window.showMessageBox("debug",loadedCharacter[i].name.." / "..loadedCharacter[#loadedCharacter].name)
+    loadedCharacter[#loadedCharacter] = nil
+  --  love.window.showMessageBox("debug",tostring(loadedCharacter[i].name).." / "..tostring(loadedCharacter[#loadedCharacter].name))
+  else
+    loadedCharacter[#loadedCharacter] = nil
+  end
+
+  saveCharacters()
+  loadCharacters()
+  loginI.status = "select"
+  isMouseDown = false
+end
+
 function saveCharacters()
   local str = ""
   for i = 1, #loadedCharacter do
-    str = str..loadedCharacter[i].arm..","..loadedCharacter[i].name..","..loadedCharacter[i].lvl..","..loadedCharacter[i].wep..","..loadedCharacter[i].bud.."\n"
+    if loadedCharacter then
+      str = str..loadedCharacter[i].arm..","..loadedCharacter[i].name..","..loadedCharacter[i].lvl..","..loadedCharacter[i].wep..","..loadedCharacter[i].bud.."\n"
+    end
   end
 
   love.filesystem.write("char.txt",str)

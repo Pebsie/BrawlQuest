@@ -38,7 +38,11 @@ function loadFog()
 end
 
 function checkFog(tile)
-  return fog[tile]
+  if fog then
+    return fog[tile]
+  else
+    return false
+  end
 end
 
 function addFog(t)

@@ -379,7 +379,7 @@ function updateFights(dt) --the big one!!
               end
             elseif pl.spell[thisPlayer] == "Slam" then
               if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*5 then
-                mob.hp[v] = mob.hp[v] - (item.val[pl.wep[thisPlayer]]*8)*dt
+                mob.hp[v] = mob.hp[v] - (item.val[pl.wep[thisPlayer]]*16)*dt
               end
             elseif pl.spell[thisPlayer] == "Polymorph" then
               if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*3 and item.val[pl.wep[thisPlayer]]+1 > mob.hp[v] then

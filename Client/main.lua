@@ -9,6 +9,7 @@ require "data/mobs"
 require "data/spells"
 --load libraries
 inspect = require("libraries/inspect")
+require "libraries/tools"
 --load modules
 require "modules/music" --this is a data/module hybrid, so it must be first
 require "modules/interface"
@@ -46,13 +47,14 @@ news = ""
 
 function love.load()
 
-love.filesystem.setIdentity( "bq" )
-local ipadd = "127.0.0.1"
+  love.filesystem.setIdentity( "bq" )
+
+  local ipadd = "127.0.0.1"
 --local ipadd = "37.59.126.91"
   netConnect(ipadd, "26656", 0.1)
   love.mouse.setVisible(false)
-  b, c, h = http.request("http://brawlquest.com/dl/news-3.txt")
-  love.filesystem.write("news.txt", b)
+  --b, c, h = http.request("http://brawlquest.com/dl/news-3.txt")
+  --love.filesystem.write("news.txt", b)
   for line in love.filesystem.lines("news.txt") do
     news = news..line.."\n"
   end
@@ -69,6 +71,7 @@ local ipadd = "127.0.0.1"
 
   loadMusic()
   bindKeys()
+  loadCharacters()
 end
 
 function love.draw()
@@ -87,7 +90,6 @@ function love.update(dt)
   updatePhase(phase,dt)
   updateMusic(dt)
   updateSpells(dt)
-  loadCharacters()
 end
 
 function love.mousepressed(button)
@@ -150,34 +152,5 @@ end
 function love.quit()
   if phase == "game" then
     saveFog("fog.txt")
-  end
-end
-
-function atComma(str, md)
-  if not md then md = "," end
-	local word = {}
-	local thisWord = 1
-	for wordd in string.gmatch(str, '([^'..md..']+)') do
-    	word[thisWord] = wordd
-    	thisWord = thisWord + 1
-    end
-
-    return word
-end
-
-function round(x)
-  if x%2 ~= 0.5 then
-    return math.floor(x+0.5)
-  end
-  return x-0.5
-end
-
-function distanceFrom(x1,y1,x2,y2) return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2) end
-
-function isMouseOver(xpos, width, ypos, height)
-  if cx > xpos and cx < xpos+width and cy > ypos and cy < ypos+height then
-    return true
-  else
-    return false
   end
 end

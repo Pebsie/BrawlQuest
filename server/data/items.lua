@@ -109,7 +109,7 @@ item.img[ti] = ""
 --spells
 local ti = "Recovery"
 item.type[ti] = "Spell"
-item.desc[ti] = "Recover 50% health"
+item.desc[ti] = "Recover 100% health"
 item.val[ti] = "30,50"
 item.lvl[ti] = 500
 item.price[ti] = "50,Gold"
@@ -118,7 +118,7 @@ item.img[ti] = ""
 local ti = "Slam"
 item.type[ti] = "Spell"
 item.desc[ti] = "Deal ATK*4 damage to all enemies within 5 meters"
-item.val[ti] = "30,50,1"
+item.val[ti] = "20,50,1"
 item.lvl[ti] = 10
 item.price[ti] = "100,Gold"
 item.img[ti] = ""

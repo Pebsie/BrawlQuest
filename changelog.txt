@@ -1,3 +1,12 @@
+Alpha v1.3
+##Content
+* Raid opened: Crypt of the Sorcerer
+* NPCs will no longer attack invincible targets
+
+##Spells
+* Recovery now heals 100% of your health and has had its cooldown reduced to 30 seconds (down from 120 seconds)
+* Slam now deals twice as much damage (ATK*8) and has a 20 second cooldown (down from 30 seconds)
+
 Alpha v1.2
 ##Graphics & UI
 * Changed the sprite for Basic Cloth

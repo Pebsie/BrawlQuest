@@ -112,7 +112,7 @@ function updatePlayers(dt)
     pl.s2t[k] = pl.s2t[k] - 1*dt
 
     if pl.spell[k] == "Recovery" then
-      pl.hp[k] = pl.hp[k] + 50*dt --increase by 10% per second
+      pl.hp[k] = pl.hp[k] + 1000*dt --increase by 10% per second
     end
 
     if pl.hp[k] > 100 then pl.hp[k] = 100 end

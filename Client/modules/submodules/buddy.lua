@@ -26,7 +26,7 @@ function updateBuddies(dt)
 end
 
 function drawBuddy(name)
-  if bud[name] and tostring(buddy[getPlayer(name,"buddy")]) ~= "nil" then
+  if bud[name] and tostring(buddy[getPlayer(name,"buddy")]) ~= "nil" and player[name].online == "true" then
     if pl.state == "world" then
       love.graphics.draw(buddy[getPlayer(name,"buddy")],bud[name].x-mx,bud[name].y-my)
     elseif pl.state == "fight" then
