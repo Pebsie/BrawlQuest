@@ -48,6 +48,13 @@ item.lvl[ti] = 15
 item.price[ti] = "100,Adver"
 item.img[ti] = ""
 
+local ti = "Eldertouched Plate"
+item.type[ti] = "arm"
+item.val[ti] = 50
+item.lvl[ti] = 30
+item.price[ti] = "500,Adver"
+item.img[ti] = ""
+
 --weapons
 local ti = "Long Stick"
 item.type[ti] = "wep"

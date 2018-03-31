@@ -362,7 +362,6 @@ function drawFightUI(x,y)
   love.graphics.rectangle("fill",x+559,y+16,64,64) --spell 2
   love.graphics.rectangle("fill",x+6,y+6,32,32) --character portrait
   love.graphics.setColor(43,43,43)
-  love.graphics.rectangle("fill",x+173,y+7,268,79)
 
   --stats
   love.graphics.setColor(0,255,0)
@@ -407,12 +406,16 @@ function drawFightUI(x,y)
   end
   love.graphics.printf(round(item.val[pl.arm] - pl.armd),x+114,y+72,24,"center")
 
+
   --action prompts (text)
   love.graphics.setColor(200,200,255)
   love.graphics.print("R",x+45+5,y+56+23)
   love.graphics.setFont(bFont)
   love.graphics.print("Q",x+464+28,y-5)
   love.graphics.print("E",x+559+28,y-5)
+
+
+  love.graphics.rectangle("fill",x+173,y+7,268,79) --
 
   --spell timers
   love.graphics.setColor(255,0,0)
@@ -422,6 +425,8 @@ function drawFightUI(x,y)
       if pl.s2t > 0 then
         love.graphics.print(round(pl.s2t),x+569,y+16)
       end
+
+  drawChat(x+173,y+7,268,79)
 
   --border
   love.graphics.setColor(0,0,0)

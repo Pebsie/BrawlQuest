@@ -113,6 +113,12 @@ function netUpdate(dt)
             pl.dt = tonumber(param[19])
             pl.str = param[20]
 
+            local i = loginI.select
+            loadedCharacter[i].arm = pl.arm
+            loadedCharacter[i].wep = pl.wep
+            loadedCharacter[i].bud = pl.buddy
+            saveCharacters()
+
 
           end
         elseif cmd == "world" then --update world
@@ -123,7 +129,8 @@ function netUpdate(dt)
           local plyrs = tonumber(param[1])
           local fghts = tonumber(param[2])
           world.weather = param[3]
-          local tparam = 4
+          local bcs = tonumber(param[4]) --broadcast chats
+          local tparam = 5
           for i = 1, plyrs do --this is awful please stop doing this
             if param[tparam] == "user" then
               local name = param[tparam+1]
@@ -137,6 +144,7 @@ function netUpdate(dt)
               updatePlayer(name,"state",param[tparam+4])
               updatePlayer(name,"spell",param[tparam+5])
               updatePlayer(name,"buddy",param[tparam+6])
+              if name == pl.name then pl.buddy = param[tparam+6] end
               updatePlayer(name,"online",param[tparam+7])
 
               tparam = tparam + 8
@@ -151,6 +159,11 @@ function netUpdate(dt)
               --love.window.showMessageBox("debug","There's a fight on tile #"..i)
               tparam = tparam + 2
             end
+          end
+
+          for i = 1, bcs do --broadcast chats
+            newChatMsg(param[tparam],param[tparam+1],param[tparam+2])
+            tparam = tparam + 3
           end
         elseif cmd == "fight" then
           local mbs = tonumber(param[1])

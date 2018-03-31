@@ -112,7 +112,7 @@ function drawLogin() --login screen
               loginI.status = "pw"
               loginI.select = i
               ui.selected = "password"
-
+              pl.cinput = ""
               pl.name = loadedCharacter[i].name
             end
             isMouseDown = false
@@ -145,8 +145,11 @@ function drawLogin() --login screen
         if isMouseDown then
           loginI.status = "create"
           loginI.select = #loadedCharacter+1
-          love.window.showMessageBox("set lc","setlc")
+        --  love.window.showMessageBox("set lc","setlc")
           isMouseDown = false
+          pl.cinput = ""
+          pl.name = ""
+          ui.selected = "username"
         end
       else
         love.graphics.setColor(50,50,50)
@@ -217,9 +220,11 @@ function drawLogin() --login screen
     love.graphics.rectangle("fill",xpos,ypos,102,font:getHeight())
     if isMouseOver(xpos+102,102,ypos,font:getHeight()) then --add
       love.graphics.setColor(0,200,0)
-      if isMouseDown and pl.name ~= "" then
-        addLoginCharacter()
-        isMouseDown = false
+      if isMouseDown or love.keyboard.isDown("return") then
+        if string.sub(pl.name, 1, 1) ~= "" then
+          addLoginCharacter()
+          isMouseDown = false
+        end
       end
     else
       love.graphics.setColor(0,100,0)
@@ -301,7 +306,7 @@ function drawLogin() --login screen
 
     if isMouseOver(xpos+136,68,ypos,font:getHeight()) then --add button
       love.graphics.setColor(0,200,0)
-      if isMouseDown then
+      if isMouseDown or love.keyboard.isDown("return") then
         login()
       end
     else
@@ -404,13 +409,15 @@ function createLoginCanvas()
 end
 
 function addLoginCharacter()
-  loadedCharacter[loginI.select] = {}
-  loadedCharacter[loginI.select].arm = "Old Cloth"
-  loadedCharacter[loginI.select].name = pl.name
-  loadedCharacter[loginI.select].lvl = 1
-  loadedCharacter[loginI.select].wep = "Long Stick"
-  loadedCharacter[loginI.select].bud = "None"
-  loadedCharacter[loginI.select].pw = pl.cinput
+  if pl.name ~= "" and pl.cinput ~= "" then
+    loadedCharacter[loginI.select] = {}
+    loadedCharacter[loginI.select].arm = "Old Cloth"
+    loadedCharacter[loginI.select].name = pl.name
+    loadedCharacter[loginI.select].lvl = 1
+    loadedCharacter[loginI.select].wep = "Long Stick"
+    loadedCharacter[loginI.select].bud = "None"
+    loadedCharacter[loginI.select].pw = pl.cinput
+  end
   loginI.status = "select"
   pl.name = ""
   pl.cinput = ""
@@ -440,7 +447,7 @@ end
 function saveCharacters()
   local str = ""
   for i = 1, #loadedCharacter do
-    if loadedCharacter then
+    if loadedCharacter and loadedCharacter[i].bud then
       str = str..loadedCharacter[i].arm..","..loadedCharacter[i].name..","..loadedCharacter[i].lvl..","..loadedCharacter[i].wep..","..loadedCharacter[i].bud.."\n"
     end
   end

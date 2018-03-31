@@ -17,6 +17,7 @@ require "modules/players"
 require "modules/fight"
 require "modules/world"
 require "modules/char"
+require "modules/chat"
 
 
 stdSW = 1920/2
@@ -30,7 +31,7 @@ function love.load()
   newPlayer("a","a")
  givePlayerItem("a","Orb of Power",1000)
  givePlayerItem("a","Potent Healing Potion",1000)
- givePlayerItem("a","Adver",1000000)
+ givePlayerItem("a","Eldertouched Plate",1000000)
  givePlayerItem("a","Adver Ring",1)
  --givePlayerItem("pebsie","Guardian's Blade",1)
   --uploadCharacter("Pebsie")
@@ -66,9 +67,10 @@ function love.update(dt)
           if loginPlayer(namePass[1], namePass[2]) then
             udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
             addMsg("They are who they claim to be. Let them in, boys!")
+            --addChatMsg("SERVER",namePass[1].." entered the world.")
           elseif getPlayerID(namePass[1]) then
             udp:sendto(string.format("%s %s %s", namePass[1], "login", "false"), msg_or_ip, port_or_nil)
-            addMsg("He wasn't "..namePass[1]..".")
+           addMsg("He wasn't "..namePass[1]..".")
           else
             newPlayer(namePass[1],namePass[2])
 
@@ -86,7 +88,7 @@ function love.update(dt)
           parms = atComma(parms)
           movePlayer(parms[1],parms[2])
         elseif cmd == "world" then
-          local msgToSend = countPlayers().."|"..countFights().."|"..weather.."|"
+          local msgToSend = countPlayers().."|"..countFights().."|"..weather.."|"..countChats().."|"
           local name = parms
           pl.timeout[name] = 5
           --compile location of current players, including ourselves
@@ -107,6 +109,11 @@ function love.update(dt)
             if world[i].isFight == true then
              msgToSend = msgToSend..string.format("fight|%s|", i)
            end
+         end
+
+         c = getChats()
+         for i = 1, #c do
+           msgToSend = msgToSend..string.format("%s|%s|%s|", c[i].sender, c[i].msg, c[i].id)
          end
 
           udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
@@ -208,6 +215,10 @@ function love.update(dt)
           if world[pl.t[name]].tile == "Graveyard" then
             setPlayerDT(name,pl.t[name])
           end
+        elseif cmd == "chat" then
+          param = atComma(parms)
+
+          addChatMsg(param[1],param[2])
         end
 
 
@@ -224,6 +235,7 @@ function love.update(dt)
   updateFights(dt)
   updateWorld(dt)
   updatePlayers(dt)
+  updateChat(dt)
 
   saveTime = saveTime - 1*dt
   if saveTime < 0 then

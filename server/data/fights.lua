@@ -74,4 +74,8 @@ fs.rewards["Fire Giant"] = "Adver,500,100,Protector,1,10"
 
 fs["Giants"] = "Giant;1;Ice Giant;1;Fire Giant;1"
 fs.spawnTime["Giants"] = 1
-fs.rewards["Giants"] = "Quia,200,1,Spirit of Death,1,50"
+fs.rewards["Giants"] = "Quia,350,100,Spirit of Death,1,50"
+
+fs["Dungeon: The Sorcerer"] = "Mortus;1;speak,Sorcerer,So this is what it has come to?,3;3;speak,Mortus,You must've known that this day would come!,3;3;speak,Sorcerer,I gave you immortality! It was all for you mortals. I just wanted to help you!,4;4;speak,Mortus,The scriptures say that The Elder Dragons didn't want us to have immortality. You are a fool to defy the gods.,5;5;speak,Sorcerer,You know not of what you speak...,3;3;Sorcerer;1;"
+fs.spawnTime["Dungeon: The Sorcerer"] = 1
+fs.rewards["Dungeon: The Sorcerer"] = "Quia,700,100,Dragonling,1,50,Eldertouched Plate,1,10"

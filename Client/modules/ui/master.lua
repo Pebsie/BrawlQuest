@@ -5,7 +5,7 @@ require "modules/ui/speak"
 
 function drawUI(dt)
   drawLootBox(sw/2-100,(sh/3)*2-(72/2))
-  drawSpeak(sw/2-100,(sh/3)*2-(72/2))
+  drawSpeak(realScreenWidth/2-100, realScreenHeight/2)
 end
 
 function updateUI(dt)

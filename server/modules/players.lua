@@ -40,6 +40,8 @@ acc = {} --identified by number
 acc.username = {}
 acc.password = {}
 
+chat = {}
+
 function newPlayer(name, password)
   acc.username[#acc.username + 1] = name
   acc.password[#acc.password + 1] = password

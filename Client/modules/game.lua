@@ -50,11 +50,11 @@ function updateGame(dt)
 
     timeToMove = timeToMove - 1*dt
     if timeToMove < 0 then
-      if love.keyboard.isDown("w") then movePlayer("up") timeToMove = 0.25
-      elseif love.keyboard.isDown("s") then movePlayer("down") timeToMove = 0.25
-      elseif love.keyboard.isDown("d") then movePlayer("right") timeToMove = 0.25
-      elseif love.keyboard.isDown("a") then movePlayer("left") timeToMove = 0.25
-      else timeTomove = 0.1 end
+      if love.keyboard.isDown("w") then movePlayer("up") timeToMove = 0.5
+      elseif love.keyboard.isDown("s") then movePlayer("down") timeToMove = 0.5
+      elseif love.keyboard.isDown("d") then movePlayer("right") timeToMove = 0.5
+      elseif love.keyboard.isDown("a") then movePlayer("left") timeToMove = 0.5
+      else timeToMove = 0.01 end
     end
 
     if pl.x then

@@ -63,6 +63,13 @@ item.lvl[ti] = 15
 item.price[ti] = "100,Adver"
 item.img[ti] = love.graphics.newImage("img/human/Legend.png")
 
+local ti = "Eldertouched Plate"
+item.type[ti] = "arm"
+item.val[ti] = 50
+item.lvl[ti] = 30
+item.price[ti] = "500,Adver"
+item.img[ti] = love.graphics.newImage("img/human/Eldertouched Plate.png")
+
 --weapons
 local ti = "Long Stick"
 item.type[ti] = "wep"

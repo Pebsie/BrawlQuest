@@ -1,6 +1,10 @@
 require "modules/ui/login"
 require "modules/submodules/tooltip"
 require "modules/ui/master"
+require "modules/ui/chat"
+
+--temp
+newChatMsg("SERVER","Welcome to BrawlQuest: The Cursed Tribe",1)
 
 --ui variables, use as you wish
 ui = {}
@@ -20,8 +24,9 @@ function drawPhase(phase)
     love.graphics.setColor(0,0,0,ui.selected)
     love.graphics.rectangle("fill",0,0,sw,sh)
     love.graphics.setColor(255,255,255,ui.selected)
-    love.graphics.setFont(bFont)
-    love.graphics.print("PEB.SI",sw/2-(bFont:getWidth("PEB.SI")/2),sh/4)
+  --  love.graphics.print("PEB.SI",sw/2-(bFont:getWidth("PEB.SI")/2),sh/4)
+    love.graphics.rectangle("fill",sw/2-(uiImg["freshplay"]:getWidth()/2),sh/2-200,uiImg["freshplay"]:getWidth(),uiImg["freshplay"]:getHeight())
+    love.graphics.draw(uiImg["freshplay"],sw/2-(uiImg["freshplay"]:getWidth()/2),sh/2-200)
     love.graphics.draw(uiImg["love"],sw/2-(uiImg["love"]:getWidth()/2),sh/2)
   elseif phase == "login" then
     drawLogin()
@@ -67,7 +72,9 @@ function updatePhase(phase, dt)
 end
 
 function love.textinput(t)
-  pl.cinput = pl.cinput..t
+  if t ~= "," then --as this is used for server commands
+    pl.cinput = pl.cinput..t
+  end
 
   if phase == "login" then
     if ui.selected == "username" then
@@ -95,6 +102,8 @@ function love.keypressed(key)
         elseif ui.selected == "password" then addLoginCharacter() end--login() end
       elseif phase == "read" then
         phase = "login"
+      elseif phase == "game" then
+        if ui.selected == "chat" then ui.selected = 0 love.keyboard.setTextInput(false) sendChat(pl.cinput) else pl.cinput = "" ui.selected = "chat" love.keyboard.setTextInput(true) end
       end
   elseif key == "u" then
     if phase == "game" then
@@ -135,7 +144,7 @@ function love.keypressed(key)
         pl.spell = pl.s2
       end
     end
-  elseif key == "f" then
+  elseif key == "escape" then
     fullscreen, fstype = love.window.getFullscreen( )
     if fullscreen == true then
       love.window.setFullscreen(false)
