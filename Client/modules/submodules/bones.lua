@@ -1,4 +1,33 @@
 bones = {}
+bonesDone = {}
+
+
+function addBones(mobType, x, y, amount,bid)
+  local canCreate = true
+  if bid then
+    if bonesDone[bid] == true then
+      canCreate = false
+    end
+  end
+
+  if canCreate then
+    if not amount then amount = 32 end
+
+    for i = #bones+1, #bones+amount do
+      bones[i] = {}
+      bones[i].x = x + love.math.random(1, 32)
+      bones[i].y = y + love.math.random(1, 32)
+      bones[i].xv = love.math.random(-100, 100)
+      bones[i].yv = love.math.random(-100, 100)
+      bones[i].t = mobType
+      bones[i].rotation = love.math.random(1, 360)
+      bones[i].a = 255
+      if bid then
+        bonesDone[bid] = true
+      end
+    end
+  end
+end
 
 function drawBones()
   for i = 1, #bones do
@@ -52,20 +81,5 @@ function updateBones(dt)
       bones = {}
     end
   --  bones[i].rotation = bones[i].rotation + bones[i].xv
-  end
-end
-
-
-function addBones(mobType, x, y, amount)
-  if not amount then amount = 32 end
-  for i = #bones+1, #bones+amount do
-    bones[i] = {}
-    bones[i].x = x + love.math.random(1, 32)
-    bones[i].y = y + love.math.random(1, 32)
-    bones[i].xv = love.math.random(-100, 100)
-    bones[i].yv = love.math.random(-100, 100)
-    bones[i].t = mobType
-    bones[i].rotation = love.math.random(1, 360)
-    bones[i].a = 255
   end
 end

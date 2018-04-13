@@ -14,18 +14,27 @@ Alpha v1.3
 * Recovery now heals 100% of your health and has had its cooldown reduced to 30 seconds (down from 120 seconds)
 * Slam now deals twice as much damage (ATK*8) and has a 20 second cooldown (down from 30 seconds)
 
-##Misc
+##UI
 * Added new character select screen
 	* To login as a character that already exists, press "Add New" and enter your username and password
 * Added chat
 	* Press enter and start typing, when you press enter again the message will be sent
 	* Currently all chat is global
-* Player buddies are now only displayed if the player is online
-* Buddies are now drawn underneath their owners
+* Added floating combat text
 * FreshPlay logo is now displayed on the splash screen
-* Website character profiles now display attack bonuses from Orbs of Power
 * ESC now switches between fullscreen / windowed (rather than F)
 * NPC dialogue is now centred regardless of zoom level
+* Fixed bones - enjoy the chaos!!
+* "Earned Loot" window no longer displays for loot losses (such as the gold lost when purchasing an item)
+
+##Misc
+* Player buddies are now only displayed if the player is online
+* Buddies are now drawn underneath their owners
+* Website character profiles now display attack bonuses from Orbs of Power
+* Added old theme tune back into rotation
+* Zooming is now at set levels
+* The server now tracks last login and displays this on HTML character profiles
+* New voice lines
 
 Alpha v1.2
 ##Graphics & UI

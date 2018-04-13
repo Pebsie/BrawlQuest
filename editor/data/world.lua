@@ -51,17 +51,34 @@ worldImg["Red Walkway"] = love.graphics.newImage("img/world/objects/Red Walkway.
 worldImg["Wall Mounted Torch"] = love.graphics.newImage("img/world/objects/Wall Mounted Torch.png")
 worldImg["Curse"] = love.graphics.newImage("img/world/objects/Curse.png")
 worldImg["Hole"] = love.graphics.newImage("img/world/objects/Hole.png")
+worldImg["Beach Tree"] = love.graphics.newImage("img/world/objects/Beach Tree.png")
+worldImg["Campfire"] = love.graphics.newImage("img/world/objects/Campfire.png")
+worldImg["Jungle Tree"] = love.graphics.newImage("img/world/objects/Jungle Tree.png")
+worldImg["Rock"] = love.graphics.newImage("img/world/objects/Rock.png")
+worldImg["Supplies"] = love.graphics.newImage("img/world/objects/Supplies.png")
+worldImg["Mortus"] = love.graphics.newImage("img/world/objects/Mortus.png")
+worldImg["Skeleton"] = love.graphics.newImage("img/world/objects/Skeleton1.png")
+worldImg["Skeleton2"] = love.graphics.newImage("img/world/objects/Skeleton2.png")
+worldImg["Skull"] = love.graphics.newImage("img/world/objects/Skull.png")
+worldImg["Skulls"] = love.graphics.newImage("img/world/objects/Skulls.png")
+worldImg["Web"] = love.graphics.newImage("img/world/objects/Web.png")
+worldImg["Carus"] = love.graphics.newImage("img/world/objects/Carus.png")
+worldImg["Glyph"] = love.graphics.newImage("img/world/objects/Glyph.png")
+worldImg["Mushroom"] = love.graphics.newImage("img/world/objects/Mushroom.png")
+worldImg["Barrel"] = love.graphics.newImage("img/world/objects/Barrel.png")
+worldImg["Big Chest"] = love.graphics.newImage("img/world/objects/Big Chest.png")
+worldImg["Huts"] = love.graphics.newImage("img/world/objects/Huts.png")
 
 function setWColour(wname)
-  if wname == "Grass" then
+  if wname == "Grass" or wname == "Snow" or wname == "Curse" or wname == "Cave Floor" then
     love.graphics.setColor(0,255,0)
-  elseif wname == "Camp" then
+  elseif wname == "Camp" or wname == "Blacksmith" then
     love.graphics.setColor(255,100,100)
   elseif wname == "Boulder" then
     love.graphics.setColor(150,150,150)
   elseif wname == "Dead Tree" then
     love.graphics.setColor(140, 65, 19)
-  elseif wname == "Dungeon" then
+  elseif wname == "Dungeon" or wname == "Stone Floor" or wname == "Red Walkway" then
     love.graphics.setColor(255,100,100)
   elseif wname == "Farm" then
     love.graphics.setColor(232, 182, 76)
@@ -75,7 +92,7 @@ function setWColour(wname)
     love.graphics.setColor(200,200,200)
   elseif wname == "Sand" then
     love.graphics.setColor(255, 249, 96)
-  elseif wname == "Tree" then
+  elseif wname == "Tree" or wname == "Snowy Tree" or wname == "Jungle Tree" or wname == "Beach Tree" then
     love.graphics.setColor(0,150,0)
   elseif wname == "Village" then
     love.graphics.setColor(109, 73, 35)
@@ -87,5 +104,7 @@ function setWColour(wname)
     love.graphics.setColor(255,249,150)
   elseif wname == "Cacuts" then
     love.graphics.setColor(0,100,0)
+  else
+    love.graphics.setColor(0,0,0)
   end
 end

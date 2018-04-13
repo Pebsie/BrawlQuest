@@ -3,10 +3,11 @@ function loadMusic()
   music.title = {}
   music.world = {}
   music.fight = {}
+  music.raid = {}
   music.weather = {}
 
   music.title[1] = love.audio.newSource("sound/music/title.mp3", "stream")
-  --music.title[2] = love.audio.newSource("sound/music/title2.mp3", "stream")
+  music.title[2] = love.audio.newSource("sound/music/title-old.mp3", "stream")
 
   music.world[1] = love.audio.newSource("sound/music/world1.mp3", "stream")
   music.world[2] = love.audio.newSource("sound/music/world2.mp3", "stream")
@@ -21,6 +22,10 @@ function loadMusic()
   music.fight[3] = love.audio.newSource("sound/music/fight3.mp3", "stream")
   music.fight[4] = love.audio.newSource("sound/music/fight4.mp3", "stream")
 
+  music.raid[1] = love.audio.newSource("sound/music/raid1.mp3","stream")
+  music.raid[2] = love.audio.newSource("sound/music/raid2.mp3","stream")
+  music.raid[3] = love.audio.newSource("sound/music/raid3.mp3","stream")
+
   music.weather["snow"] = love.audio.newSource("sound/sfx/snow.mp3","stream")
 
   music.curPlay = music.title[love.math.random(1, #music.title)]
@@ -33,7 +38,11 @@ function updateMusic(dt)
   if phase == "game" and setting.audio == true and music[pl.state] then --diff code for each type
     if not music.curPlay:isPlaying() then
       if love.math.random(1, 200) == 1 then
-        music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
+        if pl.state == "fight" and string.lower(string.sub(world[pl.t].fight,1,7)) == "dungeon" or string.lower(string.sub(world[pl.t].fight,1,4)) == "Raid" then
+          music.curPlay = music["raid"][love.math.random(1, #music["raid"])]
+        else
+          music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
+        end
         music.curPlay:setLooping(false)
       --love   music.curPlay:setVolume(0.05)
         love.audio.play(music.curPlay)

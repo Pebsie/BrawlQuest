@@ -315,22 +315,42 @@ function updateFights(dt) --the big one!!
               mob.target.y[v] = pl.y[mob.target.t[v]]+16
             else --player is dead!
               if mb.friend[mob[v]] then --this is a friendly mob who will attack other mobs
-                local curMaxHP = 1000 --for changing targets
+                local curMaxHP = 1000000 --for changing targets
+                local hasFoundTarget = false
+
                 for k = 1,#mobInfo/8 do
-                  if k ~= v and not mb.friend[mob[k]] and string.sub(mob[k],1,5) ~= "speak" then --we don't want to attack ourselves nor other friends
+                  if k ~= v and not mb.friend[mob[k]] and string.sub(mob[k],1,5) ~= "speak" and mob.target.t[v] ~= "spread" then --we don't want to attack ourselves nor other friends
                     --addMsg("Is "..distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]).." < "..curMaxDist)
                     if curMaxHP > mob.hp[k] then
                       mob.target.x[v] = mob.x[k]+mb.img[mob[k]]/2
                       mob.target.y[v] = mob.y[k]+mb.img[mob[k]]/2
+                      mob.target.t[v] = "mob"
                     --  addMsg("Mob #"..v.." switched target.")
+                      hasFoundTarget = true
                       curMaxHP = mob.hp[k]
                     end
+                  end
 
-                    if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < mb.rng[mob[v]] then
+                  if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < mb.rng[mob[v]] and mob.target.t[v] == "mob" then
                       mob.hp[k] = mob.hp[k] - mb.atk[mob[v]]*dt
                       mob.hp[v] = mob.hp[v] - mb.atk[mob[k]]*dt
+                      if not mb.friend[mob[k]] and love.math.random(1,10) == 1 then
+                        mob.target.t[v] = "spread"
+                        mob.target.x[v] = mob.x[v] + love.math.random(-50,50)
+                        mob.target.y[v] = mob.y[v] + love.math.random(-50,50)
+                        hasFoundTarget = false
+                      end
                     end
-                  end
+                end
+
+                if hasFoundTarget == false and mob.target.t[v] ~= "rnd" then
+                  mob.target.x[v] = love.math.random(1, stdSW)
+                  mob.target.y[v] = love.math.random(1, stdSH)
+                  mob.target.t[v] = "rnd"
+                elseif mob.target.t[v] == "rnd" and distanceFrom(mob.target.x[v],mob.target.y[v],mob.x[v],mob.y[v]) < 128 and love.math.random(1,10000) == 1 then
+                  mob.target.t[v] = "unset" --this will reset targetting
+                elseif mob.target.t[v] == "spread" then
+
                 end
               else
                 local freshTarget = listPlayersInFight(i)
@@ -406,15 +426,31 @@ function updateFights(dt) --the big one!!
             end
 
               --cast spell here
+              --mb.sp2[tm] = "stat;hp;6000;evolve,Red Dragon"
+            if string.sub(spellCast,1,5) == "stat;" then --this must come first so that we don't have to write a different version of each spell for a stat cast result
+              local statCast = atComma(spellCast,";")
+
+              if statCast[2] == "hp" then
+                if tonumber(statCast[3]) >= mob.hp[v] then
+                  spellCast = statCast[4]
+                end
+              end
+            end
+
               if spellCast == "suicide" then
                 mob.hp[v] = 0
               elseif string.sub(spellCast,1,6) == "spawn:" or string.sub(spellCast,1,6) == "spawn," then
                 spawnMob(i,string.sub(spellCast,7),mob.x[v],mob.y[v])
+              elseif string.sub(spellCast,1,7) == "evolve," then
+                spawnMob(i,string.sub(spellCast,8),mob.x[v],mob.y[v])
+                mob.hp[v] = 0
               elseif string.sub(spellCast,1,10) == "spawnFeet," then
                 for k = 1, #playersInThisFight do
                   local thisPlayer = getPlayerName(tonumber(playersInThisFight[k]))
                   spawnMob(i,string.sub(spellCast,11),pl.x[thisPlayer],pl.y[thisPlayer])
                 end
+              elseif string.sub(spellCast,1,12) == "spawnRandom," then
+                spawnMob(i,string.sub(spellCast,13),love.math.random(1, stdSW),love.math.random(1,stdSH))
               elseif string.sub(spellCast,1,4) == "dmg," then
                 for k = 1, #playersInThisFight do --cycle through plkayers
                   --print("Player #"..k.." ID of "..playersInThisFight[k])

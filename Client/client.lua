@@ -202,6 +202,12 @@ function netUpdate(dt)
               local k = findMob("id",param[tparam+5])
               if k then
                 --new version of mob (order rejigged) so set x and y
+                if tonumber(getMob(k,"x")) > stdSW or tonumber(getMob(k,"x")) < 0 and tonumber(getMob(k,"y")) > stdSH then --mob is outside bounds of screen
+                  local boneCount = 10
+                  if getMob(i,"mhp") > 2000 and getMob(i,"mhp") < 20000 then boneCount = 100 elseif getMob(i,"mhp") > 30 then boneCount = 15 end
+                --  addBones(getMob(i,"type"),getMob(i,"x")+mb.img[getMob(i,"type")]:getWidth()/2,getMob(i,"y")+mb.img[getMob(i,"type")]:getHeight()/2,boneCount,getMob(i,"id"))
+                end
+
                 updateMob(i,"x",tonumber(getMob(k,"x")))
                 updateMob(i,"y",tonumber(getMob(k,"y")))
              end
@@ -222,7 +228,15 @@ function netUpdate(dt)
                   --addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
                 end
                 love.audio.play(sfx["hit"])
+
+                if not mb.friend[getMob(i,"type")] and getMob(i,"id") == param[tparam+5] then
+                  createFloat("-"..round(getMob(i,"hp")-tonumber(param[tparam+3])),255,100,100,getMob(i,"x")+mb.img[getMob(i,"type")]:getWidth()/2,getMob(i,"y"),getMob(i,"id"),false)
+                end
               end
+            end
+
+            if getMob(i,"id") ~= param[tparam+5] then
+            --  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
             end
 
             updateMob(i,"hp",tonumber(param[tparam+3]))

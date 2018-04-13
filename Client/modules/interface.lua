@@ -2,6 +2,7 @@ require "modules/ui/login"
 require "modules/submodules/tooltip"
 require "modules/ui/master"
 require "modules/ui/chat"
+require "modules/ui/floats"
 
 --temp
 newChatMsg("SERVER","Welcome to BrawlQuest: The Cursed Tribe",1)
@@ -16,6 +17,8 @@ ui.window.content = "up"
 
 sw,sh = love.graphics.getDimensions()
 
+newScale = 1
+
 function drawPhase(phase)
   if phase == "splash" then
     if ui.window.content == "down" then
@@ -25,7 +28,7 @@ function drawPhase(phase)
     love.graphics.rectangle("fill",0,0,sw,sh)
     love.graphics.setColor(255,255,255,ui.selected)
   --  love.graphics.print("PEB.SI",sw/2-(bFont:getWidth("PEB.SI")/2),sh/4)
-    love.graphics.rectangle("fill",sw/2-(uiImg["freshplay"]:getWidth()/2),sh/2-200,uiImg["freshplay"]:getWidth(),uiImg["freshplay"]:getHeight())
+    love.graphics.rectangle("fill",round(sw/2-(uiImg["freshplay"]:getWidth()/2)),sh/2-200,uiImg["freshplay"]:getWidth(),uiImg["freshplay"]:getHeight())
     love.graphics.draw(uiImg["freshplay"],sw/2-(uiImg["freshplay"]:getWidth()/2),sh/2-200)
     love.graphics.draw(uiImg["love"],sw/2-(uiImg["love"]:getWidth()/2),sh/2)
   elseif phase == "login" then
@@ -61,13 +64,10 @@ function updatePhase(phase, dt)
   elseif phase == "game" then
     updateGame(dt)
     updateUI(dt)
-    if love.keyboard.isDown("z") then
-      scale = scale + 0.5*dt
-        love.resize(love.graphics.getWidth(),love.graphics.getHeight())
-    elseif love.keyboard.isDown("x") then
-      scale = scale - 0.5*dt
-        love.resize(love.graphics.getWidth(),love.graphics.getHeight())
-    end
+
+    if newScale > scale+0.05 then scale = scale + 0.5*dt love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+    elseif newScale < scale-0.05 then scale = scale - 0.5*dt love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+    elseif newScale ~= scale then newScale = scale love.resize(love.graphics.getWidth(),love.graphics.getHeight()) end
   end
 end
 
@@ -111,10 +111,10 @@ function love.keypressed(key)
       requestWorldInfo()
     end
   elseif key == "z" then
-  --  scale = scale + 0.05
-  love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+    newScale = newScale + 0.25
+    love.resize(love.graphics.getWidth(),love.graphics.getHeight())
   elseif key == "x" then
---    scale = scale - 0.05
+    newScale = newScale - 0.25
     love.resize(love.graphics.getWidth(),love.graphics.getHeight())
   elseif key == "left" then
     if phase == "login" then

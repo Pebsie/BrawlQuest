@@ -1,11 +1,13 @@
 chat = {}
 chatPosition = 0
 
-function newChatMsg(sender,message,id)
+function newChatMsg(sender,message,id,ignoreSender)
+  if not ignoreSend then ignoreSend = false end
   local haveMessage = false --do we already have this chat message? based on id
 
   for i = 1, #chat do
     if chat[i].id == id then haveMessage = true end --we already have this message!
+    if not ignoreSender and chat[i].sender == pl.name then haveMessage = true end
   end
 
   if haveMessage == false then
@@ -21,7 +23,7 @@ end
 function sendChat(chatToSend)
   --TODO: send chat messages
   netSend("chat", pl.name..","..pl.cinput)
---  newChatMsg(pl.name,pl.cinput,love.math.random(10000,999999))
+  newChatMsg(pl.name,pl.cinput,love.math.random(10000,999999),true)
 end
 
 function drawChat(x,y,width,height)

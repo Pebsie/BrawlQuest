@@ -22,6 +22,8 @@ updateTime = {}
 updateTime[1] = 0.1 --fight info
 updateTime[2] = 2 --world info
 updateTime[3] = 0.2 --player info
+updateTime[4] = 5 --time before we can talk again
+lastTalk = "anonymous"
 
 function createFightCanvas(t)
   love.graphics.setColor(255,255,255,255)
@@ -81,6 +83,7 @@ love.graphics.scale(scale,scale)
   --love.graphics.print("FIGHT!")
 
   drawBones()
+  drawFloats()
 
   for i = 1, countMobs() do
     if mb.img[mob[i].type] then
@@ -99,7 +102,7 @@ love.graphics.scale(scale,scale)
             love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2+xoff, mob[i].y+mb.img[mob[i].type]:getHeight()/2+yoff,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
           end
 
-          if getMob(i,"hp") > 0 and mb.friend[mob[i].type] ~= true then
+          if getMob(i,"hp") > 0 and mb.friend[mob[i].type] ~= true and getMob(i,"hp") < 19999 then
             love.graphics.setColor(255,0,0)
             love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,(mob[i].hp/getMob(i,"mhp"))*mb.img[mob[i].type]:getWidth(),4)
             love.graphics.setColor(100,0,0)
@@ -242,8 +245,10 @@ function updateFight(dt)
        mob[i].y =  mob[i].ty
     end
 
-    if love.math.random(1, 1000) == 1 and mb.sfx[mob[i].type] then
+    if love.math.random(1, 100) == 1 and mb.sfx[mob[i].type] and updateTime[4] < 0 and mob[i].type ~= lastTalk then
       love.audio.play(mb.sfx[mob[i].type][love.math.random(1,#mb.sfx[mob[i].type])])
+      updateTime[4] = love.math.random(1,10)
+      lastTalk = mob[i].type
     end
 
     if distanceFrom(pl.x, pl.y, mob[i].x, mob[i].y) < mb.rng[mob[i].type] and mob[i].hp > 0 then
@@ -253,7 +258,7 @@ function updateFight(dt)
   end
 
   --bones
-
+  updateTime[4] = updateTime[4] - 1*dt
 
   for i = 1, sw/64 do
     if not lclouds.x[i] or not lclouds.y[i] then
@@ -276,8 +281,10 @@ end
 
 function killMob(i)
 --love   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),32)
+
   addMob(i) --reset this mob for possible reuse
   love.audio.play(sfx["kill"])
+
 end
 
 function killMobs()

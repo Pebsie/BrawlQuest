@@ -28,11 +28,13 @@ print("Entering server loop...")
 
 function love.load()
   loadGame()
-  newPlayer("a","a")
+  --newPlayer("a","a")
  givePlayerItem("a","Orb of Power",1000)
  givePlayerItem("a","Potent Healing Potion",1000)
  givePlayerItem("a","Eldertouched Plate",1000000)
  givePlayerItem("a","Adver Ring",1)
+ givePlayerItem("a","Lair Key",1)
+ givePlayerItem("a","Adver",50000)
  --givePlayerItem("pebsie","Guardian's Blade",1)
   --uploadCharacter("Pebsie")
 
@@ -84,6 +86,7 @@ function love.update(dt)
           local i = param[1]
           udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i], pl.str[i]), msg_or_ip, port_or_nil)
         --  pl.msg[i] = ""
+        pl.lastLogin[i] = 0
         elseif cmd == "move" then
           parms = atComma(parms)
           movePlayer(parms[1],parms[2])
@@ -256,13 +259,14 @@ function saveGame()
   for i = 1, countPlayers() do
       local k = getPlayerName(i)
       --if pl.state[k] ~= "fight" then
-        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|"..pl.str[k].."\n"
+        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|"..pl.str[k].."|"..pl.lastLogin[k].."\n"
       --fp = "map-new.txt"
     --  end
       uploadCharacter(k)
       --now we check if it's tomorrow!
       if os.date("*t").wday ~= currentDay then
-        pl.fightsPlayed[k] = {} --reset
+        pl.fightsPlayed[k] = {} --this is a list of the fights that have been played today, and so it is reset at midnight
+        pl.lastLogin[k] = pl.lastLogin[k] + 1 --increase lastlogin day by 1. it'll be set to 0 when they login.
       end
   end
   outputCharacterList()
@@ -301,6 +305,7 @@ function loadGame()
       if word[21] then pl.deaths[i] = word[21] end
       if word[22] then  pl.distance[i] = word[22] end
       if word[23] then pl.str[i] = tonumber(word[23]) end
+      if word[24] then pl.lastLogin[i] = tonumber(word[24]) end
     end
     addMsg("Game loaded.")
   else

@@ -76,6 +76,14 @@ fs["Giants"] = "Giant;1;Ice Giant;1;Fire Giant;1"
 fs.spawnTime["Giants"] = 1
 fs.rewards["Giants"] = "Quia,350,100,Spirit of Death,1,50"
 
-fs["Dungeon: The Sorcerer"] = "Mortus;1;speak,Sorcerer,So this is what it has come to?,3;3;speak,Mortus,You must've known that this day would come!,3;3;speak,Sorcerer,I gave you immortality! It was all for you mortals. I just wanted to help you!,4;4;speak,Mortus,The scriptures say that The Elder Dragons didn't want us to have immortality. You are a fool to defy the gods.,5;5;speak,Sorcerer,You know not of what you speak...,3;3;Sorcerer;1;"
-fs.spawnTime["Dungeon: The Sorcerer"] = 1
+fs["Dungeon: The Sorcerer"] = "Mortus;1;Guard;25;speak,Sorcerer,So this is what it has come to?,3;3;speak,Mortus,You must've known that this day would come!,3;3;speak,Sorcerer,I gave you immortality! It was all for you mortals. I just wanted to help you!,4;4;speak,Mortus,The scriptures say that The Elder Dragons didn't want us to have immortality. You are a fool to defy the gods.,5;5;speak,Sorcerer,You know not of what you speak...,3;3;Sorcerer;1;speak,Sorcerer,For you see... I AM an Elder Dragon!,8;8;speak,Mortus,That... that can't be!,3;3;"
+fs.spawnTime["Dungeon: The Sorcerer"] = 0
 fs.rewards["Dungeon: The Sorcerer"] = "Quia,700,100,Dragonling,1,50,Eldertouched Plate,1,10"
+
+fs["Mortus Finale"] = "Mortus;1;Guard;5;speak,Mortus,It is over...,4;4;speak,Guard,The boat is here.,3;3;speak,Mortus,Ah. We've organised a boat to transport us back to the camp.,3;3;speak,Wolf,AWOOOO!,2;2;speak,Mortus,Oh no...,1;1;Wolf;25;speak,Guard,The wolves! They aren't undead!,4;4;speak,Mortus,I've never been so happy to be attacked by wolves before...,3;3;speak,Guard,We have reinforcements coming in from the boat to guide us back. Let's head there quick before we're attacked again!,6;6;"
+fs.rewards["Mortus Finale"] = "Spirit of Death,1,1"
+fs.spawnTime["Mortus Finale"] = 0
+
+fs["Finale"] = "Mortus;1;Guard;10;Adventurer;3;speak,Mortus,Civilians!,2;2;speak,Adventurer,Is it over? Can we return home?,4;4;speak,Guard,Our scouts in the White Forest tell us that the Savage beasts are dropping dead on the spot.,5;5;speak,Mortus,With the sorcerer gone the curse should be lifted... and he is indeed gone.,4;4;speak,Mortus,Yes. We can return home at long last.,4;4;Adventurer;10;speak,Adventurer,Wohooo!!,2;2;speak,Mortus,Heroes. I'm going to set up an iniative back home to try and explore more lands.,5;5;speak,Mortus,The Southern Mountains have been treacherous but we must secure more land for our people.,5;5;speak,Mortus,Find me in Swordbreak if you will adventure with me again. You have my undying trust.,4;4;speak,Adventurer,Thank you for saving us. We are grateful.,4;4;speak,Guard,We are all eternally grateful to you few. Thank you.,5;5;speak,Mortus,Three cheers for our heroes!,3;3;speak,Mortus,HIP HIP,2;2;speak,Adventurer,HOORAY!,2;2;speak,Mortus,HIP HIP!,2;2;speak,Guard,HOOORAY!,3;3;speak,Guard,Can we get going home now?,5;5;"
+fs.rewards["Finale"] = "Spirit of Death,1,1"
+fs.spawnTime["Finale"] = 0

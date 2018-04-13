@@ -103,7 +103,7 @@ function drawLogin() --login screen
 
         if isMouseOver(xpos,204,ypos,66) then
           love.graphics.draw(item.img[loadedCharacter[i].arm],xpos+4,ypos,0,2,2)
-          if isMouseDown then
+          if isMouseDown or love.keyboard.isDown("return") then
             if loadedCharacter[i].pw then
               pl.name = loadedCharacter[i].name
               pl.cinput = loadedCharacter[i].pw
@@ -308,6 +308,8 @@ function drawLogin() --login screen
       love.graphics.setColor(0,200,0)
       if isMouseDown or love.keyboard.isDown("return") then
         login()
+        pl.cinput = ""
+        ui.selected = "password"
       end
     else
       love.graphics.setColor(0,100,0)

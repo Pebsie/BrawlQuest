@@ -52,9 +52,8 @@ function love.load()
   local ipadd = "127.0.0.1"
 --local ipadd = "37.59.126.91"
   netConnect(ipadd, "26656", 0.1)
-  love.mouse.setVisible(false)
-  b, c, h = http.request("http://brawlquest.com/dl/news-3.txt")
-  love.filesystem.write("news.txt", b)
+  love.mouse.setVisible(false)--  b, c, h = http.request("http://brawlquest.com/dl/news-3.txt")
+--  love.filesystem.write("news.txt", b)
   for line in love.filesystem.lines("news.txt") do
     news = news..line.."\n"
   end
@@ -81,6 +80,7 @@ function love.draw()
   if pl.state ~= "fight" then --this appeared to cause a strange flickering when on a fight. Bodge fix, UPDATE AFTER ALPHA EVENT!!!
     drawTooltips()
   end
+  drawFloats()
 end
 
 
@@ -90,6 +90,7 @@ function love.update(dt)
   updatePhase(phase,dt)
   updateMusic(dt)
   updateSpells(dt)
+  updateFloats(dt)
 end
 
 function love.mousepressed(button)

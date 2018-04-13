@@ -35,6 +35,7 @@ pl.deaths = {}
 pl.distance = {}
 pl.lastEquip = {}
 pl.fightsPlayed = {}
+pl.lastLogin = {}
 
 acc = {} --identified by number
 acc.username = {}
@@ -81,6 +82,7 @@ function newPlayer(name, password)
   pl.lastEquip[i] = 0
   pl.fightsPlayed[i] = {}
   pl.str[i] = 0
+  pl.lastLogin[i] = 0
 
 
   addMsg("New player by the name of "..name)
@@ -320,6 +322,8 @@ function movePlayer(name, dir)
       pl.t[name] = 3079
     elseif pl.t[name] == 5433 then
       pl.t[name] = 4055
+  --  elseif pl.t[name] == 8236 or pl.t[name] == 8751 and not playerHasItem(name,"Lair Key") then
+    --  pl.t[name] = curt
     elseif world[pl.t[name]].isFight == true then
       local fightsOnTile = listFightsOnTile(pl.t[name])
       addPlayerToFight(fightsOnTile[1],name)

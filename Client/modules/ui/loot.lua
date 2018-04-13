@@ -4,18 +4,20 @@ LQaction = "off"
 LQcurrent = 0
 
 function newLoot(title,amount)
-  itemAlreadyQueued = false
-  for i = LQcurrent, #lootQueue do
-    if lootQueue[i] and title == lootQueue[i].title then
-      itemAlreadyQueued = true
-      lootQueue[i].amount = lootQueue[i].amount + amount
+  if tonumber(amount) > 0 then
+    itemAlreadyQueued = false
+    for i = LQcurrent, #lootQueue do
+      if lootQueue[i] and title == lootQueue[i].title then
+        itemAlreadyQueued = true
+        lootQueue[i].amount = lootQueue[i].amount + amount
+      end
     end
-  end
-  if not itemAlreadyQueued then
-    local cLootQueue = #lootQueue + 1 --get current loot queue item here
-    lootQueue[cLootQueue] = {}
-    lootQueue[cLootQueue].title = title
-    lootQueue[cLootQueue].amount = amount
+    if not itemAlreadyQueued then
+      local cLootQueue = #lootQueue + 1 --get current loot queue item here
+      lootQueue[cLootQueue] = {}
+      lootQueue[cLootQueue].title = title
+      lootQueue[cLootQueue].amount = amount
+    end
   end
 end
 
