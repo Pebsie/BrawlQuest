@@ -65,9 +65,10 @@ function updatePhase(phase, dt)
     updateGame(dt)
     updateUI(dt)
 
-    if newScale > scale+0.05 then scale = scale + 0.5*dt love.resize(love.graphics.getWidth(),love.graphics.getHeight())
-    elseif newScale < scale-0.05 then scale = scale - 0.5*dt love.resize(love.graphics.getWidth(),love.graphics.getHeight())
-    elseif newScale ~= scale then newScale = scale love.resize(love.graphics.getWidth(),love.graphics.getHeight()) end
+    if newScale > scale+0.01 then scale = scale + 1*dt love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+    elseif newScale < scale-0.01 then scale = scale - 1*dt love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+    elseif newScale ~= scale then scale = newScale love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+    else  newScale = scale love.resize(love.graphics.getWidth(),love.graphics.getHeight()) end
   end
 end
 
@@ -101,7 +102,7 @@ function love.keypressed(key)
         if ui.selected == "username" then pl.cinput = "" ui.selected = "password"
         elseif ui.selected == "password" then addLoginCharacter() end--login() end
       elseif phase == "read" then
-        phase = "login"
+        phase = "game"
       elseif phase == "game" then
         if ui.selected == "chat" then ui.selected = 0 love.keyboard.setTextInput(false) sendChat(pl.cinput) else pl.cinput = "" ui.selected = "chat" love.keyboard.setTextInput(true) end
       end

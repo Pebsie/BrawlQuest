@@ -3,7 +3,7 @@ local udp = socket.udp()
 http = require("socket.http")
 
 udp:settimeout(0)
-udp:setsockname("*", 26656)
+udp:setsockname("*", 26657)
 
 msgs = "Server started."
 nett = 0.1
@@ -28,7 +28,7 @@ print("Entering server loop...")
 
 function love.load()
   loadGame()
-  --newPlayer("a","a")
+--  newPlayer("a","a")
  givePlayerItem("a","Orb of Power",1000)
  givePlayerItem("a","Potent Healing Potion",1000)
  givePlayerItem("a","Eldertouched Plate",1000000)

@@ -310,6 +310,25 @@ function movePlayer(name, dir)
       if not playerHasItem(name,"Adver Ring") then
         pl.t[name] = curt
       end
+    elseif world[pl.t[name]].tile == "Hole" then
+      local placeToGo = love.math.random(1,4)
+      if placeToGo == 1 then
+        pl.t[name] = 7314
+      elseif placeToGo == 2 then
+        pl.t[name] = 8616
+      elseif placeToGo == 3 then
+        pl.t[name] = 8664
+      else
+        pl.t[name] = 8049
+      end
+    elseif pl.t[name] == 8254 then
+      givePlayerItem(name,"Fly",1)
+    elseif world[pl.t[name]].tile == "Boat" then
+      pl.t[name] = 4055
+    elseif pl.t[name] == 8674 then
+      if not pl.fightsPlayed[name][8672] then
+        pl.t[name] = curt
+      end
     elseif pl.t[name] == 2877 and not playerHasItem(name,"Crypt Key") then
       pl.t[name] = curt
     elseif pl.t[name] == 4513 then

@@ -123,6 +123,9 @@ function movePlayer(dir)
     addFog(pl.t)
   end
 
+  if pl.t == 9185 then
+    phase = "read"
+  end
 
   createWorldCanvas()
 end

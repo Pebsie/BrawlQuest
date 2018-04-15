@@ -108,12 +108,14 @@ function drawLogin() --login screen
               pl.name = loadedCharacter[i].name
               pl.cinput = loadedCharacter[i].pw
               login()
+              love.audio.play(sfx["hit"])
             else
               loginI.status = "pw"
               loginI.select = i
               ui.selected = "password"
               pl.cinput = ""
               pl.name = loadedCharacter[i].name
+              love.audio.play(sfx["hit"])
             end
             isMouseDown = false
           end
@@ -150,6 +152,7 @@ function drawLogin() --login screen
           pl.cinput = ""
           pl.name = ""
           ui.selected = "username"
+          love.audio.play(sfx["hit"])
         end
       else
         love.graphics.setColor(50,50,50)
@@ -185,6 +188,7 @@ function drawLogin() --login screen
       if isMouseDown then
         ui.selected = "username"
         pl.cinput = ""
+        love.audio.play(sfx["hit"])
       end
     else
       love.graphics.setColor(0,0,0)
@@ -198,6 +202,7 @@ function drawLogin() --login screen
       if isMouseDown then
         ui.selected = "password"
         pl.cinput = ""
+        love.audio.play(sfx["hit"])
       end
     else
       love.graphics.setColor(0,0,0)
@@ -212,6 +217,7 @@ function drawLogin() --login screen
         pl.name = ""
         pl.cinput = ""
         isMouseDown = false
+        love.audio.play(sfx["hit"])
       end
     else
       love.graphics.setColor(100,0,0)
@@ -224,6 +230,7 @@ function drawLogin() --login screen
         if string.sub(pl.name, 1, 1) ~= "" then
           addLoginCharacter()
           isMouseDown = false
+          love.audio.play(sfx["hit"])
         end
       end
     else
@@ -271,6 +278,7 @@ function drawLogin() --login screen
       if isMouseDown then
         ui.selected = "username"
         pl.cinput = ""
+        love.audio.play(sfx["hit"])
       end
     else
       love.graphics.setColor(0,0,0)
@@ -287,6 +295,7 @@ function drawLogin() --login screen
         pl.name = ""
         pl.cinput = ""
         isMouseDown = false
+        love.audio.play(sfx["hit"])
       end
     else
       love.graphics.setColor(100,0,0)
@@ -297,6 +306,7 @@ function drawLogin() --login screen
       love.graphics.setColor(100,200,0)
       if isMouseDown then
         deleteChar(tonumber(loginI.select))
+        love.audio.play(sfx["kill"])
       end
     else
       love.graphics.setColor(200,100,0)
@@ -310,6 +320,7 @@ function drawLogin() --login screen
         login()
         pl.cinput = ""
         ui.selected = "password"
+        love.audio.play(sfx["hit"])
       end
     else
       love.graphics.setColor(0,100,0)

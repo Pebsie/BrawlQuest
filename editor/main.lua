@@ -39,9 +39,9 @@ function love.load()
 --  love.filesystem.write("map-snow.txt", b)
   heroImg = love.graphics.newImage("img/human/Legend.png")
   --load map data
-  if love.filesystem.exists("map-beach.txt") then
+  if love.filesystem.exists("map.txt") then
     print("Found world file!")
-    for line in love.filesystem.lines("map-beach.txt") do
+    for line in love.filesystem.lines("map.txt") do
       word = atComma(line)
       i = #world + 1
       world[i] = word[1]
