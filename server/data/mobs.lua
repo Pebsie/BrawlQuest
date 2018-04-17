@@ -397,7 +397,7 @@ mb.sp1t[tm] = 10
 mb.sp2[tm] = "spawnRandom,Venom"
 mb.sp2t[tm] = 10
 mb.img[tm] = 128
-mb.rng[tm] = 16
+mb.rng[tm] = 128
 
 local tm = "Dragonling"
 mb.hp[tm] = 20

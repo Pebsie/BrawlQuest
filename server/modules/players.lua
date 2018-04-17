@@ -89,6 +89,7 @@ function newPlayer(name, password)
 end
 
 function updatePlayers(dt)
+
   for i = 1, countPlayers() do
     local k = getPlayerName(i)
 
