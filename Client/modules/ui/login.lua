@@ -470,7 +470,7 @@ end
 
 function loadCharacters()
   local i = 1
-  if love.filesystem.exists("char.txt") then
+  if love.filesystem.getInfo("char.txt") then
     for line in love.filesystem.lines("char.txt") do
       local words = atComma(line)
       loadedCharacter[i] = {}

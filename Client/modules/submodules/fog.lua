@@ -2,7 +2,7 @@ function loadFog()
   fog = {}
 
 
-  if love.filesystem.exists("fog.txt") then
+  if love.filesystem.getInfo("fog.txt") then
       local i = 1
     for line in love.filesystem.lines("fog.txt") do
       if line == "true" then

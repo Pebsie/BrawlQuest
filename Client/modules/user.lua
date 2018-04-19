@@ -67,7 +67,7 @@ function enterGame()
     gameUI[2].x = 0 --debug info
     gameUI[2].y = 0
     gameUI[2].isDrag = false
-    gameUI[2].isVisible = false
+    gameUI[2].isVisible = true
     gameUI[2].width = 160
     gameUI[2].height = 46+font:getHeight()+2
     gameUI[2].label = "Debug"

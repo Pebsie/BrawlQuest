@@ -26,3 +26,36 @@ function isMouseOver(xpos, width, ypos, height)
     return false
   end
 end
+
+
+local oldSetColor = love.graphics.setColor
+ love.graphics.setColor = function (r, g, b, a)
+   if type(r)=="table" then
+       g = r[2] / 255
+       b = r[3] / 255
+       a = (r[4] or 255) / 255
+       r = r[1] / 255
+   else
+     r = r / 255
+     g = g / 255
+     b = b / 255
+     a = (a or 255) / 255
+   end
+   oldSetColor(r,g,b,a)
+ end
+
+ local oldSetBackgroundColor = love.graphics.setBackgroundColor
+ love.graphics.setBackgroundColor = function (r, g, b, a)
+   if type(r)=="table" then
+       g = r[2] / 255
+       b = r[3] / 255
+       a = (r[4] or 255) / 255
+       r = r[1] / 255
+   else
+     r = r / 255
+     g = g / 255
+     b = b / 255
+     a = (a or 255) / 255
+   end
+   oldSetBackgroundColor(r,g,b,a)
+ end

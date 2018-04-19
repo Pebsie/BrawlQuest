@@ -10,7 +10,7 @@ areaTitleAlpha = 255
 curAreaTitle = "The Great Plains"
 
 function loadOverworld()
-  if love.filesystem.exists("map.txt") then
+  if love.filesystem.getInfo("map.txt") then
     local x = 0
     local y = 0
     for line in love.filesystem.lines("map.txt") do
@@ -307,14 +307,14 @@ end
 
 function createWorldCanvas()
 --  wCanvas = love.graphics.newCanvas(32*101,32*101)
---if not worldCanvas then worldCanvas = love.graphics.newCanvas(32*101,32*101) end
+ if not worldCanvas then worldCanvas = love.graphics.newCanvas(32*101,32*101) end
   love.graphics.setCanvas(worldCanvas)
     love.graphics.clear()
     --love.graphics.setBlendMode("alpha")
 
     for i = 1, 100*100 do
         if not checkFog(i) then love.graphics.setColor(210,210,210) else love.graphics.setColor(255,255,255) end
-        
+
         x = world[i].x
         y = world[i].y
         if x-mx > -64 and x-mx < screenW+64 and y-my > -64 and y-my < screenH+64 then
@@ -365,7 +365,7 @@ function createWorldCanvas()
     end
 
     love.graphics.setColor(0,0,0)
-    love.graphics.rectangle("line",0,0,(100*100)*32,(100*100)*32)
+    love.graphics.rectangle("line",0,0,(100*100)*32,(101*101)*32)
     love.graphics.setColor(255,255,255)
     love.graphics.setCanvas()
 end
