@@ -4,9 +4,6 @@ require "modules/ui/master"
 require "modules/ui/chat"
 require "modules/ui/floats"
 
---temp
-newChatMsg("SERVER","Welcome to BrawlQuest: The Cursed Tribe",1)
-
 --ui variables, use as you wish
 ui = {}
 ui.selected = 0 --default username
@@ -65,10 +62,12 @@ function updatePhase(phase, dt)
     updateGame(dt)
     updateUI(dt)
 
-    if newScale > scale+0.01 then scale = scale + 1*dt love.resize(love.graphics.getWidth(),love.graphics.getHeight())
-    elseif newScale < scale-0.01 then scale = scale - 1*dt love.resize(love.graphics.getWidth(),love.graphics.getHeight())
-    elseif newScale ~= scale then scale = newScale love.resize(love.graphics.getWidth(),love.graphics.getHeight())
-    else  newScale = scale love.resize(love.graphics.getWidth(),love.graphics.getHeight()) end
+    if newScale ~= scale then
+      if newScale > scale+0.01 then scale = scale + 1*dt love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+      elseif newScale < scale-0.01 then scale = scale - 1*dt love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+      elseif newScale ~= scale then scale = newScale love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+      else  newScale = scale love.resize(love.graphics.getWidth(),love.graphics.getHeight()) end
+    end
   end
 end
 
@@ -116,6 +115,7 @@ function love.keypressed(key)
     love.resize(love.graphics.getWidth(),love.graphics.getHeight())
   elseif key == "x" then
     newScale = newScale - 0.25
+    if newScale < 0.25 then newScale = 0.25 end
     love.resize(love.graphics.getWidth(),love.graphics.getHeight())
   elseif key == "left" then
     if phase == "login" then
@@ -172,7 +172,7 @@ function love.resize(w,h) --reset sw and sh
   if phase == "login" or phase == "read" then
     createLoginCanvas()
   elseif phase == "game" then
-    createWorldCanvas()
+  --  createWorldCanvas()
   end
 end
 

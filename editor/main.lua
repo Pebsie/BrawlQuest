@@ -13,6 +13,8 @@ world.fightc = {}
 world.collide = {}
 world.isFight = {}
 
+mapname = "map-demo.txt"
+
 info = ""
 view = 0
 
@@ -39,9 +41,9 @@ function love.load()
 --  love.filesystem.write("map-snow.txt", b)
   heroImg = love.graphics.newImage("img/human/Legend.png")
   --load map data
-  if love.filesystem.exists("map.txt") then
+  if love.filesystem.exists(mapname) then
     print("Found world file!")
-    for line in love.filesystem.lines("map.txt") do
+    for line in love.filesystem.lines(mapname) do
       word = atComma(line)
       i = #world + 1
       world[i] = word[1]
@@ -64,12 +66,12 @@ function love.load()
 --        world.collide[i] = true
 --        world.bg[i] = "Grass"
 --      else
-        world[i] = "Water"
-        world.name[i] = "The Lost Island"
+        world[i] = "Tree"
+        world.name[i] = "Hunter's Forest"
         world.fight[i] = "None"
         world.fightc[i] = 0 --5%
         world.collide[i] = true
-        world.bg[i] = "Water"
+        world.bg[i] = "Grass"
   --    end
 
       world.isFight[i] = false
@@ -287,7 +289,7 @@ function love.textinput(t)
 end
 
 function saveWorld()
-  local fp = "map-beach.txt"
+  local fp = mapname
   local fs = ""
   for i = 1, 100*100 do
     if not world[i] then print("Missing tile info.") end
@@ -326,3 +328,36 @@ function round(x)
   end
   return x-0.5
 end
+
+
+--[[local oldSetColor = love.graphics.setColor
+ love.graphics.setColor = function (r, g, b, a)
+   if type(r)=="table" then
+       g = r[2] / 255
+       b = r[3] / 255
+       a = (r[4] or 255) / 255
+       r = r[1] / 255
+   else
+     r = r / 255
+     g = g / 255
+     b = b / 255
+     a = (a or 255) / 255
+   end
+   oldSetColor(r,g,b,a)
+ end
+
+ local oldSetBackgroundColor = love.graphics.setBackgroundColor
+ love.graphics.setBackgroundColor = function (r, g, b, a)
+   if type(r)=="table" then
+       g = r[2] / 255
+       b = r[3] / 255
+       a = (r[4] or 255) / 255
+       r = r[1] / 255
+   else
+     r = r / 255
+     g = g / 255
+     b = b / 255
+     a = (a or 255) / 255
+   end
+   oldSetBackgroundColor(r,g,b,a)
+ end]]

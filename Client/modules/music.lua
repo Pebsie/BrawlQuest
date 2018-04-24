@@ -31,7 +31,7 @@ function loadMusic()
   music.curPlay = music.title[love.math.random(1, #music.title)]
   music.curWet = music.weather["snow"]
 
-  love.audio.play(music.curPlay)
+  --love.audio.play(music.curPlay)
 end
 
 function updateMusic(dt)
@@ -41,11 +41,11 @@ function updateMusic(dt)
         if pl.state == "fight" and string.lower(string.sub(world[pl.t].fight,1,7)) == "dungeon" or string.lower(string.sub(world[pl.t].fight,1,4)) == "Raid" then
           music.curPlay = music["raid"][love.math.random(1, #music["raid"])]
         else
-          music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
+        music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
         end
         music.curPlay:setLooping(false)
       --love   music.curPlay:setVolume(0.05)
-        love.audio.play(music.curPlay)
+      --  love.audio.play(music.curPlay)
       end
     end
 

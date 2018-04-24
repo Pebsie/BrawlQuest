@@ -9,6 +9,8 @@ world.weatherA = 0
 areaTitleAlpha = 255
 curAreaTitle = "The Great Plains"
 
+objectCanvas = love.graphics.newCanvas(32*101,32*101)
+
 function loadOverworld()
   if love.filesystem.getInfo("map.txt") then
     local x = 0
@@ -67,11 +69,13 @@ function drawOverworld()
   love.graphics.setColor(255,255,255,255)
 
   for i = 1, sw/64 do
-    love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
+  --  love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
   end
 
   love.graphics.setBlendMode("alpha", "premultiplied")
   love.graphics.draw(worldCanvas, -mx, -my) --draw world
+  love.graphics.draw(objectCanvas, -mx, -my)
+  drawFog(-mx,-my)
   love.graphics.setBlendMode("alpha")
   if playerExists(pl.name) then
     drawPlayer(pl.name,pl.x-mx,pl.y-my)
@@ -309,63 +313,48 @@ function createWorldCanvas()
 --  wCanvas = love.graphics.newCanvas(32*101,32*101)
  if not worldCanvas then worldCanvas = love.graphics.newCanvas(32*101,32*101) end
   love.graphics.setCanvas(worldCanvas)
-    love.graphics.clear()
+  love.graphics.clear()
     --love.graphics.setBlendMode("alpha")
 
     for i = 1, 100*100 do
-        if not checkFog(i) then love.graphics.setColor(210,210,210) else love.graphics.setColor(255,255,255) end
-
         x = world[i].x
         y = world[i].y
-        if x-mx > -64 and x-mx < screenW+64 and y-my > -64 and y-my < screenH+64 then
-          love.graphics.draw(worldImg[world[i].bg], x, y)
-          if checkFog(i) or fog.ignore[world[i].tile] == true then
-            love.graphics.draw(worldImg[world[i].tile], x, y)
-            if world[i].tile == "Blacksmith" then drawPlayer("<NPC> Shop",x,y) end
-
-            if checkFog(i) == false then
-              love.graphics.setColor(255,255,255,50)
-              love.graphics.draw(worldImg["Cloud"], x, y)
-              love.graphics.setColor(255,255,255,255)
-            else
-              if world[i].isFight == true then
-                love.graphics.draw(uiImg["fight"], x, y)
-              end
-              if world[i].fightc == "100" then
-                if world[i].tile == "Camp" then
-                  love.graphics.draw(mb.img["Mortus"],x,y)
-                else
-                  love.graphics.draw(mb.img["Sorcerer"],x,y)
-                end
-
-              else
-              --  love.graphics.print(world[i].fightc,x,y)
-              end
-              if tonumber(pl.dt) == i then
-                love.graphics.draw(worldImg["DT"],x,y)
-              end
-            end
+      --  if x-mx > -64 and x-mx < screenW+64 and y-my > -64 and y-my < screenH+64 then
+        love.graphics.draw(worldImg[world[i].bg], x, y)
+        love.graphics.draw(worldImg[world[i].tile], x, y)
+        if world[i].tile == "Blacksmith" then drawPlayer("<NPC> Shop",x,y) end
+        if world[i].fightc == "100" then
+          if world[i].tile == "Camp" then
+            love.graphics.draw(mb.img["Mortus"],x,y)
+            drawPlayer("<NPC> Mortus",x,y)
           else
-            love.graphics.setColor(255,255,255,50)
-            love.graphics.draw(worldImg["Cloud"], x, y)
-            love.graphics.setColor(255,255,255,255)
+            love.graphics.draw(mb.img["Sorcerer"],x,y)
+            drawPlayer("<NPC> Sorcerer",x,y)
           end
+        end
 
-          for k = 1,countPlayers() do --THIS IS BAD, OPTIMISE THIS WHEN YOU AREN'T ILL
-            local name = getPlayerName(k)
-            if getPlayer(name,"t") == i and getPlayer(name,"state") == "world" then
-              player[name].tx = x
-              player[name].ty = y
-            end
-          end
+        if tonumber(pl.dt) == i then
+          love.graphics.draw(worldImg["DT"],x,y)
+        end
+      end
+
+    love.graphics.setCanvas()
+
         --  if i == selT then love.graphics.draw(uiImg["target"],x,y) end
       --  love.graphics.setFont(sFont)
       --  love.graphics.print(i, x, y)
-      end
-    end
+      --end
 
     love.graphics.setColor(0,0,0)
     love.graphics.rectangle("line",0,0,(100*100)*32,(101*101)*32)
     love.graphics.setColor(255,255,255)
+    love.graphics.setCanvas()
+end
+
+function createWorldObjectCanvas() --for objects in the world
+  love.graphics.setCanvas(objectCanvas)
+        if world[i].isFight == true then
+          love.graphics.draw(uiImg["fight"], x, y)
+        end
     love.graphics.setCanvas()
 end

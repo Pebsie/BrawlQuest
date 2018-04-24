@@ -1,4 +1,10 @@
-TODO: login password section displays player name as entered password, logs in with it
+Alpha v1.3.1
+* Upgraded from LOVE 0.10.2 to 0.11
+* Preparation for server upgrades
+* Adding a new character now attempts to log you in as that character
+* Fog of war is temporarily completely black
+* The backdrop to the world is now also completely black for a more consistent look (will be changed when fog is fixed!)
+* Optimisations
 
 Alpha v1.3
 ##Content

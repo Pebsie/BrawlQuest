@@ -19,8 +19,6 @@ function loadFog()
     end
   end
 
-
-
   fog.ignore = {} --what tile types to ignore
   fog.ignore["Sandy Grass"] = true
   fog.ignore["Sandstone"] = true
@@ -62,4 +60,21 @@ function saveFog(fn)
   end
 
   love.filesystem.write(fn,fs)
+end
+
+function drawFog(xo,yo)
+  love.graphics.setColor(0,0,0)
+
+  for i = 1, 100*100 do
+    if not fog[i] then
+      --love.graphics.draw(worldImg[world[i].bg],world[i].x+xo,world[i].y+yo)
+      if world[i].x-mx > -64 and world[i].x-mx < screenW+64 and world[i].y-my > -64 and world[i].y-my < screenH+64 then
+
+        love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
+      --  love.graphics.draw(worldImg["Cloud"], world[i].x+xo, world[i].y+yo)
+      end
+    end
+  end
+  
+  love.graphics.setColor(255,255,255)
 end

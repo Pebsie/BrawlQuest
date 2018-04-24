@@ -22,7 +22,8 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Alpha 0.2: The Cursed Tribe v1.3"
+version = "Alpha 0.2: The Cursed Tribe v1.3.1"
+newChatMsg("SERVER","Welcome to BrawlQuest: The Cursed Tribe!",1)
 phase = "splash"
 
 isMouseDown = false
@@ -50,11 +51,12 @@ function love.load()
   love.filesystem.setIdentity( "bq" )
 
 --  local ipadd = "127.0.0.1"
- local ipadd = "37.59.126.91"
+ local ipadd = "eu.brawlquest.com"
   netConnect(ipadd, "26657", 0.1)
   love.mouse.setVisible(false)
   b, c, h = http.request("http://brawlquest.com/dl/news-4.txt")
   love.filesystem.write("news.txt", b)
+  local i = 1
   for line in love.filesystem.lines("news.txt") do
     news = news..line.."\n"
   end
@@ -81,7 +83,7 @@ function love.draw()
   if pl.state ~= "fight" then --this appeared to cause a strange flickering when on a fight. Bodge fix, UPDATE AFTER ALPHA EVENT!!!
     drawTooltips()
   end
-  
+
 end
 
 

@@ -76,7 +76,7 @@ love.graphics.scale(scale,scale)
   yoff = sh/2 - (stdSW/2)
 
   for i = 1, sw/64 do
-    love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
+    --love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
   end
 
   love.graphics.draw(fightCanvas,xoff,yoff)

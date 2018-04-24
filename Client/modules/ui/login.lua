@@ -436,6 +436,8 @@ function addLoginCharacter()
   pl.cinput = ""
   ui.selected = "username"
   saveCharacters()
+  love.keyboard.setTextInput(false)
+  login()
 end
 
 function deleteChar(i)

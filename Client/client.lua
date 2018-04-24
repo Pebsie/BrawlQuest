@@ -122,10 +122,6 @@ function netUpdate(dt)
 
           end
         elseif cmd == "world" then --update world
-          for i = 1, 100*100 do --AAAAAH FIX THIS AWFUL CODE
-            world[i].isFight = false
-          end
-
           local plyrs = tonumber(param[1])
           local fghts = tonumber(param[2])
           world.weather = param[3]
@@ -148,6 +144,19 @@ function netUpdate(dt)
               updatePlayer(name,"online",param[tparam+7])
 
               tparam = tparam + 8
+            end
+          end
+
+          for i = 1, 100*100 do --cycle through the world to calculate player positions and turn off all fights
+            world[i].isFight = false
+
+
+            for k = 1,countPlayers() do
+              local name = getPlayerName(k)
+              if getPlayer(name,"t") == i and getPlayer(name,"state") == "world" then
+                player[name].tx = world[i].x
+                player[name].ty = world[i].y
+              end
             end
           end
 
@@ -262,7 +271,8 @@ function netUpdate(dt)
         end
 
         if cmd ~= "login" then --if we aren't logged in yet then we don't have a username or position or anything, creating issues with fog.
-          createWorldCanvas() --finally, update the world
+        --  createWorldCanvas() --finally, update the world
+          createWorldObjectCanvas()
         end
       elseif msg ~= 'timeout' then
         phase = "login"

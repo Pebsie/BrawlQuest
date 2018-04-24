@@ -41,6 +41,7 @@ function enterGame()
   requestUserInfo()
 
   stopMusic() --stop title music
+  love.graphics.setBackgroundColor(0,0,0)
   --download map
   --if not love.filesystem.exists("map.txt") then
    b, c, h = http.request("http://brawlquest.com/dl/map-snow.txt")
@@ -127,7 +128,7 @@ function movePlayer(dir)
     phase = "read"
   end
 
-  createWorldCanvas()
+  --createWorldCanvas()
 end
 
 function playerHasItem(item,amount)
