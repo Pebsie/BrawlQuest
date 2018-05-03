@@ -245,7 +245,7 @@ function updateFight(dt)
        mob[i].y =  mob[i].ty
     end
 
-    if love.math.random(1, 100) == 1 and mb.sfx[mob[i].type] and updateTime[4] < 0 and mob[i].type ~= lastTalk then
+    if love.math.random(1, 100) == 1 and mb.sfx[mob[i].type] and updateTime[4] < 0 and mob[i].type ~= lastTalk and dev == false then
       love.audio.play(mb.sfx[mob[i].type][love.math.random(1,#mb.sfx[mob[i].type])])
       updateTime[4] = love.math.random(1,10)
       lastTalk = mob[i].type

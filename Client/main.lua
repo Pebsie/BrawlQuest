@@ -46,6 +46,8 @@ realScreenHeight = screenH
 
 news = ""
 
+dev = true --This variable just turns certain features on and off so that it's easier to dev the game
+
 function love.load()
 
   love.filesystem.setIdentity( "bq-demo" )
@@ -84,6 +86,15 @@ function love.draw()
     drawTooltips()
   end
 
+  if dev == true then
+    love.graphics.setFont(bFont)
+    love.graphics.setColor(0,0,0)
+    love.graphics.rectangle("fill",0,0,bFont:getWidth("DEV MODE"),bFont:getHeight())
+    love.graphics.setColor(200,0,0)
+    love.graphics.printf("DEV MODE",0,0,bFont:getWidth("DEV MODE"),"center")
+    love.graphics.setColor(255,255,255)
+    love.graphics.setFont(sFont)
+  end
 end
 
 
