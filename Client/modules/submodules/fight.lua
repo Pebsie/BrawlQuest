@@ -76,7 +76,7 @@ love.graphics.scale(scale,scale)
   yoff = sh/2 - (stdSW/2)
 
   for i = 1, sw/64 do
-    --love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
+    love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
   end
 
   love.graphics.draw(fightCanvas,xoff,yoff)
@@ -96,7 +96,7 @@ love.graphics.scale(scale,scale)
             love.graphics.setColor(255,255,255)
           end
 
-          if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
+          if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INFO
             love.graphics.draw(mb.img[mob[i].type], mob[i].x+xoff, mob[i].y+yoff)
           else --if mob[i].tx < mob[i].x then
             love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2+xoff, mob[i].y+mb.img[mob[i].type]:getHeight()/2+yoff,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)

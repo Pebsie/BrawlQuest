@@ -72,17 +72,24 @@ function drawLogin() --login screen
   local pstring = ""
   for i = 1, string.len(pl.cinput) do pstring = pstring.."*" end
   love.graphics.setFont(font)
-  love.graphics.printf("LOGIN",xpos,ypos+32,(407/2),"center")
+
   love.graphics.print("BrawlQuest "..version)
 
   love.graphics.setFont(sFont)
 
-  love.graphics.print("Created and programmed by Thomas Lock (http://peb.si)\nGraphics by D.Gervais (used here under a Creative Commons Attribution 3.0 licence)\nTitle theme composed by Joey Pearce (YouTube @JoeyFunWithMusic)\nMusic by Eric Matyas (used here under a Creative Commons Attribution 4.0 license)\nLogo created by Danjoe Stubbs\n", 0, 18)
+  love.graphics.print("\nFreshPlay 2018 (http://freshplay.co.uk)\n\nPowered by enhost (http://enhost.io)\n\nGraphics by D.Gervais (used here under a Creative Commons Attribution 3.0 licence)\nTitle theme composed by Joey Pearce (YouTube @JoeyFunWithMusic)\nMusic by Eric Matyas (used here under a Creative Commons Attribution 4.0 license)\nLogo created by Danjoe Stubbs", 0, 18)
 --  love.graphics.setFont(font)
 
     love.graphics.draw(logo,(sw/2-(181/2)),(sh/2-(145/2))-160,0,0.5)--logo is 362x290 which at this size is
+    love.graphics.setFont(bFont)
+    love.graphics.setColor(0,0,0)
+    love.graphics.rectangle("fill",(sw/2-(181/2)),(sh/2-(145/2))-20,181,bFont:getHeight())
+    love.graphics.setColor(255,255,255)
+
+    love.graphics.printf("DEMO",(sw/2-(181/2)),(sh/2-(145/2))-20,181,"center")
+    love.graphics.printf("LOGIN",xpos,ypos+32,(407/2),"center")
     --which at this size is 181x145
-  ypos = ypos + 4
+  ypos = ypos + 40
 
   if loginI.status == "select" then
     for i = 1, #loadedCharacter do
@@ -397,8 +404,8 @@ function createLoginCanvas()
   love.graphics.clear()
   for i = 0, (sw/32)*2 do
     if biome ~= 1 then
-      love.graphics.draw(worldImg["Snow"],i*32,0)
-      love.graphics.draw(worldImg["Snow"],i*32,32)
+      love.graphics.draw(worldImg["Grass"],i*32,0)
+      love.graphics.draw(worldImg["Grass"],i*32,32)
     else
       love.graphics.draw(worldImg["Sand"],i*32,0)
       love.graphics.draw(worldImg["Sand"],i*32,32)
@@ -411,10 +418,10 @@ function createLoginCanvas()
   local y = {}
   for i = 0, sw/128 do
       y[i] = love.math.random(10,44)
-      if love.math.random(1,3) == 1 then
-        love.graphics.draw(worldImg["Snowy Dead Tree"],i*128,y[i],0,2)
+      if biome == 1 then
+        love.graphics.draw(worldImg["Dead Tree"],i*128,y[i],0,2)
       else
-        love.graphics.draw(worldImg["Snowy Tree"],i*128,y[i],0,2) --this needs work
+        love.graphics.draw(worldImg["Tree"],i*128,y[i],0,2) --this needs work
       end
   end
 

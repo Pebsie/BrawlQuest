@@ -3,7 +3,7 @@ local udp = socket.udp()
 http = require("socket.http")
 
 udp:settimeout(0)
-udp:setsockname("*", 26657)
+udp:setsockname("127.0.0.1", 26657)
 
 msgs = "Server started."
 nett = 0.1

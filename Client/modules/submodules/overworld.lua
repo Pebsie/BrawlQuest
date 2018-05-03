@@ -317,24 +317,28 @@ function createWorldCanvas()
     --love.graphics.setBlendMode("alpha")
 
     for i = 1, 100*100 do
-        x = world[i].x
-        y = world[i].y
-      --  if x-mx > -64 and x-mx < screenW+64 and y-my > -64 and y-my < screenH+64 then
-        love.graphics.draw(worldImg[world[i].bg], x, y)
-        love.graphics.draw(worldImg[world[i].tile], x, y)
-        if world[i].tile == "Blacksmith" then drawPlayer("<NPC> Shop",x,y) end
-        if world[i].fightc == "100" then
-          if world[i].tile == "Camp" then
-            love.graphics.draw(mb.img["Mortus"],x,y)
-            drawPlayer("<NPC> Mortus",x,y)
-          else
-            love.graphics.draw(mb.img["Sorcerer"],x,y)
-            drawPlayer("<NPC> Sorcerer",x,y)
+      if world[i] and world[i].bg and world[i].tile then
+          x = world[i].x
+          y = world[i].y
+        --  if x-mx > -64 and x-mx < screenW+64 and y-my > -64 and y-my < screenH+64 then
+          love.graphics.draw(worldImg[world[i].bg], x, y)
+          love.graphics.draw(worldImg[world[i].tile], x, y)
+          if world[i].tile == "Blacksmith" then drawPlayer("<NPC> Shop",x,y) end
+          if world[i].fightc == "100" then
+            if world[i].tile == "Camp" then
+              love.graphics.draw(mb.img["Mortus"],x,y)
+              drawPlayer("<NPC> Mortus",x,y)
+            else
+              love.graphics.draw(mb.img["Sorcerer"],x,y)
+              drawPlayer("<NPC> Sorcerer",x,y)
+            end
           end
-        end
 
-        if tonumber(pl.dt) == i then
-          love.graphics.draw(worldImg["DT"],x,y)
+          if tonumber(pl.dt) == i then
+            love.graphics.draw(worldImg["DT"],x,y)
+          end
+        else
+          love.graphics.print("error")
         end
       end
 

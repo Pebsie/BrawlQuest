@@ -27,7 +27,9 @@ function drawPhase(phase)
   --  love.graphics.print("PEB.SI",sw/2-(bFont:getWidth("PEB.SI")/2),sh/4)
     love.graphics.rectangle("fill",round(sw/2-(uiImg["freshplay"]:getWidth()/2)),sh/2-200,uiImg["freshplay"]:getWidth(),uiImg["freshplay"]:getHeight())
     love.graphics.draw(uiImg["freshplay"],sw/2-(uiImg["freshplay"]:getWidth()/2),sh/2-200)
-    love.graphics.draw(uiImg["love"],sw/2-(uiImg["love"]:getWidth()/2),sh/2)
+    love.graphics.draw(uiImg["enhost"],sw/2-(uiImg["enhost"]:getWidth()/2),sh/2)
+    love.graphics.setFont(font)
+    love.graphics.printf("POWERED BY",sw/2-(uiImg["enhost"]:getWidth()/2),sh/2,uiImg["enhost"]:getWidth(),"right")
   elseif phase == "login" then
     drawLogin()
   elseif phase == "game" then
@@ -56,6 +58,7 @@ function updatePhase(phase, dt)
         love.keypressed()
       end
     end
+    updateLogin(dt)
   elseif phase == "login" then
     updateLogin(dt)
   elseif phase == "game" then
