@@ -2,7 +2,7 @@ function loadFog()
   fog = {}
 
 
-  if love.filesystem.getInfo("fog.txt") then
+  if love.filesystem.getInfo("fog-don't.txt") then
       local i = 1
     for line in love.filesystem.lines("fog.txt") do
       if line == "true" then
@@ -63,7 +63,7 @@ function saveFog(fn)
 end
 
 function drawFog(xo,yo)
-  love.graphics.setColor(0,0,0)
+  love.graphics.setColor(0,0,0,250)
 
   for i = 1, 100*100 do
     if not fog[i] then
@@ -75,6 +75,6 @@ function drawFog(xo,yo)
       end
     end
   end
-  
+
   love.graphics.setColor(255,255,255)
 end

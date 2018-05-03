@@ -27,7 +27,7 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
-  loadGame()
+  --[[loadGame()
 --  newPlayer("a","a")
  givePlayerItem("a","Orb of Power",1000)
  givePlayerItem("a","Potent Healing Potion",1000)
@@ -36,7 +36,7 @@ function love.load()
  givePlayerItem("a","Lair Key",1)
  givePlayerItem("a","Adver",50000)
  --givePlayerItem("pebsie","Guardian's Blade",1)
-  --uploadCharacter("Pebsie")
+  --uploadCharacter("Pebsie")]]
 
   --initItems()
   loadOverworld()

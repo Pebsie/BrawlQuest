@@ -59,3 +59,9 @@ local oldSetColor = love.graphics.setColor
    end
    oldSetBackgroundColor(r,g,b,a)
  end
+
+function love.errorhandler(msg)
+  msg = tostring(msg)
+  
+  love.window.showMessageBox("ERROR","BrawlQuest has encountered an error.\n\n"..msg)
+end
