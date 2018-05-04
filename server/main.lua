@@ -76,8 +76,6 @@ function love.update(dt)
           else
             newPlayer(namePass[1],namePass[2])
 
-              newFight(pl.t[namePass[1]], "Ambush")
-              addPlayerToFight(#ft.t, namePass[1])
               udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
           end
 

@@ -1,7 +1,7 @@
 require "modules/submodules/fog"
 
 world = {}
-world.weather = "snow"
+world.weather = "clear"
 world.weatherX = 0
 world.weatherY = 0
 world.weatherA = 0
@@ -324,15 +324,6 @@ function createWorldCanvas()
           love.graphics.draw(worldImg[world[i].bg], x, y)
           love.graphics.draw(worldImg[world[i].tile], x, y)
           if world[i].tile == "Blacksmith" then drawPlayer("<NPC> Shop",x,y) end
-          if world[i].fightc == "100" then
-            if world[i].tile == "Camp" then
-              love.graphics.draw(mb.img["Mortus"],x,y)
-              drawPlayer("<NPC> Mortus",x,y)
-            else
-              love.graphics.draw(mb.img["Sorcerer"],x,y)
-              drawPlayer("<NPC> Sorcerer",x,y)
-            end
-          end
 
           if tonumber(pl.dt) == i then
             love.graphics.draw(worldImg["DT"],x,y)

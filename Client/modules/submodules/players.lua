@@ -72,7 +72,7 @@ function getPlayer(name,a) --where a is attribute
   return player[name][a]
 end
 
-function drawPlayer(name,x,y)
+function drawPlayer(name,x,y,option)
 
   if player[name] and item.img[player[name].arm] and player[name].online == "true" then
     drawBuddy(name)
@@ -88,9 +88,19 @@ function drawPlayer(name,x,y)
   end
 
   if not player[name] or player[name].online == "true" then --so that <npc> shop still works
-    love.graphics.setColor(0,0,0,200)
-    love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
-    love.graphics.setColor(255,255,255,255)
+    if option == "enemy" then
+      love.graphics.setColor(0,0,0,50)
+      love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
+      love.graphics.setColor(255,0,0)
+    elseif option == "ally" then
+      love.graphics.setColor(0,0,0,100)
+      love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
+      love.graphics.setColor(0,255,0)
+    else
+      love.graphics.setColor(0,0,0,200)
+      love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
+      love.graphics.setColor(255,255,255,255)
+    end
     love.graphics.setFont(sFont)
     love.graphics.printf(name,17+x-(round(sFont:getWidth(name)/2)),y-12,sFont:getWidth(name),"center")
   end

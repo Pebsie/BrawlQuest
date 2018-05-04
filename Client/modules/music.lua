@@ -43,9 +43,9 @@ function updateMusic(dt)
         else
         music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
         end
-        if dev == false then music.curPlay:setLooping(false) end
+        --if dev == false then music.curPlay:setLooping(false) end
       --love   music.curPlay:setVolume(0.05)
-      --  love.audio.play(music.curPlay)
+        if dev == false then love.audio.play(music.curPlay) end
       end
     end
 
