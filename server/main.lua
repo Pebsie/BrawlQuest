@@ -3,7 +3,7 @@ local udp = socket.udp()
 http = require("socket.http")
 
 udp:settimeout(0)
-udp:setsockname("*", 26657)
+udp:setsockname("127.0.0.1", 26657)
 
 msgs = "Server started."
 nett = 0.1
@@ -27,7 +27,7 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
-  loadGame()
+  --[[loadGame()
 --  newPlayer("a","a")
  givePlayerItem("a","Orb of Power",1000)
  givePlayerItem("a","Potent Healing Potion",1000)
@@ -36,7 +36,7 @@ function love.load()
  givePlayerItem("a","Lair Key",1)
  givePlayerItem("a","Adver",50000)
  --givePlayerItem("pebsie","Guardian's Blade",1)
-  --uploadCharacter("Pebsie")
+  --uploadCharacter("Pebsie")]]
 
   --initItems()
   loadOverworld()
@@ -76,8 +76,6 @@ function love.update(dt)
           else
             newPlayer(namePass[1],namePass[2])
 
-              newFight(pl.t[namePass[1]], "Ambush")
-              addPlayerToFight(#ft.t, namePass[1])
               udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
           end
 

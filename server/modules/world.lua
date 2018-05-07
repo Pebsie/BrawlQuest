@@ -5,7 +5,7 @@ weather = "clear"
 function loadOverworld()
 --  if not love.filesystem.exists("map.txt") then
     addMsg("Downloading world...")
-    b, c, h = http.request("http://brawlquest.com/dl/map-snow.txt")
+    b, c, h = http.request("http://brawlquest.com/dl/map-demo.txt")
     love.filesystem.write("map.txt", b)
   --end
 
@@ -53,10 +53,10 @@ function updateWorld(dt)
     --    world[i].isFight = false
     --  end
     --end
-    if love.math.random(1, 10) == 1 then
+  --[[  if love.math.random(1, 10) == 1 then
       if weather == "snow" then weather = "clear" else weather = "snow" end
       --addMsg("Weather is now "..weather)
-    end
+    end]] --WEATHER SIMULATION HERE
     worldUpdate = 10
   end
 end

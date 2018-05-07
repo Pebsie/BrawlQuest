@@ -88,30 +88,32 @@ function removePlayerFromFight(name)
 end
 
 function endFight(fight)
-  addMsg("Fight #"..fight.." ended!")
-  ft.done[fight] = true
-  world[ft.tile[fight]].isFight = false
+  if ft.done[fight] == false then
+    addMsg("Fight #"..fight.." ended!")
+    ft.done[fight] = true
+    world[ft.tile[fight]].isFight = false
 
-  local playersInFight = listPlayersInFight(fight)
-  for i = 1, #playersInFight do
-    local thisPlayerName = getPlayerName(tonumber(playersInFight[i]))
-  --  pl.msg[thisPlayerName] = ""
-   rwds = atComma(fs.rewards[ft.title[fight]]) --give loot to players
-   if not pl.fightsPlayed[thisPlayerName][pl.t[thisPlayerName]] then
-     rwdsRoll = {}
-    for k = 1, #rwds, 3 do
-      local trr = #rwdsRoll + 1
-      rwdsRoll[trr] = love.math.random(1,99)
-      if rwdsRoll[trr] < tonumber(rwds[k+2]) then
-        givePlayerItem(getPlayerName(tonumber(playersInFight[i])),rwds[k],tonumber(rwds[k+1]))
+    local playersInFight = listPlayersInFight(fight)
+    for i = 1, #playersInFight do
+      local thisPlayerName = getPlayerName(tonumber(playersInFight[i]))
+    --  pl.msg[thisPlayerName] = ""
+     rwds = atComma(fs.rewards[ft.title[fight]]) --give loot to players
+     if not pl.fightsPlayed[thisPlayerName][pl.t[thisPlayerName]] then
+       rwdsRoll = {}
+      for k = 1, #rwds, 3 do
+        local trr = #rwdsRoll + 1
+        rwdsRoll[trr] = love.math.random(1,99)
+        if rwdsRoll[trr] < tonumber(rwds[k+2]) then
+          givePlayerItem(getPlayerName(tonumber(playersInFight[i])),rwds[k],tonumber(rwds[k+1]))
+        end
+        --pl.msg = rwdsRoll[trr].."% / "..rwds[k+2].."\n"
       end
-      --pl.msg = rwdsRoll[trr].."% / "..rwds[k+2].."\n"
     end
-  end
 
-    pl.fightsPlayed[getPlayerName(tonumber(playersInFight[i]))][pl.t[getPlayerName(tonumber(playersInFight[i]))]] = true --set this fight to complete for today
+      pl.fightsPlayed[getPlayerName(tonumber(playersInFight[i]))][pl.t[getPlayerName(tonumber(playersInFight[i]))]] = true --set this fight to complete for today
 
-    removePlayerFromFight(getPlayerName(tonumber(playersInFight[i])))
+      removePlayerFromFight(getPlayerName(tonumber(playersInFight[i])))
+    end
   end
 end
 
@@ -156,6 +158,8 @@ function spawnMob(fight, mob, x, y)
       --print("Target is "..freshTarget)
       freshTarget = getPlayerName(tonumber(freshTarget))
     --  addMsg(string.sub(mob,1,5))
+    if not freshTarget then freshTarget = "static" end
+
       if string.sub(mob,1,5) == "speak" then
         ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp["speak"]..";320,240,"..freshTarget..";"..mb.sp1t["speak"]..";"..mb.sp2t["speak"]..";"..love.math.random(1,9999)..";"
       else
@@ -416,13 +420,23 @@ function updateFights(dt) --the big one!!
             local spellCast = ""
 
             if (mob.spell1time[v] < 0) then
-              mob.spell1time[v] = mb.sp1t[mob[v]]
+              if string.sub(mb.sp1[mob[v]],1,7) == "doOnce:" then
+                mob.spell1time[v] = 9999999
+                spellCast = string.sub(mb.sp1[mob[v]],8)
+              else
+                mob.spell1time[v] = mb.sp1t[mob[v]]
+                spellCast = mb.sp1[mob[v]]
+              end
               isCast = true
-              spellCast = mb.sp1[mob[v]]
             elseif (mob.spell2time[v] < 0) then
-              mob.spell2time[v] = mb.sp2t[mob[v]]
+              if string.sub(mb.sp2[mob[v]],1,7) == "doOnce:" then
+                mob.spell2time[v] = 9999999
+                spellCast = string.sub(mb.sp2[mob[v]],8)
+              else
+                mob.spell2time[v] = mb.sp2t[mob[v]]
+                spellCast = mb.sp2[mob[v]]
+              end
               isCast = true
-              spellCast = mb.sp2[mob[v]]
             end
 
               --cast spell here
@@ -472,6 +486,15 @@ function updateFights(dt) --the big one!!
 
       for v = 1, #listPlayersInFight(i) do
         pl.at[getPlayerName(v)] = false
+
+        if string.sub(pl.spell[getPlayerName(v)],1,7) == "Summon " then
+          for k = 1, tonumber(string.sub(pl.spell[getPlayerName(v)],8,8)) do
+            spawnMob(i,string.sub(pl.spell[getPlayerName(v)],10),pl.x[getPlayerName(v)] + love.math.random(-64,64), pl.y[getPlayerName(v)] + love.math.random(-64,64))
+          end
+
+          pl.spell[getPlayerName(v)] = "None"
+          pl.spellT[getPlayerName(v)] = 0
+        end
       end
       if hasFightEnded == true and ft.queue.current[i] > #ft.queue[i] and ft.nextSpawn[i] < 0 then
         endFight(i)

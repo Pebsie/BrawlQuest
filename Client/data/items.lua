@@ -170,6 +170,13 @@ item.img[ti] = love.graphics.newImage("img/items/scrolls/Ground Slam.png")
   item.price[ti] = "200,Gold"
   item.img[ti] = love.graphics.newImage("img/items/scrolls/Polymorph.png")
 
+  local ti = "Summon 5 Friendly Snake"
+  item.type[ti] = "Spell"
+  item.desc[ti] = "Make 5 Friendly Snakes appear around you to assist you in battle!"
+  item.val[ti] = "300,75"
+  item.lvl[ti] = 10
+  item.price[ti] = "200,Gold"
+  item.img[ti] = love.graphics.newImage("img/items/scrolls/Summon Snakes.png")
 
 --buddy (Wolf, Snake, Beholder, Baby Bat, Earth Elementling, Fire Elementling, Dragonling)
 buddy = {}

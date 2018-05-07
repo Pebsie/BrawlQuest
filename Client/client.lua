@@ -41,6 +41,10 @@ function netUpdate(dt)
 
           --  pl.x = tonumber(param[6])
           --  pl.y = tonumber(param[7])
+            if pl.t ~= tonumber(param[8]) then
+              addFog(tonumber(param[8]))
+            end
+
             pl.t = tonumber(param[8])
             pl.dt = param[9]
             pl.hp = tonumber(param[1])
@@ -213,7 +217,7 @@ function netUpdate(dt)
                 --new version of mob (order rejigged) so set x and y
                 if tonumber(getMob(k,"x")) > stdSW or tonumber(getMob(k,"x")) < 0 and tonumber(getMob(k,"y")) > stdSH then --mob is outside bounds of screen
                   local boneCount = 10
-                  if getMob(i,"mhp") > 2000 and getMob(i,"mhp") < 20000 then boneCount = 100 elseif getMob(i,"mhp") > 30 then boneCount = 15 end
+                --  if getMob(i,"mhp") > 2000 and getMob(i,"mhp") < 20000 then boneCount = 100 elseif getMob(i,"mhp") > 30 then boneCount = 15 end
                 --  addBones(getMob(i,"type"),getMob(i,"x")+mb.img[getMob(i,"type")]:getWidth()/2,getMob(i,"y")+mb.img[getMob(i,"type")]:getHeight()/2,boneCount,getMob(i,"id"))
                 end
 

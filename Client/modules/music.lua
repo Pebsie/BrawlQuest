@@ -31,7 +31,7 @@ function loadMusic()
   music.curPlay = music.title[love.math.random(1, #music.title)]
   music.curWet = music.weather["snow"]
 
-  --love.audio.play(music.curPlay)
+  if dev == false then love.audio.play(music.curPlay) end
 end
 
 function updateMusic(dt)
@@ -43,9 +43,9 @@ function updateMusic(dt)
         else
         music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
         end
-        music.curPlay:setLooping(false)
+        --if dev == false then music.curPlay:setLooping(false) end
       --love   music.curPlay:setVolume(0.05)
-      --  love.audio.play(music.curPlay)
+        if dev == false then love.audio.play(music.curPlay) end
       end
     end
 

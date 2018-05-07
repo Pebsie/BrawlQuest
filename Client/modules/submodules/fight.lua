@@ -76,7 +76,7 @@ love.graphics.scale(scale,scale)
   yoff = sh/2 - (stdSW/2)
 
   for i = 1, sw/64 do
-    --love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
+    love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
   end
 
   love.graphics.draw(fightCanvas,xoff,yoff)
@@ -90,13 +90,13 @@ love.graphics.scale(scale,scale)
       if getMob(i,"hp") > 0 then
 
         if mob[i].x > -mb.img[mob[i].type]:getWidth() and mob[i].x < stdSH and mob[i].y > -mb.img[mob[i].type]:getHeight() then
-          if distanceFrom(mob[i].x,mob[i].y, pl.x, pl.y)-1 < mb.rng[mob[i].type]+16 and not mb.friend[mob[i].type] then
+          if distanceFrom(mob[i].x,mob[i].y, pl.x, pl.y)-1 < mb.rng[mob[i].type]+24 and not mb.friend[mob[i].type] then
             love.graphics.setColor(100,0,0)
             love.graphics.line(mob[i].x+xoff+mb.img[mob[i].type]:getWidth()/2,mob[i].y+yoff+mb.img[mob[i].type]:getHeight()/2,pl.x+xoff+16,pl.y+yoff+16)
             love.graphics.setColor(255,255,255)
           end
 
-          if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
+          if mob[i].tx > mob[i].x then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INFO
             love.graphics.draw(mb.img[mob[i].type], mob[i].x+xoff, mob[i].y+yoff)
           else --if mob[i].tx < mob[i].x then
             love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2+xoff, mob[i].y+mb.img[mob[i].type]:getHeight()/2+yoff,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
@@ -107,6 +107,9 @@ love.graphics.scale(scale,scale)
             love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,(mob[i].hp/getMob(i,"mhp"))*mb.img[mob[i].type]:getWidth(),4)
             love.graphics.setColor(100,0,0)
             love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,mb.img[mob[i].type]:getWidth(),4)
+            drawPlayer(mob[i].type,mob[i].x+xoff,mob[i].y+yoff,"enemy")
+          elseif mb.friend[mob[i].type] then
+            drawPlayer(mob[i].type,mob[i].x+xoff,mob[i].y+yoff,"ally")
           end
         end
       end
@@ -245,10 +248,12 @@ function updateFight(dt)
        mob[i].y =  mob[i].ty
     end
 
-    if love.math.random(1, 100) == 1 and mb.sfx[mob[i].type] and updateTime[4] < 0 and mob[i].type ~= lastTalk then
-      love.audio.play(mb.sfx[mob[i].type][love.math.random(1,#mb.sfx[mob[i].type])])
+    if love.math.random(1, 100) == 1 and mb.sfx[mob[i].type] and updateTime[4] < 0 and mob[i].type ~= lastTalk and dev == false then
+      local sfxPlay = mb.sfx[mob[i].type][love.math.random(1,#mb.sfx[mob[i].type])]
+      sfxPlay:setPitch(love.math.random(30,200)/100)
+      love.audio.play(sfxPlay)
       updateTime[4] = love.math.random(1,10)
-      lastTalk = mob[i].type
+      lastTalk = "hello world"--mob[i].type
     end
 
     if distanceFrom(pl.x, pl.y, mob[i].x, mob[i].y) < mb.rng[mob[i].type] and mob[i].hp > 0 then
@@ -281,7 +286,7 @@ end
 
 function killMob(i)
 --love   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),32)
-
+  if mob[i].hp < 1 then addBones(mob[i].type, mob[i].x, mob[i].y) end
   addMob(i) --reset this mob for possible reuse
   love.audio.play(sfx["kill"])
 
@@ -327,8 +332,8 @@ end
 
 function updateMob(id,a,value)
   if a == "hp" and mob[id][a] > 0 then
-    if value < 0 then
-      addBones(mob[id].type, mob[id].x, mob[id].y)
+    if value < 1 then
+    --  addBones(mob[id].type, mob[id].x, mob[id].y)
     end
   end
   mob[id][a] = value

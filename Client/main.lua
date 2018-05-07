@@ -22,8 +22,8 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Alpha 0.2: The Cursed Tribe v1.3.1"
-newChatMsg("SERVER","Welcome to BrawlQuest: The Cursed Tribe!",1)
+version = "Convention Alpha Demo v1"
+newChatMsg("SERVER","Welcome to the BrawlQuest convention demo!",1)
 phase = "splash"
 
 isMouseDown = false
@@ -46,15 +46,17 @@ realScreenHeight = screenH
 
 news = ""
 
+dev = false--This variable just turns certain features on and off so that it's easier to dev the game
+
 function love.load()
 
-  love.filesystem.setIdentity( "bq" )
+  love.filesystem.setIdentity( "bq-demo" )
 
---  local ipadd = "127.0.0.1"
- local ipadd = "eu.brawlquest.com"
+  local ipadd = "127.0.0.1"
+ --local ipadd = "eu.brawlquest.com"
   netConnect(ipadd, "26657", 0.1)
   love.mouse.setVisible(false)
-  b, c, h = http.request("http://brawlquest.com/dl/news-4.txt")
+  b, c, h = http.request("http://brawlquest.com/dl/news-demo.txt")
   love.filesystem.write("news.txt", b)
   local i = 1
   for line in love.filesystem.lines("news.txt") do
@@ -84,6 +86,15 @@ function love.draw()
     drawTooltips()
   end
 
+  if dev == true then
+    love.graphics.setFont(bFont)
+    love.graphics.setColor(0,0,0)
+    love.graphics.rectangle("fill",0,0,bFont:getWidth("DEV MODE"),bFont:getHeight())
+    love.graphics.setColor(200,0,0)
+    love.graphics.printf("DEV MODE",0,0,bFont:getWidth("DEV MODE"),"center")
+    love.graphics.setColor(255,255,255)
+    love.graphics.setFont(sFont)
+  end
 end
 
 

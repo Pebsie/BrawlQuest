@@ -57,8 +57,8 @@ function newPlayer(name, password)
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
-  pl.t[i] = 1931 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
-  pl.dt[i] = 1931
+  pl.t[i] = 3179 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
+  pl.dt[i] = 3179
   pl.wep[i] = "Long Stick"
   pl.arm[i] = "Old Cloth"
   pl.armd[i] = 0
@@ -307,44 +307,8 @@ function movePlayer(name, dir)
   if world[pl.t[name]].collide and pl.t[name] ~= 4971 then
     pl.t[name] = curt
   else
-    if world[pl.t[name]].tile == "Curse" then
-      if not playerHasItem(name,"Adver Ring") then
-        pl.t[name] = curt
-      end
-    elseif world[pl.t[name]].tile == "Hole" then
-      local placeToGo = love.math.random(1,4)
-      if placeToGo == 1 then
-        pl.t[name] = 7314
-      elseif placeToGo == 2 then
-        pl.t[name] = 8616
-      elseif placeToGo == 3 then
-        pl.t[name] = 8664
-      else
-        pl.t[name] = 8049
-      end
-    elseif pl.t[name] == 8254 then
-      givePlayerItem(name,"Fly",1)
-    elseif world[pl.t[name]].tile == "Boat" then
-      pl.t[name] = 4055
-    elseif pl.t[name] == 8674 then
-      if not pl.fightsPlayed[name][8672] then
-        pl.t[name] = curt
-      end
-    elseif pl.t[name] == 2877 and not playerHasItem(name,"Crypt Key") then
-      pl.t[name] = curt
-    elseif pl.t[name] == 4513 then
-      newFight(pl.t[name],world[pl.t[name]].fight)
-      addPlayerToFight(#ft.t, name)
-    elseif pl.t[name] == 2780 then
-      givePlayerItem(name,"Beholder",1)
-      givePlayerItem(name,"Basic Cloth",1)
-      givePlayerItem(name,"Gold",5)
-      pl.t[name] = 3079
-    elseif pl.t[name] == 5433 then
-      pl.t[name] = 4055
-  --  elseif pl.t[name] == 8236 or pl.t[name] == 8751 and not playerHasItem(name,"Lair Key") then
-    --  pl.t[name] = curt
-    elseif world[pl.t[name]].isFight == true then
+
+    if world[pl.t[name]].isFight == true then
       local fightsOnTile = listFightsOnTile(pl.t[name])
       addPlayerToFight(fightsOnTile[1],name)
     else
@@ -355,7 +319,7 @@ function movePlayer(name, dir)
           if fs[world[pl.t[name]].fight] then
             newFight(pl.t[name], world[pl.t[name]].fight)
           else
-            newFight(pl.t[name], "Wolf Hunt")
+            newFight(pl.t[name], "Ghostly Haunting")
           end
           addPlayerToFight(#ft.t, name)
         end
