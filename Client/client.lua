@@ -106,6 +106,11 @@ function netUpdate(dt)
               killMobs()
               requestWorldInfo()
             end
+            if pl.state ~= "fight" and param[16] == "fight" then
+              love.graphics.setBackgroundColor(45, 139, 255)
+            else
+              love.graphics.setBackgroundColor(0,0,0)
+            end
             pl.state = param[16]
 
             if curAreaTitle ~= world[pl.t].name then

@@ -86,6 +86,9 @@ function newPlayer(name, password)
 
 
   addMsg("New player by the name of "..name)
+
+  newFight(1,"Intro")
+  addPlayerToFight(#ft.t, name)
 end
 
 function updatePlayers(dt)
