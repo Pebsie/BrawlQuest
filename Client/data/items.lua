@@ -351,7 +351,7 @@ item.img[ti] = buddy[ti]
   item.img[ti] = love.graphics.newImage("img/items/Orb of Power.png")
 
 shop = {}
-shop["Armour"] = {"Basic Cloth", "Leather Armour", "Chainmail Armour", "Guardian's Padding", "Legendary Padding"}
-shop["Weapons"] = {"Short Sword", "Bastard Sword", "Long Sword", "Guardian's Blade", "Legendary Sword"}
-shop["Misc"] = {"Healing Potion", "Potent Healing Potion", "Adver Ring", "Quia", "Orb of Power"}
-shop["Spells"] = {"Recovery","Slam","Enrage","Phase Shift","Polymorph"}
+shop["Armour"] = {"Basic Cloth", "Leather Armour", "Chainmail Armour"}
+shop["Weapons"] = {"Short Sword", "Bastard Sword", "Long Sword"}
+shop["Misc"] = {"Healing Potion", "Potent Healing Potion"}
+shop["Spells"] = {"Recovery","Slam","Polymorph"}

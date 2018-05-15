@@ -9,7 +9,7 @@ fs.rewards["Ghostly Haunting"] = "Gold,100"
 
 fs["Intro"] = "Mortus;1;speak,Mortus,So you're one of the new recruits from Swordbreak?,5;5;speak,Mortus,Right. Here's your mission. Three bandit camps have been set up to the south of here.,6;6;speak,Mortus,They've been terrorising Northvale and the citizens are afraid to leave their homes.,4;4;speak,Mortus,Take out the leaders of the three camps and I'll make it worth your while.,5;5;speak,Mortus,Northvale's blacksmith will be happy to sell you some gear. You aren't exactly fit for purpose as you are...,5;5;speak,Bandit,A new recruit! ATTACK!,3;3;speak,Mortus,Uh-oh...,2;2;Bandit;5"
 fs.spawnTime["Intro"] = 1
-fs.rewards["Intro"] = "Gold,100,100,Recovery,1,100,Potent Healing Potion,5,100"
+fs.rewards["Intro"] = "Gold,25,100,Recovery,1,100"
 
 fs["Wolf Pack"] = "speak,Wolf,AWOOOOO,2;2;Wolf;5;Alpha Wolf;2;Wolf;2;Mother Wolf;1;"
 fs.spawnTime["Wolf Pack"] = 1

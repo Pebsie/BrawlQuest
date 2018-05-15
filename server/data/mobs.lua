@@ -71,9 +71,9 @@ mb.rng[tm] = 32
 mb.friend[tm] = true
 
 local tm = "Friendly Snake"
-mb.hp[tm] = 25
+mb.hp[tm] = 25000
 mb.spd[tm] = 80
-mb.atk[tm] = 1
+mb.atk[tm] = 25
 mb.sp1[tm] = "None"
 mb.sp1t[tm] = 0
 mb.sp2[tm] = "None"
