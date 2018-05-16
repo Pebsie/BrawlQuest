@@ -106,6 +106,11 @@ function netUpdate(dt)
               killMobs()
               requestWorldInfo()
             end
+            if pl.state ~= "fight" and param[16] == "fight" then
+              love.graphics.setBackgroundColor(45, 139, 255)
+            elseif pl.state ~= "fight" then
+              love.graphics.setBackgroundColor(0,0,0)
+            end
             pl.state = param[16]
 
             if curAreaTitle ~= world[pl.t].name then
@@ -235,11 +240,11 @@ function netUpdate(dt)
               if tonumber(param[tparam+3]) < 1 then
                 love.audio.play(sfx["kill"])
               else
-                if getMob(i,"hp")-tonumber(param[tparam+3]) > 4 then
-                --  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
+              --[[  if getMob(i,"hp")-tonumber(param[tparam+3]) > 4 and mb.friend[getMob(i,"type")] == false then
+                  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),getMob(i,"hp")-tonumber(param[tparam+3]))
                 else
-                  --addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
-                end
+                  addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
+                end]]
                 love.audio.play(sfx["hit"])
 
                 if not mb.friend[getMob(i,"type")] and getMob(i,"id") == param[tparam+5] then

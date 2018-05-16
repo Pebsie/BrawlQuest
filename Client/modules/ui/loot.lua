@@ -31,17 +31,17 @@ function drawLootBox(x,y)
     y = y + font:getHeight()+6
 
     love.graphics.setColor(255,255,255,LQalpha)
-    if #lootQueue-LQcurrent > 1 then
+  --[[  if #lootQueue-LQcurrent > 1 then
       for i = 1, #lootQueue-LQcurrent do
         drawItem(lootQueue[LQcurrent+(i-1)],x+4+(32*(i-1)),y,LQalpha)
       end
-    else
+    else]]
     drawItem(lootQueue[LQcurrent].title,lootQueue[LQcurrent].amount,x+4,y,LQalpha)
       love.graphics.setFont(font)
       love.graphics.printf(lootQueue[LQcurrent].title,x+32,y+6,200-32,"center")
       love.graphics.setFont(sFont)
       love.graphics.printf(lootQueue[LQcurrent].amount,x+32,y+6+(font:getHeight()),200-32,"center")
-    end
+    --end
 
     --border
     love.graphics.setColor(150,150,150,LQalpha)

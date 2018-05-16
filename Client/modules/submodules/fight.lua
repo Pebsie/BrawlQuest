@@ -286,10 +286,11 @@ end
 
 function killMob(i)
 --love   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),32)
-  if mob[i].hp < 1 then addBones(mob[i].type, mob[i].x, mob[i].y) end
-  addMob(i) --reset this mob for possible reuse
-  love.audio.play(sfx["kill"])
-
+  if string.sub(mob[i].type,1,5) ~= "speak" then
+    love.audio.play(sfx["kill"])
+    if mob[i].hp < 2 then addBones(mob[i].type, mob[i].x, mob[i].y) end
+  end
+  addMob(i) --reset this mob for possible reused
 end
 
 function killMobs()
