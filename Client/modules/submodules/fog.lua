@@ -2,7 +2,7 @@ function loadFog()
   fog = {}
 
 
-  if love.filesystem.getInfo("fog-don't.txt") then
+  if love.filesystem.getInfo("fog.txt") then
       local i = 1
     for line in love.filesystem.lines("fog.txt") do
       if line == "true" then
@@ -63,15 +63,31 @@ function saveFog(fn)
 end
 
 function drawFog(xo,yo)
-  love.graphics.setColor(0,0,0,250)
-
   for i = 1, 100*100 do
-    if not fog[i] then
-      --love.graphics.draw(worldImg[world[i].bg],world[i].x+xo,world[i].y+yo)
-      if world[i].x-mx > -64 and world[i].x-mx < screenW+64 and world[i].y-my > -64 and world[i].y-my < screenH+64 then
+    --we're doing this here because it saves having to do another 100*100 calculation
+    if world[i].x-mx > -64 and world[i].x-mx < screenW+64 and world[i].y-my > -64 and world[i].y-my < screenH+64 then
 
-        love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
-      --  love.graphics.draw(worldImg["Cloud"], world[i].x+xo, world[i].y+yo)
+      if world[i].isFight then
+        love.graphics.setColor(255,255,255)
+        love.graphics.draw(uiImg["fight"],world[i].x+xo,world[i].y+yo)
+      end
+
+      if not fog[i] then
+        if fog.ignore[world[i].tile] then
+          love.graphics.setColor(0,0,0,200)
+          love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
+        else
+          love.graphics.setColor(50,50,50)
+          love.graphics.draw(worldImg[world[i].bg],world[i].x+xo,world[i].y+yo)
+        end
+        --love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
+        --love.graphics.draw(worldImg["Cloud"], world[i].x+xo, world[i].y+yo)
+      end
+
+      if pl.dt == i then
+        love.graphics.setColor(255,0,0)
+        love.graphics.rectangle("line",world[i].x+xo,world[i].y+yo,32,32)
+        --love.graphics.draw(worldImg["DT"],world[i].x+xo,world[i].y+yo)
       end
     end
   end

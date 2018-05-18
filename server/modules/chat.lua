@@ -36,7 +36,7 @@ function addChatMsg(sender,msg)
     chat[i].sender = sender
     chat[i].msg = msg
     chat[i].id = love.math.random(1,99999)
-    chat[i].broadcastTime = 10
+    chat[i].broadcastTime = 30
     addMsg(sender..": "..msg)
   end
 end

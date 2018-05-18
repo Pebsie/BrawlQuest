@@ -22,8 +22,8 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Convention Alpha Demo v1"
-newChatMsg("SERVER","Welcome to the BrawlQuest convention demo!",1)
+version = "The Cursed Tribe v1.3.2"
+newChatMsg("SERVER","Welcome to BrawlQuest: The Cursed Tribe",1)
 phase = "splash"
 
 isMouseDown = false
@@ -50,13 +50,13 @@ dev = false--This variable just turns certain features on and off so that it's e
 
 function love.load()
 
-  love.filesystem.setIdentity( "bq-demo" )
+  love.filesystem.setIdentity( "bq" )
 
-  local ipadd = "127.0.0.1"
- --local ipadd = "eu.brawlquest.com"
+  --local ipadd = "127.0.0.1"
+  local ipadd = "eu.brawlquest.com"
   netConnect(ipadd, "26657", 0.1)
   love.mouse.setVisible(false)
-  b, c, h = http.request("http://brawlquest.com/dl/news-demo.txt")
+  b, c, h = http.request("http://brawlquest.com/dl/news-4.txt")
   love.filesystem.write("news.txt", b)
   local i = 1
   for line in love.filesystem.lines("news.txt") do

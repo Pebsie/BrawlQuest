@@ -1,2 +1,7 @@
-+ Added Buddies, your NEW BEST FRIEND!
-* Fixed FPS drop in longer fights
+v1.3.2
+* Upgraded The Cursed Tribe with BQ-SHIPWRECK engine updates
+* Greatly improved reliability of chat
+* You can no longer move or accidentally use spells when typing in chat
+* Fixed a glitch where you couldn't see the "active fight" symbol in the overworld
+* You can no longer see players through fog
+* You can now view your respawn tile

@@ -109,14 +109,14 @@ function love.keypressed(key)
         if ui.selected == "chat" then ui.selected = 0 love.keyboard.setTextInput(false) sendChat(pl.cinput) else pl.cinput = "" ui.selected = "chat" love.keyboard.setTextInput(true) end
       end
   elseif key == "u" then
-    if phase == "game" then
+    if phase == "game" and ui.selected ~= "chat" then
       requestUserInfo()
       requestWorldInfo()
     end
-  elseif key == "z" then
+  elseif key == "z" and ui.selected ~= "chat" then
     newScale = newScale + 0.25
     love.resize(love.graphics.getWidth(),love.graphics.getHeight())
-  elseif key == "x" then
+  elseif key == "x" and ui.selected ~= "chat" then
     newScale = newScale - 0.25
     if newScale < 0.25 then newScale = 0.25 end
     love.resize(love.graphics.getWidth(),love.graphics.getHeight())
@@ -124,11 +124,11 @@ function love.keypressed(key)
     if phase == "login" then
       biome = 1
     end
-  elseif key == "r" then
+  elseif key == "r" and ui.selected ~= "chat" then
     if phase == "game" or phase == "fight" then
       netSend("potion", pl.name)
     end
-  elseif key == "q" then
+  elseif key == "q" and ui.selected ~= "chat" then
     if phase == "game" then
       vals = atComma(item.val[pl.s1])
       if pl.s1t < 0 and pl.en+1 > tonumber(vals[2]) then --HEY, changing this won't alter when you can and can't use spells, it'll only mess up the UI, so, stop.
@@ -138,7 +138,7 @@ function love.keypressed(key)
         pl.spell = pl.s1
       end
     end
-  elseif key == "e" then
+  elseif key == "e" and ui.selected ~= "chat" then
     if phase == "game" then
       vals = atComma(item.val[pl.s2])
       if pl.s2t < 0 and pl.en+1 > tonumber(vals[2]) then

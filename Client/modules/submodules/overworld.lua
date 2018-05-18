@@ -83,7 +83,7 @@ function drawOverworld()
 
   for i = 1, countPlayers() do
     name = getPlayerName(i)
-    if name ~= pl.name then
+    if name ~= pl.name and fog[tonumber(getPlayer(name,"t"))] and getPlayer(name,"state") ~= "fight" then
       drawPlayer(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my)
     end
   end
@@ -325,9 +325,6 @@ function createWorldCanvas()
           love.graphics.draw(worldImg[world[i].tile], x, y)
           if world[i].tile == "Blacksmith" then drawPlayer("<NPC> Shop",x,y) end
 
-          if tonumber(pl.dt) == i then
-            love.graphics.draw(worldImg["DT"],x,y)
-          end
         else
           love.graphics.print("error")
         end
