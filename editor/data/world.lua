@@ -71,39 +71,39 @@ worldImg["Huts"] = love.graphics.newImage("img/world/objects/Huts.png")
 
 function setWColour(wname)
   if wname == "Grass" or wname == "Snow" or wname == "Curse" or wname == "Cave Floor" then
-    love.graphics.setColor(0,255,0)
+    love.graphics.setColor(0,1,0)
   elseif wname == "Camp" or wname == "Blacksmith" then
-    love.graphics.setColor(255,100,100)
+    love.graphics.setColor(255/255,100/255,100/255)
   elseif wname == "Boulder" then
-    love.graphics.setColor(150,150,150)
+    love.graphics.setColor(150/255,150/255,150/255)
   elseif wname == "Dead Tree" then
-    love.graphics.setColor(140, 65, 19)
+    love.graphics.setColor(140/255, 65/255, 19/255)
   elseif wname == "Dungeon" or wname == "Stone Floor" or wname == "Red Walkway" then
-    love.graphics.setColor(255,100,100)
+    love.graphics.setColor(255/255,100/255,100/255)
   elseif wname == "Farm" then
-    love.graphics.setColor(232, 182, 76)
+    love.graphics.setColor(232/255, 182/255, 76/255)
   elseif wname == "Marsh" then
-    love.graphics.setColor(41, 142, 95)
+    love.graphics.setColor(41/255, 142/255, 95/255)
   elseif wname == "Mountain" then
-    love.graphics.setColor(100,100,100)
+    love.graphics.setColor(100/255,100/255,100/255)
   elseif wname == "Raid" then
-    love.graphics.setColor(255,255,255)
+    love.graphics.setColor(255/255,255/255,255/255)
   elseif wname == "Ruins" then
-    love.graphics.setColor(200,200,200)
+    love.graphics.setColor(200/255,200/255,200/255)
   elseif wname == "Sand" then
-    love.graphics.setColor(255, 249, 96)
+    love.graphics.setColor(255/255, 249/255, 96/255)
   elseif wname == "Tree" or wname == "Snowy Tree" or wname == "Jungle Tree" or wname == "Beach Tree" then
-    love.graphics.setColor(0,150,0)
+    love.graphics.setColor(0,150/255,0)
   elseif wname == "Village" then
-    love.graphics.setColor(109, 73, 35)
+    love.graphics.setColor(109/255, 73/255, 35/255)
   elseif wname == "Water" then
-    love.graphics.setColor(0,0,255)
+    love.graphics.setColor(0,0,255/255)
   elseif wname == "castle1" or wname == "castle2" or wname == "castle3" or wname == "castle4" then
-    love.graphics.setColor(200,200,200)
+    love.graphics.setColor(200/255,200/255,200/255)
   elseif wname == "Bridge" then
-    love.graphics.setColor(255,249,150)
+    love.graphics.setColor(255/255,249/255,150/255)
   elseif wname == "Cacuts" then
-    love.graphics.setColor(0,100,0)
+    love.graphics.setColor(0,100/255,0)
   else
     love.graphics.setColor(0,0,0)
   end

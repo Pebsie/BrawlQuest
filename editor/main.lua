@@ -3,6 +3,7 @@
 ---ensure that the map.txt file is in the filesystem directory before running or a new map will be created
 utf8 = require("utf8")
 require "data/world"
+require "ui/select"
 http = require("socket.http")
 
 world = {}
@@ -13,7 +14,8 @@ world.fightc = {}
 world.collide = {}
 world.isFight = {}
 
-mapname = "map-demo.txt"
+uiPhase = ""
+mapname = "map-beach.txt"
 
 info = ""
 view = 0
@@ -93,9 +95,11 @@ function love.draw()
       end
       if worldImg[world[i]] then
         --if world.isFight[i] == true then love.graphics.setColor(255,0,0) else love.graphics.setColor(255,255,255) end
-        if selT == i then love.graphics.setColor(255,255,255,50) else love.graphics.setColor(255,255,255) end
-        if view == 2 then if world.collide[i] == true then love.graphics.setColor(255,0,0) end end
-        love.graphics.draw(worldImg[world.bg[i]], x-camX, y-camY)
+        if selT == i then love.graphics.setColor(1,1,1,0.2) else love.graphics.setColor(1,1,1) end
+        if view == 2 then if world.collide[i] == true then love.graphics.setColor(1,0,0) end end
+        if worldImg[world.bg[i]] then
+          love.graphics.draw(worldImg[world.bg[i]], x-camX, y-camY)
+        end
         love.graphics.draw(worldImg[world[i]], x-camX, y-camY)
 
         if world.isFight[i] == true then love.graphics.draw(heroImg, x-camX, y-camY) end
@@ -103,9 +107,9 @@ function love.draw()
           love.graphics.setColor(0,0,0)
           love.graphics.print(world.fightc[i].."%", x-camX, y-camY)
         end
-          love.graphics.setColor(255,255,255)
+          love.graphics.setColor(1,1,1)
       else
-        love.graphics.setColor(255,0,0)
+        love.graphics.setColor(1,0,0)
         love.graphics.rectangle("line", x-camX, y-camY, 32, 32)
       end
     end
@@ -132,12 +136,16 @@ function love.draw()
     end
   end
 
-  love.graphics.setColor(255,0,0)
+  if uiPhase == "select" then
+    drawSelect(200,200)
+  end
+
+  love.graphics.setColor(1,0,0)
   love.graphics.rectangle("line",ox+(camX/32),oy+(camY/32),25,18.75)
 
   love.graphics.setColor(0,0,0)
   love.graphics.rectangle("fill",0,0,250,14*8)
-  love.graphics.setColor(255,255,255)
+  love.graphics.setColor(1,1,1)
   love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\nFloor is "..curBG.."\n"..info)
 
   if isType == true then
@@ -196,6 +204,8 @@ function love.keypressed(key)
         world.isFight[i] = false
       end
     end
+  elseif key == "escape" then
+    if uiPhase == "world" then uiPhase = "select" else uiPhase = "world" end
   end
 
 
