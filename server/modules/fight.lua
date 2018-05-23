@@ -29,6 +29,7 @@ function newFight(tile, fscript)
   ft.nextSpawn[i] = 1.5
   ft.title[i] = fscript
 
+  if not fs[fscript] then fscript = "default" end
   fightScript = atComma(fs[fscript], ";") --break down fight script, data/fights
   local v = 1 --THIS IS WHERE WE'RE LEAVING THIS OFF. THIS NEEDS TO BE MADE INTO A TWO DIMENSIONAL ARRAY FOR STORING FIGHT AND CURRENT. HAVE FUN.
   for k = 1,#fightScript,2 do
@@ -78,6 +79,9 @@ function removePlayerFromFight(name)
 
     ft.pl[id] = ftpls
     pl.state[getPlayerName(name)] = "world"
+    if ft.title[id] == "Shipwreck" then
+      pl.arm[getPlayerName(name)] = "Naked"
+    end
   --  addMsg(getPlayerName(name).." left fight #"..id)
 
     local curPlayers = listPlayersInFight(id)
@@ -97,6 +101,9 @@ function endFight(fight)
     for i = 1, #playersInFight do
       local thisPlayerName = getPlayerName(tonumber(playersInFight[i]))
     --  pl.msg[thisPlayerName] = ""
+
+
+
      rwds = atComma(fs.rewards[ft.title[fight]]) --give loot to players
      if not pl.fightsPlayed[thisPlayerName][pl.t[thisPlayerName]] then
        rwdsRoll = {}

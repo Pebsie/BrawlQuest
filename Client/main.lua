@@ -22,8 +22,8 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "The Cursed Tribe v1.3.2"
-newChatMsg("SERVER","Welcome to BrawlQuest: The Cursed Tribe",1)
+version = "Shipwrecked v1.0"
+newChatMsg("SERVER","Welcome to BrawlQuest: Shipwrecked",1)
 phase = "splash"
 
 isMouseDown = false
@@ -52,8 +52,8 @@ function love.load()
 
   love.filesystem.setIdentity( "bq" )
 
-  --local ipadd = "127.0.0.1"
-  local ipadd = "eu.brawlquest.com"
+  local ipadd = "127.0.0.1"
+  --local ipadd = "eu.brawlquest.com"
   netConnect(ipadd, "26657", 0.1)
   love.mouse.setVisible(false)
   b, c, h = http.request("http://brawlquest.com/dl/news-4.txt")
@@ -105,6 +105,7 @@ function love.update(dt)
   updateMusic(dt)
   updateSpells(dt)
   updateFloats(dt)
+  updateFog(dt)
 end
 
 function love.mousepressed(button)

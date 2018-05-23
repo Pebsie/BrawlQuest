@@ -21,23 +21,37 @@ item.lvl[ti] = 1
 item.price[ti] = "0,Gold"
 item.img[ti] = love.graphics.newImage("img/empty.png")
 
-local ti = "Old Cloth"
+local ti = "Boat"
 item.type[ti] = "arm"
 item.val[ti] = 0
+item.lvl[ti] = 1
+item.price[ti] = "0,Gold"
+item.img[ti] = love.graphics.newImage("img/world/objects/Boat.png")
+
+local ti = "Naked"
+item.type[ti] = "arm"
+item.val[ti] = 0
+item.lvl[ti] = 1
+item.price[ti] = "0,Gold"
+item.img[ti] = love.graphics.newImage("img/human/base.png")
+
+local ti = "Old Cloth"
+item.type[ti] = "arm"
+item.val[ti] = 1
 item.lvl[ti] = 1
 item.price[ti] = "0,Gold"
 item.img[ti] = love.graphics.newImage("img/human/Adventurer.png")
 
 local ti = "Basic Cloth"
 item.type[ti] = "arm"
-item.val[ti] = 1
+item.val[ti] = 2
 item.lvl[ti] = 1
 item.price[ti] = "5,Gold"
 item.img[ti] = love.graphics.newImage("img/human/Clean Adventurer.png")
 
 local ti = "Leather Armour"
 item.type[ti] = "arm"
-item.val[ti] = 2
+item.val[ti] = 3
 item.lvl[ti] = 3
 item.price[ti] = "25,Gold"
 item.img[ti] = love.graphics.newImage("img/human/Clothed Adventurer.png")
@@ -180,21 +194,29 @@ item.img[ti] = love.graphics.newImage("img/items/scrolls/Ground Slam.png")
 
 --buddy (Wolf, Snake, Beholder, Baby Bat, Earth Elementling, Fire Elementling, Dragonling)
 buddy = {}
+buddySnd = {}
 buddy["Baby Bat"] = love.graphics.newImage("img/pet/Baby Bat.png")
+buddySnd["Baby Bat"] = love.audio.newSource("sound/sfx/pet/bat.mp3","static")
 buddy["Beholder"] = love.graphics.newImage("img/pet/Beholder.png")
+buddySnd["Beholder"] = love.audio.newSource("sound/sfx/pet/beholder.mp3","static")
 buddy["Beholdling"] = love.graphics.newImage("img/pet/Beholdling.png")
-buddy["Chicken"] = love.graphics.newImage("img/pet/Chicken.png")
+buddySnd["Beholdling"] = love.audio.newSource("sound/sfx/pet/beholder.mp3","static")
+buddy["Chicken"] = love.graphics.newImage("img/pet/Chicken.png") --missing sfx
 buddy["Dog"] = love.graphics.newImage("img/pet/Dog.png")
+buddySnd["Dog"] = love.audio.newSource("sound/sfx/pet/dog.mp3","static")
 buddy["Dragonling"] = love.graphics.newImage("img/pet/Dragonling.png")
+buddySnd["Dragonling"] = love.audio.newSource("sound/sfx/mob/Dragon/1.mp3","static")
 buddy["Earth Elementling"] = love.graphics.newImage("img/pet/Earth Elementling.png")
 buddy["Fire Elementling"] = love.graphics.newImage("img/pet/Fire Elementling.png")
 buddy["Scorpion"] = love.graphics.newImage("img/pet/Scorpion.png")
 buddy["Sheep"] = love.graphics.newImage("img/pet/Sheep.png")
 buddy["Snake"] = love.graphics.newImage("img/pet/Snake.png")
+buddySnd["Snake"] = love.audio.newSource("sound/sfx/pet/snake.mp3","static")
 buddy["Water Elementling"] = love.graphics.newImage("img/pet/Water Elementling.png")
 buddy["Protector"] = love.graphics.newImage("img/pet/Protector.png")
 buddy["Fly"] = love.graphics.newImage("img/pet/Fly.png")
 buddy["Horse"] = love.graphics.newImage("img/pet/Horse.png")
+buddySnd["Horse"] = love.audio.newSource("sound/sfx/pet/horse.mp3","static")
 buddy["Silver Dragonling"] = love.graphics.newImage("img/pet/Silver Dragonling.png")
 buddy["Spirit of Death"] = love.graphics.newImage("img/pet/Spirit Of Death.png")
 

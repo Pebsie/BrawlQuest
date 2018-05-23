@@ -57,12 +57,12 @@ function newPlayer(name, password)
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
-  pl.t[i] = 3179 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
-  pl.dt[i] = 3179
+  pl.t[i] = 1 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
+  pl.dt[i] = 1942
   pl.wep[i] = "Long Stick"
-  pl.arm[i] = "Old Cloth"
+  pl.arm[i] = "Boat"
   pl.armd[i] = 0
-  pl.inv[i] = "A letter addressed to you;1;Healing Potion;5"
+  pl.inv[i] = "A letter addressed to you;1"
   pl.pot[i] = "None"
   pl.lvl[i] = 1
   pl.xp[i] = 0
@@ -87,7 +87,7 @@ function newPlayer(name, password)
 
   addMsg("New player by the name of "..name)
 
-  newFight(1,"Intro")
+  newFight(1,"Shipwreck")
   addPlayerToFight(#ft.t, name)
 end
 

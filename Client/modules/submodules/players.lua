@@ -86,7 +86,9 @@ function drawPlayer(name,x,y,option)
       drawSpell(player[name].spell,x,y)
     end
   end
+end
 
+function drawNamePlate(name,x,y,option)
   if not player[name] or player[name].online == "true" then --so that <npc> shop still works
     if option == "enemy" then
       love.graphics.setColor(0,0,0,50)
@@ -104,5 +106,5 @@ function drawPlayer(name,x,y,option)
     love.graphics.setFont(sFont)
     love.graphics.printf(name,17+x-(round(sFont:getWidth(name)/2)),y-12,sFont:getWidth(name),"center")
   end
-
+  love.graphics.setColor(255,255,255,255)
 end

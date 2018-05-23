@@ -16,6 +16,13 @@ function updateBuddies(dt)
         if bud[name].y < getPlayer(name,"y") then bud[name].y = bud[name].y + speed end
       end
 
+      if bud[name].x-mx > -64 and bud[name].x-mx < screenW+64 and bud[name].y-my > -64 and bud[name].y-my < screenH+64 and player[name].online == "true" then
+        if buddySnd[getPlayer(name,"buddy")] and buddySnd[getPlayer(name,"buddy")]:isPlaying() == false and love.math.random(1,1500) == 1 then
+          local budSound = buddySnd[getPlayer(name,"buddy")]
+          budSound:setPitch(love.math.random(75,150)/100)
+          love.audio.play(budSound)
+        end
+      end
     else
       bud[name] = {}
       bud[name].owner = "set"

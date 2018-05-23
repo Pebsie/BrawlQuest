@@ -1,0 +1,4 @@
+* Uncovering fog now has a smooth animation
+* New "Naked" base armour
+* The world now flashes white when you die
+* New music and sound effects

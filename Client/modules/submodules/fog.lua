@@ -2,20 +2,20 @@ function loadFog()
   fog = {}
 
 
-  if love.filesystem.getInfo("fog.txt") then
+  if love.filesystem.getInfo("fogg.txt") then
       local i = 1
     for line in love.filesystem.lines("fog.txt") do
       if line == "true" then
-        fog[i] = true
+        fog[i] = 0
       else
-        fog[i] = false
+        fog[i] = 255
       end
       i = i + 1
     end
 
   else
     for i = 1, 100*100 do
-      fog[i] = false
+      fog[i] = 255
     end
   end
 
@@ -35,20 +35,32 @@ function loadFog()
   fog.ignore["Graveyard"] = true
 end
 
+function updateFog(dt)
+  if fog then
+    for i,v in ipairs(fog) do
+      if fog[i] > 0 and fog[i] ~= 255 then fog[i] = fog[i] - 1000*dt end
+    end
+  end
+end
+
 function checkFog(tile)
   if fog then
     return fog[tile]
   else
-    return false
+    return 255
   end
 end
 
 function addFog(t)
-  fog[t] = true
+  if not fog[t] then
+    fog[t] = 254
+  end
 
   for k = -195,305,101 do
     for i = -9, -5 do
-      fog[t+i+k] = true
+      if fog[t+i+k] and fog[t+i+k] == 255 then
+        fog[t+i+k] = 254
+      end
     end
   end
 end
@@ -72,7 +84,7 @@ function drawFog(xo,yo)
         love.graphics.draw(uiImg["fight"],world[i].x+xo,world[i].y+yo)
       end
 
-      if not fog[i] then
+      if fog[i] == 255 then
         if fog.ignore[world[i].tile] then
           love.graphics.setColor(0,0,0,200)
           love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
@@ -82,12 +94,26 @@ function drawFog(xo,yo)
         end
         --love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
         --love.graphics.draw(worldImg["Cloud"], world[i].x+xo, world[i].y+yo)
+      elseif fog[i] > 1 then
+        love.graphics.setColor(255,255,255)
+        love.graphics.draw(worldImg[world[i].bg],world[i].x+xo,world[i].y+yo)
+        love.graphics.draw(worldImg[world[i].tile],world[i].x+xo,world[i].y+yo)
+        love.graphics.setColor(0,0,0,fog[i])
+        love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
       end
 
       if pl.dt == i then
         love.graphics.setColor(255,0,0)
         love.graphics.rectangle("line",world[i].x+xo,world[i].y+yo,32,32)
         --love.graphics.draw(worldImg["DT"],world[i].x+xo,world[i].y+yo)
+      end
+
+      if ambSnd[world[i].tile] then
+        if love.math.random(1, 25000) == 1 and ambSnd[world[i].tile]:isPlaying() == false then
+          local ambSound = ambSnd[world[i].tile]
+          ambSound:setPitch(love.math.random(75,150)/100)
+          love.audio.play(ambSound)
+        end
       end
     end
   end

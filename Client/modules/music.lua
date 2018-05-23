@@ -9,13 +9,13 @@ function loadMusic()
   music.title[1] = love.audio.newSource("sound/music/title.mp3", "stream")
   music.title[2] = love.audio.newSource("sound/music/title-old.mp3", "stream")
 
-  music.world[1] = love.audio.newSource("sound/music/world1.mp3", "stream")
-  music.world[2] = love.audio.newSource("sound/music/world2.mp3", "stream")
+  music.world[1] = love.audio.newSource("sound/music/beach1.mp3", "stream")
+--[[  music.world[2] = love.audio.newSource("sound/music/world2.mp3", "stream")
   music.world[3] = love.audio.newSource("sound/music/world3.mp3", "stream")
   music.world[4] = love.audio.newSource("sound/music/world4.mp3", "stream")
   music.world[5] = love.audio.newSource("sound/music/world5.mp3", "stream")
   music.world[6] = love.audio.newSource("sound/music/world6.mp3", "stream")
-  music.world[7] = love.audio.newSource("sound/music/world7.mp3", "stream")
+  music.world[7] = love.audio.newSource("sound/music/world7.mp3", "stream")]]
 
   music.fight[1] = love.audio.newSource("sound/music/fight1.mp3", "stream")
   music.fight[2] = love.audio.newSource("sound/music/fight2.mp3", "stream")

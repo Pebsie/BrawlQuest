@@ -8,6 +8,7 @@ world.weatherA = 0
 
 areaTitleAlpha = 255
 curAreaTitle = "The Great Plains"
+whiteOut = 255
 
 objectCanvas = love.graphics.newCanvas(32*101,32*101)
 
@@ -79,12 +80,20 @@ function drawOverworld()
   love.graphics.setBlendMode("alpha")
   if playerExists(pl.name) then
     drawPlayer(pl.name,pl.x-mx,pl.y-my)
+    drawNamePlate(pl.name,pl.x-mx,pl.y-my)
   end
 
   for i = 1, countPlayers() do
     name = getPlayerName(i)
     if name ~= pl.name and fog[tonumber(getPlayer(name,"t"))] and getPlayer(name,"state") ~= "fight" then
       drawPlayer(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my)
+    end
+  end
+
+  for i = 1, countPlayers() do --we want nameplates to show above player sprites
+    name = getPlayerName(i)
+    if name ~= pl.name and fog[tonumber(getPlayer(name,"t"))] and getPlayer(name,"state") ~= "fight" then
+      drawNamePlate(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my)
     end
   end
 
@@ -115,6 +124,9 @@ function drawOverworld()
   love.graphics.setColor(255,255,255,areaTitleAlpha)
   love.graphics.printf(world[pl.t].name,0,10,sw,"center")
   love.graphics.setFont(font)
+
+  love.graphics.setColor(255,255,255,whiteOut)
+  love.graphics.rectangle("fill",0,0,sw,sh)
 end
 
 function drawGraveyard(tx,ty)
@@ -307,6 +319,7 @@ function updateOverworld(dt)
   end
 
   updateTT(dt)
+  whiteOut = whiteOut - 100*dt --this is a white rectangle displayed above all UI and overworld in case of teleportation
 end
 
 function createWorldCanvas()

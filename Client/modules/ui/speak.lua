@@ -7,6 +7,7 @@ speak.totalTime = 0
 speak.alpha = 0
 
 function mobSpeak(mobSpeaking,text,time)
+  if mobSpeaking == "**player**" then mobSpeaking = pl.name end
   if text ~= speak.text then --as "speak" is a mob, this allows the time bar to work with messages sent from the server
     speak.mob = mobSpeaking
     speak.text = text
@@ -32,6 +33,8 @@ function drawSpeak(x,y)
   love.graphics.printf(speak.text,x+35,y,200-35,"left")
   if mb.img[speak.mob] then
     love.graphics.draw(mb.img[speak.mob],x,y)
+  elseif speak.mob == pl.name then
+    love.graphics.draw(item.img[pl.arm],x,y)
   end
 
   love.graphics.setColor(200,0,0,speak.alpha)

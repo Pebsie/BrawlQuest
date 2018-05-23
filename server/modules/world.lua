@@ -5,7 +5,7 @@ weather = "clear"
 function loadOverworld()
 --  if not love.filesystem.exists("map.txt") then
     addMsg("Downloading world...")
-    b, c, h = http.request("http://brawlquest.com/dl/map-demo.txt")
+    b, c, h = http.request("http://brawlquest.com/dl/map-beach.txt")
     love.filesystem.write("map.txt", b)
   --end
 

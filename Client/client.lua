@@ -45,6 +45,11 @@ function netUpdate(dt)
               addFog(tonumber(param[8]))
             end
 
+            if pl.t ~= tonumber(param[8]) and tonumber(param[8]) == pl.dt then
+              whiteOut = 500
+              love.audio.play(sfx["awake"])
+              mobSpeak("**player**","W-where am I?",5)
+            end
             pl.t = tonumber(param[8])
             pl.dt = param[9]
             pl.hp = tonumber(param[1])

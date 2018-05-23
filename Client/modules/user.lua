@@ -44,7 +44,7 @@ function enterGame()
   love.graphics.setBackgroundColor(0,0,0)
   --download map
   --if not love.filesystem.exists("map.txt") then
-   b, c, h = http.request("http://brawlquest.com/dl/map-snow.txt")
+   b, c, h = http.request("http://brawlquest.com/dl/map-beach.txt")
    love.filesystem.write("map.txt", b)
   --end
       loadFog()
@@ -122,6 +122,15 @@ function movePlayer(dir)
       mobSpeak("Mortus","You'll need an Adver Ring to pass through this cursed patch of land!",4)
     end
     addFog(pl.t)
+    if stepSnd[world[pl.t].tile] then
+      local stepSound = stepSnd[world[pl.t].tile]
+      stepSound:setPitch(love.math.random(75,150)/100)
+      love.audio.play(stepSound)
+    elseif stepSnd[world[pl.t].bg] then
+      local stepSound = stepSnd[world[pl.t].bg]
+      stepSound:setPitch(love.math.random(75,150)/100)
+      love.audio.play(stepSound)
+    end
   end
 
   if pl.t == 9185 then

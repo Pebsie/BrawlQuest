@@ -37,8 +37,10 @@ function createFightCanvas(t)
 
   for k = -195,305,101 do
     for i = -9, -5 do
-      extraImages[v] = worldImg[world[t+i+k].tile]
-      v = v + 1
+      if world[t+i+k] then
+        extraImages[v] = worldImg[world[t+i+k].tile]
+        v = v + 1
+      end
     end
   end
 
@@ -107,9 +109,6 @@ love.graphics.scale(scale,scale)
             love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,(mob[i].hp/getMob(i,"mhp"))*mb.img[mob[i].type]:getWidth(),4)
             love.graphics.setColor(100,0,0)
             love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,mb.img[mob[i].type]:getWidth(),4)
-            drawPlayer(mob[i].type,mob[i].x+xoff,mob[i].y+yoff,"enemy")
-          elseif mb.friend[mob[i].type] then
-            drawPlayer(mob[i].type,mob[i].x+xoff,mob[i].y+yoff,"ally")
           end
         end
       end
@@ -120,6 +119,19 @@ love.graphics.scale(scale,scale)
       love.graphics.draw(uiImg["error"], mob[i].x+xoff, mob[i].y+yoff)
     end
   end
+
+  for i = 1, countMobs() do
+    if mb.img[mob[i].type] then
+      if getMob(i,"hp") > 0 then
+        if getMob(i,"hp") > 0 and mb.friend[mob[i].type] ~= true and getMob(i,"hp") < 19999 then
+          drawNamePlate(mob[i].type,mob[i].x+xoff,mob[i].y+yoff,"enemy")
+        elseif mb.friend[mob[i].type] then
+          drawNamePlate(mob[i].type,mob[i].x+xoff,mob[i].y+yoff,"ally")
+        end
+      end
+    end
+  end
+
 
   for i = 1, countPlayers() do
       local playerName = getPlayerName(i)
@@ -133,8 +145,8 @@ love.graphics.scale(scale,scale)
         y = getPlayer(playerName,"y")
       end
 
-      drawPlayer(playerName,x+xoff,y+yoff)
-
+      drawPlayer(pl.name,x+xoff,y+yoff)
+      drawNamePlate(pl.name,x+xoff,y+yoff)
     --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
     --  love.window.showMessageBox("Debug","Player #"..i..": "..playerName.." at position "..getPlayer(playerName,"tx")..","..getPlayer(playerName,"ty"))
       love.graphics.setColor(0,255,0)
@@ -153,6 +165,16 @@ love.graphics.scale(scale,scale)
       love.graphics.setColor(255,255,255)
     end
   end
+
+  for i = 1, countPlayers() do --we want nameplates to show above player sprites
+    name = getPlayerName(i)
+    if name ~= pl.name and fog[tonumber(getPlayer(name,"t"))] and getPlayer(name,"state") ~= "fight" then
+      drawNamePlate(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my)
+    end
+  end
+
+
+
   love.graphics.setColor(0,0,0)
   love.graphics.rectangle("line",xoff,yoff,stdSH,stdSW)
   love.graphics.setColor(255,255,255)

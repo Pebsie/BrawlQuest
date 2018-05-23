@@ -1,7 +1,11 @@
-v1.3.2
+v1.3.3
 * Upgraded The Cursed Tribe with BQ-SHIPWRECK engine updates
 * Greatly improved reliability of chat
 * You can no longer move or accidentally use spells when typing in chat
 * Fixed a glitch where you couldn't see the "active fight" symbol in the overworld
 * You can no longer see players through fog
-* You can now view your respawn tile
+* You can now view your respawn tile (shadow of death isn't back yet though sadly! Still struggling with LOVE 0.11)
+* Your player sprite is now shown above all other sprites during battles
+* Added footstep sound effects
+* Add ambient sounds
+* Add Buddy sounds

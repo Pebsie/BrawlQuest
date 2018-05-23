@@ -6,23 +6,37 @@ item.lvl = {}
 item.price = {}
 item.img = {}
 
-local ti = "Old Cloth"
+local ti = "Boat"
 item.type[ti] = "arm"
 item.val[ti] = 0
 item.lvl[ti] = 1
 item.price[ti] = "0,Gold"
 item.img[ti] = ""
 
-local ti = "Basic Cloth"
+local ti = "Naked"
+item.type[ti] = "arm"
+item.val[ti] = 0
+item.lvl[ti] = 1
+item.price[ti] = "0,Gold"
+item.img[ti] = ""
+
+local ti = "Old Cloth"
 item.type[ti] = "arm"
 item.val[ti] = 1
+item.lvl[ti] = 1
+item.price[ti] = "0,Gold"
+item.img[ti] = ""
+
+local ti = "Basic Cloth"
+item.type[ti] = "arm"
+item.val[ti] = 2
 item.lvl[ti] = 1
 item.price[ti] = "5,Gold"
 item.img[ti] = ""
 
 local ti = "Leather Armour"
 item.type[ti] = "arm"
-item.val[ti] = 2
+item.val[ti] = 3
 item.lvl[ti] = 3
 item.price[ti] = "25,Gold"
 item.img[ti] = ""
