@@ -55,7 +55,7 @@ function drawLootBox(x,y)
 end
 
 function updateLootBox(dt)
-  local rate = 200*dt
+  local rate = 300*dt
 
   if LQcurrent < #lootQueue then --if we've got more loot to cycle through
     if LQaction == "off" then LQaction = "up" LQcurrent = LQcurrent + 1 end --let's get that box showing!

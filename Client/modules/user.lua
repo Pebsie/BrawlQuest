@@ -25,6 +25,7 @@ pl.state = "world"
 pl.selItem = "None"
 pl.selSpell = 1
 pl.str = 0
+pl.owed = ""
 
 function login() --we'll attempt to login
   if pl.name ~= "" and pl.cinput ~= "" then
@@ -68,7 +69,7 @@ function enterGame()
     gameUI[2].x = 0 --debug info
     gameUI[2].y = 0
     gameUI[2].isDrag = false
-    gameUI[2].isVisible = true
+    gameUI[2].isVisible = false
     gameUI[2].width = 160
     gameUI[2].height = 46+font:getHeight()+2
     gameUI[2].label = "Debug"
@@ -91,6 +92,15 @@ function enterGame()
     gameUI[4].height = 16
     gameUI[4].label = "Alert"
     gameUI[4].msg = ""
+
+    gameUI[5] = {}
+    gameUI[5].x = stdSH-100
+    gameUI[5].y = 0
+    gameUI[5].isDrag = false
+    gameUI[5].isVisible = true
+    gameUI[5].width = 100
+    gameUI[5].height = 120
+    gameUI[5].label = "World Map"
 end
 
 function requestUserInfo()

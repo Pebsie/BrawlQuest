@@ -114,3 +114,14 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 16
 mb.rng[tm] =  32
+
+local tm = "Spider"
+mb.hp[tm] = 3
+mb.spd[tm] = 64
+mb.atk[tm] = 5
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] =  32

@@ -16,7 +16,7 @@ frequentlyUpdate = false
 function drawGame()
   if pl.state == "world" then
     drawOverworld()
-  elseif pl.state == "fight" then
+  elseif pl.state == "fight" or pl.state == "afterfight" then
     drawFight()
   else
     love.graphics.setFont(sFont)
@@ -71,7 +71,7 @@ function updateGame(dt)
 
       updatePlayers(dt)
     end
-  elseif pl.state == "fight" then
+  elseif pl.state == "fight" or pl.state == "afterfight" then
     updateFight(dt)
   end
 

@@ -58,7 +58,7 @@ function addPlayerToFight(fight, name)
   end
 end
 
-function removePlayerFromFight(name)
+function removePlayerFromFight(name, isDead)
   --step 1: find out what fight the player is in
   pl.s1t[name] = 0
   pl.s2t[name] = 0
@@ -78,7 +78,13 @@ function removePlayerFromFight(name)
     end
 
     ft.pl[id] = ftpls
-    pl.state[getPlayerName(name)] = "world"
+
+    if not isDead then
+      pl.state[getPlayerName(name)] = "afterfight"
+    else
+      pl.state[getPlayerName(name)] = "world"
+    end
+
     if ft.title[id] == "Shipwreck" then
       pl.arm[getPlayerName(name)] = "Naked"
     end
@@ -111,7 +117,7 @@ function endFight(fight)
         local trr = #rwdsRoll + 1
         rwdsRoll[trr] = love.math.random(1,99)
         if rwdsRoll[trr] < tonumber(rwds[k+2]) then
-          givePlayerItem(getPlayerName(tonumber(playersInFight[i])),rwds[k],tonumber(rwds[k+1]))
+          pl.owed[getPlayerName(tonumber(playersInFight[i]))] = pl.owed[getPlayerName(tonumber(playersInFight[i]))]..rwds[k]..","..tonumber(rwds[k+1]).."," --givePlayerItem(getPlayerName(tonumber(playersInFight[i])),rwds[k],tonumber(rwds[k+1]))
         end
         --pl.msg = rwdsRoll[trr].."% / "..rwds[k+2].."\n"
       end

@@ -82,7 +82,7 @@ function love.update(dt)
         elseif cmd == "char" then --client is requesting character info
         --  addMsg(param[1].." requested user info!")
           local i = param[1]
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i], pl.str[i]), msg_or_ip, port_or_nil)
+          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i], pl.str[i], pl.owed[i]), msg_or_ip, port_or_nil)
         --  pl.msg[i] = ""
         pl.lastLogin[i] = 0
         elseif cmd == "move" then
@@ -218,8 +218,10 @@ function love.update(dt)
           end
         elseif cmd == "chat" then
           param = atComma(parms)
-
           addChatMsg(param[1],param[2])
+        elseif cmd == "claim" then
+          param = atComma(parms)
+          playerClaim(param[1],param[2])
         end
 
 

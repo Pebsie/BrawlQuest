@@ -2,7 +2,8 @@
 * New "Naked" base armour
 * The world now flashes white when you die
 * New music and sound effects
-
+* When a fight is completed you are now displayed the loot that you've earned and your score
+* Added minimap
 
 New Fights:
 * Spiders (Level 1)

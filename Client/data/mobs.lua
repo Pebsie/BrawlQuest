@@ -137,3 +137,14 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = love.graphics.newImage("img/mob/Cannonball.png")
 mb.rng[tm] =  32
+
+local tm = "Spider"
+mb.hp[tm] = 3
+mb.spd[tm] = 64
+mb.atk[tm] = 5
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Spider.png")
+mb.rng[tm] =  32

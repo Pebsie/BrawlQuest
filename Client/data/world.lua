@@ -81,6 +81,8 @@ worldImg["Mushroom"] = love.graphics.newImage("img/world/objects/Mushroom.png")
 worldImg["Barrel"] = love.graphics.newImage("img/world/objects/Barrel.png")
 worldImg["Big Chest"] = love.graphics.newImage("img/world/objects/Big Chest.png")
 worldImg["Huts"] = love.graphics.newImage("img/world/objects/Huts.png")
+worldImg["Debris"] = love.graphics.newImage("img/world/objects/debris.png")
+
 
 worldImg["DT"] = love.graphics.newImage("img/world/objects/Ghoul.png")
 worldImg["Cloud"] = love.graphics.newImage("img/world/objects/Cloud.png")
@@ -88,16 +90,21 @@ worldImg["Cloud"] = love.graphics.newImage("img/world/objects/Cloud.png")
 weatherImg = {}
 weatherImg["snow"] = love.graphics.newImage("img/world/snow.png")
 
-function setWColour(wname)
-  if wname == "Grass" then
+function setWColour(i)
+  wname = world[i].tile
+  if fog[i] == 255 then
+    love.graphics.setColor(0,0,0)
+  elseif pl.t == i then
+    love.graphics.setColor(255,0,0)
+  elseif wname == "Grass" or wname == "Snow" or wname == "Curse" or wname == "Cave Floor" then
     love.graphics.setColor(0,255,0)
-  elseif wname == "Camp" then
+  elseif wname == "Camp" or wname == "Blacksmith" then
     love.graphics.setColor(255,100,100)
   elseif wname == "Boulder" then
     love.graphics.setColor(150,150,150)
   elseif wname == "Dead Tree" then
     love.graphics.setColor(140, 65, 19)
-  elseif wname == "Dungeon" then
+  elseif wname == "Dungeon" or wname == "Stone Floor" or wname == "Red Walkway" then
     love.graphics.setColor(255,100,100)
   elseif wname == "Farm" then
     love.graphics.setColor(232, 182, 76)
@@ -111,7 +118,7 @@ function setWColour(wname)
     love.graphics.setColor(200,200,200)
   elseif wname == "Sand" then
     love.graphics.setColor(255, 249, 96)
-  elseif wname == "Tree" then
+  elseif wname == "Tree" or wname == "Snowy Tree" or wname == "Jungle Tree" or wname == "Beach Tree" then
     love.graphics.setColor(0,150,0)
   elseif wname == "Village" then
     love.graphics.setColor(109, 73, 35)
@@ -123,5 +130,7 @@ function setWColour(wname)
     love.graphics.setColor(255,249,150)
   elseif wname == "Cacuts" then
     love.graphics.setColor(0,100,0)
+  else
+    love.graphics.setColor(0,0,0)
   end
 end

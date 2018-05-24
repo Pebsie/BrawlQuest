@@ -107,7 +107,7 @@ function drawOverworld()
 
     love.graphics.pop()
 
-    for i = 1, 4 do
+    for i = 1, 5 do
       drawUIWindow(i)
     end
 
@@ -256,6 +256,19 @@ function drawUIWindow(i)
       --close button
       love.graphics.setColor(100,0,0)
       love.graphics.rectangle("fill",x+gameUI[i].width-16,y-font:getHeight()-2,16,16)
+
+    elseif i == 5 then
+      local tx = 0
+      local ty = 0
+      for i = 1, 100*100 do
+        setWColour(i)
+        love.graphics.rectangle("fill",x+tx,y+ty,1,1)
+        tx = tx + 1
+        if tx > 100 then
+          ty = ty + 1
+          tx = 0
+        end
+      end
     end
 
     --border

@@ -4,7 +4,7 @@ require "modules/ui/item"
 require "modules/ui/speak"
 
 function drawUI(dt)
-  drawLootBox(realScreenWidth/2-100,realScreenHeight/2 - 80)
+  drawLootBox(realScreenWidth/2-100,realScreenHeight-200)
   drawSpeak(realScreenWidth/2-100, realScreenHeight/2)
 end
 

@@ -101,8 +101,9 @@ function netUpdate(dt)
             pl.inv = param[12]
           --  love.window.showMessageBox("Debug",pl.inv)
             pl.pot = param[15]
-            if param[16] ~= pl.state then  --if we are newly entering this fight
-              music.curPlay:stop() --reset music
+            if pl.state ~= param[16] then music.curPlay:stop() end --reset music
+            if pl.state ~= "fight" and param[16] == "fight" then
+              love.graphics.setBackgroundColor(45, 139, 255)
               pl.x = love.math.random(200, 600) --place players in a line at the bottom of the arena
               pl.y = 380
               pl.s1t = 0
@@ -110,9 +111,11 @@ function netUpdate(dt)
               createFightCanvas(pl.t)
               killMobs()
               requestWorldInfo()
-            end
-            if pl.state ~= "fight" and param[16] == "fight" then
-              love.graphics.setBackgroundColor(45, 139, 255)
+            elseif pl.state ~= "afterfight" and param[16] == "afterfight" then
+              love.audio.play(sfx["victory"])
+              pl.x = love.math.random(200, 600) --place players in a line at the bottom of the arena
+              pl.y = 380
+              killMobs()
             elseif pl.state ~= "fight" then
               love.graphics.setBackgroundColor(0,0,0)
             end
@@ -126,11 +129,14 @@ function netUpdate(dt)
             pl.armd = tonumber(param[17])
             pl.dt = tonumber(param[19])
             pl.str = param[20]
+            pl.owed = param[21]
 
             local i = loginI.select
-            loadedCharacter[i].arm = pl.arm
-            loadedCharacter[i].wep = pl.wep
-            loadedCharacter[i].bud = pl.buddy
+            if pl.arm and pl.wep and pl.buddy then
+              loadedCharacter[i].arm = pl.arm
+              loadedCharacter[i].wep = pl.wep
+              loadedCharacter[i].bud = pl.buddy
+            end
             saveCharacters()
 
 

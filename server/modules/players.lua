@@ -36,6 +36,7 @@ pl.distance = {}
 pl.lastEquip = {}
 pl.fightsPlayed = {}
 pl.lastLogin = {}
+pl.owed = {} --what items are owed to the player (for the post-fight section)
 
 acc = {} --identified by number
 acc.username = {}
@@ -83,6 +84,7 @@ function newPlayer(name, password)
   pl.fightsPlayed[i] = {}
   pl.str[i] = 0
   pl.lastLogin[i] = 0
+  pl.owed[i] = ""
 
 
   addMsg("New player by the name of "..name)
@@ -287,8 +289,6 @@ function playerUse(name, ritem, index, amount)
   end
 end
 
---IMPLEMENT TO FULL GAME
-
 function playerHasItem(name,item,amount)
   if not amount then amount = 0 end
   local hasItem = false
@@ -298,6 +298,27 @@ function playerHasItem(name,item,amount)
   end
 
   return hasItem
+end
+
+function playerClaim( name, item )
+  local claims = atComma(pl.owed[name])
+
+  for i = 1, #claims, 2 do
+    if item == claims[i] then
+      givePlayerItem(name,claims[i],tonumber(claims[i+1]))
+      claims[i] = nil
+      claims[i+1] = nil
+     end
+  end
+
+  pl.owed[name] = "" --rebuild owed inventory
+  for i = 1, #claims, 2 do
+    if claims[i] and claims[i+1] then
+      pl.owed[name] = pl.owed[name]..claims[i]..","..claims[i+1]..","
+    end
+  end
+
+  if pl.owed[name] == "" then pl.state[name] = "world" end --the player has collected all of their loot!
 end
 
 function movePlayer(name, dir)
@@ -353,7 +374,7 @@ function damagePlayer(name, amount)
   end
 --  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";" --The client could figure this out itself
 
-  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] =  pl.dt[name] addMsg(name.." died!") removePlayerFromFight(name) pl.deaths[name] = pl.deaths[name] + 1 end
+  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] =  pl.dt[name] addMsg(name.." died!") removePlayerFromFight(name, true) pl.deaths[name] = pl.deaths[name] + 1 end
 end
 
 --return info functions

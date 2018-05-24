@@ -23,6 +23,7 @@ updateTime[1] = 0.1 --fight info
 updateTime[2] = 2 --world info
 updateTime[3] = 0.2 --player info
 updateTime[4] = 5 --time before we can talk again
+updateTime[5] = 1 --time before we can claim any more loot
 lastTalk = "anonymous"
 
 function createFightCanvas(t)
@@ -174,12 +175,20 @@ love.graphics.scale(scale,scale)
   end
 
 
+  if pl.state == "afterfight" then
+    local owedItems = atComma(pl.owed)
+    xLeft = (stdSH/2) - ((#owedItems / 2 * 32))
+    for i = 1, #owedItems, 2 do
+      love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
+      love.graphics.printf("x"..owedItems[i+1],xLeft+(i*32)+xoff,200+item.img[owedItems[i]]:getHeight()+yoff,item.img[owedItems[i]]:getWidth(),"right")
+    end
+  end
 
   love.graphics.setColor(0,0,0)
   love.graphics.rectangle("line",xoff,yoff,stdSH,stdSW)
   love.graphics.setColor(255,255,255)
   drawFightUI(sw/2 - 320,sh-94)
- love.graphics.pop()
+  love.graphics.pop()
   love.graphics.print(love.timer.getFPS().." FPS")
 
 end
@@ -210,6 +219,30 @@ function updateFight(dt)
     updateTime[3] = 1
   end
 
+  if updateTime[5] < 0 then
+    if pl.state == "afterfight" then --we're piggy backing off of this timer so as to not have to create another
+      local owedItems = atComma(pl.owed)
+      xLeft = (stdSH/2) - ((#owedItems / 2 * 32))
+      for i = 1, #owedItems, 2 do
+        if distanceFrom(pl.x+16, pl.y+16, xLeft+(i*32)+xoff, 200+item.img[owedItems[i]]:getHeight()+yoff) < 32 then
+          netSend("claim",pl.name..","..owedItems[i])
+          owedItems[i] = nil
+          owedItems[i+1] = nil
+          love.audio.stop(sfx["loot"])
+          love.audio.play(sfx["loot"])
+        end
+      end
+
+      pl.owed = ""
+      for i = 1, #owedItems, 2 do
+        if owedItems[i] and owedItems[i+1] then
+          pl.owed = pl.owed..owedItems[i]..","..owedItems[i+1]..","
+        end
+      end
+
+      updateTime[5] = 1
+    end
+  end
 
   local speed = 128*dt --change this if you want but you'll find yourself running out of stamina CONSTANTLY
   if love.keyboard.isDown(KEY_RUN) then
@@ -298,6 +331,8 @@ function updateFight(dt)
       lclouds.x[i] = love.math.random(-400,-200)
     end
   end
+
+
 end
 
 
