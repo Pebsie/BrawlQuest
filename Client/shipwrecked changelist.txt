@@ -2,3 +2,9 @@
 * New "Naked" base armour
 * The world now flashes white when you die
 * New music and sound effects
+
+
+New Fights:
+* Spiders (Level 1)
+* Crabs (Level 2)
+* Ghostly Knight (Late game)

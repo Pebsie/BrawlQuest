@@ -13,7 +13,7 @@ world.fightc = {}
 world.collide = {}
 world.isFight = {}
 
-mapname = "map-demo.txt"
+mapname = "map-beach.txt"
 
 info = ""
 view = 0
@@ -330,7 +330,7 @@ function round(x)
 end
 
 
---[[local oldSetColor = love.graphics.setColor
+local oldSetColor = love.graphics.setColor
  love.graphics.setColor = function (r, g, b, a)
    if type(r)=="table" then
        g = r[2] / 255
@@ -360,4 +360,4 @@ end
      a = (a or 255) / 255
    end
    oldSetBackgroundColor(r,g,b,a)
- end]]
+ end
