@@ -66,14 +66,14 @@ function love.update(dt)
         if cmd == "login" then
 
           namePass = atComma(parms)
-          addMsg("Player claiming to be "..namePass[1].." is trying to login.")
+        --  addMsg("Player claiming to be "..namePass[1].." is trying to login.")
           if loginPlayer(namePass[1], namePass[2]) then
             udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
-            addMsg("They are who they claim to be. Let them in, boys!")
+            addMsg("Player "..namePass[1].." logged in.")
             --addChatMsg("SERVER",namePass[1].." entered the world.")
           elseif getPlayerID(namePass[1]) then
             udp:sendto(string.format("%s %s %s", namePass[1], "login", "false"), msg_or_ip, port_or_nil)
-           addMsg("He wasn't "..namePass[1]..".")
+           addMsg(namePass[1].." tried to login with an incorrect password.")
           else
             newPlayer(namePass[1],namePass[2])
 
@@ -224,9 +224,11 @@ function love.update(dt)
         elseif cmd == "chat" then
           param = atComma(parms)
           addChatMsg(param[1],param[2])
-        elseif cmd == "claim" then
+        elseif cmd == "claim" then --claiming loot at the end of a fight
           param = atComma(parms)
           playerClaim(param[1],param[2])
+        elseif cmd == "error" then
+          addMsg("A player has encountered an error: "..parms)
         end
 
 
@@ -248,7 +250,7 @@ function love.update(dt)
   saveTime = saveTime - 1*dt
   if saveTime < 0 then
     saveGame()
-    saveTime = 10
+    saveTime = 300
   end
 end
 
@@ -280,6 +282,10 @@ function saveGame()
   currentDay = os.date("*t").wday
   saveHighscores()
   addMsg("Saved "..os.time())
+end
+
+function love.quit()
+  saveGame()
 end
 
 function loadGame()

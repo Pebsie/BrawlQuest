@@ -57,10 +57,14 @@ function love.load()
   netConnect(ipadd, "26657", 0.1)
   love.mouse.setVisible(false)
   b, c, h = http.request("http://brawlquest.com/dl/news-4.txt")
-  love.filesystem.write("news.txt", b)
-  local i = 1
-  for line in love.filesystem.lines("news.txt") do
-    news = news..line.."\n"
+  if b then
+    love.filesystem.write("news.txt", b)
+    local i = 1
+    for line in love.filesystem.lines("news.txt") do
+      news = news..line.."\n"
+    end
+  else
+    news = "UNABLE TO UPDATE NEWS\nAre you connected to the internet?"
   end
 
   font = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",14)

@@ -48,7 +48,11 @@ function enterGame()
   --download map
   --if not love.filesystem.exists("map.txt") then
    b, c, h = http.request("http://brawlquest.com/dl/map-beach.txt")
-   love.filesystem.write("map.txt", b)
+   if b then
+     love.filesystem.write("map.txt", b)
+   else
+     error("Unable to download world file. Are you connected to the internet?")
+   end
   --end
       loadFog()
   --load map

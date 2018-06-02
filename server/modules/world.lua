@@ -6,7 +6,11 @@ function loadOverworld()
 --  if not love.filesystem.exists("map.txt") then
     addMsg("Downloading world...")
     b, c, h = http.request("http://brawlquest.com/dl/map-beach.txt")
-    love.filesystem.write("map.txt", b)
+    if b then
+      love.filesystem.write("map.txt", b)
+    else
+      addMsg("UNABLE TO DOWNLOAD WORLD FILE!")
+    end
   --end
 
   --unpack
