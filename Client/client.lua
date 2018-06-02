@@ -132,6 +132,7 @@ function netUpdate(dt)
             pl.owed = param[21]
             pl.score = param[22]
             pl.combo = param[23]
+            pl.aspectString = param[24]
 
             local i = loginI.select
             if pl.arm and pl.wep and pl.buddy then

@@ -28,6 +28,7 @@ pl.str = 0
 pl.owed = ""
 pl.score = 0
 pl.combo = 0
+pl.aspectString = ""
 
 function login() --we'll attempt to login
   if pl.name ~= "" and pl.cinput ~= "" then

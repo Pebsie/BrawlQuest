@@ -19,7 +19,7 @@ require "modules/world"
 require "modules/char"
 require "modules/chat"
 require "modules/highscores"
-
+require "modules/aspects"
 
 stdSW = 1920/2
 stdSH = 1080/2
@@ -41,6 +41,7 @@ function love.load()
 
   --initItems()
   loadOverworld()
+  initAspects()
 
   --newFight(1, "Boar Hunt")
   --addPlayerToFight(1, "Pebsie")
@@ -84,7 +85,16 @@ function love.update(dt)
         elseif cmd == "char" then --client is requesting character info
         --  addMsg(param[1].." requested user info!")
           local i = param[1]
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i], pl.str[i], pl.owed[i], round(pl.score[i]), round(pl.combo[i])), msg_or_ip, port_or_nil)
+          local aspectString = ""
+          if #pl.aspects[i] > 0 then
+            for i, v in pairs(pl.aspects[i]) do
+              aspectString = aspectString..v..","
+            end
+          else
+            aspectString = "None"
+          end
+
+          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i], pl.str[i], pl.owed[i], round(pl.score[i]), round(pl.combo[i]), aspectString), msg_or_ip, port_or_nil)
         --  pl.msg[i] = ""
         pl.lastLogin[i] = 0
         elseif cmd == "move" then

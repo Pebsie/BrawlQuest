@@ -39,6 +39,7 @@ pl.lastLogin = {}
 pl.owed = {} --what items are owed to the player (for the post-fight section)
 pl.score = {} --this is reset at the start of each fight and represents the player's score for the last fight
 pl.combo = {} --this is the players current combo
+pl.aspects = {}
 
 acc = {} --identified by number
 acc.username = {}
@@ -89,6 +90,7 @@ function newPlayer(name, password)
   pl.owed[i] = "reset"
   pl.score[i] = 0
   pl.combo[i] = 0
+  pl.aspects[i] = {}
 
 
   addMsg("New player by the name of "..name)
@@ -137,6 +139,13 @@ function updatePlayers(dt)
     end
 
     pl.timeout[k] = pl.timeout[k] - 1*dt
+
+    for i, v in pairs(pl.aspects[k]) do
+      if v == "Bleeding" then
+        pl.hp[k] = pl.hp[k] - 2*dt
+      end
+      if aspect[v].antidote() then pl.aspects[k][i] = nil addMsg(k.." was cured of their "..v.." status!") end
+    end
   end
 end
 

@@ -136,36 +136,40 @@ love.graphics.scale(scale,scale)
   end
 
 
-  for i = 1, countPlayers() do
-      local playerName = getPlayerName(i)
-    if getPlayer(playerName,"t") == pl.t then
-      if pl.name == playerName then --we want to draw us client side to reduce jankiness
-        x = pl.x
-        y = pl.y
-        pl.spell = getPlayer(playerName,"spell")
-      else
-        x = getPlayer(playerName,"x")
-        y = getPlayer(playerName,"y")
+    for i = 1, countPlayers() do
+        local playerName = getPlayerName(i)
+      if getPlayer(playerName,"t") == pl.t then
+        if pl.name == playerName then --we want to draw us client side to reduce jankiness
+          x = pl.x
+          y = pl.y
+          pl.spell = getPlayer(playerName,"spell")
+        elseif pl.state == "afterfight" then --don't show players in the afterfight
+          x = -32
+          y = -32
+        else
+          x = getPlayer(playerName,"x")
+          y = getPlayer(playerName,"y")
+        end
+
+        drawPlayer(playerName,x+xoff,y+yoff)
+        drawNamePlate(playerName,x+xoff,y+yoff)
+      --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
+      --  love.window.showMessageBox("Debug","Player #"..i..": "..playerName.." at position "..getPlayer(playerName,"tx")..","..getPlayer(playerName,"ty"))
+        love.graphics.setColor(0,255,0)
+        love.graphics.rectangle("fill",x+xoff,y+32+yoff,(getPlayer(playerName,"hp")/100)*32,6)
+        love.graphics.setColor(100,0,0)
+        love.graphics.rectangle("line",x+xoff,y+32+yoff,32,6)
+
+        if pl.name == playerName then --energy
+          love.graphics.setColor(255,216,0)
+          love.graphics.rectangle("fill",x+xoff,y+32+8+yoff,(pl.en/100)*32,6)
+          love.graphics.setColor(205,166,0)
+          love.graphics.rectangle("line",x+xoff,y+32+8+yoff,32,6)
+        end
+
+
+        love.graphics.setColor(255,255,255)
       end
-
-      drawPlayer(pl.name,x+xoff,y+yoff)
-      drawNamePlate(pl.name,x+xoff,y+yoff)
-    --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
-    --  love.window.showMessageBox("Debug","Player #"..i..": "..playerName.." at position "..getPlayer(playerName,"tx")..","..getPlayer(playerName,"ty"))
-      love.graphics.setColor(0,255,0)
-      love.graphics.rectangle("fill",x+xoff,y+32+yoff,(getPlayer(playerName,"hp")/100)*32,6)
-      love.graphics.setColor(100,0,0)
-      love.graphics.rectangle("line",x+xoff,y+32+yoff,32,6)
-
-      if pl.name == playerName then --energy
-        love.graphics.setColor(255,216,0)
-        love.graphics.rectangle("fill",x+xoff,y+32+8+yoff,(pl.en/100)*32,6)
-        love.graphics.setColor(205,166,0)
-        love.graphics.rectangle("line",x+xoff,y+32+8+yoff,32,6)
-      end
-
-
-      love.graphics.setColor(255,255,255)
     end
   end
 
@@ -181,9 +185,6 @@ love.graphics.scale(scale,scale)
     local owedItems = atComma(pl.owed)
     xLeft = (stdSH/2) - ((#owedItems / 2 * 32))
     for i = 1, #owedItems, 2 do
-      love.graphics.setColor(0,0,0,100)
-      love.graphics.rectangle("fill",xLeft+(i*32)+xoff,item.img[owedItems[i]]:getHeight()+200+yoff,item.img[owedItems[i]]:getWidth(),6)
-      love.graphics.setColor(255,255,255,255)
       love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
       love.graphics.printf("x"..owedItems[i+1],xLeft+(i*32)+xoff,200+item.img[owedItems[i]]:getHeight()+yoff,item.img[owedItems[i]]:getWidth(),"right")
     end
