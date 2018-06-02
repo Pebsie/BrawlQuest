@@ -70,6 +70,7 @@ function love.update(dt)
           if loginPlayer(namePass[1], namePass[2]) then
             udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
             addMsg("Player "..namePass[1].." logged in.")
+            addChatMsg("SERVER",namePass[1].." entered the world.")
             --addChatMsg("SERVER",namePass[1].." entered the world.")
           elseif getPlayerID(namePass[1]) then
             udp:sendto(string.format("%s %s %s", namePass[1], "login", "false"), msg_or_ip, port_or_nil)
@@ -179,7 +180,7 @@ function love.update(dt)
           parms = atComma(param[1])
           local name = parms[1]
           local titem = parms[2]
-          addMsg(name.." is trying to buy "..titem)
+        --  addMsg(name.." is trying to buy "..titem)
           local itemCost = atComma(item.price[titem])
           if world[pl.t[name]].tile == "Blacksmith" then --check that they're on the right shop tile
             if playerHasItem(name,itemCost[2],tonumber(itemCost[1])) then

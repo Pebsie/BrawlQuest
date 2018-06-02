@@ -183,7 +183,7 @@ function givePlayerItem(name, ritem, amount)
 
   for i=1,#curInv,2 do
     curInv[i+1] = tonumber(curInv[i+1])
-    if curInv[i] == ritem then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true addMsg(name.." obtained another "..amount.."x "..ritem) end
+    if curInv[i] == ritem then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end
   end
 
   if alreadyOwned == false then
@@ -378,7 +378,7 @@ function damagePlayer(name, amount)
   end
 --  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";" --The client could figure this out itself
 
-  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] =  pl.dt[name] addMsg(name.." died!") removePlayerFromFight(name, true) pl.deaths[name] = pl.deaths[name] + 1 end
+  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] =  pl.dt[name] removePlayerFromFight(name, true) pl.deaths[name] = pl.deaths[name] + 1 end
 end
 
 --return info functions
@@ -409,7 +409,7 @@ function useSpell(spellName,name)
   if pl.spell[name] == "None" then
     if tonumber(pl.en[name])+1 > tonumber(vals[2]) then
       pl.spell[name] = spellName
-      addMsg(name.." used "..spellName)
+      --addMsg(name.." used "..spellName)
       pl.spellT[name] = tonumber(vals[3])
       pl.en[name] = pl.en[name] - tonumber(vals[2])
     end

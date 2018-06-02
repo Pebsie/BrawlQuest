@@ -10,6 +10,7 @@
   [*]Added encounter scoring system[/*]
   [*]Added Mac support on Steam[/*]
   [*]Added support for Steam Cloud saves[/*]
+  [*]Improved error reporting[/*]
 [/list]
 
   [b]Elaborations & Notes[/b]

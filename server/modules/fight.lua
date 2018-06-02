@@ -40,7 +40,7 @@ function newFight(tile, fscript)
   end
   ft.queue.current[i] = 1
 
-  addMsg("A new fight has started on tile #"..tile.." running script '"..fscript.."'")
+--  addMsg("A new fight has started on tile #"..tile.." running script '"..fscript.."'")
 end
 
 function addPlayerToFight(fight, name)
@@ -101,7 +101,7 @@ end
 
 function endFight(fight)
   if ft.done[fight] == false then
-    addMsg("Fight #"..fight.." ended!")
+  --  addMsg("Fight #"..fight.." ended!")
     ft.done[fight] = true
     world[ft.tile[fight]].isFight = false
 
