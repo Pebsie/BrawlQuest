@@ -130,6 +130,8 @@ function netUpdate(dt)
             pl.dt = tonumber(param[19])
             pl.str = param[20]
             pl.owed = param[21]
+            pl.score = param[22]
+            pl.combo = param[23]
 
             local i = loginI.select
             if pl.arm and pl.wep and pl.buddy then
@@ -282,6 +284,9 @@ function netUpdate(dt)
             tparam = tparam + 6
           end
 
+          fight.highscore = param[tparam]
+          fight.highscorePlayer = param[tparam+1]
+          tparam = tparam + 2
           --now we need to cycle through every mob and kill those that no longer exist
           for i = 1, countMobs() do
             if getMob(i,"updated") == false and getMob(i,"id") ~= -1 then

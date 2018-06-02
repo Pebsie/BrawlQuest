@@ -269,6 +269,10 @@ function drawUIWindow(i)
           tx = 0
         end
       end
+
+      love.graphics.setColor(255,255,255)
+      love.graphics.line(15+x+(mx)/32,y,15+x+(mx)/32,y+120) --xpos crossover
+      love.graphics.line(x,9+y+(my)/32,x+120,9+y+(my)/32)
     end
 
     --border

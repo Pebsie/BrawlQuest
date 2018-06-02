@@ -18,6 +18,7 @@ require "modules/fight"
 require "modules/world"
 require "modules/char"
 require "modules/chat"
+require "modules/highscores"
 
 
 stdSW = 1920/2
@@ -82,7 +83,7 @@ function love.update(dt)
         elseif cmd == "char" then --client is requesting character info
         --  addMsg(param[1].." requested user info!")
           local i = param[1]
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i], pl.str[i], pl.owed[i]), msg_or_ip, port_or_nil)
+          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i], pl.str[i], pl.owed[i], round(pl.score[i]), round(pl.combo[i])), msg_or_ip, port_or_nil)
         --  pl.msg[i] = ""
         pl.lastLogin[i] = 0
         elseif cmd == "move" then
@@ -148,7 +149,11 @@ function love.update(dt)
               tmob = getMobData(id,i)
               msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp,mb.hp[tmob.type],tmob.id)
             end
-
+            if hs[ft.title[id]] then
+              msgToSend = msgToSend..round(hs[ft.title[id]].score).."|"..hs[ft.title[id]].player.."|"
+            else
+              msgToSend = msgToSend.."0|No-one|"
+            end
             udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
           end
         elseif cmd == "atk" then  --    netSend("atk",pl.name..","..dir)
@@ -273,6 +278,8 @@ function saveGame()
   love.filesystem.write(fp, fs)
 
   currentDay = os.date("*t").wday
+  saveHighscores()
+  addMsg("Saved "..os.time())
 end
 
 function loadGame()
@@ -307,6 +314,7 @@ function loadGame()
       if word[23] then pl.str[i] = tonumber(word[23]) end
       if word[24] then pl.lastLogin[i] = tonumber(word[24]) end
     end
+    loadHighscores()
     addMsg("Game loaded.")
   else
     addMsg("Couldn't find save file.")

@@ -37,6 +37,8 @@ pl.lastEquip = {}
 pl.fightsPlayed = {}
 pl.lastLogin = {}
 pl.owed = {} --what items are owed to the player (for the post-fight section)
+pl.score = {} --this is reset at the start of each fight and represents the player's score for the last fight
+pl.combo = {} --this is the players current combo
 
 acc = {} --identified by number
 acc.username = {}
@@ -84,7 +86,9 @@ function newPlayer(name, password)
   pl.fightsPlayed[i] = {}
   pl.str[i] = 0
   pl.lastLogin[i] = 0
-  pl.owed[i] = ""
+  pl.owed[i] = "reset"
+  pl.score[i] = 0
+  pl.combo[i] = 0
 
 
   addMsg("New player by the name of "..name)
@@ -318,7 +322,7 @@ function playerClaim( name, item )
     end
   end
 
-  if pl.owed[name] == "" then pl.state[name] = "world" end --the player has collected all of their loot!
+  if pl.owed[name] == "" then pl.state[name] = "world" pl.owed[name] = "reset" end --the player has collected all of their loot!
 end
 
 function movePlayer(name, dir)

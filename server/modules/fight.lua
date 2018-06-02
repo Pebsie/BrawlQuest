@@ -53,6 +53,8 @@ function addPlayerToFight(fight, name)
     pl.y[name] = love.math.random(1, 600)
     pl.s1t[name] = 0
     pl.s2t[name] = 0
+    pl.score[name] = 0
+    pl.combo[name] = 0
   --  addMsg(name.." has joined fight #"..fight)
     ft.pl[fight] = ft.pl[fight]..id..";" --semicolon at end to prevent repeat errors
   end
@@ -109,7 +111,7 @@ function endFight(fight)
     --  pl.msg[thisPlayerName] = ""
 
 
-
+     if pl.owed[getPlayerName(tonumber(playersInFight[i]))] == "reset" then pl.owed[getPlayerName(tonumber(playersInFight[i]))] = "" end
      rwds = atComma(fs.rewards[ft.title[fight]]) --give loot to players
      if not pl.fightsPlayed[thisPlayerName][pl.t[thisPlayerName]] then
        rwdsRoll = {}
@@ -122,9 +124,19 @@ function endFight(fight)
         --pl.msg = rwdsRoll[trr].."% / "..rwds[k+2].."\n"
       end
     end
+      if hs[ft.title[fight]] then
+        if pl.score[getPlayerName(tonumber(playersInFight[i]))] > hs[ft.title[fight]].score then
+          addMsg(getPlayerName(tonumber(playersInFight[i])).." got a new high score for fight "..fight.."!")
+          hs[ft.title[fight]].score = pl.score[getPlayerName(tonumber(playersInFight[i]))]
+          hs[ft.title[fight]].player = getPlayerName(tonumber(playersInFight[i]))
+        end
+      else
+        hs[ft.title[fight]] = {}
+        hs[ft.title[fight]].score = pl.score[getPlayerName(tonumber(playersInFight[i]))]
+        hs[ft.title[fight]].player = getPlayerName(tonumber(playersInFight[i]))
+      end
 
       pl.fightsPlayed[getPlayerName(tonumber(playersInFight[i]))][pl.t[getPlayerName(tonumber(playersInFight[i]))]] = true --set this fight to complete for today
-
       removePlayerFromFight(getPlayerName(tonumber(playersInFight[i])))
     end
   end
@@ -396,7 +408,9 @@ function updateFights(dt) --the big one!!
               if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.img[mob[v]] and not mb.friend[mob[v]] then
                 local pdmg = item.val[pl.wep[thisPlayer]] + pl.str[thisPlayer]
                 mob.hp[v] = mob.hp[v] - pdmg
-                if mob.hp[v] < 0 then pl.kills[thisPlayer] = pl.kills[thisPlayer] + 1 end
+                pl.score[thisPlayer] = pl.score[thisPlayer] + (pdmg*(round(pl.combo[thisPlayer])+1))
+                addMsg(thisPlayer.." score: "..pl.score[thisPlayer].." (x"..pl.combo[thisPlayer]..")")
+                if mob.hp[v] < 1 then pl.kills[thisPlayer] = pl.kills[thisPlayer] + 1 pl.combo[thisPlayer] = pl.combo[thisPlayer] + 1.4 end
               --  addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
               --  pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
               end
@@ -498,8 +512,10 @@ function updateFights(dt) --the big one!!
       end
 
       for v = 1, #listPlayersInFight(i) do
+        local thisPlayer = getPlayerName(v)
         pl.at[getPlayerName(v)] = false
-
+        pl.combo[getPlayerName(v)] = pl.combo[getPlayerName(v)] - 0.5*dt
+        if pl.combo[getPlayerName(v)] < 0 then pl.combo[getPlayerName(v)] = 0 end
         if string.sub(pl.spell[getPlayerName(v)],1,7) == "Summon " then
           for k = 1, tonumber(string.sub(pl.spell[getPlayerName(v)],8,8)) do
             spawnMob(i,string.sub(pl.spell[getPlayerName(v)],10),pl.x[getPlayerName(v)] + love.math.random(-64,64), pl.y[getPlayerName(v)] + love.math.random(-64,64))

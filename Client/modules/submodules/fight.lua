@@ -17,6 +17,8 @@ updateFightTime = 0.2
 atkCooldown = 1
 
 fight = {}
+fight.highscore = 0
+fight.highscorePlayer = "Unknown"
 mob = {}
 updateTime = {}
 updateTime[1] = 0.1 --fight info
@@ -179,6 +181,9 @@ love.graphics.scale(scale,scale)
     local owedItems = atComma(pl.owed)
     xLeft = (stdSH/2) - ((#owedItems / 2 * 32))
     for i = 1, #owedItems, 2 do
+      love.graphics.setColor(0,0,0,100)
+      love.graphics.rectangle("fill",xLeft+(i*32)+xoff,item.img[owedItems[i]]:getHeight()+200+yoff,item.img[owedItems[i]]:getWidth(),6)
+      love.graphics.setColor(255,255,255,255)
       love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
       love.graphics.printf("x"..owedItems[i+1],xLeft+(i*32)+xoff,200+item.img[owedItems[i]]:getHeight()+yoff,item.img[owedItems[i]]:getWidth(),"right")
     end
@@ -189,12 +194,14 @@ love.graphics.scale(scale,scale)
   love.graphics.setColor(255,255,255)
   drawFightUI(sw/2 - 320,sh-94)
   love.graphics.pop()
-  love.graphics.print(love.timer.getFPS().." FPS")
-
+  --love.graphics.print(love.timer.getFPS().." FPS")
+  love.graphics.setFont(bFont)
+  love.graphics.print("Score: "..tostring(pl.score).." (x"..tostring(pl.combo)..")\nHighscore: "..tostring(fight.highscore).." (earned by "..tostring(fight.highscorePlayer)..")",200,200)
 end
 
 function requestFightInfo()
   netSend("fight",pl.name..","..round(pl.x)..","..round(pl.y))
+  requestUserInfo()
 end
 
 function updateFight(dt)
@@ -215,21 +222,22 @@ function updateFight(dt)
   end
 
   if updateTime[3] < 0 then
-    requestUserInfo()
-    updateTime[3] = 1
+  --  requestUserInfo()
+    updateTime[3] = 0.25
   end
 
   if updateTime[5] < 0 then
     if pl.state == "afterfight" then --we're piggy backing off of this timer so as to not have to create another
       local owedItems = atComma(pl.owed)
-      xLeft = (stdSH/2) - ((#owedItems / 2 * 32))
+      xLeft = (stdSH/2) - ((#owedItems / 2 * 32)) --TODO: remove this from having anything to do with stdSH
       for i = 1, #owedItems, 2 do
-        if distanceFrom(pl.x+16, pl.y+16, xLeft+(i*32)+xoff, 200+item.img[owedItems[i]]:getHeight()+yoff) < 32 then
+        if distanceFrom(pl.x+16, pl.y+16, xLeft+(i*32)+xoff, 200+item.img[owedItems[i]]:getHeight()+yoff) < 30 then
           netSend("claim",pl.name..","..owedItems[i])
           owedItems[i] = nil
           owedItems[i+1] = nil
           love.audio.stop(sfx["loot"])
           love.audio.play(sfx["loot"])
+          updateTime[1] = 2
         end
       end
 
@@ -240,7 +248,7 @@ function updateFight(dt)
         end
       end
 
-      updateTime[5] = 1
+      updateTime[5] = 0.1
     end
   end
 
