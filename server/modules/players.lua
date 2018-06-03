@@ -61,10 +61,10 @@ function newPlayer(name, password)
   pl.gold[i] = 0
   pl.x[i] = 320
   pl.y[i] = 240
-  pl.t[i] = 1 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
+  pl.t[i] = 805 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
   pl.dt[i] = 1942
   pl.wep[i] = "Long Stick"
-  pl.arm[i] = "Boat"
+  pl.arm[i] = "Legendary Padding"
   pl.armd[i] = 0
   pl.inv[i] = "A letter addressed to you;1"
   pl.pot[i] = "None"
@@ -94,9 +94,6 @@ function newPlayer(name, password)
 
 
   addMsg("New player by the name of "..name)
-
-  newFight(1,"Shipwreck")
-  addPlayerToFight(#ft.t, name)
 end
 
 function updatePlayers(dt)
@@ -142,9 +139,9 @@ function updatePlayers(dt)
 
     for i, v in pairs(pl.aspects[k]) do
       if v == "Bleeding" then
-        pl.hp[k] = pl.hp[k] - 2*dt
+        damagePlayer(k,2*dt)
       end
-      if aspect[v].antidote() then pl.aspects[k][i] = nil addMsg(k.." was cured of their "..v.." status!") end
+      if aspect[v].antidote() then pl.aspects[k][i] = nil  end
     end
   end
 end

@@ -28,7 +28,8 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
-  --[[loadGame()
+  loadGame()
+  --[[
 --  newPlayer("a","a")
  givePlayerItem("a","Orb of Power",1000)
  givePlayerItem("a","Potent Healing Potion",1000)
@@ -40,6 +41,7 @@ function love.load()
   --uploadCharacter("Pebsie")]]
 
   --initItems()
+  --loadHighscores()
   loadOverworld()
   initAspects()
 

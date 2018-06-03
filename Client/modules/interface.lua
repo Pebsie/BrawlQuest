@@ -3,7 +3,6 @@ require "modules/submodules/tooltip"
 require "modules/ui/master"
 require "modules/ui/chat"
 require "modules/ui/floats"
-require "modules/submodules/aspects"
 
 --ui variables, use as you wish
 ui = {}
@@ -115,11 +114,11 @@ function love.keypressed(key)
       requestWorldInfo()
     end
   elseif key == "z" and ui.selected ~= "chat" then
-    newScale = newScale + 0.25
+    newScale = newScale + 1
     love.resize(love.graphics.getWidth(),love.graphics.getHeight())
   elseif key == "x" and ui.selected ~= "chat" then
-    newScale = newScale - 0.25
-    if newScale < 0.25 then newScale = 0.25 end
+    newScale = newScale - 1
+    if newScale < 0.25 then newScale = 1 end
     love.resize(love.graphics.getWidth(),love.graphics.getHeight())
   elseif key == "left" then
     if phase == "login" then

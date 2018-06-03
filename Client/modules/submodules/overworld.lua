@@ -26,6 +26,7 @@ function loadOverworld()
       if word[4] == "true" then world[i].collide = true else world[i].collide = false end
       world[i].name = word[5]
       world[i].bg = word[6]
+      world[i].music = word[7]
       world[i].isFight = false
       world[i].players = ""
       world[i].x = x
@@ -74,8 +75,8 @@ function drawOverworld()
   end
 
   love.graphics.setBlendMode("alpha", "premultiplied")
-  love.graphics.draw(worldCanvas, -mx, -my) --draw world
-  love.graphics.draw(objectCanvas, -mx, -my)
+  love.graphics.draw(worldCanvas, round(-mx), round(-my)) --draw world
+  love.graphics.draw(objectCanvas, round(-mx), round(-my))
   drawFog(-mx,-my)
   love.graphics.setBlendMode("alpha")
   if playerExists(pl.name) then

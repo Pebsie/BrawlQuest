@@ -9,7 +9,7 @@ function loadOverworld()
     if b then
       love.filesystem.write("map.txt", b)
     else
-      addMsg("UNABLE TO DOWNLOAD WORLD FILE!")
+      addMsg("Failed to download world file.")
     end
   --end
 

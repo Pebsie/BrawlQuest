@@ -55,6 +55,11 @@ function addPlayerToFight(fight, name)
     pl.s2t[name] = 0
     pl.score[name] = 0
     pl.combo[name] = 0
+    --ALPHA TEMP
+    if ft.title[fight] == "Shipwreck" then
+      pl.arm[name] = "Boat"
+      pl.t[name] = 819
+    end
   --  addMsg(name.." has joined fight #"..fight)
     ft.pl[fight] = ft.pl[fight]..id..";" --semicolon at end to prevent repeat errors
   end
@@ -409,7 +414,7 @@ function updateFights(dt) --the big one!!
                 local pdmg = item.val[pl.wep[thisPlayer]] + pl.str[thisPlayer]
                 mob.hp[v] = mob.hp[v] - pdmg
                 pl.score[thisPlayer] = pl.score[thisPlayer] + (pdmg*(round(pl.combo[thisPlayer])+1))
-                addMsg(thisPlayer.." score: "..pl.score[thisPlayer].." (x"..pl.combo[thisPlayer]..")")
+                --addMsg(thisPlayer.." score: "..pl.score[thisPlayer].." (x"..pl.combo[thisPlayer]..")")
                 if mob.hp[v] < 1 then pl.kills[thisPlayer] = pl.kills[thisPlayer] + 1 pl.combo[thisPlayer] = pl.combo[thisPlayer] + 1.4 end
               --  addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
               --  pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done

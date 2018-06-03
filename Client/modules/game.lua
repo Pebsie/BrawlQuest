@@ -2,6 +2,7 @@ require "modules/submodules/players"
 require "modules/submodules/fight"
 require "modules/submodules/overworld"
 require "modules/submodules/buddy"
+require "modules/submodules/aspects"
 
 mx = 0
 my = 0

@@ -137,7 +137,8 @@ love.graphics.scale(scale,scale)
 
 
     for i = 1, countPlayers() do
-        local playerName = getPlayerName(i)
+     local playerName = getPlayerName(i)
+
       if getPlayer(playerName,"t") == pl.t then
         if pl.name == playerName then --we want to draw us client side to reduce jankiness
           x = pl.x
@@ -153,13 +154,14 @@ love.graphics.scale(scale,scale)
 
         drawPlayer(playerName,x+xoff,y+yoff)
         drawNamePlate(playerName,x+xoff,y+yoff)
+
       --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
       --  love.window.showMessageBox("Debug","Player #"..i..": "..playerName.." at position "..getPlayer(playerName,"tx")..","..getPlayer(playerName,"ty"))
         love.graphics.setColor(0,255,0)
         love.graphics.rectangle("fill",x+xoff,y+32+yoff,(getPlayer(playerName,"hp")/100)*32,6)
         love.graphics.setColor(100,0,0)
         love.graphics.rectangle("line",x+xoff,y+32+yoff,32,6)
-
+          
         if pl.name == playerName then --energy
           love.graphics.setColor(255,216,0)
           love.graphics.rectangle("fill",x+xoff,y+32+8+yoff,(pl.en/100)*32,6)
@@ -169,8 +171,10 @@ love.graphics.scale(scale,scale)
 
 
         love.graphics.setColor(255,255,255)
-      end
+
+
     end
+
   end
 
   for i = 1, countPlayers() do --we want nameplates to show above player sprites

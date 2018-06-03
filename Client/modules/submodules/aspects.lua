@@ -14,12 +14,12 @@ end
 function drawAspects()
   if pl.aspectString and pl.aspectString ~= "None" then
     local aspects = atComma(pl.aspectString)
-    love.graphics.setFont(font)
+    love.graphics.setFont(bFont)
     for i, v in pairs(aspects) do
       love.graphics.setColor(0,0,0,200)
-      love.graphics.rectangle("fill",screenW-font:getWidth(v),0+(font:getHeight()*(i-1)),font:getWidth(v),font:getHeight())
+      love.graphics.rectangle("fill",screenW-(bFont:getWidth(v)+100),0+(bFont:getHeight()*(i-1)),bFont:getWidth(v),bFont:getHeight())
       love.graphics.setColor(255,255,255,255)
-      love.graphics.print(v,screenW-font:getWidth(v),0+(font:getHeight()*(i-1)))
+      love.graphics.print(v,screenW-(bFont:getWidth(v)+100),0+(bFont:getHeight()*(i-1)))
     end
   end
 end

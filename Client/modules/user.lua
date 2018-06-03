@@ -139,11 +139,11 @@ function movePlayer(dir)
     addFog(pl.t)
     if stepSnd[world[pl.t].tile] then
       local stepSound = stepSnd[world[pl.t].tile]
-      stepSound:setPitch(love.math.random(75,150)/100)
+      stepSound:setPitch(love.math.random(100,140)/100)
       love.audio.play(stepSound)
     elseif stepSnd[world[pl.t].bg] then
       local stepSound = stepSnd[world[pl.t].bg]
-      stepSound:setPitch(love.math.random(75,150)/100)
+      stepSound:setPitch(love.math.random(100,140)/100)
       love.audio.play(stepSound)
     end
   end

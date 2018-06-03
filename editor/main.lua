@@ -12,6 +12,7 @@ world.fight = {}
 world.fightc = {}
 world.collide = {}
 world.isFight = {}
+world.music = {}
 
 mapname = "map-beach.txt"
 
@@ -31,6 +32,7 @@ curTile = "Mountain"
 curFight = "Boar Hunt"
 curFightC = 5
 curCollide = false
+curMusic = "*"
 
 isType = false
 ts = 1
@@ -53,6 +55,11 @@ function love.load()
       world.name[i] = word[5]
       world.bg[i] = word[6]
       world.isFight[i] = false
+      if word[7] then
+        world.music[i] = word[7]
+      else
+        world.music[i] = "1"
+      end
       --print("Tile #"..i..", '"..world.name[i].."', fight is "..world.fight[i].." ("..world.fightc[i].."% chance). Collide="..tostring(world.collide[i]))
     end
   else
@@ -72,6 +79,7 @@ function love.load()
         world.fightc[i] = 0 --5%
         world.collide[i] = true
         world.bg[i] = "Grass"
+        world.music[i] = "*"
   --    end
 
       world.isFight[i] = false
@@ -135,10 +143,10 @@ function love.draw()
   love.graphics.setColor(255,0,0)
   love.graphics.rectangle("line",ox+(camX/32),oy+(camY/32),25,18.75)
 
-  love.graphics.setColor(0,0,0)
-  love.graphics.rectangle("fill",0,0,250,14*8)
+  love.graphics.setColor(0,0,0,100)
+  love.graphics.rectangle("fill",0,0,250,14*10)
   love.graphics.setColor(255,255,255)
-  love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\nFloor is "..curBG.."\n"..info)
+  love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\nFloor is "..curBG.."\nMusic is "..curMusic.."\n"..info)
 
   if isType == true then
     love.graphics.rectangle("line", 0, 14+(14*ts), 200,14)
@@ -163,7 +171,8 @@ function love.update(dt)
   world.fightc[selT] = curFightC
   world.collide[selT] = curCollide
   world.name[selT] = curName
-  world.bg[selT] = curBG end
+  world.bg[selT] = curBG
+  world.music[selT] = curMusic end
 end
 
 function love.mousepressed(x, y, button, istouch)
@@ -173,6 +182,7 @@ function love.mousepressed(x, y, button, istouch)
     world.fightc[selT] = curFightC
     world.collide[selT] = curCollide
     world.name[selT] = curName
+    world.music[selT] = curMusic
   end
 end
 
@@ -206,16 +216,17 @@ function love.keypressed(key)
       if ts == 1 then pl.cinput = curTile
       elseif ts == 2 then pl.cinput = curFight
       elseif ts == 3 then pl.cinput = curFightC
-      elseif ts == 6 then pl.cinput = curBG end
-
-      if ts == 7 then ts = 1 end
+      elseif ts == 6 then pl.cinput = curBG
+      elseif ts == 7 then pl.cinput = curMusic  end
+      if ts == 8 then ts = 1 end
     elseif key == "up" then
       ts = ts - 1
       if ts == 1 then pl.cinput = curTile
       elseif ts == 2 then pl.cinput = curFight
       elseif ts == 3 then pl.cinput = curFightC
-      elseif ts == 5 then pl.cinput = curName end
-      if ts == 0 then ts = 6 end
+      elseif ts == 5 then pl.cinput = curName
+      elseif ts == 7 then pl.cinput = curMusic end
+      if ts == 0 then ts = 7 end
     end
 
 
@@ -237,6 +248,8 @@ function love.keypressed(key)
             curBG = pl.cinput
           elseif ts == 5 then
             curName = pl.cinput
+          elseif ts == 7 then
+            curMusic = pl.cinput
           end
       end
     end
@@ -256,6 +269,7 @@ function love.keypressed(key)
        curCollide =  world.collide[selT]
        curName = world.name[selT]
        curBG = world.bg[selT]
+       curMusic = world.music[selT]
     end
     if key == "e" then saveWorld() end
   end
@@ -284,6 +298,8 @@ function love.textinput(t)
       curName = pl.cinput
     elseif ts == 6 then
       curBG = pl.cinput
+    elseif ts == 7 then
+      curMusic = pl.cinput
     end
   end
 end
@@ -297,8 +313,8 @@ function saveWorld()
     if not world.fightc[i] then print("Missing fight chance.") end
     if not tostring(world.collide[i]) then print("Missing collision info.") end
     if not world.name[i] then print("Missing world name.") end
-    if world[i] and world.fight[i] and world.fightc[i] and tostring(world.collide[i]) and world.name[i] then
-      fs = fs..world[i]..","..world.fight[i]..","..world.fightc[i]..","..tostring(world.collide[i])..","..world.name[i]..","..world.bg[i].."\n"
+    if world[i] and world.fight[i] and world.fightc[i] and tostring(world.collide[i]) and world.name[i] and world.music[i] then
+      fs = fs..world[i]..","..world.fight[i]..","..world.fightc[i]..","..tostring(world.collide[i])..","..world.name[i]..","..world.bg[i]..","..world.music[i].."\n"
     else
       fs = fs.."error,none,0,false,The Great Plains,error\n"
       print("ERROR! WRITING CURRENT WORLD TO ALTERNATE FILE!! (Error tile is "..i..")")

@@ -22,7 +22,7 @@ end
 function inflictAspect(playerName,effect)
   if not playerHasAspect(playerName,effect) then
     pl.aspects[playerName][#pl.aspects+1] = effect
-    addMsg(playerName.." is now inflicted with "..effect.."!")
+--    addMsg(playerName.." is now inflicted with "..effect.."!")
   end
 end
 
