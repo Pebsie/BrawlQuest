@@ -61,6 +61,6 @@ function updateWorld(dt)
       if weather == "snow" then weather = "clear" else weather = "snow" end
       --addMsg("Weather is now "..weather)
     end]] --WEATHER SIMULATION HERE
-    worldUpdate = 60
+    worldUpdate = 1
   end
 end

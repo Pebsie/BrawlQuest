@@ -80,6 +80,7 @@ function love.load()
   loadMusic()
   bindKeys()
   loadCharacters()
+  loadFog()
 end
 
 function love.draw()

@@ -49,24 +49,29 @@ function loadOverworld()
     love.event.quit()
   end
 
-  titleScreen = 1200
+  titleScreen = 0
   createWorldCanvas()
 
   --create lightmap
   lightmap = {}
   for i = 1, 100*100 do
+    if lightsource[world[i].tile] then lightmap[i] = lightsource[world[i].tile]
+    else lightmap[i] = 0 end
+  end
+
+  --[[for i = 1, 100*100 do
     lightmap[i] = 0
     if lightsource[world[i].tile] then lightmap[i] = lightsource[world[i].tile]
     else
       for k = -5, 5 do --5 as max lightsource value is 5
-        if lightmap[i+k] then
+        if lightmap[i+k] and k ~= i then
           if lightmap[i+k] > lightmap[i] then
             lightmap[i] = lightmap[i+k] - math.abs(k)
+            if lightmap[i] < 0 then lightmap[i] = 0 end
           end
         end
       end
-    end
-  end
+]]
 end
 
 

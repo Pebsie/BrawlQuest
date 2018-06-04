@@ -2,7 +2,7 @@ function loadFog()
   fog = {}
 
 
-  if love.filesystem.getInfo("fogg.txt") then
+  if love.filesystem.getInfo("fog.txt") then
       local i = 1
     for line in love.filesystem.lines("fog.txt") do
       if line == "true" then
@@ -101,28 +101,55 @@ function drawFog(xo,yo)
         love.graphics.setColor(0,0,0,fog[i])
         love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
       elseif fog[i] < 0 then
-        if world[i].tile ~= "Campfire" then
           weather.time = tonumber(weather.time)
           local tileDarkness = 0
 
-          if weather.time > -1 and weather.time < 5 then
-            tileDarkness = 100
-          elseif weather.time > 4 and weather.time < 8 then
-            tileDarkness = 50
-          elseif weather.time > 16 and weather.time < 18 then
-            tileDarkness = 25
-          elseif weather.time > 17 and weather.time < 19 then
-            tileDarkness = 50
-          elseif weather.time > 18 and weather.time < 21 then
-            tileDarkness = 100
-          elseif weather.time > 20 then
-            tileDarkness = 150
-          end
 
-          tileDarkness = tileDarkness - (lightmap[i]*20)
+          if weather.time == 0 then tileDarkness = 200
+          elseif weather.time == 1 then tileDarkness = 200
+          elseif weather.time == 2 then tileDarkness = 200
+          elseif weather.time == 3 then tileDarkness = 180
+          elseif weather.time == 4 then tileDarkness = 150
+          elseif weather.time == 5 then tileDarkness = 100
+          elseif weather.time == 6 then tileDarkness = 75
+          elseif weather.time == 7 then tileDarkness = 30
+          elseif weather.time == 8 then tileDarkness = 15
+          elseif weather.time == 16 then tileDarkness = 20
+          elseif weather.time == 17 then tileDarkness = 40
+          elseif weather.time == 18 then tileDarkness = 50
+          elseif weather.time == 19 then tileDarkness = 70
+          elseif weather.time == 20 then tileDarkness = 100
+          elseif weather.time == 21 then tileDarkness = 150
+          elseif weather.time == 22 then tileDarkness = 175
+          elseif weather.time == 23 then tileDarkness = 200
+          elseif weather.time == 24 then tileDarkness = 200 end
+
+
+
+              local val = 0
+              local calc = 0
+              for k = -195,305,101 do
+                for t = -9, -5 do
+                  if lightmap[t+i+k] then
+                    val = val + (lightmap[t+i+k]*20 - distanceFrom(world[i].x,world[i].y,world[t+i+k].x,world[t+i+k].y)/32)
+                    calc = calc + 1
+                  end
+                end
+              end
+
+            if val > 0 then
+              tileDarkness = tileDarkness - val
+            end
+          --  if tileDarkness < 0 then tileDarkness = 0 end
+
+        --  tileDarkness = tileDarkness - (lightmap[i]*20)
           love.graphics.setColor(0,0,0,tileDarkness)
           love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
-        end
+          if love.keyboard.isDown("v") then
+            love.graphics.setFont(sFont)
+            love.graphics.setColor(255,255,255,255)
+            love.graphics.print(round(val),world[i].x+xo,world[i].y+yo)
+          end
       end
 
       if pl.dt == i then
