@@ -100,11 +100,11 @@ function enterGame()
 
     gameUI[5] = {}
     gameUI[5].x = stdSH-100
-    gameUI[5].y = 0
+    gameUI[5].y = -16
     gameUI[5].isDrag = false
     gameUI[5].isVisible = true
     gameUI[5].width = 100
-    gameUI[5].height = 120
+    gameUI[5].height = 140
     gameUI[5].label = "World Map"
 end
 

@@ -7,6 +7,7 @@
   [*]New music and sound effects[/*]
   [*]Revamped looting system[/*]
   [*]Added minimap[/*]
+  [*]Added weather system with day/night cycle[/*]
   [*]Added encounter scoring system[/*]
   [*]Added Mac support on Steam[/*]
   [*]Added support for Steam Cloud saves[/*]

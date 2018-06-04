@@ -20,6 +20,7 @@ require "modules/char"
 require "modules/chat"
 require "modules/highscores"
 require "modules/aspects"
+require "modules/weather"
 
 stdSW = 1920/2
 stdSH = 1080/2
@@ -44,6 +45,7 @@ function love.load()
   --loadHighscores()
   loadOverworld()
   initAspects()
+  initWeather()
 
   --newFight(1, "Boar Hunt")
   --addPlayerToFight(1, "Pebsie")
@@ -103,7 +105,7 @@ function love.update(dt)
           parms = atComma(parms)
           movePlayer(parms[1],parms[2])
         elseif cmd == "world" then
-          local msgToSend = countPlayers().."|"..countFights().."|"..weather.."|"..countChats().."|"
+          local msgToSend = countPlayers().."|"..countFights().."|"..countChats().."|"
           local name = parms
           pl.timeout[name] = 5
           --compile location of current players, including ourselves
@@ -130,6 +132,8 @@ function love.update(dt)
          for i = 1, #c do
            msgToSend = msgToSend..string.format("%s|%s|%s|", c[i].sender, c[i].msg, c[i].id)
          end
+
+         msgToSend = msgToSend..weather.time.."|"..weather.temperature.."|"..weather.condition.."|"
 
           udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
         elseif cmd == "fight" then

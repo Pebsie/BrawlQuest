@@ -100,6 +100,29 @@ function drawFog(xo,yo)
         love.graphics.draw(worldImg[world[i].tile],world[i].x+xo,world[i].y+yo)
         love.graphics.setColor(0,0,0,fog[i])
         love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
+      elseif fog[i] < 0 then
+        if world[i].tile ~= "Campfire" then
+          weather.time = tonumber(weather.time)
+          local tileDarkness = 0
+
+          if weather.time > -1 and weather.time < 5 then
+            tileDarkness = 100
+          elseif weather.time > 4 and weather.time < 8 then
+            tileDarkness = 50
+          elseif weather.time > 16 and weather.time < 18 then
+            tileDarkness = 25
+          elseif weather.time > 17 and weather.time < 19 then
+            tileDarkness = 50
+          elseif weather.time > 18 and weather.time < 21 then
+            tileDarkness = 100
+          elseif weather.time > 20 then
+            tileDarkness = 150
+          end
+
+          tileDarkness = tileDarkness - (lightmap[i]*20)
+          love.graphics.setColor(0,0,0,tileDarkness)
+          love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
+        end
       end
 
       if pl.dt == i then
@@ -115,8 +138,8 @@ function drawFog(xo,yo)
           love.audio.play(ambSound)
         end
       end
-    end
-  end
+    end --if tile is on screen
+  end --for statement
 
   love.graphics.setColor(255,255,255)
 end

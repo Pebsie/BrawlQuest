@@ -1,14 +1,20 @@
 require "modules/submodules/fog"
 
 world = {}
-world.weather = "clear"
+world.weather = "clear" --TODO: remove all references to this as it is no longer used
 world.weatherX = 0
 world.weatherY = 0
 world.weatherA = 0
 
+weather = {}
+weather.time = 9
+weather.condition = "clear"
+weather.temperature = 11
+
 areaTitleAlpha = 255
 curAreaTitle = "The Great Plains"
 whiteOut = 255
+titleScreen = 1200
 
 objectCanvas = love.graphics.newCanvas(32*101,32*101)
 
@@ -43,7 +49,24 @@ function loadOverworld()
     love.event.quit()
   end
 
+  titleScreen = 1200
   createWorldCanvas()
+
+  --create lightmap
+  lightmap = {}
+  for i = 1, 100*100 do
+    lightmap[i] = 0
+    if lightsource[world[i].tile] then lightmap[i] = lightsource[world[i].tile]
+    else
+      for k = -5, 5 do --5 as max lightsource value is 5
+        if lightmap[i+k] then
+          if lightmap[i+k] > lightmap[i] then
+            lightmap[i] = lightmap[i+k] - math.abs(k)
+          end
+        end
+      end
+    end
+  end
 end
 
 
@@ -119,15 +142,27 @@ function drawOverworld()
         drawGraveyard(sw/2-75,sh/2-(72/2))
       end
 
-  love.graphics.setColor(0,0,0,areaTitleAlpha)
-  love.graphics.rectangle("fill",(sw/2)-(bFont:getWidth(world[pl.t].name)+10)/2,5,bFont:getWidth(world[pl.t].name)+10,bFont:getHeight()+10)
-  love.graphics.setFont(bFont)
-  love.graphics.setColor(255,255,255,areaTitleAlpha)
-  love.graphics.printf(world[pl.t].name,0,10,sw,"center")
-  love.graphics.setFont(font)
+  if titleScreen < 0 then
+    love.graphics.setColor(0,0,0,areaTitleAlpha)
+    love.graphics.rectangle("fill",(sw/2)-(bFont:getWidth(world[pl.t].name)+10)/2,5,bFont:getWidth(world[pl.t].name)+10,bFont:getHeight()+10)
+    love.graphics.setFont(bFont)
+    love.graphics.setColor(255,255,255,areaTitleAlpha)
+    love.graphics.printf(world[pl.t].name,0,10,sw,"center")
+    love.graphics.setFont(font)
+  else
+    areaTitleAlpha = 0
+  end
 
   love.graphics.setColor(255,255,255,whiteOut)
   love.graphics.rectangle("fill",0,0,sw,sh)
+
+  love.graphics.setColor(0,0,0,titleScreen)
+  love.graphics.rectangle("fill",0,0,sw,sh)
+  love.graphics.setColor(255,255,255,titleScreen)
+  love.graphics.setFont(bFont)
+  love.graphics.printf(world[pl.t].name,0,sh/2-200,sw,"center")
+  love.graphics.setFont(font)
+  love.graphics.printf("Day 201 of the year 302\n\nThe hour is "..weather.time.."\n"..weather.condition..", "..weather.temperature.."C",0,sh/2,sw,"center")
 end
 
 function drawGraveyard(tx,ty)
@@ -272,8 +307,12 @@ function drawUIWindow(i)
       end
 
       love.graphics.setColor(255,255,255)
-      love.graphics.line(15+x+(mx)/32,y,15+x+(mx)/32,y+120) --xpos crossover
-      love.graphics.line(x,9+y+(my)/32,x+120,9+y+(my)/32)
+      love.graphics.line(15+x+(mx)/32,y,15+x+(mx)/32,y+100) --xpos crossover
+      love.graphics.line(x,9+y+(my)/32,x+100,9+y+(my)/32)
+
+      love.graphics.draw(uiImg["weather-"..weather.condition],x,y+100)
+      love.graphics.setFont(sFont)
+      love.graphics.print(weather.condition.." ("..weather.temperature.." C)\nHour: "..weather.time,x+10,y+98)
     end
 
     --border
@@ -338,6 +377,7 @@ function updateOverworld(dt)
 
   updateTT(dt)
   whiteOut = whiteOut - 100*dt --this is a white rectangle displayed above all UI and overworld in case of teleportation
+  titleScreen = titleScreen - 200*dt
 end
 
 function createWorldCanvas()

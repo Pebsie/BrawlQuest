@@ -147,9 +147,8 @@ function netUpdate(dt)
         elseif cmd == "world" then --update world
           local plyrs = tonumber(param[1])
           local fghts = tonumber(param[2])
-          world.weather = param[3]
-          local bcs = tonumber(param[4]) --broadcast chats
-          local tparam = 5
+          local bcs = tonumber(param[3]) --broadcast chats
+          local tparam = 4
           for i = 1, plyrs do --this is awful please stop doing this
             if param[tparam] == "user" then
               local name = param[tparam+1]
@@ -197,6 +196,11 @@ function netUpdate(dt)
             newChatMsg(param[tparam],param[tparam+1],param[tparam+2])
             tparam = tparam + 3
           end
+
+          weather.time = param[tparam]
+          weather.temperature = param[tparam+1]
+          weather.condition = param[tparam+2]
+          tparam = tparam + 3
         elseif cmd == "fight" then
           local mbs = tonumber(param[1])
           local plyrs = tonumber(param[2])

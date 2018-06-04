@@ -90,6 +90,11 @@ worldImg["Cloud"] = love.graphics.newImage("img/world/objects/Cloud.png")
 weatherImg = {}
 weatherImg["snow"] = love.graphics.newImage("img/world/snow.png")
 
+lightsource = {}
+lightsource["Campfire"] = 5
+lightsource["Camp"] = 5
+lightsource["Village"] = 5
+
 function setWColour(i)
   wname = world[i].tile
   if fog[i] == 255 then
