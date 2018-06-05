@@ -176,6 +176,7 @@ function love.resize(w,h) --reset sw and sh
     createLoginCanvas()
   elseif phase == "game" then
   --  createWorldCanvas()
+    createWeather()
   end
 end
 

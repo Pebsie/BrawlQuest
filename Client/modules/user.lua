@@ -140,10 +140,12 @@ function movePlayer(dir)
     if stepSnd[world[pl.t].tile] then
       local stepSound = stepSnd[world[pl.t].tile]
       stepSound:setPitch(love.math.random(100,140)/100)
+      stepSound:setVolume(0.25)
       love.audio.play(stepSound)
     elseif stepSnd[world[pl.t].bg] then
       local stepSound = stepSnd[world[pl.t].bg]
       stepSound:setPitch(love.math.random(100,140)/100)
+      stepSound:setVolume(0.25)
       love.audio.play(stepSound)
     end
   end

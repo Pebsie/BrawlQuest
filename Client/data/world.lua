@@ -92,8 +92,9 @@ weatherImg["snow"] = love.graphics.newImage("img/world/snow.png")
 
 lightsource = {}
 lightsource["Campfire"] = 5
-lightsource["Camp"] = 5
-lightsource["Village"] = 5
+lightsource["Camp"] = 10
+lightsource["Village"] = 20
+lightsource["Mushroom"] = 1
 
 function setWColour(i)
   wname = world[i].tile
@@ -138,4 +139,19 @@ function setWColour(i)
   else
     love.graphics.setColor(0,0,0)
   end
+end
+
+function createWeather()
+  rainImg = love.graphics.newImage("img/world/rain.png")
+  if not rain then rain = love.graphics.newCanvas(screenW*4,screenH*4) end
+  love.graphics.setCanvas(rain)
+    love.graphics.clear()
+    love.graphics.setBlendMode("alpha")
+    love.graphics.setColor(50,0,0,100)
+    love.graphics.rectangle("fill",0,0,screenW*4,screenH*4)
+    love.graphics.setColor(255,255,255,255)
+    for i = 1, (screenW*4)/32 * (screenH*4)/32 do
+      love.graphics.draw(rainImg,love.math.random(1,screenW*4),love.math.random(1,screenH*4))
+    end
+  love.graphics.setCanvas()
 end

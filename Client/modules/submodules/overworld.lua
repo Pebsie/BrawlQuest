@@ -10,6 +10,7 @@ weather = {}
 weather.time = 9
 weather.condition = "clear"
 weather.temperature = 11
+weather.day = 1
 
 areaTitleAlpha = 255
 curAreaTitle = "The Great Plains"
@@ -49,7 +50,7 @@ function loadOverworld()
     love.event.quit()
   end
 
-  titleScreen = 0
+  titleScreen = 1200
   createWorldCanvas()
 
   --create lightmap
@@ -105,7 +106,6 @@ function drawOverworld()
   love.graphics.setBlendMode("alpha", "premultiplied")
   love.graphics.draw(worldCanvas, round(-mx), round(-my)) --draw world
   love.graphics.draw(objectCanvas, round(-mx), round(-my))
-  drawFog(-mx,-my)
   love.graphics.setBlendMode("alpha")
   if playerExists(pl.name) then
     drawPlayer(pl.name,pl.x-mx,pl.y-my)
@@ -119,6 +119,8 @@ function drawOverworld()
     end
   end
 
+  drawFog(-mx,-my)
+
   for i = 1, countPlayers() do --we want nameplates to show above player sprites
     name = getPlayerName(i)
     if name ~= pl.name and fog[tonumber(getPlayer(name,"t"))] and getPlayer(name,"state") ~= "fight" then
@@ -131,7 +133,7 @@ function drawOverworld()
   end
   --weather
   love.graphics.setColor(255,255,255,world.weatherA)
-  love.graphics.draw(weatherImg["snow"],world.weatherX,world.weatherY)
+  love.graphics.draw(rain,world.weatherX,world.weatherY)
   love.graphics.setColor(255,255,255,255)
 
     love.graphics.pop()
@@ -167,7 +169,7 @@ function drawOverworld()
   love.graphics.setFont(bFont)
   love.graphics.printf(world[pl.t].name,0,sh/2-200,sw,"center")
   love.graphics.setFont(font)
-  love.graphics.printf("Day 201 of the year 302\n\nThe hour is "..weather.time.."\n"..weather.condition..", "..weather.temperature.."C",0,sh/2,sw,"center")
+  love.graphics.printf("Day "..weather.day.." of the year 302\n\nThe hour is "..weather.time.."\nThe weather is "..weather.condition.." and the temperature is "..weather.temperature.."C",0,sh/2,sw,"center")
 end
 
 function drawGraveyard(tx,ty)
@@ -316,6 +318,11 @@ function drawUIWindow(i)
       love.graphics.line(x,9+y+(my)/32,x+100,9+y+(my)/32)
 
       love.graphics.draw(uiImg["weather-"..weather.condition],x,y+100)
+      if weather.time > 21 or weather.time < 4 then love.graphics.draw(uiImg["time-night"],x,y+110)
+      elseif weather.time > 3 and weather.time < 9 then love.graphics.draw(uiImg["time-sunset"],x,y+110)
+      elseif weather.time > 8 and weather.time < 16 then love.graphics.draw(uiImg["time-day"],x,y+110)
+      elseif weather.time > 15 and weather.time < 19 then love.graphics.draw(uiImg["time-sunset"],x,y+110)
+      elseif weather.time > 18 and weather.time < 22 then love.graphics.draw(uiImg["time-moonrise"],x,y+110) end
       love.graphics.setFont(sFont)
       love.graphics.print(weather.condition.." ("..weather.temperature.." C)\nHour: "..weather.time,x+10,y+98)
     end
@@ -350,8 +357,9 @@ function updateOverworld(dt)
     world.weatherY = -800
   end
 
-  if world.weather == "snow" then world.weatherA = world.weatherA + 100*dt end
-  if world.weather == "clear" then world.weatherA = world.weatherA - 100*dt end
+  if weather.condition == "rain" or weather.condition == "storm" then world.weatherA = world.weatherA + 100*dt end
+  if weather.condition == "storm" and love.math.random(1,500) == 1 then whiteOut = 200 love.audio.play(sfx["lightning"]) end
+  if weather.condition == "clear" then world.weatherA = world.weatherA - 100*dt end
   if world.weatherA > 255 then world.weatherA = 255 elseif world.weatherA < 0 then world.weatherA = 0 end
 
   local cx, cy = love.mouse.getPosition()

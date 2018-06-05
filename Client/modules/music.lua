@@ -27,6 +27,8 @@ function loadMusic()
   music.raid[3] = love.audio.newSource("sound/music/raid3.mp3","stream")
 
   music.weather["snow"] = love.audio.newSource("sound/sfx/snow.mp3","stream")
+  music.weather["rain"] = love.audio.newSource("sound/sfx/weather/rain.mp3","static")
+  music.weather["storm"] = love.audio.newSource("sound/sfx/weather/rain.mp3","static")
 
   music.curPlay = music.title[love.math.random(1, #music.title)]
   music.curWet = music.weather["snow"]
@@ -58,13 +60,13 @@ function updateMusic(dt)
     end
 
     if not music.curWet:isPlaying() then
-      if music.weather[world.weather] then
-        music.curWet = music.weather[world.weather]
+      if music.weather[weather.condition] then
+        music.curWet = music.weather[weather.condition]
         love.audio.play(music.curWet)
       end
     end
 
-    if not music.weather[world.weather] then
+    if not music.weather[weather.condition] then
       love.audio.stop(music.curWet)
     end
   end

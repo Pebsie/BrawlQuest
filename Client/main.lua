@@ -46,7 +46,7 @@ realScreenHeight = screenH
 
 news = ""
 
-dev = true--This variable just turns certain features on and off so that it's easier to dev the game
+dev = false--This variable just turns certain features on and off so that it's easier to dev the game
 
 function love.load()
 
@@ -76,6 +76,7 @@ function love.load()
   worldCanvas = love.graphics.newCanvas(32*101,32*101)
   fightCanvas = love.graphics.newCanvas(stdSH,stdSW)
   createLoginCanvas()
+  createWeather()
 
   loadMusic()
   bindKeys()
