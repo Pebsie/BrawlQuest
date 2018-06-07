@@ -161,7 +161,7 @@ love.graphics.scale(scale,scale)
         love.graphics.rectangle("fill",x+xoff,y+32+yoff,(getPlayer(playerName,"hp")/100)*32,6)
         love.graphics.setColor(100,0,0)
         love.graphics.rectangle("line",x+xoff,y+32+yoff,32,6)
-          
+
         if pl.name == playerName then --energy
           love.graphics.setColor(255,216,0)
           love.graphics.rectangle("fill",x+xoff,y+32+8+yoff,(pl.en/100)*32,6)
@@ -234,7 +234,7 @@ function updateFight(dt)
   if updateTime[5] < 0 then
     if pl.state == "afterfight" then --we're piggy backing off of this timer so as to not have to create another
       local owedItems = atComma(pl.owed)
-      xLeft = (stdSH/2) - ((#owedItems / 2 * 32)) --TODO: remove this from having anything to do with stdSH
+      xLeft = (stdSH/2) - ((#owedItems / 2 * 32))
       for i = 1, #owedItems, 2 do
         if distanceFrom(pl.x+16, pl.y+16, xLeft+(i*32)+xoff, 200+item.img[owedItems[i]]:getHeight()+yoff) < 30 then
           netSend("claim",pl.name..","..owedItems[i])

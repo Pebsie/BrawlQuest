@@ -3,6 +3,7 @@
 [list]
   [*]Uncovering fog now has a smooth animation[/*]
   [*]Revamped armour system[/*]
+  [*]You can now view your sword on your player model[/*]
   [*]The world now flashes white when you die[/*]
   [*]New music and sound effects[/*]
   [*]Revamped looting system[/*]

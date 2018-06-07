@@ -413,7 +413,7 @@ function updateFights(dt) --the big one!!
               if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.img[mob[v]] and not mb.friend[mob[v]] then
                 local pdmg = item.val[pl.wep[thisPlayer]] + pl.str[thisPlayer]
                 mob.hp[v] = mob.hp[v] - pdmg
-                pl.score[thisPlayer] = pl.score[thisPlayer] + (pdmg*(round(pl.combo[thisPlayer])+1))
+                pl.score[thisPlayer] = pl.score[thisPlayer] + (pdmg*(round(pl.combo[thisPlayer])+1))/item.val[pl.wep[thisPlayer]]
                 --addMsg(thisPlayer.." score: "..pl.score[thisPlayer].." (x"..pl.combo[thisPlayer]..")")
                 if mob.hp[v] < 1 then pl.kills[thisPlayer] = pl.kills[thisPlayer] + 1 pl.combo[thisPlayer] = pl.combo[thisPlayer] + 1.4 end
               --  addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")

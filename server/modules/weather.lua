@@ -1,13 +1,16 @@
 function initWeather()
-  weather = {}
-  weather.temperature = 11
-  weather.condition = "clear"
-  weather.time = 9
+  if not weather then
+    weather = {}
+    weather.temperature = 11
+    weather.condition = "clear"
+    weather.time = 9
+    weather.day = 1
+  end
 end
 
 function simulateWeather()
   weather.time = weather.time + 1
-  if weather.time > 24 then weather.time = 0 end
+  if weather.time > 24 then weather.time = 0 weather.day = weather.day + 1 end
 
   if weather.time > 0 and weather.time < 5 then
     weather.temperature = weather.temperature + love.math.random(-5,1) --the temperature is more likely to decrease early morning
@@ -23,7 +26,7 @@ function simulateWeather()
   if weather.temperature < -5 then weather.temperature = -5 end
 
   --status simulation
-  if weather.temperature > 5 and weather.temperature < 15 and love.math.random(1, 20) == 1 then
+  if weather.temperature > 5 and weather.temperature < 30 and love.math.random(1, 20) == 1 then
     if weather.condition ~= "rain" then addChatMsg("WORLD","Rain begins to fall...") end
     weather.condition = "rain"
   elseif weather.temperature > 15 and love.math.random(1, 20) == 1 then

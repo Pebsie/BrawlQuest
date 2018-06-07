@@ -164,8 +164,9 @@ function netUpdate(dt)
               updatePlayer(name,"buddy",param[tparam+6])
               if name == pl.name then pl.buddy = param[tparam+6] end
               updatePlayer(name,"online",param[tparam+7])
+              updatePlayer(name,"wep",param[tparam+8])
 
-              tparam = tparam + 8
+              tparam = tparam + 9
             end
           end
 
@@ -200,7 +201,8 @@ function netUpdate(dt)
           weather.time = param[tparam]
           weather.temperature = param[tparam+1]
           weather.condition = param[tparam+2]
-          tparam = tparam + 3
+          weather.day = param[tparam+3]
+          tparam = tparam + 4
         elseif cmd == "fight" then
           local mbs = tonumber(param[1])
           local plyrs = tonumber(param[2])

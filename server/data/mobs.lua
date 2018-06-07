@@ -125,3 +125,25 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 32
 mb.rng[tm] =  32
+
+local tm = "Scorpion"
+mb.hp[tm] = 10
+mb.spd[tm] = 40
+mb.atk[tm] = 8
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 16
+mb.rng[tm] =  16
+
+local tm = "Sand Worm"
+mb.hp[tm] = 1
+mb.spd[tm] = 128
+mb.atk[tm] = 1
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 16
+mb.rng[tm] =  16

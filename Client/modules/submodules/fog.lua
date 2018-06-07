@@ -68,7 +68,12 @@ end
 function saveFog(fn)
   local fs = ""
   for i = 1, 100*100 do
-    fs = fs..tostring(fog[i]).."\n"
+    if tonumber(fog[i]) == 255 then
+      fs = fs.."false\n"
+    else
+      fs = fs.."true\n"
+    end
+
   end
 
   love.filesystem.write(fn,fs)
@@ -100,17 +105,18 @@ function drawFog(xo,yo)
         love.graphics.draw(worldImg[world[i].tile],world[i].x+xo,world[i].y+yo)
         love.graphics.setColor(0,0,0,fog[i])
         love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
-      elseif fog[i] ~= 255 then
+      end
+      if fog[i] ~= 255 then
         weather.time = tonumber(weather.time)
         local tileDarkness = 0
 
 
-        if weather.time == 0 then tileDarkness = 200
-        elseif weather.time == 1 then tileDarkness = 200
-        elseif weather.time == 2 then tileDarkness = 200
-        elseif weather.time == 3 then tileDarkness = 180
-        elseif weather.time == 4 then tileDarkness = 150
-        elseif weather.time == 5 then tileDarkness = 100
+        if weather.time == 0 then tileDarkness = 160
+        elseif weather.time == 1 then tileDarkness = 150
+        elseif weather.time == 2 then tileDarkness = 150
+        elseif weather.time == 3 then tileDarkness = 120
+        elseif weather.time == 4 then tileDarkness = 100
+        elseif weather.time == 5 then tileDarkness = 90
         elseif weather.time == 6 then tileDarkness = 75
         elseif weather.time == 7 then tileDarkness = 30
         elseif weather.time == 8 then tileDarkness = 15
@@ -118,11 +124,11 @@ function drawFog(xo,yo)
         elseif weather.time == 17 then tileDarkness = 40
         elseif weather.time == 18 then tileDarkness = 50
         elseif weather.time == 19 then tileDarkness = 70
-        elseif weather.time == 20 then tileDarkness = 100
-        elseif weather.time == 21 then tileDarkness = 150
-        elseif weather.time == 22 then tileDarkness = 175
-        elseif weather.time == 23 then tileDarkness = 200
-        elseif weather.time == 24 then tileDarkness = 200 end
+        elseif weather.time == 20 then tileDarkness = 90
+        elseif weather.time == 21 then tileDarkness = 120
+        elseif weather.time == 22 then tileDarkness = 130
+        elseif weather.time == 23 then tileDarkness = 150
+        elseif weather.time == 24 then tileDarkness = 150 end
 
 
 
@@ -143,7 +149,7 @@ function drawFog(xo,yo)
         --  if tileDarkness < 0 then tileDarkness = 0 end
 
       --  tileDarkness = tileDarkness - (lightmap[i]*20)
-        love.graphics.setColor(0,0,0,tileDarkness)
+        love.graphics.setColor(0,0,25,tileDarkness)
         love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
         if love.keyboard.isDown("v") then
           love.graphics.setFont(sFont)
@@ -151,6 +157,7 @@ function drawFog(xo,yo)
           love.graphics.print(round(val),world[i].x+xo,world[i].y+yo)
         end
       end
+
 
       if pl.dt == i then
         love.graphics.setColor(255,0,0)

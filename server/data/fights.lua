@@ -14,3 +14,7 @@ fs.rewards["Shipwreck"] = "Gold,5,100"
 fs["Spiders"] = "Spider;15"
 fs.spawnTime["Spiders"] = 1
 fs.rewards["Spiders"] = "Gold,5,100,Old Cloth,1,100,Potent Healing Potion,10,100"
+
+fs["Crabs"] = "Scorpion;5;Sand Worm;15;Scorpion;2;Sand Worm;5;Scorpion;1"
+fs.spawnTime["Crabs"] = 1.5
+fs.rewards["Crabs"] = "Gold,10,100,Potent Healing Potion,1,50,Snake,1,25,Short Sword,1,10"

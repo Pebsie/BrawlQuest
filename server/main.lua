@@ -30,16 +30,10 @@ print("Entering server loop...")
 
 function love.load()
   loadGame()
-  --[[
---  newPlayer("a","a")
- givePlayerItem("a","Orb of Power",1000)
- givePlayerItem("a","Potent Healing Potion",1000)
- givePlayerItem("a","Eldertouched Plate",1000000)
- givePlayerItem("a","Adver Ring",1)
- givePlayerItem("a","Lair Key",1)
- givePlayerItem("a","Adver",50000)
- --givePlayerItem("pebsie","Guardian's Blade",1)
-  --uploadCharacter("Pebsie")]]
+
+    newPlayer("a","a")
+ givePlayerItem("a","Legendary Sword",1)
+ givePlayerItem("a","Gold",5000)
 
   --initItems()
   --loadHighscores()
@@ -118,7 +112,7 @@ function love.update(dt)
               isOnline = true
             end
             if isPlayerOnline(getPlayerName(i)) then
-              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)), pl.spell[getPlayerName(i)], pl.bud[getPlayerName(i)], isOnline)
+              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)), pl.spell[getPlayerName(i)], pl.bud[getPlayerName(i)], isOnline, pl.wep[getPlayerName(i)])
             end
           end
 
@@ -133,7 +127,7 @@ function love.update(dt)
            msgToSend = msgToSend..string.format("%s|%s|%s|", c[i].sender, c[i].msg, c[i].id)
          end
 
-         msgToSend = msgToSend..weather.time.."|"..weather.temperature.."|"..weather.condition.."|"
+         msgToSend = msgToSend..weather.time.."|"..weather.temperature.."|"..weather.condition.."|"..weather.day.."|"
 
           udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
         elseif cmd == "fight" then
@@ -296,6 +290,9 @@ function saveGame()
   outputCharacterList()
   love.filesystem.write(fp, fs)
 
+  local fs = "weather=|"..weather.time.."|"..weather.condition.."|"..weather.temperature.."|"..weather.day.."|"
+  love.filesystem.write("server-info.txt",fs)
+
   currentDay = os.date("*t").wday
   saveHighscores()
   addMsg("Saved "..os.time())
@@ -337,6 +334,20 @@ function loadGame()
       if word[23] then pl.str[i] = tonumber(word[23]) end
       if word[24] then pl.lastLogin[i] = tonumber(word[24]) end
     end
+
+    if love.filesystem.exists("server-info.txt") then
+      for line in love.filesystem.lines("server-info.txt") do
+        word = atComma(line,"|")
+        if string.sub(word[1],1,8) == "weather=" then
+          weather = {}
+          weather.time = tonumber(word[2])
+          weather.condition = word[3]
+          weather.temperature = tonumber(word[4])
+          weather.day = tonumber(word[5])
+        end
+      end
+    end
+
     loadHighscores()
     addMsg("Game loaded.")
   else

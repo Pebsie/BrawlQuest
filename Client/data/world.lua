@@ -92,7 +92,7 @@ weatherImg["snow"] = love.graphics.newImage("img/world/snow.png")
 
 lightsource = {}
 lightsource["Campfire"] = 5
-lightsource["Camp"] = 10
+lightsource["Camp"] = 5
 lightsource["Village"] = 20
 lightsource["Mushroom"] = 1
 

@@ -317,7 +317,9 @@ function drawUIWindow(i)
       love.graphics.line(15+x+(mx)/32,y,15+x+(mx)/32,y+100) --xpos crossover
       love.graphics.line(x,9+y+(my)/32,x+100,9+y+(my)/32)
 
-      love.graphics.draw(uiImg["weather-"..weather.condition],x,y+100)
+      if uiImg["weather-"..weather.condition] then
+        love.graphics.draw(uiImg["weather-"..weather.condition],x,y+100)
+      end
       if weather.time > 21 or weather.time < 4 then love.graphics.draw(uiImg["time-night"],x,y+110)
       elseif weather.time > 3 and weather.time < 9 then love.graphics.draw(uiImg["time-sunset"],x,y+110)
       elseif weather.time > 8 and weather.time < 16 then love.graphics.draw(uiImg["time-day"],x,y+110)
@@ -358,7 +360,7 @@ function updateOverworld(dt)
   end
 
   if weather.condition == "rain" or weather.condition == "storm" then world.weatherA = world.weatherA + 100*dt end
-  if weather.condition == "storm" and love.math.random(1,500) == 1 then whiteOut = 200 love.audio.play(sfx["lightning"]) end
+  if weather.condition == "storm" and love.math.random(1,2500) == 1 then whiteOut = 200 love.audio.play(sfx["lightning"]) end
   if weather.condition == "clear" then world.weatherA = world.weatherA - 100*dt end
   if world.weatherA > 255 then world.weatherA = 255 elseif world.weatherA < 0 then world.weatherA = 0 end
 

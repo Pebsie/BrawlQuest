@@ -11,6 +11,10 @@ function addPlayer(name)
   player[name].ty = 0
   player[name].t = 0
   player[name].arm = "Old Cloth"
+  player[name].arm_head = "None"
+  player[name].arm_chest = "None"
+  player[name].arm_legs = "None"
+  player[name].wep = "Legendary Sword"
   player[name].hp = 0
   player[name].state = "fight"
   player[name].spell = "None"
@@ -76,11 +80,17 @@ function drawPlayer(name,x,y,option)
 
   if player[name] and item.img[player[name].arm] and player[name].online == "true" then
     drawBuddy(name)
-    if player[name].x - player[name].tx > 1  then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
+    love.graphics.draw(item.img["Naked"],x,y)
+    if player[name].arm_head ~= "None" then love.graphics.draw(item.img[player[name].arm_head],x,y) end
+    if player[name].arm_chest ~= "None" then love.graphics.draw(item.img[player[name].arm_chest],x,y) end
+    if player[name].arm_legs ~= "None" then love.graphics.draw(item.img[player[name].arm_legs],x,y) end
+    love.graphics.draw(item.img[player[name].wep],x-(item.img[player[name].wep]:getWidth()-32),y-(item.img[player[name].wep]:getHeight()-32))
+    --[[
+    if player[name].x - player[name].tx > 1  then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INFO
       love.graphics.draw(item.img[player[name].arm],x,y,0,-1,1,32,0)
     else
       love.graphics.draw(item.img[player[name].arm],x,y)
-    end
+    end]]
 
     if player[name].spell ~= "None" then
       drawSpell(player[name].spell,x,y)
