@@ -69,6 +69,7 @@ worldImg["Barrel"] = love.graphics.newImage("img/world/objects/Barrel.png")
 worldImg["Big Chest"] = love.graphics.newImage("img/world/objects/Big Chest.png")
 worldImg["Huts"] = love.graphics.newImage("img/world/objects/Huts.png")
 worldImg["Debris"] = love.graphics.newImage("img/world/objects/debris.png")
+worldImg["Lampost"] = love.graphics.newImage("img/world/objects/Lampost.png")
 
 function setWColour(wname)
   if wname == "Grass" or wname == "Snow" or wname == "Curse" or wname == "Cave Floor" then

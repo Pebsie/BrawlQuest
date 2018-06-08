@@ -43,6 +43,7 @@ pl.owed = {} --what items are owed to the player (for the post-fight section)
 pl.score = {} --this is reset at the start of each fight and represents the player's score for the last fight
 pl.combo = {} --this is the players current combo
 pl.aspects = {}
+pl.encounterBuild = {} --this increases by the % chance on each tile that a fight didn't occur to ensure that a player walking on 25% fight tiles will always encounter a fight at least once every 4 movements.
 
 acc = {} --identified by number
 acc.username = {}
@@ -97,6 +98,7 @@ function newPlayer(name, password)
   pl.score[i] = 0
   pl.combo[i] = 0
   pl.aspects[i] = {}
+  pl.encounterBuild[i] = 0
 
 
   addMsg("New player by the name of "..name)
@@ -351,18 +353,23 @@ function movePlayer(name, dir)
     if world[pl.t[name]].isFight == true then
       local fightsOnTile = listFightsOnTile(pl.t[name])
       addPlayerToFight(fightsOnTile[1],name)
+      pl.encounterBuild[name] = 0
     else
       if not pl.fightsPlayed[name][pl.t[name]] then
-        local fightChance = love.math.random(1,299)
+        local fightChance = love.math.random(1,100)-pl.encounterBuild[name]
         if fightChance < world[pl.t[name]].fightc or world[pl.t[name]].fightc > 90 then
           world[pl.t[name]].isFight = true
           if fs[world[pl.t[name]].fight] then
             newFight(pl.t[name], world[pl.t[name]].fight)
+            pl.encounterBuild[name] = 0
           else
             newFight(pl.t[name], "Ghostly Haunting")
+            pl.encounterBuild[name] = 0
           end
           addPlayerToFight(#ft.t, name)
         end
+      else
+        pl.encounterBuild[name] = pl.encounterBuild[name] + world[pl.t[name]].fightc
       end
 
       pl.distance[name] = pl.distance[name] + 1

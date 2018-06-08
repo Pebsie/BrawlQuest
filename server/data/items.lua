@@ -328,3 +328,18 @@ item.val[ti] = "1,ATK"
 item.lvl[ti] = 10
 item.price[ti] = "350,Quia"
 item.img[ti] = ""
+
+--craftable
+local ti = "Wood"
+item.type[ti] = "reagent"
+item.val[ti] = ""
+item.lvl[ti] = 1
+item.price[ti] = "1,Gold"
+item.img[ti] = ""
+
+local ti = "Stone"
+item.type[ti] = "Reagent"
+item.val[ti] = ""
+item.lvl[ti] = 1
+item.price[ti] = "1,Gold"
+item.img[ti] = ""

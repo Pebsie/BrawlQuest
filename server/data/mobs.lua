@@ -9,7 +9,9 @@ mb.sp2t = {}
 mb.img = {} --width in this case
 mb.rng = {}
 mb.friend = {}
+mb.atr = {} --atributes
 
+--friendly
 local tm = "speak"
 mb.hp[tm] = 1
 mb.spd[tm] = 0
@@ -93,12 +95,25 @@ mb.img[tm] = 32
 mb.rng[tm] =  32
 mb.friend[tm] = true
 
+--opponents
+
 local tm = "Ghostly Ship"
 mb.hp[tm] = 100000
 mb.spd[tm] = 64
 mb.atk[tm] = 50
 mb.sp1[tm] = "spawn:Cannon Ball"
 mb.sp1t[tm] = 5
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] =  64
+
+local tm = "Pirate Ship"
+mb.hp[tm] = 20
+mb.spd[tm] = 80
+mb.atk[tm] = 10
+mb.sp1[tm] = "spawn:Cannon Ball"
+mb.sp1t[tm] = 15
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 32
@@ -147,3 +162,41 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 16
 mb.rng[tm] =  16
+
+--crafting
+local tm = "Weak Tree"
+mb.hp[tm] = 20
+mb.spd[tm] = 0.1
+mb.atk[tm] = 0
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 0
+mb.atr[tm] = "spawnRandom"
+
+local tm = "Weak Rock"
+mb.hp[tm] = 40
+mb.spd[tm] = 0.1
+mb.atk[tm] = 0
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 0
+mb.atr[tm] = "spawnRandom"
+
+function mobHasAttribute(name,attribute)
+  local result = false
+  if mb.atr[name] then
+    for i, v in pairs(atComma(mb.atr[name])) do
+      if v == attribute then
+        result = true
+      end
+    end
+  end
+
+  return result
+end

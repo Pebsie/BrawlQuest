@@ -100,7 +100,11 @@ end
 
 function drawNamePlate(name,x,y,option)
   if not player[name] or player[name].online == "true" then --so that <npc> shop still works
-    if option == "enemy" then
+    if option == "enemy" and string.sub(world[pl.t].fight,1,7) == "Gather:" or option == "gather" then
+      love.graphics.setColor(0,0,0,200)
+      love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
+      love.graphics.setColor(100,100,255)
+    elseif option == "enemy" then
       love.graphics.setColor(0,0,0,50)
       love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
       love.graphics.setColor(255,0,0)

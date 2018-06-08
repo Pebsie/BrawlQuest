@@ -192,6 +192,8 @@ function spawnMob(fight, mob, x, y)
 
       if string.sub(mob,1,5) == "speak" then
         ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp["speak"]..";320,240,"..freshTarget..";"..mb.sp1t["speak"]..";"..mb.sp2t["speak"]..";"..love.math.random(1,9999)..";"
+      elseif mobHasAttribute(mob,"spawnRandom") then
+        ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1,stdSW)..";"..love.math.random(1,stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
       else
         if not x and freshTarget then
           local side = love.math.random(1, 3)

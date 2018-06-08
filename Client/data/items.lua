@@ -372,6 +372,21 @@ item.img[ti] = buddy[ti]
   item.price[ti] = "350,Quia"
   item.img[ti] = love.graphics.newImage("img/items/Orb of Power.png")
 
+  --craftable
+  local ti = "Wood"
+  item.type[ti] = "Reagent"
+  item.val[ti] = ""
+  item.lvl[ti] = 1
+  item.price[ti] = "1,Gold"
+  item.img[ti] = love.graphics.newImage("img/items/reagent/Wood.png")
+
+  local ti = "Stone"
+  item.type[ti] = "Reagent"
+  item.val[ti] = ""
+  item.lvl[ti] = 1
+  item.price[ti] = "1,Gold"
+  item.img[ti] = love.graphics.newImage("img/items/reagent/Stone.png")
+
 shop = {}
 shop["Armour"] = {"Basic Cloth", "Leather Armour", "Chainmail Armour", "Guardian's Padding", "Legendary Padding"}
 shop["Weapons"] = {"Short Sword", "Bastard Sword", "Long Sword", "Guardian's Blade", "Legendary Sword"}

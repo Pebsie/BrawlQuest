@@ -15,6 +15,7 @@ function drawItem(name,amount,x,y,alpha)
     elseif cit == "hp" then pit = "Health Potion" piv = "Recovers "..civ.." health over 3 seconds."
     elseif cit == "en" then pit = "Energy Potion" piv = "Instantly recovers "..civ.." energy."
     elseif cit == "Craftable" then pit = "Craftable" piv = "Can be used in crafting."
+    elseif cit == "Reagent" then pit = "Reagent" piv = "Can be used in crafting."
     elseif cit == "Key" then pit = "Key" piv = "Opens doors."
     elseif cit == "buddy" then pit = "Buddy" piv = "Your new best friend. "..item.desc[name]
     elseif cit == "Spell" then

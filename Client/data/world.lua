@@ -50,6 +50,7 @@ stepSnd["Stone Floor"] = love.audio.newSource("sound/sfx/step/stone.mp3","static
 worldImg["Cave Floor"] = love.graphics.newImage("img/world/floors/Cave Floor.png")
 stepSnd["Cave Floor"] = love.audio.newSource("sound/sfx/step/stone.mp3","static")
 worldImg["Blacksmith"] = love.graphics.newImage("img/world/objects/Blacksmith.png")
+ambSnd["Blacksmith"] = love.audio.newSource("sound/sfx/ambient/blacksmith.mp3","static")
 worldImg["Boat"] = love.graphics.newImage("img/world/objects/Boat.png")
 worldImg["Chest"] = love.graphics.newImage("img/world/objects/Chest.png")
 worldImg["Crystal"] = love.graphics.newImage("img/world/objects/Crystal.png")
@@ -82,7 +83,7 @@ worldImg["Barrel"] = love.graphics.newImage("img/world/objects/Barrel.png")
 worldImg["Big Chest"] = love.graphics.newImage("img/world/objects/Big Chest.png")
 worldImg["Huts"] = love.graphics.newImage("img/world/objects/Huts.png")
 worldImg["Debris"] = love.graphics.newImage("img/world/objects/debris.png")
-
+worldImg["Lampost"] = love.graphics.newImage("img/world/objects/Lampost.png")
 
 worldImg["DT"] = love.graphics.newImage("img/world/objects/Ghoul.png")
 worldImg["Cloud"] = love.graphics.newImage("img/world/objects/Cloud.png")
@@ -95,6 +96,7 @@ lightsource["Campfire"] = 5
 lightsource["Camp"] = 5
 lightsource["Village"] = 20
 lightsource["Mushroom"] = 1
+lightsource["Lampost"] = 20
 
 function setWColour(i)
   wname = world[i].tile

@@ -200,8 +200,10 @@ love.graphics.scale(scale,scale)
   drawFightUI(sw/2 - 320,sh-94)
   love.graphics.pop()
   --love.graphics.print(love.timer.getFPS().." FPS")
-  love.graphics.setFont(bFont)
-  love.graphics.print("Score: "..tostring(pl.score).." (x"..tostring(pl.combo)..")\nHighscore: "..tostring(fight.highscore).." (earned by "..tostring(fight.highscorePlayer)..")",200,200)
+  if string.sub(world[pl.t].fight,1,7) ~= "Gather:" then
+    love.graphics.setFont(bFont)
+    love.graphics.print("Score: "..tostring(pl.score).." (x"..tostring(pl.combo)..")\nHighscore: "..tostring(fight.highscore).." (earned by "..tostring(fight.highscorePlayer)..")",200,200)
+  end
 end
 
 function requestFightInfo()

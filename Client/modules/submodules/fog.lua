@@ -172,6 +172,10 @@ function drawFog(xo,yo)
           love.audio.play(ambSound)
         end
       end
+
+      if string.sub(world[i].fight,1,7) == "Gather:" then
+        drawNamePlate("Harvestable",world[i].x+xo,world[i].y+yo,"gather")
+      end
     end --if tile is on screen
   end --for statement
 
