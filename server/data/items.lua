@@ -343,3 +343,17 @@ item.val[ti] = ""
 item.lvl[ti] = 1
 item.price[ti] = "1,Gold"
 item.img[ti] = ""
+
+local ti = "String"
+item.type[ti] = "Reagent"
+item.val[ti] = ""
+item.lvl[ti] = 1
+item.price[ti] = "1,Gold"
+item.img[ti] = ""
+
+local ti = "Mana Crystal"
+item.type[ti] = "Reagent"
+item.val[ti] = ""
+item.lvl[ti] = 1
+item.price[ti] = "1,Gold"
+item.img[ti] = ""

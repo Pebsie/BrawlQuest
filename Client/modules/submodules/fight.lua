@@ -109,9 +109,9 @@ love.graphics.scale(scale,scale)
 
           if getMob(i,"hp") > 0 and mb.friend[mob[i].type] ~= true and getMob(i,"hp") < 19999 then
             love.graphics.setColor(255,0,0)
-            love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,(mob[i].hp/getMob(i,"mhp"))*mb.img[mob[i].type]:getWidth(),4)
+            love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff,(mob[i].hp/getMob(i,"mhp"))*mb.img[mob[i].type]:getWidth(),4)
             love.graphics.setColor(100,0,0)
-            love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,mb.img[mob[i].type]:getWidth(),4)
+            love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff,mb.img[mob[i].type]:getWidth(),4)
           end
         end
       end

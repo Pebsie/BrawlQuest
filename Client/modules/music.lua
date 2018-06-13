@@ -37,37 +37,39 @@ function loadMusic()
 end
 
 function updateMusic(dt)
-  if phase == "game" and setting.audio == true and music[pl.state] then --diff code for each type
-    if not music.curPlay:isPlaying() then
-      if love.math.random(1, 200) == 1 then
-        if pl.state == "fight" and string.lower(string.sub(world[pl.t].fight,1,7)) == "dungeon" or string.lower(string.sub(world[pl.t].fight,1,4)) == "Raid" then
-          music.curPlay = music["raid"][love.math.random(1, #music["raid"])]
-        else
-          if pl.state == "world" and world[pl.t].music == "*" then
-            music.curPlay = music.world[love.math.random(1, #music[pl.state])]
-          elseif pl.state == "world" then
-            local musicChoices = atComma(world[pl.t].music,"|")
-            local i = love.math.random(1, #musicChoices)
-            music.curPlay = music.world[tonumber(musicChoices[i])]
+  if dev == false then
+    if phase == "game" and setting.audio == true and music[pl.state] then --diff code for each type
+      if not music.curPlay:isPlaying() then
+        if love.math.random(1, 200) == 1 then
+          if pl.state == "fight" and string.lower(string.sub(world[pl.t].fight,1,7)) == "dungeon" or string.lower(string.sub(world[pl.t].fight,1,4)) == "Raid" then
+            music.curPlay = music["raid"][love.math.random(1, #music["raid"])]
           else
-            music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
+            if pl.state == "world" and world[pl.t].music == "*" then
+              music.curPlay = music.world[love.math.random(1, #music[pl.state])]
+            elseif pl.state == "world" then
+              local musicChoices = atComma(world[pl.t].music,"|")
+              local i = love.math.random(1, #musicChoices)
+              music.curPlay = music.world[tonumber(musicChoices[i])]
+            else
+              music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
+            end
           end
+          --if dev == false then music.curPlay:setLooping(false) end
+        --love   music.curPlay:setVolume(0.05)
+          if dev == false then love.audio.play(music.curPlay) end
         end
-        --if dev == false then music.curPlay:setLooping(false) end
-      --love   music.curPlay:setVolume(0.05)
-        if dev == false then love.audio.play(music.curPlay) end
       end
-    end
 
-    if not music.curWet:isPlaying() then
-      if music.weather[weather.condition] then
-        music.curWet = music.weather[weather.condition]
-        love.audio.play(music.curWet)
+      if not music.curWet:isPlaying() then
+        if music.weather[weather.condition] then
+          music.curWet = music.weather[weather.condition]
+          love.audio.play(music.curWet)
+        end
       end
-    end
 
-    if not music.weather[weather.condition] then
-      love.audio.stop(music.curWet)
+      if not music.weather[weather.condition] then
+        love.audio.stop(music.curWet)
+      end
     end
   end
 end

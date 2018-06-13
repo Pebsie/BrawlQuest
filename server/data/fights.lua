@@ -13,17 +13,33 @@ fs.rewards["Shipwreck"] = "Gold,5,100"
 
 fs["Spiders"] = "Spider;15"
 fs.spawnTime["Spiders"] = 1
-fs.rewards["Spiders"] = "Gold,5,100,Old Cloth,1,100,Potent Healing Potion,10,100"
+fs.rewards["Spiders"] = "String,3,100,String,2,50"
 
 fs["Crabs"] = "Scorpion;5;Sand Worm;15;Scorpion;2;Sand Worm;5;Scorpion;1"
 fs.spawnTime["Crabs"] = 1.5
 fs.rewards["Crabs"] = "Gold,10,100,Potent Healing Potion,1,50,Snake,1,25,Short Sword,1,10"
 
+fs["Cannibals"] = "Spider;1"
+fs.spawnTime["Cannibals"] = 1
+fs.rewards["Cannibals"] = "Wood,1,100"
+
+fs["Cannibal Hut"] = "Spider;1"
+fs.spawnTime["Cannibal Hut"] = 1
+fs.rewards["Cannibal Hut"] = "Wood,1,100"
+
+fs["Hell's Creatures"] = "Spider;5"
+fs.spawnTime["Hell's Creatures"] = 1
+fs.rewards["Hell's Creatures"] = "Fly,1,100"
+
 --crafting
 fs["Gather: Wood"] = "Weak Tree;3"
 fs.spawnTime["Gather: Wood"] = 0
-fs.rewards["Gather: Wood"] = "Wood,3,100,Wood,2,50,Wood,1,25,Wood,5,10,Wood,10,1"
+fs.rewards["Gather: Wood"] = "Wood,5,100,Wood,3,50,Wood,2,25,Wood,5,10,Wood,10,1"
 
 fs["Gather: Stone"] = "Weak Rock;2"
 fs.spawnTime["Gather: Stone"] = 0
 fs.rewards["Gather: Stone"] = "Stone,5,100,Stone,2,50,Stone,1,25,Stone,10,1"
+
+fs["Gather: Mana"] = "Mana Crystal;4"
+fs.spawnTime["Gather: Mana"] = 0
+fs.rewards["Gather: Mana"] = "Mana Crystal,1,100,Mana Crystal,2,50,Mana Crystal,1,10"

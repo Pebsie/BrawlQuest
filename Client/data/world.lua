@@ -84,6 +84,13 @@ worldImg["Big Chest"] = love.graphics.newImage("img/world/objects/Big Chest.png"
 worldImg["Huts"] = love.graphics.newImage("img/world/objects/Huts.png")
 worldImg["Debris"] = love.graphics.newImage("img/world/objects/debris.png")
 worldImg["Lampost"] = love.graphics.newImage("img/world/objects/Lampost.png")
+worldImg["Lava"] = love.graphics.newImage("img/world/floors/Lava.png")
+worldImg["Portal"] = love.graphics.newImage("img/world/objects/Portal.png")
+ambSnd["Portal"] = love.audio.newSource("sound/sfx/ambient/portal.mp3","static")
+worldImg["Anvil"] = love.graphics.newImage("img/world/objects/Anvil.png")
+worldImg["Farmer"] = love.graphics.newImage("img/world/objects/Farmer.png")
+worldImg["Lumberjack"] = love.graphics.newImage("img/world/objects/Lumberjack.png")
+worldImg["Person"] = love.graphics.newImage("img/world/objects/Person.png")
 
 worldImg["DT"] = love.graphics.newImage("img/world/objects/Ghoul.png")
 worldImg["Cloud"] = love.graphics.newImage("img/world/objects/Cloud.png")
@@ -97,6 +104,9 @@ lightsource["Camp"] = 5
 lightsource["Village"] = 20
 lightsource["Mushroom"] = 1
 lightsource["Lampost"] = 20
+lightsource["Crystal"] = 3
+lightsource["Wall Mounted Torch"] = 5
+lightsource["Lava"] = 10
 
 function setWColour(i)
   wname = world[i].tile

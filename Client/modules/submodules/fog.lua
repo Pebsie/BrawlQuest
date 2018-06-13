@@ -52,14 +52,16 @@ function checkFog(tile)
 end
 
 function addFog(t)
-  if not fog[t] then
-    fog[t] = 254
-  end
+  if t then
+    if not fog[t] then
+      fog[t] = 254
+    end
 
-  for k = -195,305,101 do
-    for i = -9, -5 do
-      if fog[t+i+k] and fog[t+i+k] == 255 then
-        fog[t+i+k] = 254
+    for k = -195,305,101 do
+      for i = -9, -5 do
+        if fog[t+i+k] and fog[t+i+k] == 255 then
+          fog[t+i+k] = 254
+        end
       end
     end
   end
@@ -166,15 +168,20 @@ function drawFog(xo,yo)
       end
 
       if ambSnd[world[i].tile] then
-        if love.math.random(1, 25000) == 1 and ambSnd[world[i].tile]:isPlaying() == false then
+        if love.math.random(1,250) == 1 and ambSnd[world[i].tile]:isPlaying() == false and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 256 then
           local ambSound = ambSnd[world[i].tile]
           ambSound:setPitch(love.math.random(75,150)/100)
+        --  ambSound:setPosition((world[i].x-pl.x),world[i].y-pl.y,1)
           love.audio.play(ambSound)
         end
       end
 
       if string.sub(world[i].fight,1,7) == "Gather:" then
         drawNamePlate("Harvestable",world[i].x+xo,world[i].y+yo,"gather")
+      elseif world[i].tile == "Anvil" then
+        drawNamePlate("Crafting Anvil",world[i].x+xo,world[i].y+yo)
+      elseif world[i].tile == "Mortus" then
+        drawNamePlate("<NPC> Mortus",world[i].x+xo,world[i].y+yo)
       end
     end --if tile is on screen
   end --for statement

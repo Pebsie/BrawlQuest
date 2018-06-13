@@ -2,14 +2,15 @@
 
 [list]
   [*]Uncovering fog now has a smooth animation[/*]
-  [*]Revamped armour system[/*]
+  [*]Revamped 3 piece armour system[/*]
   [*]You can now view your sword on your player model[/*]
   [*]The world now flashes white when you die[/*]
   [*]New music and sound effects[/*]
   [*]Revamped looting system[/*]
   [*]Added minimap[/*]
   [*]Added weather system with day/night cycle[/*]
-  [*]Added encounter scoring system[/*]
+  [*]Added encounter scoring system and leaderboards[/*]
+  [*]Added crafting and harvestable resources[/*]
   [*]Added Mac support on Steam[/*]
   [*]Added support for Steam Cloud saves[/*]
   [*]Improved error reporting[/*]
@@ -45,6 +46,11 @@ New Fights:
 * Spiders (Level 1)
 * Crabs (Level 2)
 * Ghostly Knight (Late game)
+* Cannibals (Late game)
+* Cannibal Hut
+* Dungeon: Demon
+* Dungeon: Knight
+* Raid: King of the Old World
 
 Bugs:
 * Minimap crosshair is inaccurate when in anything other than default window width and height

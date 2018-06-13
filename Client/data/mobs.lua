@@ -173,19 +173,41 @@ mb.rng[tm] =  16
 
 local tm = "Sand Worm"
 mb.hp[tm] = 1
-mb.spd[tm] = 128
+mb.spd[tm] = 32
 mb.atk[tm] = 1
+mb.sp1[tm] = "spawn:Sand"
+mb.sp1t[tm] = 3
+mb.sp2[tm] = "suicide"
+mb.sp2t[tm] = 3
+mb.img[tm] = love.graphics.newImage("img/mob/Sand Worm.png")
+mb.rng[tm] =  16
+
+local tm = "Manamite"
+mb.hp[tm] = 25
+mb.spd[tm] = 64
+mb.atk[tm] = 10
 mb.sp1[tm] = "None"
 mb.sp1t[tm] = 0
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Sand Worm.png")
+mb.img[tm] = love.graphics.newImage("img/mob/Manamite.png")
+mb.rng[tm] =  16
+
+local tm = "Sand"
+mb.hp[tm] = 99999
+mb.spd[tm] = 128
+mb.atk[tm] = 0
+mb.sp1[tm] = "spawn:Sand Worm"
+mb.sp1t[tm] = 1
+mb.sp2[tm] = "suicide"
+mb.sp2t[tm] = 1
+mb.img[tm] = worldImg["Sand"]
 mb.rng[tm] =  16
 
 --crafting
 local tm = "Weak Tree"
 mb.hp[tm] = 20
-mb.spd[tm] = 0
+mb.spd[tm] = 0.1
 mb.atk[tm] = 0
 mb.sp1[tm] = "None"
 mb.sp1t[tm] = 0
@@ -203,4 +225,15 @@ mb.sp1t[tm] = 0
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = worldImg["Rock"]
+mb.rng[tm] = 0
+
+local tm = "Mana Crystal"
+mb.hp[tm] = 100
+mb.spd[tm] = 0.1
+mb.atk[tm] = 0
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = worldImg["Crystal"]
 mb.rng[tm] = 0

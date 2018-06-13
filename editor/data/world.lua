@@ -70,6 +70,12 @@ worldImg["Big Chest"] = love.graphics.newImage("img/world/objects/Big Chest.png"
 worldImg["Huts"] = love.graphics.newImage("img/world/objects/Huts.png")
 worldImg["Debris"] = love.graphics.newImage("img/world/objects/debris.png")
 worldImg["Lampost"] = love.graphics.newImage("img/world/objects/Lampost.png")
+worldImg["Lava"] = love.graphics.newImage("img/world/floors/Lava.png")
+worldImg["Portal"] = love.graphics.newImage("img/world/objects/Portal.png")
+worldImg["Anvil"] = love.graphics.newImage("img/world/objects/Anvil.png")
+worldImg["Farmer"] = love.graphics.newImage("img/world/objects/Farmer.png")
+worldImg["Lumberjack"] = love.graphics.newImage("img/world/objects/Lumberjack.png")
+worldImg["Person"] = love.graphics.newImage("img/world/objects/Person.png")
 
 function setWColour(wname)
   if wname == "Grass" or wname == "Snow" or wname == "Curse" or wname == "Cave Floor" then
@@ -109,4 +115,6 @@ function setWColour(wname)
   else
     love.graphics.setColor(0,0,0)
   end
+
+
 end

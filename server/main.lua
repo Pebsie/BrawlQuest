@@ -34,6 +34,7 @@ function love.load()
     newPlayer("a","a")
  givePlayerItem("a","Legendary Sword",1)
  givePlayerItem("a","Gold",5000)
+ pl.t["a"] = 3707
 
   --initItems()
   --loadHighscores()

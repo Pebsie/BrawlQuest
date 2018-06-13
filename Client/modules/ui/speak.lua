@@ -35,6 +35,8 @@ function drawSpeak(x,y)
     love.graphics.draw(mb.img[speak.mob],x,y)
   elseif speak.mob == pl.name then
     love.graphics.draw(item.img[pl.arm],x,y)
+  elseif worldImg[speak.mob] then
+    love.graphics.draw(worldImg[speak.mob],x,y)
   end
 
   love.graphics.setColor(200,0,0,speak.alpha)

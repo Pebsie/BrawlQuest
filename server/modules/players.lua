@@ -293,6 +293,27 @@ function playerUse(name, ritem, index, amount)
       if stat[2] == "ATK" then
         pl.str[name] = pl.str[name] + tonumber(stat[1])
       end
+    elseif item.type[ritem] == "head armour" then
+      if pl.arm_head[name] ~= "None" then
+        rebuiltInv[#rebuiltInv + 1] = {}
+        rebuiltInv[#rebuiltInv].item = pl.arm_head[name]
+        rebuiltInv[#rebuiltInv].amount = 1
+      end
+      pl.arm_head[name] = ritem
+    elseif item.type[ritem] == "chest armour" then
+      if pl.arm_chest[name] ~= "None" then
+        rebuiltInv[#rebuiltInv + 1] = {}
+        rebuiltInv[#rebuiltInv].item = pl.arm_head[name]
+        rebuiltInv[#rebuiltInv].amount = 1
+      end
+      pl.arm_chest[name] = ritem
+    elseif item.type[ritem] == "leg armour" then
+      if pl.arm_legs[name] ~= "None" then
+        rebuiltInv[#rebuiltInv + 1] = {}
+        rebuiltInv[#rebuiltInv].item = pl.arm_head[name]
+        rebuiltInv[#rebuiltInv].amount = 1
+      end
+      pl.arm_legs[name] = ritem
     end
   else
     addMsg(name.." tried to use an item ("..ritem..") that they don't own!")
@@ -346,10 +367,11 @@ function movePlayer(name, dir)
   elseif dir == "left" then pl.t[name] = pl.t[name] - 1
   elseif dir == "right" then pl.t[name] = pl.t[name] + 1 end
 
-  if world[pl.t[name]].collide and pl.t[name] ~= 4971 then
+  if world[pl.t[name]].collide then
     pl.t[name] = curt
-  else
-
+  elseif string.sub(world[pl.t[name]].fight,1,3) == "tp|" then
+    pl.t[name] = tonumber(string.sub(world[pl.t[name]].fight,4))
+  elseif string.sub(world[pl.t[name]].fight,1,5) ~= "speak" then
     if world[pl.t[name]].isFight == true then
       local fightsOnTile = listFightsOnTile(pl.t[name])
       addPlayerToFight(fightsOnTile[1],name)

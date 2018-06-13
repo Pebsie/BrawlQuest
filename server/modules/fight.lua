@@ -193,7 +193,7 @@ function spawnMob(fight, mob, x, y)
       if string.sub(mob,1,5) == "speak" then
         ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp["speak"]..";320,240,"..freshTarget..";"..mb.sp1t["speak"]..";"..mb.sp2t["speak"]..";"..love.math.random(1,9999)..";"
       elseif mobHasAttribute(mob,"spawnRandom") then
-        ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1,stdSW)..";"..love.math.random(1,stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+        ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(100,stdSW-100)..";"..love.math.random(100,stdSH-200)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
       else
         if not x and freshTarget then
           local side = love.math.random(1, 3)
@@ -417,7 +417,7 @@ function updateFights(dt) --the big one!!
                 mob.hp[v] = mob.hp[v] - pdmg
                 pl.score[thisPlayer] = pl.score[thisPlayer] + (pdmg*(round(pl.combo[thisPlayer])+1))/item.val[pl.wep[thisPlayer]]
                 --addMsg(thisPlayer.." score: "..pl.score[thisPlayer].." (x"..pl.combo[thisPlayer]..")")
-                if mob.hp[v] < 1 then pl.kills[thisPlayer] = pl.kills[thisPlayer] + 1 pl.combo[thisPlayer] = pl.combo[thisPlayer] + 1.4 end
+                if mob.hp[v] < 1 then pl.kills[thisPlayer] = pl.kills[thisPlayer] + 1 pl.combo[thisPlayer] = pl.combo[thisPlayer] + 1.1 end
               --  addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
               --  pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
               end
@@ -522,7 +522,7 @@ function updateFights(dt) --the big one!!
       for v = 1, #listPlayersInFight(i) do
         local thisPlayer = getPlayerName(v)
         pl.at[getPlayerName(v)] = false
-        pl.combo[getPlayerName(v)] = pl.combo[getPlayerName(v)] - 0.5*dt
+        pl.combo[getPlayerName(v)] = pl.combo[getPlayerName(v)] - 1*dt
         if pl.combo[getPlayerName(v)] < 0 then pl.combo[getPlayerName(v)] = 0 end
         if string.sub(pl.spell[getPlayerName(v)],1,7) == "Summon " then
           for k = 1, tonumber(string.sub(pl.spell[getPlayerName(v)],8,8)) do

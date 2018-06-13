@@ -3,7 +3,7 @@ pl.cinput = ""
 pl.name = ""
 pl.x = 0
 pl.y = 0
-pl.t = nil
+pl.t = 50
 pl.dt = 0
 pl.hp = 100
 pl.en = 100
@@ -138,6 +138,9 @@ function movePlayer(dir)
   if world[pl.t].collide == false then
     if world[pl.t].tile == "Curse" then
       mobSpeak("Mortus","You'll need an Adver Ring to pass through this cursed patch of land!",4)
+    elseif string.sub(world[pl.t].fight,1,5) == "speak" then
+      sInfo = atComma(world[pl.t].fight,"|")
+      mobSpeak(sInfo[2],sInfo[3],5)
     end
     addFog(pl.t)
     if stepSnd[world[pl.t].tile] then

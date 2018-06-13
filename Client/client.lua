@@ -49,6 +49,9 @@ function netUpdate(dt)
               whiteOut = 500
               love.audio.play(sfx["awake"])
               mobSpeak("**player**","W-where am I?",5)
+            elseif distanceFrom(world[pl.t].x,world[pl.t].y,world[tonumber(param[8])].x,world[tonumber(param[8])].y) > 64 then
+              whiteOut = 400
+              love.audio.play(sfx["teleport"])
             end
             pl.t = tonumber(param[8])
             pl.dt = param[9]
@@ -258,6 +261,7 @@ function netUpdate(dt)
             updateMob(i,"type",param[tparam+2])
             if getMob(i,"hp") > tonumber(param[tparam+3]) then
               if tonumber(param[tparam+3]) < 1 then
+              --  sfx["kill"]:setPosition((getMob(i,"x")/stdSH)-0.5,0)
                 love.audio.play(sfx["kill"])
               else
               --[[  if getMob(i,"hp")-tonumber(param[tparam+3]) > 4 and mb.friend[getMob(i,"type")] == false then
@@ -265,6 +269,8 @@ function netUpdate(dt)
                 else
                   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
                 end]]
+              --  sfx["hit"]:setPosition((getMob(i,"x")/stdSH)-0.5,0)
+                addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
                 love.audio.play(sfx["hit"])
 
                 if not mb.friend[getMob(i,"type")] and getMob(i,"id") == param[tparam+5] then

@@ -154,13 +154,35 @@ mb.rng[tm] =  16
 
 local tm = "Sand Worm"
 mb.hp[tm] = 1
-mb.spd[tm] = 128
+mb.spd[tm] = 32
 mb.atk[tm] = 1
+mb.sp1[tm] = "spawn:Sand"
+mb.sp1t[tm] = 8
+mb.sp2[tm] = "suicide"
+mb.sp2t[tm] = 8
+mb.img[tm] = 15
+mb.rng[tm] =  16
+
+local tm = "Manamite"
+mb.hp[tm] = 25
+mb.spd[tm] = 64
+mb.atk[tm] = 10
 mb.sp1[tm] = "None"
 mb.sp1t[tm] = 0
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
-mb.img[tm] = 16
+mb.img[tm] = 20
+mb.rng[tm] =  16
+
+local tm = "Sand"
+mb.hp[tm] = 99999
+mb.spd[tm] = 128
+mb.atk[tm] = 0
+mb.sp1[tm] = "spawn:Sand Worm"
+mb.sp1t[tm] = 1
+mb.sp2[tm] = "suicide"
+mb.sp2t[tm] = 1
+mb.img[tm] = 32
 mb.rng[tm] =  16
 
 --crafting
@@ -182,6 +204,18 @@ mb.spd[tm] = 0.1
 mb.atk[tm] = 0
 mb.sp1[tm] = "None"
 mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 0
+mb.atr[tm] = "spawnRandom"
+
+local tm = "Mana Crystal"
+mb.hp[tm] = 100
+mb.spd[tm] = 0.1
+mb.atk[tm] = 0
+mb.sp1[tm] = "stat;hp;50;spawn:Manamite"
+mb.sp1t[tm] = 5
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 32
