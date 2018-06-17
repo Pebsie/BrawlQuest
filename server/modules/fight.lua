@@ -57,7 +57,9 @@ function addPlayerToFight(fight, name)
     pl.combo[name] = 0
     --ALPHA TEMP
     if ft.title[fight] == "Shipwreck" then
-      pl.arm[name] = "Boat"
+      pl.arm_head[name] = "Boat"
+      pl.arm_chest[name] = "None"
+      pl.arm_legs[name] = "None"
       pl.t[name] = 819
     end
   --  addMsg(name.." has joined fight #"..fight)
@@ -93,7 +95,9 @@ function removePlayerFromFight(name, isDead)
     end
 
     if ft.title[id] == "Shipwreck" then
-      pl.arm[getPlayerName(name)] = "Naked"
+      pl.arm_head[getPlayerName(name)] = "None"
+      pl.arm_chest[getPlayerName(name)] = "None"
+      pl.arm_legs[getPlayerName(name)] = "None"
     end
   --  addMsg(getPlayerName(name).." left fight #"..id)
 
@@ -423,7 +427,7 @@ function updateFights(dt) --the big one!!
               end
             elseif distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] and not mb.friend[mob[v]] then --this has to be separate because of mob range
               local pdmg = (mb.atk[mob[v]]/2)*dt
-              if love.math.random(1,250) == 1 then inflictAspect(thisPlayer,"Bleeding") end
+          --    if love.math.random(1,250) == 1 then inflictAspect(thisPlayer,"Bleeding") end
               --print("A "..mob[v].." dealt "..pdmg.." damage to "..thisPlayer.."!")
               if isPlayerDead(thisPlayer) == false then
                 damagePlayer(thisPlayer, pdmg)

@@ -11,6 +11,7 @@ gameUI = {}
 
 timeToMove = 0.5
 timeToUpdate = 0.5
+thisUpdate = "world"
 
 frequentlyUpdate = false
 
@@ -28,20 +29,19 @@ end
 function updateGame(dt)
   if pl.state == "world" then
     updateOverworld(dt)
-  --  if pl.t and moveQueue and #moveQueue > 0 then
-  --    timeToMove = timeToMove - 1*dt
-  --    if timeToMove < 0 then
-  --      pl.t = moveQueue[#moveQueue]
-  --      addFog(pl.t)
-  --      table.remove(moveQueue, #moveQueue)
-  --      centerCamera()
-    --    timeToMove = 0.2
-  --    end
-  --  end
 
     timeToUpdate = timeToUpdate - 1*dt
     if timeToUpdate < 0 then
+    --[[  if thisUpdate == "world" then
+        requestWorldInfo()
+        thisUpdate = "players"
+      elseif thisUpdate == "players" then
+        requestPlayersInfo()
+        thisUpdate = "world"
+      end]]
       requestWorldInfo()
+      requestPlayersInfo()
+
       if frequentlyUpdate == true then
         requestUserInfo()
         frequentlyUpdate = false

@@ -6,6 +6,36 @@ item.lvl = {}
 item.price = {}
 item.img = {}
 
+--armour
+local ti = "None"
+item.type[ti] = "armour"
+item.val[ti] = 0
+item.lvl[ti] = 1
+item.price[ti] = "1,Gold"
+item.img[ti] = ""
+
+local ti = "Legendary Helmet"
+item.type[ti] = "head armour"
+item.val[ti] = 10
+item.lvl[ti] = 14
+item.price[ti] = "20,Metal,10,String,10,Mana,1,Old World Crystal"
+item.img[ti] = ""
+
+local ti = "Legendary Chestplate"
+item.type[ti] = "chest armour"
+item.val[ti] = 25
+item.lvl[ti] = 14
+item.price[ti] = "30,Metal,20,String,20,Mana,1,Old World Crystal"
+item.img[ti] = ""
+
+local ti = "Legendary Leggings"
+item.type[ti] = "leg armour"
+item.val[ti] = 15
+item.lvl[ti] = 14
+item.price[ti] = "20,Metal,10,String,10,Mana,1,Old World Crystal"
+item.img[ti] = ""
+
+--old armour
 local ti = "Boat"
 item.type[ti] = "arm"
 item.val[ti] = 0

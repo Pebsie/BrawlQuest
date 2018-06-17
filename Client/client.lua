@@ -144,34 +144,46 @@ function netUpdate(dt)
               loadedCharacter[i].bud = pl.buddy
             end
             saveCharacters()
-
-
           end
-        elseif cmd == "world" then --update world
-          local plyrs = tonumber(param[1])
-          local fghts = tonumber(param[2])
-          local bcs = tonumber(param[3]) --broadcast chats
-          local tparam = 4
-          for i = 1, plyrs do --this is awful please stop doing this
-            if param[tparam] == "user" then
-              local name = param[tparam+1]
+        elseif cmd == "players" then
+            local plyrs = tonumber(param[1])
+            local onlineTable = {}
+            local tparam = 2
+            for i = 1, plyrs do --this is awful please stop doing this
+              if param[tparam] == "user" then
+                local name = param[tparam+1]
+                onlineTable[name] = true
+                if not playerExists(name) then
+                  addPlayer(name)
+                end
 
-              if not playerExists(name) then
-                addPlayer(name)
+                updatePlayer(name,"t",tonumber(param[tparam+2]))
+                updatePlayer(name,"arm",param[tparam+3])
+                updatePlayer(name,"arm_head",param[tparam+4])
+                updatePlayer(name,"arm_chest",param[tparam+5])
+                updatePlayer(name,"arm_legs",param[tparam+6])
+                updatePlayer(name,"state",param[tparam+7])
+                updatePlayer(name,"spell",param[tparam+8])
+                updatePlayer(name,"buddy",param[tparam+9])
+                if name == pl.name then pl.buddy = param[tparam+9] end
+                updatePlayer(name,"online",param[tparam+10])
+                updatePlayer(name,"wep",param[tparam+11])
+
+                tparam = tparam + 12
               end
-
-              updatePlayer(name,"t",tonumber(param[tparam+2]))
-              updatePlayer(name,"arm",param[tparam+3])
-              updatePlayer(name,"state",param[tparam+4])
-              updatePlayer(name,"spell",param[tparam+5])
-              updatePlayer(name,"buddy",param[tparam+6])
-              if name == pl.name then pl.buddy = param[tparam+6] end
-              updatePlayer(name,"online",param[tparam+7])
-              updatePlayer(name,"wep",param[tparam+8])
-
-              tparam = tparam + 9
             end
-          end
+
+            for i = 1, players do
+              if not onlineTable[getPlayerName(i)] then
+                player[getPlayerName(i)].online = false --the player has gone offline since we joined
+              end
+            end
+        elseif cmd == "world" then --update world
+        --  love.window.showMessageBox("debug","got a world update!")
+          local fghts = tonumber(param[1])
+          local bcs = tonumber(param[2]) --broadcast chats
+          local tparam = 3
+
 
           for i = 1, 100*100 do --cycle through the world to calculate player positions and turn off all fights
             world[i].isFight = false
@@ -207,6 +219,7 @@ function netUpdate(dt)
           weather.day = param[tparam+3]
           tparam = tparam + 4
         elseif cmd == "fight" then
+        --  love.window.showMessageBox("debug","got a fight update!")
           local mbs = tonumber(param[1])
           local plyrs = tonumber(param[2])
 

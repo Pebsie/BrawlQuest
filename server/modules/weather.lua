@@ -32,7 +32,7 @@ function simulateWeather()
   elseif weather.temperature > 15 and love.math.random(1, 20) == 1 then
     if weather.condition ~= "storm" then addChatMsg("WORLD","Thunder rumbles in the distance...") end
     weather.condition = "storm"
-  elseif love.math.random(1, 10) == 1 then
+  elseif love.math.random(1, 4) == 1 then
     if weather.condition ~= "clear" then addChatMsg("WORLD","The sun peaks out from behind the clouds...") end
     weather.condition = "clear"
   end

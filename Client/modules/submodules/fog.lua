@@ -2,7 +2,7 @@ function loadFog()
   fog = {}
 
 
-  if love.filesystem.getInfo("fog.txt") then
+  if love.filesystem.getInfo("fogg.txt") then
       local i = 1
     for line in love.filesystem.lines("fog.txt") do
       if line == "true" then
@@ -158,6 +158,33 @@ function drawFog(xo,yo)
           love.graphics.setColor(255,255,255,255)
           love.graphics.print(round(val),world[i].x+xo,world[i].y+yo)
         end
+
+        if ambSnd[world[i].tile] then
+          if love.math.random(1,250) == 1 and ambSnd[world[i].tile]:isPlaying() == false and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 256 then
+            local ambSound = ambSnd[world[i].tile]
+            ambSound:setPitch(love.math.random(75,150)/100)
+          --  ambSound:setPosition((world[i].x-pl.x),world[i].y-pl.y,1)
+            love.audio.play(ambSound)
+          end
+        end
+
+        if string.sub(world[i].fight,1,7) == "Gather:" then --I'm well aware that this whole section is nasty. TODO: make it doable in the editor.
+          drawNamePlate("Harvestable",world[i].x+xo,world[i].y+yo,"gather")
+        elseif world[i].tile == "Anvil" then
+          drawNamePlate("Crafting Anvil",world[i].x+xo,world[i].y+yo)
+        elseif world[i].tile == "Mortus" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
+          drawNamePlate("<NPC> Mortus",world[i].x+xo,world[i].y+yo)
+        elseif world[i].tile == "Blacksmith" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
+          drawNamePlate("<NPC> Smithy",world[i].x+xo,world[i].y+yo)
+        elseif world[i].tile == "Person" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
+          drawNamePlate("<NPC> Survivor",world[i].x+xo,world[i].y+yo)
+        elseif world[i].tile == "Lumberjack" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
+          drawNamePlate("<NPC> Lumberjack",world[i].x+xo,world[i].y+yo)
+        elseif world[i].tile == "Carus" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
+          drawNamePlate("<NPC> Carus",world[i].x+xo,world[i].y+yo)
+        elseif world[i].tile == "Farmer" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
+          drawNamePlate("<NPC> Farmer",world[i].x+xo,world[i].y+yo)
+        end
       end
 
 
@@ -167,22 +194,6 @@ function drawFog(xo,yo)
         --love.graphics.draw(worldImg["DT"],world[i].x+xo,world[i].y+yo)
       end
 
-      if ambSnd[world[i].tile] then
-        if love.math.random(1,250) == 1 and ambSnd[world[i].tile]:isPlaying() == false and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 256 then
-          local ambSound = ambSnd[world[i].tile]
-          ambSound:setPitch(love.math.random(75,150)/100)
-        --  ambSound:setPosition((world[i].x-pl.x),world[i].y-pl.y,1)
-          love.audio.play(ambSound)
-        end
-      end
-
-      if string.sub(world[i].fight,1,7) == "Gather:" then
-        drawNamePlate("Harvestable",world[i].x+xo,world[i].y+yo,"gather")
-      elseif world[i].tile == "Anvil" then
-        drawNamePlate("Crafting Anvil",world[i].x+xo,world[i].y+yo)
-      elseif world[i].tile == "Mortus" then
-        drawNamePlate("<NPC> Mortus",world[i].x+xo,world[i].y+yo)
-      end
     end --if tile is on screen
   end --for statement
 

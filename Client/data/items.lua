@@ -16,11 +16,34 @@ item.img[ti] = love.graphics.newImage("img/empty.png")
 
 local ti = "None"
 item.type[ti] = "none"
-item.val[ti] = "1,1,1"
+item.val[ti] = 0
 item.lvl[ti] = 1
 item.price[ti] = "0,Gold"
 item.img[ti] = love.graphics.newImage("img/empty.png")
 
+--armour
+local ti = "Legendary Helmet"
+item.type[ti] = "head armour"
+item.val[ti] = 10
+item.lvl[ti] = 14
+item.price[ti] = "20,Metal,10,String,10,Mana,1,Old World Crystal"
+item.img[ti] = love.graphics.newImage("img/items/armour/Legendary Helmet.png")
+
+local ti = "Legendary Chestplate"
+item.type[ti] = "chest armour"
+item.val[ti] = 25
+item.lvl[ti] = 14
+item.price[ti] = "30,Metal,20,String,20,Mana,1,Old World Crystal"
+item.img[ti] = love.graphics.newImage("img/items/armour/Legendary Chestplate.png")
+
+local ti = "Legendary Leggings"
+item.type[ti] = "leg armour"
+item.val[ti] = 15
+item.lvl[ti] = 14
+item.price[ti] = "20,Metal,10,String,10,Mana,1,Old World Crystal"
+item.img[ti] = love.graphics.newImage("img/items/armour/Legendary Leggings.png")
+
+--old armour
 local ti = "Boat"
 item.type[ti] = "arm"
 item.val[ti] = 0

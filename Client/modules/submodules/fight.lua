@@ -225,6 +225,7 @@ function updateFight(dt)
 
   if updateTime[2] < 0 then
     requestWorldInfo()
+    requestPlayersInfo()
     updateTime[2] = 5
   end
 
@@ -466,12 +467,12 @@ function drawFightUI(x,y)
   love.graphics.draw(uiImg["itemportrait"],x+39,y+56)
   love.graphics.draw(uiImg["smallportrait"],x+6,y+6)
 
-  if pl.s1t > 0 or pl.en < tonumber(atComma(item.val[pl.s1])[2]) then
+  if pl.s1 ~= "None" and (pl.s1t > 0 or pl.en < tonumber(atComma(item.val[pl.s1])[2])) then
     love.graphics.setColor(255,255,255,100)
   end
   love.graphics.draw(item.img[pl.s1],x+464,y+16,0,2,2)
 
-    if pl.s2t > 0 or pl.en <  tonumber(atComma(item.val[pl.s2])[2]) then
+    if pl.s2 ~= "None" and (pl.s2t > 0 or pl.en <  tonumber(atComma(item.val[pl.s2])[2])) then
       love.graphics.setColor(255,255,255,100)
     else
       love.graphics.setColor(255,255,255,255)
@@ -489,7 +490,11 @@ function drawFightUI(x,y)
   if round(pl.armd) ~= 0 then
     love.graphics.setColor(255,0,0)
   end
-  love.graphics.printf(round(item.val[pl.arm] - pl.armd),x+114,y+72,24,"center")
+  if player[pl.name] and player[pl.name].arm_head and player[pl.name].arm_chest and player[pl.name].arm_legs and item.val[player[pl.name].arm_head] and item.val[player[pl.name].arm_chest] and item.val[player[pl.name].arm_legs] then
+    love.graphics.printf(round((item.val[player[pl.name].arm_head]+item.val[player[pl.name].arm_chest]+item.val[player[pl.name].arm_legs]) - pl.armd),x+114,y+72,24,"center")
+  else
+    love.graphics.printf("??",x+114,y+72,24,"center")
+  end
 
 
   --action prompts (text)

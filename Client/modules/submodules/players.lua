@@ -36,10 +36,10 @@ function playerExists(name)
 end
 
 function updatePlayer(name,a,value) --where a is attribute (x/y/t/arm/hp)
-  if player[name][a] then
+  if player[name] and player[name][a] then
     player[name][a] = value
   else
-    if player[name].name then
+    if player[name] and player[name].name then
       love.window.showMessageBox("ERROR","ERROR: attempt to update player['"..name.."']."..a.." to "..value..", but that attribute doesn't exist.")
     else
       love.window.showMessageBox("ERROR","ERROR: attempt to update player['"..name.."']."..a.." to "..value..", but that player doesn't exist.")
@@ -78,7 +78,7 @@ end
 
 function drawPlayer(name,x,y,option)
 
-  if player[name] and item.img[player[name].arm] and player[name].online == "true" then
+  if player[name] and player[name].online == "true" then
     drawBuddy(name)
     love.graphics.draw(item.img["Naked"],x,y)
     if player[name].arm_head ~= "None" then love.graphics.draw(item.img[player[name].arm_head],x,y) end

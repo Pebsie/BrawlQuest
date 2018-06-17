@@ -81,6 +81,10 @@ function requestWorldInfo()
   netSend("world", pl.name)
 end
 
+function requestPlayersInfo()
+  netSend("players", pl.name)
+end
+
 -- DRAWING RELATED FUNCTIONS
 function drawOverworld()
   love.graphics.push()
@@ -144,7 +148,7 @@ function drawOverworld()
 
       local sw,sh = love.graphics.getDimensions()
       if world[pl.t].tile == "Blacksmith" then
-        drawShop(sw/2-75,sh/2-125)
+      --  drawShop(sw/2-75,sh/2-125)
       elseif world[pl.t].tile == "Graveyard" and pl.dt ~= pl.t then
         drawGraveyard(sw/2-75,sh/2-(72/2))
       end

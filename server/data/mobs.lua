@@ -185,6 +185,40 @@ mb.sp2t[tm] = 1
 mb.img[tm] = 32
 mb.rng[tm] =  16
 
+local tm = "Cannibal Tribesman"
+mb.hp[tm] = 30
+mb.spd[tm] = 40
+mb.atk[tm] = 5
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] =  16
+mb.atr[tm] = "spawnRandom"
+
+local tm = "Cannibal Hunter"
+mb.hp[tm] = 30
+mb.spd[tm] = 60
+mb.atk[tm] = 5
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] =  16
+
+local tm = "Cannibal Leader"
+mb.hp[tm] = 100
+mb.spd[tm] = 50
+mb.atk[tm] = 10
+mb.sp1[tm] = "doOnce:stat;hp;20;spawn:speak,Cannibal Leader,WE EAT NOT WE BE EAT!!!,4"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] =  16
+
 --crafting
 local tm = "Weak Tree"
 mb.hp[tm] = 20

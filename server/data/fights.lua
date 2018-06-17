@@ -19,12 +19,12 @@ fs["Crabs"] = "Scorpion;5;Sand Worm;15;Scorpion;2;Sand Worm;5;Scorpion;1"
 fs.spawnTime["Crabs"] = 1.5
 fs.rewards["Crabs"] = "Gold,10,100,Potent Healing Potion,1,50,Snake,1,25,Short Sword,1,10"
 
-fs["Cannibals"] = "Spider;1"
+fs["Cannibals"] = "speak,Cannibal Leader,FRESH MEAT!!,2;2;Cannibal Hunter;15;Cannibal Leader;1"
 fs.spawnTime["Cannibals"] = 1
 fs.rewards["Cannibals"] = "Wood,1,100"
 
-fs["Cannibal Hut"] = "Spider;1"
-fs.spawnTime["Cannibal Hut"] = 1
+fs["Cannibal Hut"] = "Cannibal Tribesman;30;speak,Cannibal Tribesman,INTRUDE! INTRUDE!,3;3;"
+fs.spawnTime["Cannibal Hut"] = 0
 fs.rewards["Cannibal Hut"] = "Wood,1,100"
 
 fs["Hell's Creatures"] = "Spider;5"

@@ -70,8 +70,8 @@ function newPlayer(name, password)
   pl.wep[i] = "Long Stick"
   pl.arm[i] = "Legendary Padding"
   pl.armd[i] = 0
-  pl.arm_head[i] = "Legendary Cap"
-  pl.arm_chest[i] = "Legendary Plate"
+  pl.arm_head[i] = "Legendary Helmet"
+  pl.arm_chest[i] = "Legendary Chestplate"
   pl.arm_legs[i] = "Legendary Leggings"
   pl.inv[i] = "A letter addressed to you;1"
   pl.pot[i] = "None"
@@ -413,7 +413,7 @@ end
 
 function damagePlayer(name, amount)
   pl.armd[name] = pl.armd[name] + amount
-  if pl.armd[name] > item.val[pl.arm[name]] then
+  if pl.armd[name] > (item.val[pl.arm_head[name]] + item.val[pl.arm_chest[name]] + item.val[pl.arm_legs[name]]) then
     pl.armd[name] = item.val[pl.arm[name]]
     pl.hp[name] = pl.hp[name] - amount
   end

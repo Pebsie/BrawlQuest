@@ -125,7 +125,7 @@ function love.mousereleased(button, cx, cy)
   cx, cy = love.mouse.getPosition()
   if phase == "game" then
     if pl.state == "world" then
-      if world[pl.t].tile == "Blacksmith" then
+      if world[pl.t].tile == "Blacksmithh" then --temporarily disabled for this Alpha
         cy = cy - 32
         local sw,sh = love.graphics.getDimensions()
         x = sw/2-75

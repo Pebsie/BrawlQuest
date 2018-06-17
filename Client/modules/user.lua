@@ -135,13 +135,12 @@ function movePlayer(dir)
   elseif dir == "left" then pl.t = pl.t - 1
   elseif dir == "right" then pl.t = pl.t + 1 end
 
+  if string.sub(world[pl.t].fight,1,5) == "speak" then
+    sInfo = atComma(world[pl.t].fight,"|")
+    mobSpeak(sInfo[2],sInfo[3],5)
+  end
+
   if world[pl.t].collide == false then
-    if world[pl.t].tile == "Curse" then
-      mobSpeak("Mortus","You'll need an Adver Ring to pass through this cursed patch of land!",4)
-    elseif string.sub(world[pl.t].fight,1,5) == "speak" then
-      sInfo = atComma(world[pl.t].fight,"|")
-      mobSpeak(sInfo[2],sInfo[3],5)
-    end
     addFog(pl.t)
     if stepSnd[world[pl.t].tile] then
       local stepSound = stepSnd[world[pl.t].tile]

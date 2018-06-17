@@ -21,7 +21,7 @@ end
 function drawSpeak(x,y)
   --draw border
   love.graphics.setColor(50,50,50,speak.alpha)
-  love.graphics.rectangle("fill", x, y, 200, 72)
+  love.graphics.rectangle("fill", x, y, 200, (sFont:getWidth(speak.text)/165*sFont:getHeight())+56)
   love.graphics.setFont(font)
   love.graphics.setColor(255,255,255,speak.alpha)
   love.graphics.printf(speak.mob,x,y,200,"center")
@@ -30,22 +30,23 @@ function drawSpeak(x,y)
 
   --draw everything else
   love.graphics.setFont(sFont)
-  love.graphics.printf(speak.text,x+35,y,200-35,"left")
+  love.graphics.printf(speak.text,x+35,y,165,"left")
   if mb.img[speak.mob] then
     love.graphics.draw(mb.img[speak.mob],x,y)
   elseif speak.mob == pl.name then
-    love.graphics.draw(item.img[pl.arm],x,y)
+    drawPlayer(pl.name,x,y)
   elseif worldImg[speak.mob] then
     love.graphics.draw(worldImg[speak.mob],x,y)
   end
 
+  y = y + (sFont:getWidth(speak.text)/165*sFont:getHeight()) + 16
   love.graphics.setColor(200,0,0,speak.alpha)
-  love.graphics.rectangle("line",x+10,y+40,180,4)
-  love.graphics.rectangle("fill",x+10,y+40,(speak.time/speak.totalTime)*180,4)
+  love.graphics.rectangle("line",x+10,y,180,4)
+  love.graphics.rectangle("fill",x+10,y,(speak.time/speak.totalTime)*180,4)
 
   --border
   love.graphics.setColor(150,150,150,speak.alpha)
-  love.graphics.rectangle("line",x,y-(font:getHeight()+6), 200, 72)
+  love.graphics.rectangle("line",x,y-((font:getHeight()+22)+(sFont:getWidth(speak.text)/165*sFont:getHeight())), 200, (sFont:getWidth(speak.text)/165*sFont:getHeight())+56)
 end
 
 function updateSpeak(dt)

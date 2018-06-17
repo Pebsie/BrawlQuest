@@ -32,7 +32,8 @@ function love.load()
   loadGame()
 
     newPlayer("a","a")
- givePlayerItem("a","Legendary Sword",1)
+ givePlayerItem("a","Long Sword",1)
+ givePlayerItem("a","Short Sword",1)
  givePlayerItem("a","Gold",5000)
  pl.t["a"] = 3707
 
@@ -99,29 +100,39 @@ function love.update(dt)
         elseif cmd == "move" then
           parms = atComma(parms)
           movePlayer(parms[1],parms[2])
-        elseif cmd == "world" then
-          local msgToSend = countPlayers().."|"..countFights().."|"..countChats().."|"
-          local name = parms
-          pl.timeout[name] = 5
+        elseif cmd == "players" then
+          local requestName = parms
+          local plyrs = countPlayers()
+
+          local msgToSend = ""
           --compile location of current players, including ourselves
           for i = 1, countPlayers() do
             --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
+            local name = getPlayerName(i)
             local isOnline = true
-            if pl.timeout[getPlayerName(i)] < 1 then
+            if pl.timeout[name] < 1 then
               isOnline = false
             else
               isOnline = true
             end
-            if isPlayerOnline(getPlayerName(i)) then
-              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|%s|", getPlayerName(i), getPlayerTile(getPlayerName(i)), getPlayerArmour(getPlayerName(i)), getPlayerState(getPlayerName(i)), pl.spell[getPlayerName(i)], pl.bud[getPlayerName(i)], isOnline, pl.wep[getPlayerName(i)])
+            if isOnline then
+              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|", name, getPlayerTile(name), getPlayerArmour(name), pl.arm_head[name], pl.arm_chest[name], pl.arm_legs[name], getPlayerState(name), pl.spell[name], pl.bud[name], isOnline, pl.wep[name])
+            else
+              plyrs = plyrs - 1 --player is offline so we reduce the number of players the client should expect by 1
             end
           end
 
+            udp:sendto(requestName.." players "..plyrs.."|"..msgToSend,msg_or_ip,port_or_nil)
+        elseif cmd == "world" then --URGENT TODO: separate parts of this to lower size of messages sent
+          local msgToSend = countFights().."|"..countChats().."|"
+          local name = parms
+          pl.timeout[name] = 5
+
           for i = 1, 100*100 do
             if world[i].isFight == true then
-             msgToSend = msgToSend..string.format("fight|%s|", i)
-           end
-         end
+              msgToSend = msgToSend..string.format("fight|%s|", i)
+            end
+          end
 
          c = getChats()
          for i = 1, #c do
@@ -131,6 +142,7 @@ function love.update(dt)
          msgToSend = msgToSend..weather.time.."|"..weather.temperature.."|"..weather.condition.."|"..weather.day.."|"
 
           udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
+
         elseif cmd == "fight" then
           parms = atComma(param[1])
           local i = parms[1]
