@@ -84,9 +84,9 @@ mb.img[tm] = 69
 mb.rng[tm] =  32
 
 local tm = "Ship"
-mb.hp[tm] = 100
-mb.spd[tm] = 80
-mb.atk[tm] = 0
+mb.hp[tm] = 500
+mb.spd[tm] = 100
+mb.atk[tm] = 20
 mb.sp1[tm] = "None"
 mb.sp1t[tm] = 0
 mb.sp2[tm] = "None"
@@ -106,18 +106,18 @@ mb.sp1t[tm] = 5
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 32
-mb.rng[tm] =  64
+mb.rng[tm] =  128
 
 local tm = "Pirate Ship"
-mb.hp[tm] = 20
+mb.hp[tm] = 10
 mb.spd[tm] = 80
-mb.atk[tm] = 10
-mb.sp1[tm] = "spawn:Cannon Ball"
-mb.sp1t[tm] = 15
+mb.atk[tm] = 0
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 32
-mb.rng[tm] =  64
+mb.rng[tm] = 32
 
 local tm = "Cannon Ball"
 mb.hp[tm] = 100000
@@ -129,6 +129,18 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 16
 mb.rng[tm] =  32
+
+local tm = "Friendly Cannon Ball"
+mb.hp[tm] = 100000
+mb.spd[tm] = 256
+mb.atk[tm] = 100
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 1
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 16
+mb.rng[tm] =  32
+mb.friend[tm] = true
 
 local tm = "Spider"
 mb.hp[tm] = 3
@@ -160,7 +172,7 @@ mb.sp1[tm] = "spawn:Sand"
 mb.sp1t[tm] = 8
 mb.sp2[tm] = "suicide"
 mb.sp2t[tm] = 8
-mb.img[tm] = 15
+mb.img[tm] = 32
 mb.rng[tm] =  16
 
 local tm = "Manamite"
@@ -218,6 +230,63 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 32
 mb.rng[tm] =  16
+
+local tm = "Mysterious Figure"
+mb.hp[tm] = 999999
+mb.spd[tm] = 40
+mb.atk[tm] = 10
+mb.sp1[tm] = "spawn:Image of a Phoenix"
+mb.sp1t[tm] = 20
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 128
+mb.friend[tm] = true
+
+local tm = "Image of a Phoenix"
+mb.hp[tm] = 99999
+mb.spd[tm] = 120
+mb.atk[tm] = 50
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 10
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 100
+mb.friend[tm] = true
+
+local tm = "Demon"
+mb.hp[tm] = 5000
+mb.spd[tm] = 40
+mb.atk[tm] = 5
+mb.sp1[tm] = "spawnRandom,Hellfire"
+mb.sp1t[tm] = 0.5
+mb.sp2[tm] = "spawnRandom,Minion"
+mb.sp2t[tm] = 4
+mb.img[tm] = 128
+mb.rng[tm] = 64
+
+local tm = "Hellfire"
+mb.hp[tm] = 999999
+mb.spd[tm] = 0
+mb.atk[tm] = 30
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 10
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 32
+
+local tm = "Minion"
+mb.hp[tm] = 30
+mb.spd[tm] = 80
+mb.atk[tm] = 10
+mb.sp1[tm] = "spawnRandom,Minion"
+mb.sp1t[tm] = 5
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 32
 
 --crafting
 local tm = "Weak Tree"

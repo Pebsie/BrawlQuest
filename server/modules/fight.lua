@@ -335,30 +335,30 @@ function updateFights(dt) --the big one!!
 
       for v = 1,#mobInfo/8 do --this mob
 
-        if mob.hp[v] > 0 and string.sub(mob[v],1,5) ~= "speak"  then
-          if not mb.friend[mob[v]] and mb.spd[mob[v]] ~= 0 then
+        if mob.hp[v] > 0 and string.sub(mob[v],1,5) ~= "speak" then --if mobs are speak mobs or dead then they don't need any logic action
+          if not mb.friend[mob[v]] and mb.spd[mob[v]] ~= 0 then --entities that can't move (e.g traps) and friends don't count towards the fight ending
             hasFightEnded = false
           end
           --movement
           local width = mb.img[mob[v]]/2
-          if distanceFrom(mob.x[v]+width, mob.y[v]+width, mob.target.x[v], mob.target.y[v]) > mb.rng[mob[v]] then
-            local speed = mb.spd[mob[v]]*dt
+          if distanceFrom(mob.x[v]+width, mob.y[v]+width, mob.target.x[v], mob.target.y[v]) > mb.rng[mob[v]] then --if we're further away from our target than our attacking range
+            local speed = mb.spd[mob[v]]*dt --move towards the target
             if mob.target.x[v] > mob.x[v]+width then mob.x[v] = mob.x[v] + speed end
             if mob.target.y[v] > mob.y[v]+width then mob.y[v] = mob.y[v] + speed end
             if mob.target.x[v] < mob.x[v]+width then mob.x[v] = mob.x[v] - speed end
             if mob.target.y[v] < mob.y[v]+width then mob.y[v] = mob.y[v] - speed end
           end
 
-          if mob.target.t[v] ~= "static" then
-            if pl.state[mob.target.t[v]] == "fight" and pl.spell[mob.target.t[v]] ~= "Phase Shift" and mb.friend[mob[v]] == false then
-              mob.target.x[v] = pl.x[mob.target.t[v]]+16
+          if mob.target.t[v] ~= "static" then --if our target isn't a static point
+            if pl.state[mob.target.t[v]] == "fight" and pl.spell[mob.target.t[v]] ~= "Phase Shift" and mb.friend[mob[v]] == false then --if our target is in fight mode, isn't using Phase Shift (which is a de-aggro spell) and we aren't a friend
+              mob.target.x[v] = pl.x[mob.target.t[v]]+16 --set new x and y co-ords
               mob.target.y[v] = pl.y[mob.target.t[v]]+16
             else --player is dead!
               if mb.friend[mob[v]] then --this is a friendly mob who will attack other mobs
                 local curMaxHP = 1000000 --for changing targets
                 local hasFoundTarget = false
 
-                for k = 1,#mobInfo/8 do
+                for k = 1,#mobInfo/8 do --cycle through every mob for each mob
                   if k ~= v and not mb.friend[mob[k]] and string.sub(mob[k],1,5) ~= "speak" and mob.target.t[v] ~= "spread" then --we don't want to attack ourselves nor other friends
                     --addMsg("Is "..distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]).." < "..curMaxDist)
                     if curMaxHP > mob.hp[k] then
@@ -371,9 +371,9 @@ function updateFights(dt) --the big one!!
                     end
                   end
 
-                  if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < mb.rng[mob[v]] and mob.target.t[v] == "mob" then
-                      mob.hp[k] = mob.hp[k] - mb.atk[mob[v]]*dt
-                      mob.hp[v] = mob.hp[v] - mb.atk[mob[k]]*dt
+                   if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < mb.rng[mob[v]] and mob.target.t[v] == "mob" and k ~= v and not mb.friend[mob[k]] then
+                     mob.hp[k] = mob.hp[k] - mb.atk[mob[v]]*dt
+                     mob.hp[v] = mob.hp[v] - mb.atk[mob[k]]*dt
                       if not mb.friend[mob[k]] and love.math.random(1,10) == 1 then
                         mob.target.t[v] = "spread"
                         mob.target.x[v] = mob.x[v] + love.math.random(-50,50)

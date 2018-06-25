@@ -109,6 +109,15 @@ function enterGame()
     gameUI[5].width = 100
     gameUI[5].height = 140
     gameUI[5].label = "World Map"
+
+    gameUI[6] = {}
+    gameUI[6].x = 300
+    gameUI[6].y = 200
+    gameUI[6].isDrag = false
+    gameUI[6].isVisible = true
+    gameUI[6].width = 96
+    gameUI[6].height = 100
+    gameUI[6].label = "Crafting"
 end
 
 function requestUserInfo()

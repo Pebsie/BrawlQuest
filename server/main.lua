@@ -29,7 +29,7 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
-  loadGame()
+--  loadGame()
 
     newPlayer("a","a")
  givePlayerItem("a","Long Sword",1)

@@ -3,6 +3,7 @@ require "modules/submodules/tooltip"
 require "modules/ui/master"
 require "modules/ui/chat"
 require "modules/ui/floats"
+require "modules/ui/crafting"
 
 --ui variables, use as you wish
 ui = {}

@@ -105,9 +105,9 @@ mb.friend[tm] = true
 
 
 local tm = "Ship"
-mb.hp[tm] = 100
-mb.spd[tm] = 80
-mb.atk[tm] = 100
+mb.hp[tm] = 500
+mb.spd[tm] = 100
+mb.atk[tm] = 20
 mb.sp1[tm] = "None"
 mb.sp1t[tm] = 0
 mb.sp2[tm] = "None"
@@ -148,6 +148,18 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = love.graphics.newImage("img/mob/Cannonball.png")
 mb.rng[tm] =  32
+
+local tm = "Friendly Cannon Ball"
+mb.hp[tm] = 100000
+mb.spd[tm] = 256
+mb.atk[tm] = 100
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 1
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Cannonball.png")
+mb.rng[tm] =  32
+mb.friend[tm] = true
 
 local tm = "Spider"
 mb.hp[tm] = 3
@@ -236,6 +248,63 @@ mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = love.graphics.newImage("img/mob/Cannibal Leader.png")
 mb.rng[tm] =  16
+
+local tm = "Mysterious Figure"
+mb.hp[tm] = 500
+mb.spd[tm] = 40
+mb.atk[tm] = 5
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Tarquin.png")
+mb.rng[tm] = 100
+mb.friend[tm] = true
+
+local tm = "Image of a Phoenix"
+mb.hp[tm] = 999999
+mb.spd[tm] = 120
+mb.atk[tm] = 50
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 10
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Phoenix Image.png")
+mb.rng[tm] = 32
+mb.friend[tm] = true
+
+local tm = "Demon"
+mb.hp[tm] = 5000
+mb.spd[tm] = 40
+mb.atk[tm] = 5
+mb.sp1[tm] = "spawnFeet:Hellfire"
+mb.sp1t[tm] = 10
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Demon.png")
+mb.rng[tm] = 64
+
+local tm = "Hellfire"
+mb.hp[tm] = 999999
+mb.spd[tm] = 0
+mb.atk[tm] = 30
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 10
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Hellfire.png")
+mb.rng[tm] = 32
+
+local tm = "Minion"
+mb.hp[tm] = 10
+mb.spd[tm] = 80
+mb.atk[tm] = 10
+mb.sp1[tm] = "spawnRandom:Minion"
+mb.sp1t[tm] = 5
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = love.graphics.newImage("img/mob/Minion.png")
+mb.rng[tm] = 32
 
 --crafting
 local tm = "Weak Tree"

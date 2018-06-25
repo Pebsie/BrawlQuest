@@ -142,7 +142,7 @@ function drawOverworld()
 
     love.graphics.pop()
 
-    for i = 1, 5 do
+    for i = 1, 6 do
       drawUIWindow(i)
     end
 
@@ -331,6 +331,8 @@ function drawUIWindow(i)
       elseif weather.time > 18 and weather.time < 22 then love.graphics.draw(uiImg["time-moonrise"],x,y+110) end
       love.graphics.setFont(sFont)
       love.graphics.print(weather.condition.." ("..weather.temperature.." C)\nHour: "..weather.time,x+10,y+98)
+    elseif i == 6 then
+      drawCraftingMenu(gameUI[i].x,gameUI[i].y+font:getHeight())
     end
 
     --border

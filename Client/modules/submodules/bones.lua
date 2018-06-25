@@ -36,7 +36,7 @@ function drawBones()
       if bones[i].t == "Player" then
         love.graphics.setColor(100,0,0,bones[i].a)
         love.graphics.rectangle("line",bones[i].x+xoff,bones[i].y+yoff,2,2)
-      else
+      elseif mb.img[bones[i].t] then
         love.graphics.draw(mb.img[bones[i].t], bones[i].x+xoff, bones[i].y+yoff, math.rad(bones[i].rotation), 0.25, 0.25)
       end
     end

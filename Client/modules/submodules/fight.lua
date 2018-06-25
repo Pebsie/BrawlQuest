@@ -189,8 +189,12 @@ love.graphics.scale(scale,scale)
     local owedItems = atComma(pl.owed)
     xLeft = (stdSH/2) - ((#owedItems / 2 * 32))
     for i = 1, #owedItems, 2 do
-      love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
-      love.graphics.printf("x"..owedItems[i+1],xLeft+(i*32)+xoff,200+item.img[owedItems[i]]:getHeight()+yoff,item.img[owedItems[i]]:getWidth(),"right")
+      if item.img[owedItems[i]] then
+        love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
+        love.graphics.printf("x"..owedItems[i+1],xLeft+(i*32)+xoff,200+item.img[owedItems[i]]:getHeight()+yoff,item.img[owedItems[i]]:getWidth(),"right")
+      else
+        love.graphics.printf(owedItems[i].." x"..owedItems[i+1],xLeft+(i*32)+xoff,200+yoff,100,"right")
+      end
     end
   end
 
@@ -239,13 +243,15 @@ function updateFight(dt)
       local owedItems = atComma(pl.owed)
       xLeft = (stdSH/2) - ((#owedItems / 2 * 32))
       for i = 1, #owedItems, 2 do
-        if distanceFrom(pl.x+16, pl.y+16, xLeft+(i*32)+xoff, 200+item.img[owedItems[i]]:getHeight()+yoff) < 30 then
-          netSend("claim",pl.name..","..owedItems[i])
-          owedItems[i] = nil
-          owedItems[i+1] = nil
-          love.audio.stop(sfx["loot"])
-          love.audio.play(sfx["loot"])
-          updateTime[1] = 2
+        if item.img[owedItems[i]] then
+          if distanceFrom(pl.x+16, pl.y+16, xLeft+(i*32)+xoff, 200+item.img[owedItems[i]]:getHeight()+yoff) < 30 then
+            netSend("claim",pl.name..","..owedItems[i])
+            owedItems[i] = nil
+            owedItems[i+1] = nil
+            love.audio.stop(sfx["loot"])
+            love.audio.play(sfx["loot"])
+            updateTime[1] = 2
+          end
         end
       end
 

@@ -44,6 +44,7 @@ pl.score = {} --this is reset at the start of each fight and represents the play
 pl.combo = {} --this is the players current combo
 pl.aspects = {}
 pl.encounterBuild = {} --this increases by the % chance on each tile that a fight didn't occur to ensure that a player walking on 25% fight tiles will always encounter a fight at least once every 4 movements.
+pl.blueprints = {}
 
 acc = {} --identified by number
 acc.username = {}
@@ -99,6 +100,7 @@ function newPlayer(name, password)
   pl.combo[i] = 0
   pl.aspects[i] = {}
   pl.encounterBuild[i] = 0
+  pl.blueprints[i] = "Wooden Chestplate;Wooden Helmet;Wooden Leggings;Healing Potion;Hilt;Short Sword;Iron Chestplate;Iron Helmet;Iron Leggings"
 
 
   addMsg("New player by the name of "..name)
