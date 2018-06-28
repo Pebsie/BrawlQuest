@@ -192,6 +192,13 @@ love.graphics.scale(scale,scale)
       if item.img[owedItems[i]] then
         love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
         love.graphics.printf("x"..owedItems[i+1],xLeft+(i*32)+xoff,200+item.img[owedItems[i]]:getHeight()+yoff,item.img[owedItems[i]]:getWidth(),"right")
+      elseif string.sub(owedItems[i],1,10) == "Blueprint:" then
+        love.graphics.draw(item.img["Blueprint"],xLeft+(i*32)+xoff,200+yoff)
+        if item.img[string.sub(owedItems[i],12)] then
+          love.graphics.draw(item.img[string.sub(owedItems[i],12)],xLeft+(i*32)+xoff,200+yoff)
+        else
+          love.graphics.print(owedItems[i],xLeft+(i*32)+xoff,200+yoff)
+        end
       else
         love.graphics.printf(owedItems[i].." x"..owedItems[i+1],xLeft+(i*32)+xoff,200+yoff,100,"right")
       end
@@ -205,8 +212,11 @@ love.graphics.scale(scale,scale)
   love.graphics.pop()
   --love.graphics.print(love.timer.getFPS().." FPS")
   if string.sub(world[pl.t].fight,1,7) ~= "Gather:" then
-    love.graphics.setFont(bFont)
-    love.graphics.print("Score: "..tostring(pl.score).." (x"..tostring(pl.combo)..")\nHighscore: "..tostring(fight.highscore).." (earned by "..tostring(fight.highscorePlayer)..")",200,200)
+    love.graphics.setColor(0,0,0,100)
+    love.graphics.rectangle("fill",0,0,rFont:getWidth("Highscore: "..tostring(fight.highscore).." (earned by "..tostring(fight.highscorePlayer)..")")+12,rFont:getHeight()*2)
+    love.graphics.setColor(255,255,255)
+    love.graphics.setFont(rFont)
+    love.graphics.print("Score: "..tostring(pl.score).." (x"..tostring(pl.combo+1)..")\nHighscore: "..tostring(fight.highscore).." (earned by "..tostring(fight.highscorePlayer)..")",0,0)
   end
 end
 
@@ -243,16 +253,19 @@ function updateFight(dt)
       local owedItems = atComma(pl.owed)
       xLeft = (stdSH/2) - ((#owedItems / 2 * 32))
       for i = 1, #owedItems, 2 do
-        if item.img[owedItems[i]] then
-          if distanceFrom(pl.x+16, pl.y+16, xLeft+(i*32)+xoff, 200+item.img[owedItems[i]]:getHeight()+yoff) < 30 then
+      --  if item.img[owedItems[i]] then
+          if distanceFrom(pl.x+16, pl.y+16, xLeft+(i*32)+xoff, 200+32+yoff) < 30 then
             netSend("claim",pl.name..","..owedItems[i])
+            if string.sub(owedItems[i],1,10) == "Blueprint:" then
+              newLoot(owedItems[i],1)
+            end
             owedItems[i] = nil
             owedItems[i+1] = nil
             love.audio.stop(sfx["loot"])
             love.audio.play(sfx["loot"])
             updateTime[1] = 2
           end
-        end
+      --  end
       end
 
       pl.owed = ""

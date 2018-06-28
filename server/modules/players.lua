@@ -346,7 +346,13 @@ function playerClaim( name, item )
 
   for i = 1, #claims, 2 do
     if item == claims[i] then
-      givePlayerItem(name,claims[i],tonumber(claims[i+1]))
+
+      if string.sub(item,1,10) == "Blueprint:" then
+        pl.blueprints[name] = pl.blueprints[name]..";"..string.sub(item,12)
+      else
+        givePlayerItem(name,claims[i],tonumber(claims[i+1]))
+      end
+
       claims[i] = nil
       claims[i+1] = nil
      end
@@ -458,4 +464,16 @@ function useSpell(spellName,name)
     end
 
   end
+end
+
+function playerHasBlueprint(name,bprint)
+  local result = false
+  local prints = atComma(pl.blueprints[name],";")
+  for i, v in pairs(prints) do
+    if v == bprint then
+      result = true
+    end
+  end
+
+  return result
 end

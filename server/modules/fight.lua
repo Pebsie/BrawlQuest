@@ -128,7 +128,9 @@ function endFight(fight)
         local trr = #rwdsRoll + 1
         rwdsRoll[trr] = love.math.random(1,99)
         if rwdsRoll[trr] < tonumber(rwds[k+2]) then
-          pl.owed[getPlayerName(tonumber(playersInFight[i]))] = pl.owed[getPlayerName(tonumber(playersInFight[i]))]..rwds[k]..","..tonumber(rwds[k+1]).."," --givePlayerItem(getPlayerName(tonumber(playersInFight[i])),rwds[k],tonumber(rwds[k+1]))
+          if string.sub(rwds[k],1,10) ~= "Blueprint:" or not playerHasBlueprint(getPlayerName(tonumber(playersInFight[i])), string.sub(rwds[k],12)) then
+            pl.owed[getPlayerName(tonumber(playersInFight[i]))] = pl.owed[getPlayerName(tonumber(playersInFight[i]))]..rwds[k]..","..tonumber(rwds[k+1]).."," --givePlayerItem(getPlayerName(tonumber(playersInFight[i])),rwds[k],tonumber(rwds[k+1]))
+          end
         end
         --pl.msg = rwdsRoll[trr].."% / "..rwds[k+2].."\n"
       end

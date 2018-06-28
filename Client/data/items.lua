@@ -22,6 +22,8 @@ item.lvl[ti] = 1
 item.price[ti] = "0,Gold"
 item.img[ti] = love.graphics.newImage("img/empty.png") item.title[ti] = ti
 
+item.img["Blueprint"] = love.graphics.newImage("img/items/blueprint.png")
+
 --armour
 local ti = "Legendary Helmet"
 item.type[ti] = "head armour"

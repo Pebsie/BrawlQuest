@@ -29,15 +29,15 @@ fs.rewards["Cannibals"] = "Wood,1,100"
 
 fs["Cannibal Hut"] = "Cannibal Tribesman;30;speak,Cannibal Tribesman,INTRUDE! INTRUDE!,3;3;"
 fs.spawnTime["Cannibal Hut"] = 0
-fs.rewards["Cannibal Hut"] = "Wood,1,100,Suspicious Meat,5,50"
+fs.rewards["Cannibal Hut"] = "Wood,1,100,Suspicious Meat,5,50,Blueprint: Long Sword,1,50,Blueprint: Bastard Sword,1,25"
 
 fs["Hell's Creatures"] = "Spider;5"
 fs.spawnTime["Hell's Creatures"] = 1
-fs.rewards["Hell's Creatures"] = "Fly,1,100"
+fs.rewards["Hell's Creatures"] = "Fly,1,100,Blueprint: Bastard Sword,1,50"
 
 fs["Dungeon: Demon"] = "Mysterious Figure;1;speak,**player**,WHO ARE YOU?,2;2;speak,**player**,WHERE DID YOU COME FROM?,3;3;speak,Mysterious Figure,Me? Where did YOU come from? Humans... I've been following you since I saw your ship crash... this is not your place.,7;7;speak,**player**,What's that meant to mean?,4;4;speak,Mysterious Figure,You should not have come here. You especially should not have started abusing our natural resources.,6;6;speak,**player**,We're trying to build a ship... we're trying to leave!,5;5;speak,Mysterious Figure,Your intentions may have been pure... but the demon that lurks in this cave will likely not accept your excuses.,6;6;speak,Mysterious Figure,And I fear that I sense him just a moment away... I will help protect you foolish humans.,6;6;speak,**player**,*You hear heavy stomps and a defeaning roar*,3;3;Demon;1"
 fs.spawnTime["Dungeon: Demon"] = 0
-fs.rewards["Dungeon: Demon"] = "Iron,20,100,Mana Crystal,10,100,Beholder,1,25,Iron Chestplate,1,10,Iron Leggings,1,10,Iron Helmet,1,10"
+fs.rewards["Dungeon: Demon"] = "Iron,20,100,Mana Crystal,10,100,Beholder,1,25,Iron Chestplate,1,10,Iron Leggings,1,10,Iron Helmet,1,10,Blueprint: Guardian's Chestplate,1,50,Blueprint: Guardian's Helmet,1,50,Blueprint: Guardian's Leggings,1,50,Blueprint: Guardian's Blade,1,50"
 
 --crafting
 fs["Gather: Wood"] = "Weak Tree;3"

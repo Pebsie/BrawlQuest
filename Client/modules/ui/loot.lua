@@ -36,7 +36,11 @@ function drawLootBox(x,y)
         drawItem(lootQueue[LQcurrent+(i-1)],x+4+(32*(i-1)),y,LQalpha)
       end
     else]]
-    drawItem(lootQueue[LQcurrent].title,lootQueue[LQcurrent].amount,x+4,y,LQalpha)
+    if string.sub(lootQueue[LQcurrent].title,1,10) == "Blueprint:" then
+      drawItem(string.sub(lootQueue[LQcurrent].title,12),lootQueue[LQcurrent].amount,x+4,y,LQalpha)
+    else
+      drawItem(lootQueue[LQcurrent].title,lootQueue[LQcurrent].amount,x+4,y,LQalpha)
+    end
       love.graphics.setFont(font)
       love.graphics.printf(lootQueue[LQcurrent].title,x+32,y+6,200-32,"center")
       love.graphics.setFont(sFont)

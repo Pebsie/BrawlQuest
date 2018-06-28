@@ -46,7 +46,7 @@ realScreenHeight = screenH
 
 news = ""
 
-dev = true--This variable just turns certain features on and off so that it's easier to dev the game
+dev = false--This variable just turns certain features on and off so that it's easier to dev the game
 
 function love.load()
 
@@ -67,6 +67,7 @@ function love.load()
     news = "UNABLE TO UPDATE NEWS\nAre you connected to the internet?"
   end
 
+  rFont = love.graphics.newFont(18)
   font = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",14)
   sFont = love.graphics.newFont(9)
   bFont = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",26)
