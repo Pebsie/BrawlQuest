@@ -251,6 +251,9 @@ function love.update(dt)
         elseif cmd == "claim" then --claiming loot at the end of a fight
           param = atComma(parms)
           playerClaim(param[1],param[2])
+        elseif cmd == "blueprints" then
+          param = atComma(parms)
+          udp:sendto(param[1].." blueprints "..pl.blueprints[param[1]],msg_or_ip,port_or_nil)
         elseif cmd == "error" then
           addMsg("A player has encountered an error: "..parms)
         end
@@ -290,7 +293,7 @@ function saveGame()
   for i = 1, countPlayers() do
       local k = getPlayerName(i)
       --if pl.state[k] ~= "fight" then
-        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|"..pl.str[k].."|"..pl.lastLogin[k].."\n"
+        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|"..pl.str[k].."|"..pl.lastLogin[k].."|"..pl.blueprints[k].."\n"
       --fp = "map-new.txt"
     --  end
       uploadCharacter(k)
@@ -346,6 +349,7 @@ function loadGame()
       if word[22] then  pl.distance[i] = word[22] end
       if word[23] then pl.str[i] = tonumber(word[23]) end
       if word[24] then pl.lastLogin[i] = tonumber(word[24]) end
+      if word[25] then pl.blueprints[i] = word[25] end
     end
 
     if love.filesystem.exists("server-info.txt") then

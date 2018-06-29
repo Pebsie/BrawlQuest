@@ -32,6 +32,7 @@ pl.owed = ""
 pl.score = 0
 pl.combo = 0
 pl.aspectString = ""
+pl.blueprints = ""
 
 function login() --we'll attempt to login
   if pl.name ~= "" and pl.cinput ~= "" then
@@ -114,7 +115,7 @@ function enterGame()
     gameUI[6].x = 300
     gameUI[6].y = 200
     gameUI[6].isDrag = false
-    gameUI[6].isVisible = true
+    gameUI[6].isVisible = false
     gameUI[6].width = 96
     gameUI[6].height = 100
     gameUI[6].label = "Crafting"
@@ -161,6 +162,13 @@ function movePlayer(dir)
       stepSound:setPitch(love.math.random(100,140)/100)
       stepSound:setVolume(0.25)
       love.audio.play(stepSound)
+    end
+
+    if world[pl.t].tile == "Anvil" then
+      gameUI[6].isVisible  = true
+      netSend("blueprints", pl.name)
+    else
+      gameUI[6].isVisible = false
     end
   end
 

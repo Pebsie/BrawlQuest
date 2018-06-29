@@ -320,9 +320,11 @@ function netUpdate(dt)
               killMob(i)
             end
           end
+        elseif cmd == "blueprints" then
+          pl.blueprints = param[1]
         end
 
-        if cmd ~= "login" then --if we aren't logged in yet then we don't have a username or position or anything, creating issues with fog.
+        if cmd ~= "login" and cmd ~= "afterfight" then --if we aren't logged in yet then we don't have a username or position or anything, creating issues with fog.
         --  createWorldCanvas() --finally, update the world
           createWorldObjectCanvas()
         end

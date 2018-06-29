@@ -41,7 +41,7 @@ function drawCraftingMenu(x,y)
   else
     local x = 0
     local y = 0
-    for i, v in pairs(item.title) do
+    for i, v in pairs(atComma(pl.blueprints,";")) do
       if item.type[v] == craftingMenu.scrn then
         drawItem(v,1,craftingMenu.x + x, craftingMenu.y + y, 255)
         x = x + 32
