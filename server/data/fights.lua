@@ -17,23 +17,23 @@ fs.rewards["Spiders"] = "String,3,100,String,2,50"
 
 fs["Chest: String"] = "Spider;30"
 fs.spawnTime["Chest: String"] = 0.2
-fs.rewards["Chest: String"] = "String,10,100"
+fs.rewards["Chest: String"] = "String,15,100"
 
 fs["Crabs"] = "Scorpion;5;Sand Worm;15;Scorpion;2;Sand Worm;5;Scorpion;1"
 fs.spawnTime["Crabs"] = 1.5
-fs.rewards["Crabs"] = "Gold,10,100,Potent Healing Potion,1,50,Snake,1,25,Short Sword,1,10"
+fs.rewards["Crabs"] = "Potent Healing Potion,1,50,Snake,1,25,Short Sword,1,10,Blueprint: Polymorph,1,100"
 
-fs["Cannibals"] = "speak,Cannibal Leader,FRESH MEAT!!,2;2;Cannibal Hunter;15;Cannibal Leader;1"
+fs["Cannibals"] = "speak,Cannibal Leader,FRESH MEAT!! SMELL GOOD!! BRING HEAD!!,2;2;Cannibal Hunter;15;Cannibal Leader;1"
 fs.spawnTime["Cannibals"] = 1
-fs.rewards["Cannibals"] = "Wood,1,100"
+fs.rewards["Cannibals"] = "Blueprint: Bastard Sword,1,10,Suspicious Meat,3,50,Dog,1,50,Hilt,1,100"
 
-fs["Cannibal Hut"] = "Cannibal Tribesman;30;speak,Cannibal Tribesman,INTRUDE! INTRUDE!,3;3;"
+fs["Cannibal Hut"] = "Cannibal Tribesman;30;speak,Cannibal Tribesman,INTRUDE! INTRUDE! DEFENSE! GO!,3;3;"
 fs.spawnTime["Cannibal Hut"] = 0
 fs.rewards["Cannibal Hut"] = "Wood,1,100,Suspicious Meat,5,50,Blueprint: Long Sword,1,50,Blueprint: Bastard Sword,1,25"
 
 fs["Hell's Creatures"] = "Spider;5"
 fs.spawnTime["Hell's Creatures"] = 1
-fs.rewards["Hell's Creatures"] = "Fly,1,100,Blueprint: Bastard Sword,1,50"
+fs.rewards["Hell's Creatures"] = "Fly,1,30,Mana,2,100,Baby Bat,1,40"
 
 fs["Dungeon: Demon"] = "Mysterious Figure;1;speak,**player**,WHO ARE YOU?,2;2;speak,**player**,WHERE DID YOU COME FROM?,3;3;speak,Mysterious Figure,Me? Where did YOU come from? Humans... I've been following you since I saw your ship crash... this is not your place.,7;7;speak,**player**,What's that meant to mean?,4;4;speak,Mysterious Figure,You should not have come here. You especially should not have started abusing our natural resources.,6;6;speak,**player**,We're trying to build a ship... we're trying to leave!,5;5;speak,Mysterious Figure,Your intentions may have been pure... but the demon that lurks in this cave will likely not accept your excuses.,6;6;speak,Mysterious Figure,And I fear that I sense him just a moment away... I will help protect you foolish humans.,6;6;speak,**player**,*You hear heavy stomps and a defeaning roar*,3;3;Demon;1"
 fs.spawnTime["Dungeon: Demon"] = 0

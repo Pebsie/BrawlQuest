@@ -166,21 +166,21 @@ local ti = "Short Sword"
 item.type[ti] = "wep"
 item.val[ti] = 2
 item.lvl[ti] = 3
-item.price[ti] = "5,Gold"
+item.price[ti] = "1,Hilt,2,Iron,3,String"
 item.img[ti] = love.graphics.newImage("img/items/weapons/Short Sword.png") item.title[ti] = ti
 
 local ti = "Bastard Sword" --NEEDS REWORKING
 item.type[ti] = "wep"
-item.val[ti] = 3
+item.val[ti] = 5
 item.lvl[ti] = 5
-item.price[ti] = "15,Gold"
+item.price[ti] = "1,Hilt,5,Iron,5,String"
 item.img[ti] = love.graphics.newImage("img/items/weapons/Short Sword.png") item.title[ti] = ti
 
 local ti = "Long Sword"
 item.type[ti] = "wep"
-item.val[ti] = 5
+item.val[ti] = 3
 item.lvl[ti] = 8
-item.price[ti] = "25,Gold"
+item.price[ti] = "1,Hilt,20,Iron,5,Stone,10,String"
 item.img[ti] = love.graphics.newImage("img/items/weapons/Long Sword.png") item.title[ti] = ti
 
 local ti = "Guardian's Blade"

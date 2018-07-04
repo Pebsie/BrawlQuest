@@ -23,7 +23,7 @@ function drawCraftingMenu(x,y)
         love.graphics.setColor(100,100,100)
         if love.mouse.isDown(1) then
           if i == 1 then craftingMenu.scrn = "wep"
-          elseif i == 2 then craftingMenu.scrn = "spell"
+          elseif i == 2 then craftingMenu.scrn = "Spell"
           elseif i == 3 then craftingMenu.scrn = "head armour"
           elseif i == 4 then craftingMenu.scrn = "chest armour"
           elseif i == 5 then craftingMenu.scrn = "leg armour" end

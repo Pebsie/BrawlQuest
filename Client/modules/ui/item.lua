@@ -4,7 +4,6 @@ function drawItem(name,amount,x,y,alpha)
   if not alpha then alpha = 255 end
 
   if cx > x and cx < x+32 and cy > y and cy < y+32 then
-    local itemCost = atComma(item.price[name])
     --get phonetic item type name
     local pit = "unknown"
     local cit = item.type[name]
@@ -31,7 +30,20 @@ function drawItem(name,amount,x,y,alpha)
       local stats = atComma(item.val[name])
       pit = "Upgrade" piv = "Upgrades your "..stats[2].." by "..stats[1]
     end
-    addTT(name,"Level "..item.lvl[name].." "..pit..".\n"..piv.."\nWorth "..itemCost[1].." "..itemCost[2].." .",cx,cy)
+
+    craftMatStr = "Crafted with "
+    local craftMats = atComma(item.price[name])
+
+    if #craftMats > 1 then
+      for i = 1, #craftMats, 2 do
+        craftMatStr = craftMatStr..craftMats[i].."x "..craftMats[i+1]
+        if i + 1 ~= #craftMats then craftMatStr = craftMatStr..", " end
+      end
+    else
+      craftMatStr = "Not craftable."
+    end
+
+    addTT(name,"Level "..item.lvl[name].." "..pit..".\n"..piv.."\n"..craftMatStr,cx,cy)
     love.graphics.setColor(150,150,150,alpha)
   else
     love.graphics.setColor(0,0,0,alpha)

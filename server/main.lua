@@ -29,7 +29,7 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
---  loadGame()
+ loadGame()
 
     newPlayer("a","a")
  givePlayerItem("a","Long Sword",1)
@@ -293,7 +293,7 @@ function saveGame()
   for i = 1, countPlayers() do
       local k = getPlayerName(i)
       --if pl.state[k] ~= "fight" then
-        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|"..pl.str[k].."|"..pl.lastLogin[k].."|"..pl.blueprints[k].."\n"
+        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|"..pl.str[k].."|"..pl.lastLogin[k].."|"..pl.blueprints[k].."|"..pl.arm_head[k].."|"..pl.arm_chest[k].."|"..pl.arm_legs[k].."\n"
       --fp = "map-new.txt"
     --  end
       uploadCharacter(k)
@@ -350,6 +350,9 @@ function loadGame()
       if word[23] then pl.str[i] = tonumber(word[23]) end
       if word[24] then pl.lastLogin[i] = tonumber(word[24]) end
       if word[25] then pl.blueprints[i] = word[25] end
+      if word[26] then pl.arm_head[i] = word[26] end
+      if word[27] then pl.arm_chest[i] = word[27] end
+      if word[28] then pl.arm_legs[i] = word[28] end
     end
 
     if love.filesystem.exists("server-info.txt") then
