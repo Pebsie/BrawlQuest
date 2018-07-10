@@ -180,14 +180,15 @@ function movePlayer(dir)
 end
 
 function playerHasItem(item,amount)
+  local hasItem = false
   if not amount then amount = 1 end
   local inv = atComma(pl.inv,";")
 
   for i = 1, #inv, 2 do
-    if inv[i] == item and tonumber(inv[i+1]) > tonumber(amount) then
-      return true
+    if inv[i] == item and tonumber(inv[i+1]) > tonumber(amount)-1 then
+      hasItem = true
     end
   end
 
-  return false
+  return hasItem
 end

@@ -150,11 +150,16 @@ function love.keypressed(key)
       end
     end
   elseif key == "escape" then
-    fullscreen, fstype = love.window.getFullscreen( )
+  --[[  fullscreen, fstype = love.window.getFullscreen( )
     if fullscreen == true then
       love.window.setFullscreen(false)
     else
       love.window.setFullscreen(true,"desktop")
+    end]]
+    if love.window.highdpi == true then
+      love.window.highdpi = false
+    else
+      love.window.highdpi = true
     end
 
   end

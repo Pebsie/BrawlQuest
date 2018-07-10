@@ -10,7 +10,7 @@ function drawItem(name,amount,x,y,alpha)
     local piv = "None"
     local civ = item.val[name]
     if cit == "wep" then pit = "Weapon" piv = "Deals up to "..civ.." damage."
-    elseif cit == "arm" then pit = "Armour" piv = "Defends for "..civ.." damage."
+    elseif cit == "arm" or cit == "head armour" or cit == "chest armour" or cit == "leg armour" then pit = "Armour" piv = "Defends for "..civ.." damage."
     elseif cit == "hp" then pit = "Health Potion" piv = "Recovers "..civ.." health over 3 seconds."
     elseif cit == "en" then pit = "Energy Potion" piv = "Instantly recovers "..civ.." energy."
     elseif cit == "Craftable" then pit = "Craftable" piv = "Can be used in crafting."

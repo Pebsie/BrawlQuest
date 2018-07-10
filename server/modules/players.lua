@@ -477,3 +477,19 @@ function playerHasBlueprint(name,bprint)
 
   return result
 end
+
+function canPlayerCraft(name, itemName) --returns true or false whether the player has the materials to craft the item name. Ignores existence of blueprint.
+  local craftMats = atComma(item.price[itemName])
+  local canCraft = true
+
+  if #craftMats > 1 then
+    for i = 1, #craftMats, 2 do
+      if not playerHasItem(name,craftMats[i+1],tonumber(craftMats[i])) then
+        canCraft = false
+      end
+    --  print(craftMats[i].." of ")--..tonumber(craftMats[i+1]))
+    end
+  end
+
+  return canCraft
+end

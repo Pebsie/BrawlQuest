@@ -254,6 +254,16 @@ function love.update(dt)
         elseif cmd == "blueprints" then
           param = atComma(parms)
           udp:sendto(param[1].." blueprints "..pl.blueprints[param[1]],msg_or_ip,port_or_nil)
+        elseif cmd == "craft" then --craft item
+          param = atComma(parms)
+          --addMsg(param[1].." is trying to craft "..param[2])
+          if canPlayerCraft(param[1],param[2]) and playerHasBlueprint(param[1],param[2]) then
+            local craftMats = atComma(item.price[param[2]])
+            for i = 1, #craftMats, 2 do --cycle through crafting materials and remove them from the user
+              playerUse(param[1],craftMats[i+1],0,tonumber(craftMats[i]))
+            end
+            givePlayerItem(param[1],param[2])
+          end
         elseif cmd == "error" then
           addMsg("A player has encountered an error: "..parms)
         end
