@@ -53,57 +53,61 @@ acc.password = {}
 chat = {}
 
 function newPlayer(name, password)
-  acc.username[#acc.username + 1] = name
-  acc.password[#acc.password + 1] = password
+  if not pl.hp[name] then --we don't want to create a character that already exists!
+    acc.username[#acc.username + 1] = name
+    acc.password[#acc.password + 1] = password
 
-  local i = name
-  pl.hp[i] = 100
-  pl.en[i] = 100
-  pl.s1[i] = "None"
-  pl.s1t[i] = 0
-  pl.s2[i] = "None"
-  pl.s2t[i] = 0
-  pl.gold[i] = 0
-  pl.x[i] = 320
-  pl.y[i] = 240
-  pl.t[i] = 805 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
-  pl.dt[i] = 1942
-  pl.wep[i] = "Long Stick"
-  pl.arm[i] = "Legendary Padding"
-  pl.armd[i] = 0
-  pl.arm_head[i] = "Legendary Helmet"
-  pl.arm_chest[i] = "Legendary Chestplate"
-  pl.arm_legs[i] = "Legendary Leggings"
-  pl.inv[i] = "A letter addressed to you;1"
-  pl.pot[i] = "None"
-  pl.lvl[i] = 1
-  pl.xp[i] = 0
-  pl.at[i] = false
-  pl.atm[i] = 0
-  pl.msg[i] = "world"
-  pl.online[i] = true
-  pl.state[i] = "world"
-  pl.spell[i] = "None"
-  pl.spellT[i] = 0
-  pl.timeout[i] = 0
-  pl.bud[i] = "None"
-  pl.playtime[i] = 0
-  pl.kills[i] = 0
-  pl.deaths[i] = 0
-  pl.distance[i] = 0
-  pl.lastEquip[i] = 0
-  pl.fightsPlayed[i] = {}
-  pl.str[i] = 0
-  pl.lastLogin[i] = 0
-  pl.owed[i] = "reset"
-  pl.score[i] = 0
-  pl.combo[i] = 0
-  pl.aspects[i] = {}
-  pl.encounterBuild[i] = 0
-  pl.blueprints[i] = "Wooden Chestplate;Wooden Helmet;Wooden Leggings;Healing Potion;Hilt;Short Sword;Iron Chestplate;Iron Helmet;Iron Leggings"
+    local i = name
+    pl.hp[i] = 100
+    pl.en[i] = 100
+    pl.s1[i] = "None"
+    pl.s1t[i] = 0
+    pl.s2[i] = "None"
+    pl.s2t[i] = 0
+    pl.gold[i] = 0
+    pl.x[i] = 320
+    pl.y[i] = 240
+    pl.t[i] = 805 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
+    pl.dt[i] = 1942
+    pl.wep[i] = "Long Stick"
+    pl.arm[i] = "Legendary Padding"
+    pl.armd[i] = 0
+    pl.arm_head[i] = "Legendary Helmet"
+    pl.arm_chest[i] = "Legendary Chestplate"
+    pl.arm_legs[i] = "Legendary Leggings"
+    pl.inv[i] = "A letter addressed to you;1"
+    pl.pot[i] = "None"
+    pl.lvl[i] = 1
+    pl.xp[i] = 0
+    pl.at[i] = false
+    pl.atm[i] = 0
+    pl.msg[i] = "world"
+    pl.online[i] = true
+    pl.state[i] = "world"
+    pl.spell[i] = "None"
+    pl.spellT[i] = 0
+    pl.timeout[i] = 0
+    pl.bud[i] = "None"
+    pl.playtime[i] = 0
+    pl.kills[i] = 0
+    pl.deaths[i] = 0
+    pl.distance[i] = 0
+    pl.lastEquip[i] = 0
+    pl.fightsPlayed[i] = {}
+    pl.str[i] = 0
+    pl.lastLogin[i] = 0
+    pl.owed[i] = "reset"
+    pl.score[i] = 0
+    pl.combo[i] = 0
+    pl.aspects[i] = {}
+    pl.encounterBuild[i] = 0
+    pl.blueprints[i] = "Wooden Chestplate;Wooden Helmet;Wooden Leggings;Healing Potion;Hilt;Short Sword;Iron Chestplate;Iron Helmet;Iron Leggings"
 
 
-  addMsg("New player by the name of "..name)
+    addMsg("New player by the name of "..name)
+  else
+    addMsg("Player "..name.." already exists!")
+  end
 end
 
 function updatePlayers(dt)
@@ -375,6 +379,8 @@ function movePlayer(name, dir)
   elseif dir == "left" then pl.t[name] = pl.t[name] - 1
   elseif dir == "right" then pl.t[name] = pl.t[name] + 1 end
 
+  if world[pl.t[name]].fightc == 0 then pl.encounterBuild[name] = 0 end
+  
   if world[pl.t[name]].collide then
     pl.t[name] = curt
   elseif string.sub(world[pl.t[name]].fight,1,3) == "tp|" then
@@ -422,7 +428,7 @@ end
 function damagePlayer(name, amount)
   pl.armd[name] = pl.armd[name] + amount
   if pl.armd[name] > (item.val[pl.arm_head[name]] + item.val[pl.arm_chest[name]] + item.val[pl.arm_legs[name]]) then
-    pl.armd[name] = item.val[pl.arm[name]]
+    pl.armd[name] = item.val[pl.arm_head[name]] + item.val[pl.arm_chest[name]] + item.val[pl.arm_legs[name]]
     pl.hp[name] = pl.hp[name] - amount
   end
 --  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";" --The client could figure this out itself

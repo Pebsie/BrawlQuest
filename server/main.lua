@@ -3,7 +3,7 @@ local udp = socket.udp()
 http = require("socket.http")
 
 udp:settimeout(0)
-udp:setsockname("127.0.0.1", 26657)
+udp:setsockname("127.0.0.1", 26655)
 
 msgs = "Server started."
 nett = 0.1
@@ -31,14 +31,14 @@ print("Entering server loop...")
 function love.load()
  loadGame()
 
-    newPlayer("a","a")
- givePlayerItem("a","Long Sword",1)
- givePlayerItem("a","Short Sword",1)
- givePlayerItem("a","Gold",5000)
- pl.t["a"] = 3707
+  --  newPlayer("a","a")
+ --givePlayerItem("a","Long Sword",1)
+ --givePlayerItem("a","Short Sword",1)
+ --givePlayerItem("a","Gold",5000)
+ --pl.t["a"] = 3707
 
   --initItems()
-  --loadHighscores()
+--  loadHighscores()
   loadOverworld()
   initAspects()
   initWeather()
@@ -257,7 +257,7 @@ function love.update(dt)
         elseif cmd == "craft" then --craft item
           param = atComma(parms)
           --addMsg(param[1].." is trying to craft "..param[2])
-          if canPlayerCraft(param[1],param[2]) and playerHasBlueprint(param[1],param[2]) then
+          if canPlayerCraft(param[1],param[2]) and playerHasBlueprint(param[1],param[2]) and world[pl.t[param[1]]].tile == "Anvil" then
             local craftMats = atComma(item.price[param[2]])
             for i = 1, #craftMats, 2 do --cycle through crafting materials and remove them from the user
               playerUse(param[1],craftMats[i+1],0,tonumber(craftMats[i]))
@@ -315,6 +315,7 @@ function saveGame()
   end
   outputCharacterList()
   love.filesystem.write(fp, fs)
+  love.filesystem.write("bqplayers-backup-"..os.date("*t").wday.."-"..os.time()..".txt",fs) --backup
 
   local fs = "weather=|"..weather.time.."|"..weather.condition.."|"..weather.temperature.."|"..weather.day.."|"
   love.filesystem.write("server-info.txt",fs)

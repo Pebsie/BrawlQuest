@@ -21,13 +21,6 @@ function drawCraftingMenu(x,y)
     for i = 1, 5 do
       if isMouseOver(x,32*3,y,sFont:getHeight()) == true then
         love.graphics.setColor(100,100,100)
-        if love.mouse.isDown(1) then
-          if i == 1 then craftingMenu.scrn = "wep"
-          elseif i == 2 then craftingMenu.scrn = "Spell"
-          elseif i == 3 then craftingMenu.scrn = "head armour"
-          elseif i == 4 then craftingMenu.scrn = "chest armour"
-          elseif i == 5 then craftingMenu.scrn = "leg armour" end
-        end
       else
         love.graphics.setColor(0,0,0)
       end
@@ -49,11 +42,6 @@ function drawCraftingMenu(x,y)
 
         if canPlayerCraft(v) then
           love.graphics.setColor(0,255,0)
-
-          if isMouseOver(craftingMenu.x+x,32,craftingMenu.y+y,32) and love.mouse.isDown(1) then
-            netSend("craft",pl.name..","..v)
-            craftingMenu.scrn = "crafting"
-          end
         else
           love.graphics.setColor(255,0,0)
         end

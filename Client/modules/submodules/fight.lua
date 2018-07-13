@@ -199,7 +199,7 @@ love.graphics.scale(scale,scale)
         else
           love.graphics.print(owedItems[i],xLeft+(i*32)+xoff,200+yoff)
         end
-      else
+      elseif owedItems[i] and owedItems[i+1] then
         love.graphics.printf(owedItems[i].." x"..owedItems[i+1],xLeft+(i*32)+xoff,200+yoff,100,"right")
       end
     end
@@ -211,7 +211,7 @@ love.graphics.scale(scale,scale)
   drawFightUI(sw/2 - 320,sh-94)
   love.graphics.pop()
   --love.graphics.print(love.timer.getFPS().." FPS")
-  if string.sub(world[pl.t].fight,1,7) ~= "Gather:" then
+  if string.sub(world[pl.t].fight,1,7) ~= "Gather:" and pl.score and tonumber(pl.combo) and fight.highscore and fight.highscorePlayer then
     love.graphics.setColor(0,0,0,100)
     love.graphics.rectangle("fill",0,0,rFont:getWidth("Highscore: "..tostring(fight.highscore).." (earned by "..tostring(fight.highscorePlayer)..")")+12,rFont:getHeight()*2)
     love.graphics.setColor(255,255,255)

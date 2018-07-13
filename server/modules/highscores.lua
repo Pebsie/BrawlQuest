@@ -1,7 +1,7 @@
 hs = {}
 
 function loadHighscores()
-  if love.filesystem.getInfo("highscores.txt") then
+  if love.filesystem.exists("highscores.txt") then
     addMsg("Found highscores file")
     for line in love.filesystem.lines("highscores.txt") do
       local score = atComma(line,"=")

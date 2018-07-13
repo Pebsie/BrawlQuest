@@ -2,9 +2,9 @@ function loadFog()
   fog = {}
 
 
-  if love.filesystem.getInfo("fogg.txt") then
+  if love.filesystem.getInfo("fog-"..pl.name..".txt") then
       local i = 1
-    for line in love.filesystem.lines("fog.txt") do
+    for line in love.filesystem.lines("fog-"..pl.name..".txt") do
       if line == "true" then
         fog[i] = 0
       else
@@ -78,7 +78,7 @@ function saveFog(fn)
 
   end
 
-  love.filesystem.write(fn,fs)
+  love.filesystem.write("fog-"..pl.name..".txt",fs)
 end
 
 function drawFog(xo,yo)
@@ -184,6 +184,10 @@ function drawFog(xo,yo)
           drawNamePlate("<NPC> Carus",world[i].x+xo,world[i].y+yo)
         elseif world[i].tile == "Farmer" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
           drawNamePlate("<NPC> Farmer",world[i].x+xo,world[i].y+yo)
+        elseif world[i].tile == "Dungeon" then
+          drawNamePlate("Dungeon",world[i].x+xo,world[i].y+yo,"dungeon")
+        elseif world[i].tile == "Graveyard" then
+          drawNamePlate("Graveyard",world[i].x+xo,world[i].y+yo)
         end
       end
 

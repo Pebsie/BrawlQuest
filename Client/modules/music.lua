@@ -46,7 +46,7 @@ function updateMusic(dt)
           else
             if pl.state == "world" and world[pl.t].music == "*" then
               music.curPlay = music.world[love.math.random(1, #music[pl.state])]
-            elseif pl.state == "world" then
+            elseif pl.state == "world" or (pl.state == "fight" and string.sub(world[pl.t].fight,1,6) == "Gather") then
               local musicChoices = atComma(world[pl.t].music,"|")
               local i = love.math.random(1, #musicChoices)
               music.curPlay = music.world[tonumber(musicChoices[i])]

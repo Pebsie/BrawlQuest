@@ -10,6 +10,7 @@ function initAspects()
   aspect = {}
 
   newAspect("Bleeding","","if love.math.random(1,1000) == 1 then return true end")
+  addMsg("Loaded aspects")
 end
 
 function newAspect(name,effect,antidote)

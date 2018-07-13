@@ -6,6 +6,8 @@ function initWeather()
     weather.time = 9
     weather.day = 1
   end
+
+  addMsg("Initialised weather")
 end
 
 function simulateWeather()

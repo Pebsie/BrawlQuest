@@ -30,64 +30,84 @@ item.type[ti] = "head armour"
 item.val[ti] = 10
 item.lvl[ti] = 14
 item.price[ti] = "20,Iron,10,String,10,Mana,1,Old World Crystal"
-item.img[ti] = love.graphics.newImage("img/items/armour/Legendary Helmet.png") item.title[ti] = ti
+item.img[ti] = love.graphics.newImage("img/human/armour/legend/head.png") item.title[ti] = ti
 
 local ti = "Legendary Chestplate"
 item.type[ti] = "chest armour"
 item.val[ti] = 25
 item.lvl[ti] = 14
 item.price[ti] = "30,Iron,20,String,20,Mana,1,Old World Crystal"
-item.img[ti] = love.graphics.newImage("img/items/armour/Legendary Chestplate.png") item.title[ti] = ti
+item.img[ti] = love.graphics.newImage("img/human/armour/legend/chest.png") item.title[ti] = ti
 
 local ti = "Legendary Leggings"
 item.type[ti] = "leg armour"
 item.val[ti] = 15
 item.lvl[ti] = 14
 item.price[ti] = "20,Iron,10,String,10,Mana,1,Old World Crystal"
-item.img[ti] = love.graphics.newImage("img/items/armour/Legendary Leggings.png") item.title[ti] = ti
+item.img[ti] = love.graphics.newImage("img/human/armour/legend/legs.png") item.title[ti] = ti
 
 local ti = "Wooden Helmet"
 item.type[ti] = "head armour"
 item.val[ti] = 2
 item.lvl[ti] = 10
 item.price[ti] = "10,Wood,5,String"
-item.img[ti] = love.graphics.newImage("img/items/armour/"..ti..".png") item.title[ti] = ti
+item.img[ti] = love.graphics.newImage("img/human/armour/wood/head.png") item.title[ti] = ti
 
 local ti = "Wooden Chestplate"
 item.type[ti] = "chest armour"
 item.val[ti] = 5
 item.lvl[ti] = 10
 item.price[ti] = "30,Wood,10,String"
-item.img[ti] = love.graphics.newImage("img/items/armour/"..ti..".png") item.title[ti] = ti
+item.img[ti] = love.graphics.newImage("img/human/armour/wood/chest.png") item.title[ti] = ti
 
 local ti = "Wooden Leggings"
 item.type[ti] = "leg armour"
 item.val[ti] = 3
 item.lvl[ti] = 10
 item.price[ti] = "20,Wood,5,String"
-item.img[ti] = love.graphics.newImage("img/items/armour/"..ti..".png") item.title[ti] = ti
+item.img[ti] = love.graphics.newImage("img/human/armour/wood/legs.png") item.title[ti] = ti
 
 local ti = "Iron Helmet"
 item.type[ti] = "head armour"
 item.val[ti] = 4
 item.lvl[ti] = 10
 item.price[ti] = "5,Iron,5,String"
-item.img[ti] = love.graphics.newImage("img/items/armour/"..ti..".png") item.title[ti] = ti
+item.img[ti] = love.graphics.newImage("img/human/armour/iron/head.png") item.title[ti] = ti
 
 local ti = "Iron Chestplate"
 item.type[ti] = "chest armour"
 item.val[ti] = 10
 item.lvl[ti] = 10
 item.price[ti] = "15,Iron,10,String"
-item.img[ti] = love.graphics.newImage("img/items/armour/"..ti..".png") item.title[ti] = ti
+item.img[ti] = love.graphics.newImage("img/human/armour/iron/chest.png") item.title[ti] = ti
 
 local ti = "Iron Leggings"
 item.type[ti] = "leg armour"
 item.val[ti] = 6
 item.lvl[ti] = 10
 item.price[ti] = "10,Iron,5,String"
-item.img[ti] = love.graphics.newImage("img/items/armour/"..ti..".png") item.title[ti] = ti
+item.img[ti] = love.graphics.newImage("img/human/armour/iron/legs.png") item.title[ti] = ti
 
+local ti = "Guardian's Helmet"
+item.type[ti] = "head armour"
+item.val[ti] = 6
+item.lvl[ti] = 10
+item.price[ti] = "5,Iron,5,String,5,Mana"
+item.img[ti] = love.graphics.newImage("img/human/armour/guardian/head.png") item.title[ti] = ti
+
+local ti = "Guardian's Chestplate"
+item.type[ti] = "chest armour"
+item.val[ti] = 15
+item.lvl[ti] = 10
+item.price[ti] = "15,Iron,10,String,15,Mana"
+item.img[ti] = love.graphics.newImage("img/human/armour/guardian/chest.png") item.title[ti] = ti
+
+local ti = "Guardian's Leggings"
+item.type[ti] = "leg armour"
+item.val[ti] = 10
+item.lvl[ti] = 10
+item.price[ti] = "10,Iron,5,String,10,Mana"
+item.img[ti] = love.graphics.newImage("img/human/armour/guardian/legs.png") item.title[ti] = ti
 
 
 --old armour
@@ -155,6 +175,13 @@ item.price[ti] = "500,Adver"
 item.img[ti] = love.graphics.newImage("img/human/Eldertouched Plate.png") item.title[ti] = ti
 
 --weapons
+local ti = "Hilt"
+item.type[ti] = "wep"
+item.val[ti] = 0
+item.lvl[ti] = 1
+item.price[ti] = "10,Wood,5,Stone,2,String"
+item.img[ti] = love.graphics.newImage("img/items/reagent/Hilt.png") item.title[ti] = ti
+
 local ti = "Long Stick"
 item.type[ti] = "wep"
 item.val[ti] = 1
@@ -164,30 +191,30 @@ item.img[ti] = love.graphics.newImage("img/items/weapons/Long Stick.png") item.t
 
 local ti = "Short Sword"
 item.type[ti] = "wep"
-item.val[ti] = 2
+item.val[ti] = 3
 item.lvl[ti] = 3
-item.price[ti] = "1,Hilt,2,Iron,3,String"
+item.price[ti] = "1,Hilt,5,Iron,3,String"
 item.img[ti] = love.graphics.newImage("img/items/weapons/Short Sword.png") item.title[ti] = ti
 
 local ti = "Bastard Sword" --NEEDS REWORKING
 item.type[ti] = "wep"
-item.val[ti] = 5
+item.val[ti] = 6
 item.lvl[ti] = 5
-item.price[ti] = "1,Hilt,5,Iron,5,String"
+item.price[ti] = "1,Hilt,20,Iron,5,String"
 item.img[ti] = love.graphics.newImage("img/items/weapons/Short Sword.png") item.title[ti] = ti
 
 local ti = "Long Sword"
 item.type[ti] = "wep"
-item.val[ti] = 3
+item.val[ti] = 8
 item.lvl[ti] = 8
-item.price[ti] = "1,Hilt,20,Iron,5,Stone,10,String"
+item.price[ti] = "1,Hilt,30,Iron,5,Stone,10,String"
 item.img[ti] = love.graphics.newImage("img/items/weapons/Long Sword.png") item.title[ti] = ti
 
 local ti = "Guardian's Blade"
 item.type[ti] = "wep"
-item.val[ti] = 10
+item.val[ti] = 15
 item.lvl[ti] = 10
-item.price[ti] = "20,Adver"
+item.price[ti] = "1,Hilt,20,Iron,10,Stone,10,String,25,Mana"
 item.img[ti] = love.graphics.newImage("img/items/weapons/Guardians Blade.png") item.title[ti] = ti
 
 local ti = "Legendary Sword"
@@ -271,31 +298,23 @@ item.img[ti] = love.graphics.newImage("img/items/scrolls/Ground Slam.png") item.
 
 --buddy (Wolf, Snake, Beholder, Baby Bat, Earth Elementling, Fire Elementling, Dragonling)
 buddy = {}
-buddySnd = {}
-buddy["Baby Bat"] = love.graphics.newImage("img/pet/Baby Bat.png") item.title[ti] = ti
-buddySnd["Baby Bat"] = love.audio.newSource("sound/sfx/pet/bat.mp3","static") item.title[ti] = ti
-buddy["Beholder"] = love.graphics.newImage("img/pet/Beholder.png") item.title[ti] = ti
-buddySnd["Beholder"] = love.audio.newSource("sound/sfx/pet/beholder.mp3","static") item.title[ti] = ti
-buddy["Beholdling"] = love.graphics.newImage("img/pet/Beholdling.png") item.title[ti] = ti
-buddySnd["Beholdling"] = love.audio.newSource("sound/sfx/pet/beholder.mp3","static") item.title[ti] = ti
-buddy["Chicken"] = love.graphics.newImage("img/pet/Chicken.png") item.title[ti] = ti --missing sfx
-buddy["Dog"] = love.graphics.newImage("img/pet/Dog.png") item.title[ti] = ti
-buddySnd["Dog"] = love.audio.newSource("sound/sfx/pet/dog.mp3","static") item.title[ti] = ti
-buddy["Dragonling"] = love.graphics.newImage("img/pet/Dragonling.png") item.title[ti] = ti
-buddySnd["Dragonling"] = love.audio.newSource("sound/sfx/mob/Dragon/1.mp3","static") item.title[ti] = ti
-buddy["Earth Elementling"] = love.graphics.newImage("img/pet/Earth Elementling.png") item.title[ti] = ti
-buddy["Fire Elementling"] = love.graphics.newImage("img/pet/Fire Elementling.png") item.title[ti] = ti
-buddy["Scorpion"] = love.graphics.newImage("img/pet/Scorpion.png") item.title[ti] = ti
-buddy["Sheep"] = love.graphics.newImage("img/pet/Sheep.png") item.title[ti] = ti
-buddy["Snake"] = love.graphics.newImage("img/pet/Snake.png") item.title[ti] = ti
-buddySnd["Snake"] = love.audio.newSource("sound/sfx/pet/snake.mp3","static") item.title[ti] = ti
-buddy["Water Elementling"] = love.graphics.newImage("img/pet/Water Elementling.png") item.title[ti] = ti
-buddy["Protector"] = love.graphics.newImage("img/pet/Protector.png") item.title[ti] = ti
-buddy["Fly"] = love.graphics.newImage("img/pet/Fly.png") item.title[ti] = ti
-buddy["Horse"] = love.graphics.newImage("img/pet/Horse.png") item.title[ti] = ti
-buddySnd["Horse"] = love.audio.newSource("sound/sfx/pet/horse.mp3","static") item.title[ti] = ti
-buddy["Silver Dragonling"] = love.graphics.newImage("img/pet/Silver Dragonling.png") item.title[ti] = ti
-buddy["Spirit of Death"] = love.graphics.newImage("img/pet/Spirit Of Death.png") item.title[ti] = ti
+buddy["Baby Bat"] = love.graphics.newImage("img/pet/Baby Bat.png")
+buddy["Beholder"] = love.graphics.newImage("img/pet/Beholder.png")
+buddy["Beholdling"] = love.graphics.newImage("img/pet/Beholdling.png")
+buddy["Chicken"] = love.graphics.newImage("img/pet/Chicken.png")
+buddy["Dog"] = love.graphics.newImage("img/pet/Dog.png")
+buddy["Dragonling"] = love.graphics.newImage("img/pet/Dragonling.png")
+buddy["Earth Elementling"] = love.graphics.newImage("img/pet/Earth Elementling.png")
+buddy["Fire Elementling"] = love.graphics.newImage("img/pet/Fire Elementling.png")
+buddy["Scorpion"] = love.graphics.newImage("img/pet/Scorpion.png")
+buddy["Sheep"] = love.graphics.newImage("img/pet/Sheep.png")
+buddy["Snake"] = love.graphics.newImage("img/pet/Snake.png")
+buddy["Water Elementling"] = love.graphics.newImage("img/pet/Water Elementling.png")
+buddy["Protector"] = love.graphics.newImage("img/pet/Protector.png")
+buddy["Fly"] = love.graphics.newImage("img/pet/Fly.png")
+buddy["Horse"] = love.graphics.newImage("img/pet/Horse.png")
+buddy["Silver Dragonling"] = love.graphics.newImage("img/pet/Silver Dragonling.png")
+buddy["Spirit of Death"] = love.graphics.newImage("img/pet/Spirit Of Death.png")
 
 local ti = "Dog"
 item.type[ti] = "buddy"
@@ -325,7 +344,6 @@ local ti = "Baby Bat"
 item.type[ti] = "buddy"
 item.desc[ti] = "Click click click"
 item.val[ti] = "0"
-item.lvl[ti] = 10
 item.price[ti] = "0,Gold"
 item.img[ti] = buddy[ti]
 
@@ -471,7 +489,7 @@ item.img[ti] = buddy[ti]
   item.price[ti] = "1,Gold"
   item.img[ti] = love.graphics.newImage("img/items/reagent/String.png") item.title[ti] = ti
 
-  local ti = "Mana Crystal"
+  local ti = "Mana"
   item.type[ti] = "Reagent"
   item.val[ti] = ""
   item.lvl[ti] = 1
@@ -485,12 +503,6 @@ item.img[ti] = buddy[ti]
   item.price[ti] = "1,Gold"
   item.img[ti] = love.graphics.newImage("img/items/reagent/Metal.png") item.title[ti] = ti
 
-  local ti = "Hilt"
-  item.type[ti] = "Reagent"
-  item.val[ti] = ""
-  item.lvl[ti] = 1
-  item.price[ti] = "10,Wood,5,Stone,2,String"
-  item.img[ti] = love.graphics.newImage("img/items/reagent/Hilt.png") item.title[ti] = ti
 
 shop = {}
 --[[

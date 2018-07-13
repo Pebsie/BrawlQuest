@@ -52,11 +52,11 @@ function love.load()
 
   love.filesystem.setIdentity( "bq" )
 
-  local ipadd = "127.0.0.1"
-  --local ipadd = "eu.brawlquest.com"
-  netConnect(ipadd, "26657", 0.1)
+  --local ipadd = "127.0.0.1"
+  local ipadd = "eu.brawlquest.com"
+  netConnect(ipadd, "26655", 0.1)
   love.mouse.setVisible(false)
-  b, c, h = http.request("http://brawlquest.com/dl/news-4.txt")
+  b, c, h = http.request("http://brawlquest.com/dl/news.txt")
   if b then
     love.filesystem.write("news.txt", b)
     local i = 1
@@ -82,7 +82,6 @@ function love.load()
   loadMusic()
   bindKeys()
   loadCharacters()
-  loadFog()
 end
 
 function love.draw()
@@ -161,6 +160,43 @@ function love.mousereleased(button, cx, cy)
         netSend("pray",pl.name)
         frequentlyUpdate = true
         love.audio.play(sfx["hit"])
+      elseif world[pl.t].tile == "Anvil" then
+        --crafting menu
+        if craftingMenu.scrn == "menu" then
+          local x = 0 + craftingMenu.x
+          local y = 4 + craftingMenu.y
+          for i = 1, 5 do
+            if isMouseOver(x,32*3,y,sFont:getHeight()) == true then
+                if i == 1 then craftingMenu.scrn = "wep"
+                elseif i == 2 then craftingMenu.scrn = "Spell"
+                elseif i == 3 then craftingMenu.scrn = "head armour"
+                elseif i == 4 then craftingMenu.scrn = "chest armour"
+                elseif i == 5 then craftingMenu.scrn = "leg armour" end
+            end
+            y = y + sFont:getHeight()
+          end
+          y = 4 + craftingMenu.y
+        else
+          local x = 0
+          local y = 0
+          for i, v in pairs(atComma(pl.blueprints,";")) do
+            if item.type[v] == craftingMenu.scrn then
+              if canPlayerCraft(v) then
+
+                if isMouseOver(craftingMenu.x+x,32,craftingMenu.y+y,32) then
+                  netSend("craft",pl.name..","..v)
+                  --craftingMenu.scrn = "crafting"
+                  frequentlyUpdate = true
+                end
+              end
+              x = x + 32
+              if x > (32*2) then
+                x = 0
+                y = y + 32
+              end
+            end
+          end
+        end
       end
         if pl.selItem ~= "None" then
           useItem(pl.selItem)
@@ -168,7 +204,6 @@ function love.mousereleased(button, cx, cy)
           love.audio.play(sfx["hit"])
           frequentlyUpdate = true
         end
-
     end
   end
 end

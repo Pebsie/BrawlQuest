@@ -47,7 +47,7 @@ end
 
 function enterGame()
   requestUserInfo()
-
+  loadFog()
   stopMusic() --stop title music
   love.graphics.setBackgroundColor(0,0,0)
   --download map

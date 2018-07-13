@@ -161,7 +161,8 @@ function love.keypressed(key)
     else
       love.window.highdpi = true
     end
-
+  elseif key == "c" then
+    if gameUI[6].visible == true then gameUI[6].visible = false else gameUI[6].visible = true end
   end
 
    if phase == "splash" then
