@@ -76,6 +76,45 @@ worldImg["Anvil"] = love.graphics.newImage("img/world/objects/Anvil.png")
 worldImg["Farmer"] = love.graphics.newImage("img/world/objects/Farmer.png")
 worldImg["Lumberjack"] = love.graphics.newImage("img/world/objects/Lumberjack.png")
 worldImg["Person"] = love.graphics.newImage("img/world/objects/Person.png")
+worldImg["Guard"] = love.graphics.newImage("img/world/objects/Guard.png")
+worldImg["City Wall"] = love.graphics.newImage("img/world/objects/City Wall.png")
+worldImg["City Door"] = love.graphics.newImage("img/world/objects/City Door.png")
+worldImg["Portrait1"] = love.graphics.newImage("img/world/objects/Portrait1.png")
+worldImg["Portrait2"] = love.graphics.newImage("img/world/objects/Portrait2.png")
+worldImg["Portrait3"] = love.graphics.newImage("img/world/objects/Portrait3.png")
+worldImg["Portrait4"] = love.graphics.newImage("img/world/objects/Portrait4.png")
+worldImg["Red Curtain"] = love.graphics.newImage("img/world/objects/Red Wall Sheet.png")
+worldImg["Sign"] = love.graphics.newImage("img/world/objects/Sign.png")
+worldImg["Signpost"] = love.graphics.newImage("img/world/objects/Signpost.png")
+worldImg["Wall Mounted Shield"] = love.graphics.newImage("img/world/objects/Wall Mounted Shield.png")
+worldImg["Red Walkway Down"] = love.graphics.newImage("img/world/floors/Red Walkway Down.png")
+worldImg["Door"] = love.graphics.newImage("img/world/objects/Door.png")
+worldImg["Adventurer"] = love.graphics.newImage("img/world/objects/Adventurer.png")
+worldImg["Bartender"] = love.graphics.newImage("img/world/objects/Bartender.png")
+worldImg["Dancing Man"] = love.graphics.newImage("img/world/objects/Dancing Man.png")
+worldImg["Drunk Man"] = love.graphics.newImage("img/world/objects/Drunk Man.png")
+worldImg["Kid"] = love.graphics.newImage("img/world/objects/Kid.png")
+worldImg["Peasant"] = love.graphics.newImage("img/world/objects/Peasant.png")
+worldImg["Soldier"] = love.graphics.newImage("img/world/objects/Soldier.png")
+worldImg["Bar Door"] = love.graphics.newImage("img/world/objects/Bar Door.png")
+worldImg["Library Door"] = love.graphics.newImage("img/world/objects/Library Door.png")
+worldImg["Cobblestone"] = love.graphics.newImage("img/world/floors/Cobblestone.png")
+worldImg["Wood Floor"] = love.graphics.newImage("img/world/floors/Wood Floor.png")
+worldImg["Wood Wall"] = love.graphics.newImage("img/world/floors/Wood Wall.png")
+worldImg["Vincent"] = love.graphics.newImage("img/world/objects/Vincent.png")
+
+lightsource = {}
+lightsource["Campfire"] = 5
+lightsource["Camp"] = 5
+lightsource["Village"] = 20
+lightsource["Mushroom"] = 1
+lightsource["Lampost"] = 20
+lightsource["Crystal"] = 3
+lightsource["Wall Mounted Torch"] = 5
+lightsource["Lava"] = 10
+lightsource["Lantern"] = 5
+lightsource["Guard"] = 20
+
 
 function setWColour(wname)
   if wname == "Grass" or wname == "Snow" or wname == "Curse" or wname == "Cave Floor" then

@@ -67,7 +67,10 @@ function newPlayer(name, password)
     pl.gold[i] = 0
     pl.x[i] = 320
     pl.y[i] = 240
-    pl.t[i] = 805 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
+    pl.t[i] =  805--805 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
+                  --Shipwrecked: 805
+                  --Swordbreak: 1263
+                  --Great Plains: 7693
     pl.dt[i] = 1942
     pl.wep[i] = "Long Stick"
     pl.arm[i] = "Legendary Padding"
@@ -380,7 +383,7 @@ function movePlayer(name, dir)
   elseif dir == "right" then pl.t[name] = pl.t[name] + 1 end
 
   if world[pl.t[name]].fightc == 0 then pl.encounterBuild[name] = 0 end
-  
+
   if world[pl.t[name]].collide then
     pl.t[name] = curt
   elseif string.sub(world[pl.t[name]].fight,1,3) == "tp|" then
@@ -498,4 +501,15 @@ function canPlayerCraft(name, itemName) --returns true or false whether the play
   end
 
   return canCraft
+end
+
+function playerHasBuddy(name,itemName)
+--  addMsg("Is "..item.type[itemName].."==buddy and does "..name.." have "..itemName.."? ("..tostring(playerHasItem(name,itemName,1))..") Does "..pl.bud[name].."=="..itemName.."?")
+  if item.type[itemName] == "buddy" and (playerHasItem(name,itemName,1) or pl.bud[name] == itemName) then
+    addMsg("Yes!")
+    return true
+  else
+    addMsg("No!")
+    return false
+  end
 end

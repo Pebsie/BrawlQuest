@@ -57,7 +57,7 @@ function enterGame()
      love.filesystem.write("map.txt", b)
    end
   --end
-      loadFog()
+    --  loadFog()
   --load map
     loadOverworld()
 
@@ -101,9 +101,10 @@ function enterGame()
     gameUI[4].height = 16
     gameUI[4].label = "Alert"
     gameUI[4].msg = ""
+    gameUI[4].closeButton = true
 
     gameUI[5] = {}
-    gameUI[5].x = stdSH-100
+    gameUI[5].x = love.graphics.getWidth()-100
     gameUI[5].y = -16
     gameUI[5].isDrag = false
     gameUI[5].isVisible = true
@@ -119,6 +120,26 @@ function enterGame()
     gameUI[6].width = 96
     gameUI[6].height = 100
     gameUI[6].label = "Crafting"
+
+    gameUI[7] = {}
+    gameUI[7].x = 300
+    gameUI[7].y = 200
+    gameUI[7].isDrag = false
+    gameUI[7].isVisible = true
+    gameUI[7].width = 32*3
+    gameUI[7].height = 100
+    gameUI[7].label = "Buddies"
+    gameUI[7].closeButton = true
+
+    gameUI[8] = {}
+    gameUI[8].x = 400
+    gameUI[8].y = 300
+    gameUI[8].isDrag = false
+    gameUI[8].isVisible = false
+    gameUI[8].width = 200
+    gameUI[8].height = 100
+    gameUI[8].label = "Tutorial"
+    gameUI[8].closeButton = true
 end
 
 function requestUserInfo()
@@ -129,7 +150,7 @@ function useItem(titem)
   if item.type[titem] == "Letter" or item.type[titem] == "Key" then
     gameUI[4].isVisible = true
     gameUI[4].msg = item.val[titem]
-  elseif item.type[titem] ~= "currency" then
+  elseif item.type[titem] ~= "currency" and item.type[titem] ~= "Reagent" then
     netSend("use", pl.name..","..titem..","..pl.selSpell)
   end
 end
@@ -147,7 +168,11 @@ function movePlayer(dir)
 
   if string.sub(world[pl.t].fight,1,5) == "speak" then
     sInfo = atComma(world[pl.t].fight,"|")
-    mobSpeak(sInfo[2],sInfo[3],5)
+    if sInfo[3] then
+      mobSpeak(sInfo[2],sInfo[3],string.len(sInfo[3])/20)
+    else
+      mobSpeak(world[pl.t].tile,sInfo[2],string.len(sInfo[2])/20)
+    end
   end
 
   if world[pl.t].collide == false then

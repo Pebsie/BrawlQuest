@@ -30,21 +30,9 @@ print("Entering server loop...")
 
 function love.load()
  loadGame()
-
-  --  newPlayer("a","a")
- --givePlayerItem("a","Long Sword",1)
- --givePlayerItem("a","Short Sword",1)
- --givePlayerItem("a","Gold",5000)
- --pl.t["a"] = 3707
-
-  --initItems()
---  loadHighscores()
   loadOverworld()
   initAspects()
   initWeather()
-
-  --newFight(1, "Boar Hunt")
-  --addPlayerToFight(1, "Pebsie")
 end
 
 function love.draw()

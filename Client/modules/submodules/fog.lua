@@ -61,6 +61,9 @@ function addFog(t)
       for i = -9, -5 do
         if fog[t+i+k] and fog[t+i+k] == 255 then
           fog[t+i+k] = 254
+          if world[t+i+k] and lightsource[world[t+i+k].tile] and lightsource[world[t+i+k].tile] > 4 then
+            addFog(t+i+k)
+          end
         end
       end
     end
@@ -109,49 +112,11 @@ function drawFog(xo,yo)
         love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
       end
       if fog[i] ~= 255 then
-        weather.time = tonumber(weather.time)
-        local tileDarkness = 0
 
-
-        if weather.time == 0 then tileDarkness = 160
-        elseif weather.time == 1 then tileDarkness = 150
-        elseif weather.time == 2 then tileDarkness = 150
-        elseif weather.time == 3 then tileDarkness = 120
-        elseif weather.time == 4 then tileDarkness = 100
-        elseif weather.time == 5 then tileDarkness = 90
-        elseif weather.time == 6 then tileDarkness = 75
-        elseif weather.time == 7 then tileDarkness = 30
-        elseif weather.time == 8 then tileDarkness = 15
-        elseif weather.time == 16 then tileDarkness = 20
-        elseif weather.time == 17 then tileDarkness = 40
-        elseif weather.time == 18 then tileDarkness = 50
-        elseif weather.time == 19 then tileDarkness = 70
-        elseif weather.time == 20 then tileDarkness = 90
-        elseif weather.time == 21 then tileDarkness = 120
-        elseif weather.time == 22 then tileDarkness = 130
-        elseif weather.time == 23 then tileDarkness = 150
-        elseif weather.time == 24 then tileDarkness = 150 end
-
-
-
-            local val = 0
-            local calc = 0
-            for k = -195,305,101 do
-              for t = -9, -5 do
-                if lightmap[t+i+k] then
-                  val = val + (lightmap[t+i+k]*20 - distanceFrom(world[i].x,world[i].y,world[t+i+k].x,world[t+i+k].y)/32)
-                  calc = calc + 1
-                end
-              end
-            end
-
-          if val > 0 then
-            tileDarkness = tileDarkness - val
-          end
         --  if tileDarkness < 0 then tileDarkness = 0 end
 
       --  tileDarkness = tileDarkness - (lightmap[i]*20)
-        love.graphics.setColor(0,0,25,tileDarkness)
+        love.graphics.setColor(0,0,25,tileDarkness[i])
         love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
         if love.keyboard.isDown("v") then
           love.graphics.setFont(sFont)
@@ -168,22 +133,12 @@ function drawFog(xo,yo)
           end
         end
 
-        if string.sub(world[i].fight,1,7) == "Gather:" then --I'm well aware that this whole section is nasty. TODO: make it doable in the editor.
+        if string.sub(world[i].fight,1,6) == "speak|" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
+          drawNamePlate("<NPC> "..world[i].tile,world[i].x+xo,world[i].y+yo)
+        elseif string.sub(world[i].fight,1,7) == "Gather:" then --I'm well aware that this whole section is nasty. TODO: make it doable in the editor.
           drawNamePlate("Harvestable",world[i].x+xo,world[i].y+yo,"gather")
         elseif world[i].tile == "Anvil" then
           drawNamePlate("Crafting Anvil",world[i].x+xo,world[i].y+yo)
-        elseif world[i].tile == "Mortus" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
-          drawNamePlate("<NPC> Mortus",world[i].x+xo,world[i].y+yo)
-        elseif world[i].tile == "Blacksmith" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
-          drawNamePlate("<NPC> Smithy",world[i].x+xo,world[i].y+yo)
-        elseif world[i].tile == "Person" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
-          drawNamePlate("<NPC> Survivor",world[i].x+xo,world[i].y+yo)
-        elseif world[i].tile == "Lumberjack" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
-          drawNamePlate("<NPC> Lumberjack",world[i].x+xo,world[i].y+yo)
-        elseif world[i].tile == "Carus" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
-          drawNamePlate("<NPC> Carus",world[i].x+xo,world[i].y+yo)
-        elseif world[i].tile == "Farmer" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
-          drawNamePlate("<NPC> Farmer",world[i].x+xo,world[i].y+yo)
         elseif world[i].tile == "Dungeon" then
           drawNamePlate("Dungeon",world[i].x+xo,world[i].y+yo,"dungeon")
         elseif world[i].tile == "Graveyard" then
@@ -202,4 +157,62 @@ function drawFog(xo,yo)
   end --for statement
 
   love.graphics.setColor(255,255,255)
+end
+
+function updateLightmap()
+  tileDarkness = {}
+  weather.time = tonumber(weather.time)
+  for i = 1, 100*100 do
+
+   tileDarkness[i] = 0
+
+
+    if weather.time == 0 then tileDarkness[i] = 160
+    elseif weather.time == 1 then tileDarkness[i] = 150
+    elseif weather.time == 2 then tileDarkness[i] = 150
+    elseif weather.time == 3 then tileDarkness[i] = 120
+    elseif weather.time == 4 then tileDarkness[i] = 100
+    elseif weather.time == 5 then tileDarkness[i] = 90
+    elseif weather.time == 6 then tileDarkness[i] = 75
+    elseif weather.time == 7 then tileDarkness[i] = 30
+    elseif weather.time == 8 then tileDarkness[i] = 15
+    elseif weather.time == 16 then tileDarkness[i] = 20
+    elseif weather.time == 17 then tileDarkness[i] = 40
+    elseif weather.time == 18 then tileDarkness[i] = 50
+    elseif weather.time == 19 then tileDarkness[i] = 70
+    elseif weather.time == 20 then tileDarkness[i] = 90
+    elseif weather.time == 21 then tileDarkness[i] = 120
+    elseif weather.time == 22 then tileDarkness[i] = 130
+    elseif weather.time == 23 then tileDarkness[i] = 150
+    elseif weather.time == 24 then tileDarkness[i] = 150 end
+
+    if weather.condition ~= "clear" then tileDarkness[i] = tileDarkness[i] + 25 end
+
+
+
+        local val = 0
+        local calc = 0
+        for k = -195,305,101 do
+          for t = -9, -5 do
+            if lightmap[t+i+k] then
+              val = val + (lightmap[t+i+k]*20 - distanceFrom(world[i].x,world[i].y,world[t+i+k].x,world[t+i+k].y)/32)
+              calc = calc + 1
+            end
+          end
+        end
+
+      if val > 0 then
+        tileDarkness[i] = tileDarkness[i] - val
+      end
+    end
+end
+
+function createLightmap()
+  lightmap = {}
+  tileDarkness = {}
+  for i = 1, 100*100 do
+    if world[i].tile and lightsource[world[i].tile] then lightmap[i] = lightsource[world[i].tile]
+    else lightmap[i] = 0 end
+    tileDarkness[i] = 0
+  end
 end

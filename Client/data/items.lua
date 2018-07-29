@@ -344,6 +344,7 @@ local ti = "Baby Bat"
 item.type[ti] = "buddy"
 item.desc[ti] = "Click click click"
 item.val[ti] = "0"
+item.lvl[ti] = 10
 item.price[ti] = "0,Gold"
 item.img[ti] = buddy[ti]
 

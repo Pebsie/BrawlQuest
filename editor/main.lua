@@ -3,6 +3,7 @@
 ---ensure that the map.txt file is in the filesystem directory before running or a new map will be created
 utf8 = require("utf8")
 require "data/world"
+require "light"
 http = require("socket.http")
 
 world = {}
@@ -13,8 +14,10 @@ world.fightc = {}
 world.collide = {}
 world.isFight = {}
 world.music = {}
+world.x = {}
+world.y = {}
 
-mapname = "map-beach.txt"
+mapname = "map-forest.txt"
 
 info = ""
 view = 0
@@ -37,10 +40,13 @@ curMusic = "*"
 isType = false
 ts = 1
 
+displayTiles = false
+
 function love.load()
 
 --  b, c, h = http.request("http://brawlquest.com/dl/map-snow.txt")
 --  love.filesystem.write("map-snow.txt", b)
+
   heroImg = love.graphics.newImage("img/human/Legend.png")
   --load map data
   if love.filesystem.exists(mapname) then
@@ -73,11 +79,15 @@ function love.load()
 --        world.collide[i] = true
 --        world.bg[i] = "Grass"
 --      else
-        world[i] = "Tree"
+      --  if love.math.random(1,200) == 1 then
+        --  world[i] = "Tree"
+      --  else
+          world[i] = "Grass"
+        --end
         world.name[i] = "Hunter's Forest"
         world.fight[i] = "None"
         world.fightc[i] = 0 --5%
-        world.collide[i] = true
+        world.collide[i] = false
         world.bg[i] = "Grass"
         world.music[i] = "*"
   --    end
@@ -85,6 +95,21 @@ function love.load()
       world.isFight[i] = false
     end
     print("Done.")
+  end
+
+  lightmap = {}
+  local x = 0
+  local y = 0
+  for i = 1, 100*100 do
+    if world[i] and lightsource[world[i]] then lightmap[i] = lightsource[world[i]]
+    else lightmap[i] = 0 end
+    world.x[i] = x
+    world.y[i] = y
+    x = x + 32
+    if x > 100*32 then
+      x = 0
+      y = y + 32
+    end
   end
 end
 
@@ -103,8 +128,16 @@ function love.draw()
         --if world.isFight[i] == true then love.graphics.setColor(255,0,0) else love.graphics.setColor(255,255,255) end
         if selT == i then love.graphics.setColor(255,255,255,50) else love.graphics.setColor(255,255,255) end
         if view == 2 then if world.collide[i] == true then love.graphics.setColor(255,0,0) end end
-        love.graphics.draw(worldImg[world.bg[i]], x-camX, y-camY)
+        if worldImg[world.bg[i]] then
+          love.graphics.draw(worldImg[world.bg[i]], x-camX, y-camY)
+        else
+          love.graphics.setColor(100,0,0)
+          love.graphics.rectangle("fill",x-camX,y-camY,32,32)
+        end
         love.graphics.draw(worldImg[world[i]], x-camX, y-camY)
+        if love.keyboard.isDown("l") then
+          drawLight(x-camX,y-camY,i)
+        end
 
         if world.isFight[i] == true then love.graphics.draw(heroImg, x-camX, y-camY) end
         if view == 1 then
@@ -150,6 +183,22 @@ function love.draw()
 
   if isType == true then
     love.graphics.rectangle("line", 0, 14+(14*ts), 200,14)
+  end
+
+  if displayTiles then
+    local x = 200
+    local y = 100
+    for i, v in pairs (worldImg) do
+      love.graphics.draw(v,x,y)
+      if isMouseOver(x,32,y,32) then
+        love.graphics.print(i,love.mouse.getX( ),love.mouse.getY( ))
+      end
+      x = x + 32
+      if x > 200 + (32 * 6) then
+        x = 200
+        y = y + 32
+      end
+    end
   end
 end
 
@@ -272,6 +321,9 @@ function love.keypressed(key)
        curMusic = world.music[selT]
     end
     if key == "e" then saveWorld() end
+    if key == "y" and displayTiles == false then displayTiles = true elseif key == "y" then displayTiles = false end
+--    if key == "]" then weather.time = weather.time + 1 if weather.time > 24 then weather.time = 0 end elseif key == "[" then weather.time = weather.time - 1 if weather.time == -1 then weather.time = 24 end end
+    if key == "r" and love.keyboard.isDown("l") then resetLightmap() end
   end
 end
 
@@ -377,3 +429,76 @@ local oldSetColor = love.graphics.setColor
    end
    oldSetBackgroundColor(r,g,b,a)
  end
+
+ function isMouseOver(xpos, width, ypos, height)
+   cx,cy = love.mouse.getPosition()
+   if cx > xpos and cx < xpos+width and cy > ypos and cy < ypos+height then
+     return true
+   else
+     return false
+   end
+ end
+
+ function distanceFrom(x1,y1,x2,y2) return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2) end
+
+function resetLightmap()
+  lightmap = {}
+  local x = 0
+  local y = 0
+  for i = 1, 100*100 do
+    if world[i] and lightsource[world[i]] then lightmap[i] = lightsource[world[i]]
+    else lightmap[i] = 0 end
+    world.x[i] = x
+    world.y[i] = y
+    x = x + 32
+    if x > 100*32 then
+      x = 0
+      y = y + 32
+    end
+  end
+
+  for i = 1, 100*100 do
+    weather.time = tonumber(weather.time)
+    local tileDarkness = 0
+
+
+    if weather.time == 0 then tileDarkness = 160
+    elseif weather.time == 1 then tileDarkness = 150
+    elseif weather.time == 2 then tileDarkness = 150
+    elseif weather.time == 3 then tileDarkness = 120
+    elseif weather.time == 4 then tileDarkness = 100
+    elseif weather.time == 5 then tileDarkness = 90
+    elseif weather.time == 6 then tileDarkness = 75
+    elseif weather.time == 7 then tileDarkness = 30
+    elseif weather.time == 8 then tileDarkness = 15
+    elseif weather.time == 16 then tileDarkness = 20
+    elseif weather.time == 17 then tileDarkness = 40
+    elseif weather.time == 18 then tileDarkness = 50
+    elseif weather.time == 19 then tileDarkness = 70
+    elseif weather.time == 20 then tileDarkness = 90
+    elseif weather.time == 21 then tileDarkness = 120
+    elseif weather.time == 22 then tileDarkness = 130
+    elseif weather.time == 23 then tileDarkness = 150
+    elseif weather.time == 24 then tileDarkness = 150 end
+
+
+
+        local val = 0
+        local calc = 0
+        for k = -195,305,101 do
+          for t = -9, -5 do
+            if lightmap[t+i+k] then
+              print(lightmap[t+i+k])
+              val = val + (lightmap[t+i+k]*20 - distanceFrom(world.x[i],world.y[i],world.x[t+i+k],world.y[t+i+k])/32)
+              calc = calc + 1
+            end
+          end
+        end
+
+      if val > 0 then
+        tileDarkness = tileDarkness - val
+      end
+
+      weather.tileDarkness[i] = tileDarkness
+    end
+end

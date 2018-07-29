@@ -43,3 +43,48 @@ function drawBuddy(name)
   --  updatePlayer(name,"buddy","Water Elementling")
   end
 end
+
+function drawBuddyWindow(x,y)
+  local ox = x
+  local oy = y
+  y = y + 4
+  love.graphics.setFont(sFont)
+  love.graphics.print("Collected",x,y)
+  y = y + sFont:getHeight() + 4
+  for i, v in pairs(buddy) do
+    if playerHasItem(i,1) or pl.buddy == i then
+      drawItem(i,1,x,y)
+      if pl.buddy == i then
+        love.graphics.setColor(0,255,0,255)
+        love.graphics.rectangle("line",x,y,32,32)
+      elseif isMouseOver(x,32,y,32) then
+        pl.selItem = i
+      end
+      x = x + 32
+      if x-ox > 32*4 then
+        x = ox
+        y = y + 32
+      end
+    end
+  end
+
+  y = y + 36
+  x = ox
+  love.graphics.setColor(255,255,255)
+  love.graphics.print("Still to find",x,y)
+  y = y + sFont:getHeight()+4
+  for i, v in pairs(buddy) do
+    if not playerHasItem(i,1) and pl.buddy ~= i then
+      love.graphics.setColor(0,0,0)
+      love.graphics.draw(v,x,y)
+      x = x + 32
+      if x-ox > 32*4 then
+        x = ox
+        y = y + 32
+      end
+    end
+  end
+
+  gameUI[7].width = 32*5
+  gameUI[7].height = 32+(y-oy)+font:getHeight()
+end

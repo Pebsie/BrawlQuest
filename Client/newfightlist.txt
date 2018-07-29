@@ -1,0 +1,9 @@
+map-swordbreak.txt
+
+Alertness Training (all levels)
+Speed Training (all levels)
+Combo Training (all levels)
+
+map-hunters.txt
+
+Pathway: Bandit Invasion of Squall's End (level 1)

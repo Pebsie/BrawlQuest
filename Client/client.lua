@@ -104,7 +104,7 @@ function netUpdate(dt)
             pl.inv = param[12]
           --  love.window.showMessageBox("Debug",pl.inv)
             pl.pot = param[15]
-            if pl.state ~= param[16] and string.sub(world[pl.t].fight,1,7) ~= "Gather:" then music.curPlay:stop() end --reset music
+            if pl.state ~= param[16] and string.sub(world[pl.t].fight,1,7) ~= "Gather:" then music.curPlay:stop() updateLightmap() end --reset music
             if pl.state ~= "fight" and param[16] == "fight" then
               love.graphics.setBackgroundColor(45, 139, 255)
               pl.x = love.math.random(200, 600) --place players in a line at the bottom of the arena
@@ -214,7 +214,8 @@ function netUpdate(dt)
             tparam = tparam + 3
           end
 
-          weather.time = param[tparam]
+          if tonumber(weather.time) ~= tonumber(param[tparam]) and lightmap[1] then updateLightmap() end --reset the lightmap if the time has changed
+          weather.time = tonumber(param[tparam])
           weather.temperature = param[tparam+1]
           weather.condition = param[tparam+2]
           weather.day = param[tparam+3]

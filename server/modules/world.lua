@@ -14,10 +14,10 @@ function loadOverworld()
 
   --unpack
   addMsg("Unpacking world...")
-  if love.filesystem.exists("map.txt") then
+  if love.filesystem.exists("map-beach.txt") then
     local x = 0
     local y = 0
-    for line in love.filesystem.lines("map.txt") do
+    for line in love.filesystem.lines("map-beach.txt") do
       word = atComma(line)
       i = #world + 1
       world[i] = {}
@@ -31,7 +31,6 @@ function loadOverworld()
       world[i].players = ""
       world[i].x = x
       world[i].y = y
-      world[i].i = i --I don't like this, but I couldn't do A* pathfinding myself so this is it :'(
       x = x + 32
       if x > 100*32 then
         x = 0

@@ -22,7 +22,7 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Shipwrecked v1.0"
+version = "Shipwrecked v1.0.1"
 newChatMsg("SERVER","Welcome to BrawlQuest: Shipwrecked",1)
 phase = "splash"
 
@@ -46,17 +46,23 @@ realScreenHeight = screenH
 
 news = ""
 
-dev = false--This variable just turns certain features on and off so that it's easier to dev the game
+dev = true--This variable just turns certain features on and off so that it's easier to dev the game
 
 function love.load()
 
   love.filesystem.setIdentity( "bq" )
 
-  --local ipadd = "127.0.0.1"
-  local ipadd = "eu.brawlquest.com"
+  if dev then
+    ipadd = "127.0.0.1"
+  else
+    ipadd = "eu.brawlquest.com"
+  end
+
+  ipadd = "127.0.0.1"   --override
+
   netConnect(ipadd, "26655", 0.1)
   love.mouse.setVisible(false)
-  b, c, h = http.request("http://brawlquest.com/dl/news.txt")
+  if not dev then b, c, h = http.request("http://brawlquest.com/dl/news.txt") end
   if b then
     love.filesystem.write("news.txt", b)
     local i = 1
@@ -82,6 +88,7 @@ function love.load()
   loadMusic()
   bindKeys()
   loadCharacters()
+  loadTutorial()
 end
 
 function love.draw()
@@ -102,6 +109,7 @@ function love.draw()
     love.graphics.setFont(sFont)
   end
   drawAspects()
+--  drawMenu(100,200)
 end
 
 
@@ -113,6 +121,7 @@ function love.update(dt)
   updateSpells(dt)
   updateFloats(dt)
   updateFog(dt)
+  updateTutorial() --triggers for tutorial window
 end
 
 function love.mousepressed(button)
@@ -197,6 +206,21 @@ function love.mousereleased(button, cx, cy)
             end
           end
         end
+      --[[elseif gameUI[7].visible == true and isMouseOver(gameUI[7].x,gameUI[7].width,gameUI[7].y,gameUI[7].height) then --buddy panel
+        local chy = gameUI[7].y + sFont:getHeight() + 8 --checky
+        local chx = gameUI[7].x
+        for i, v in pairs(buddy) do
+          if playerHasItem(i,1) or pl.buddy == i then
+            if isMouseOver(chx,32,chy,32) then
+              useItem(i)
+            end
+            chx = chx + 32
+            if chx-gameUI[7].x > 32*4 then
+              chx = gameUI[7].x
+              chy = chy + 32
+            end
+          end
+        end]]
       end
         if pl.selItem ~= "None" then
           useItem(pl.selItem)

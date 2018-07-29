@@ -1,3 +1,14 @@
+[b]BrawlQuest Alpha: Shipwrecked v1.1 Changelist[/b]
+[list]
+  [*]Moved Buddies to their own separate UI panel[/*]
+  [*]Fixed a bug that caused stacks of reagent items to be decremented if clicked on in the inventory[/*]
+  [*]You can no longer loot Buddies that you already own[/*]
+  [*]Made several improvements to UI functionality[/*]
+  [*]Added a tutorial window that pops up at certain points to help new players understand the game[/*]
+  [*]Rain now makes the world slightly darker[/*]
+  [*]Optimised lighting[/*]
+  [*]Uncovering fog with a light source now causes the entire area lit by that light source to uncover (this can be chained to allow entire areas to be uncovered at once)[/*]
+
   [b]Full changelist[/b]
 
 [list]
