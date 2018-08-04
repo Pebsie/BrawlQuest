@@ -83,18 +83,7 @@ end
 -- DRAWING RELATED FUNCTIONS
 function drawOverworld()
   love.graphics.push()
-  love.graphics.scale(love.graphics.getWidth()/(1920/2), love.graphics.getHeight()/(1080/2))   -- reduce everything by 50% in both X and Y coordinates
---  local x = 0
---  local y = 0
-
-  --love.graphics.setColor(200,200,200)
-  --background
-----  for i = 1, (sw/32)*((sh/32)+1) do
----    love.graphics.draw(worldImg["Grass"], x, y)
---    love.graphics.draw(worldImg["Mountain"], x, y)
---    x = x + 32
---    if x > sw then x = 0 y = y + 32 end
---  end
+  love.graphics.scale(scaleX,scaleY)
 
   love.graphics.setColor(255,255,255,255)
 
@@ -107,14 +96,14 @@ function drawOverworld()
   love.graphics.draw(objectCanvas, round(-mx), round(-my))
   love.graphics.setBlendMode("alpha")
   if playerExists(pl.name) then
-    drawPlayer(pl.name,pl.x-mx,pl.y-my)
+    drawPlayer(pl.name,pl.x-mx,pl.y-my,"buddy")
     drawNamePlate(pl.name,pl.x-mx,pl.y-my)
   end
 
   for i = 1, countPlayers() do
     name = getPlayerName(i)
     if name ~= pl.name and fog[tonumber(getPlayer(name,"t"))] and getPlayer(name,"state") ~= "fight" then
-      drawPlayer(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my)
+      drawPlayer(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my,"buddy")
     end
   end
 
@@ -159,7 +148,7 @@ function drawOverworld()
     areaTitleAlpha = 0
   end
 
-  drawMenu(100,200)
+  drawMenu(love.graphics.getWidth()-gameUI[5].width-(64*4),0)
 
   love.graphics.setColor(255,255,255,whiteOut)
   love.graphics.rectangle("fill",0,0,sw,sh)

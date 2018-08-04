@@ -12,7 +12,7 @@ tutorialDone = {}
 tutorialContent = ""
 
 function loadTutorial()
-  if love.filesystem.getInfo("tutoriall.txt") then
+  if love.filesystem.getInfo("tutorial.txt") then
     for line in love.filesystem.lines("tutorial.txt") do
       tutorialDone[line] = true
     end
@@ -24,6 +24,7 @@ function saveTutorial()
   for i, v in pairs(tutorialDone) do
     msg = msg..i.."\n"
   end
+  love.filesystem.write("tutorial.txt",msg)
 end
 
 function updateTutorial()

@@ -73,6 +73,7 @@ function enterGame()
     gameUI[1].width = 640
     gameUI[1].height = 94+font:getHeight()+2
     gameUI[1].label = "Character"
+    gameUI[1].closeButton = true
 
     gameUI[2] = {}
     gameUI[2].x = 0 --debug info
@@ -87,10 +88,11 @@ function enterGame()
     gameUI[3].x = 0 --inventory
     gameUI[3].y = 0
     gameUI[3].isDrag = false
-    gameUI[3].isVisible = true
+    gameUI[3].isVisible = false
     gameUI[3].width = 148
     gameUI[3].height = 148+font:getHeight()+2
     gameUI[3].label = "Inventory"
+    gameUI[3].closeButton = true
 
     gameUI[4] = {}
     gameUI[4].x = sw/2
@@ -125,7 +127,7 @@ function enterGame()
     gameUI[7].x = 300
     gameUI[7].y = 200
     gameUI[7].isDrag = false
-    gameUI[7].isVisible = true
+    gameUI[7].isVisible = false
     gameUI[7].width = 32*3
     gameUI[7].height = 100
     gameUI[7].label = "Buddies"
@@ -216,4 +218,14 @@ function playerHasItem(item,amount)
   end
 
   return hasItem
+end
+
+function resetUIPosition(i) --resets the position of the specified window to the default setting
+  if i == 1 then
+    gameUI[1].x = sw/2-320 --character info
+    gameUI[1].y = sh-94
+  elseif i == 5 then
+    gameUI[5].x = love.graphics.getWidth()-100
+    gameUI[5].y = -16
+  end
 end

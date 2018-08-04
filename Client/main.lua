@@ -46,7 +46,7 @@ realScreenHeight = screenH
 
 news = ""
 
-dev = true--This variable just turns certain features on and off so that it's easier to dev the game
+dev = false--This variable just turns certain features on and off so that it's easier to dev the game
 
 function love.load()
 
@@ -58,7 +58,7 @@ function love.load()
     ipadd = "eu.brawlquest.com"
   end
 
-  ipadd = "127.0.0.1"   --override
+  --ipadd = "127.0.0.1"   --override
 
   netConnect(ipadd, "26655", 0.1)
   love.mouse.setVisible(false)
@@ -89,6 +89,9 @@ function love.load()
   bindKeys()
   loadCharacters()
   loadTutorial()
+
+  scaleX = round(love.graphics.getWidth()/(1920/2))
+  scaleY = round(love.graphics.getHeight()/(1080/2))
 end
 
 function love.draw()
@@ -235,5 +238,6 @@ end
 function love.quit()
   if phase == "game" then
     saveFog("fog.txt")
+    saveTutorial()
   end
 end

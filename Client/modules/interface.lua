@@ -356,6 +356,8 @@ function love.resize(w,h) --reset sw and sh
   screenH = sh
   realScreenWidth = w
   realScreenHeight = h
+  scaleX = round(love.graphics.getWidth()/(1920/2))
+  scaleY = round(love.graphics.getHeight()/(1080/2))
 --  stdSH = love.graphics.getWidth()/(1920/2)
   --stdSW = love.graphics.getHeight()/(1080/2)
 
@@ -364,13 +366,17 @@ function love.resize(w,h) --reset sw and sh
   elseif phase == "game" then
   --  createWorldCanvas()
     createWeather()
+    updateLightmap()
+    resetUIPosition(1)
+    resetUIPosition(5)
   end
+
 end
 
 function centerCamera()
    --my = round((pl.t/101)-((sh/32)/2))*32 mx = round(tonumber(string.sub(tostring(pl.t/101),3))*3200)-((sw/32)/2)*32
-   mx = round(pl.x - 1920/4)
-   my = round(pl.y - 1080/4)
+   mx = round(pl.x - love.graphics.getWidth()/(2*scaleX))
+   my = round(pl.y - love.graphics.getHeight()/(2*scaleY))
 
   -- if playerExists(pl.name) then
 --     mx = round(getPlayer(pl.name, "x") - sw/2)

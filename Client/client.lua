@@ -210,15 +210,20 @@ function netUpdate(dt)
           end
 
           for i = 1, bcs do --broadcast chats
-            newChatMsg(param[tparam],param[tparam+1],param[tparam+2])
+            if param[tparam] and param[tparam+1] and param[tparam+2] then
+              newChatMsg(param[tparam],param[tparam+1],param[tparam+2])
+            end
+
             tparam = tparam + 3
           end
 
-          if tonumber(weather.time) ~= tonumber(param[tparam]) and lightmap[1] then updateLightmap() end --reset the lightmap if the time has changed
-          weather.time = tonumber(param[tparam])
-          weather.temperature = param[tparam+1]
-          weather.condition = param[tparam+2]
-          weather.day = param[tparam+3]
+          if tonumber(param[tparam]) and param[tparam+1] and param[tparam+2] and param[tparam+3] then
+            if tonumber(weather.time) ~= tonumber(param[tparam]) and lightmap[1] then updateLightmap() end --reset the lightmap if the time has changed
+            weather.time = tonumber(param[tparam])
+            weather.temperature = param[tparam+1]
+            weather.condition = param[tparam+2]
+            weather.day = param[tparam+3]
+          end
           tparam = tparam + 4
         elseif cmd == "fight" then
         --  love.window.showMessageBox("debug","got a fight update!")

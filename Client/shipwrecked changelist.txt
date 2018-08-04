@@ -1,4 +1,8 @@
-[b]BrawlQuest Alpha: Shipwrecked v1.1 Changelist[/b]
+Why are buddies drawing twice in full screen?
+Why does going full screen have such an effect on the frame rate?
+
+
+[b]BrawlQuest Alpha: Shipwrecked v1.0.1 Changelist[/b]
 [list]
   [*]Moved Buddies to their own separate UI panel[/*]
   [*]Fixed a bug that caused stacks of reagent items to be decremented if clicked on in the inventory[/*]
@@ -8,6 +12,9 @@
   [*]Rain now makes the world slightly darker[/*]
   [*]Optimised lighting[/*]
   [*]Uncovering fog with a light source now causes the entire area lit by that light source to uncover (this can be chained to allow entire areas to be uncovered at once)[/*]
+  [*]The timer for NPCs who talk to you in the overworld now better matches the time it would take to read their dialogue[/*]
+  [*]Fixed a crash when encountering other players[/*]
+[/list]
 
   [b]Full changelist[/b]
 

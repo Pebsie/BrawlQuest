@@ -17,13 +17,16 @@ frequentlyUpdate = false
 
 function drawGame()
   if pl.state == "world" then
-    drawOverworld()
+   drawOverworld()
   elseif pl.state == "fight" or pl.state == "afterfight" then
     drawFight()
   else
     love.graphics.setFont(sFont)
     love.graphics.printf("Your character is presently floating through the void!\n\nSeriously, though, screenshot this and send it to @Pebsiee on Twitter.\nUsername: "..pl.name.."\nState: "..tostring(pl.state).."\n\nThere's also a possibility that we're just waiting on the next character update and this might be caused by a slow connection.\nIn that case - if you've had enough time to read this fully - you're not going to be able to play this game. Try changing server, ISP or contact @Pebsiee on Twitter with your location asking for a new server location.\n\nYou can ask again for user info by hitting u now.",0,0,sw,"left")
   end
+
+  love.graphics.setColor(255,255,255,255)
+  love.graphics.print(love.timer.getFPS().." FPS")
 end
 
 function updateGame(dt)
@@ -46,7 +49,7 @@ function updateGame(dt)
         requestUserInfo()
         frequentlyUpdate = false
       end
-      timeToUpdate = 0.5
+      timeToUpdate = 1.5
     end
 
     timeToMove = timeToMove - 1*dt

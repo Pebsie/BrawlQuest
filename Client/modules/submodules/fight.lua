@@ -152,7 +152,7 @@ love.graphics.scale(love.graphics.getWidth()/(1920/2),love.graphics.getHeight()/
           y = getPlayer(playerName,"y")
         end
 
-        drawPlayer(playerName,x+xoff,y+yoff)
+        drawPlayer(playerName,x+xoff,y+yoff,"buddy")
         drawNamePlate(playerName,x+xoff,y+yoff)
 
       --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
