@@ -75,10 +75,10 @@ function drawFight()
  love.graphics.push()
 
 
-love.graphics.scale(love.graphics.getWidth()/(1920/2),love.graphics.getHeight()/(1080/2))
+love.graphics.scale(scaleX,scaleY)
 
-  xoff = sw/2 - (stdSH/2)
-  yoff = sh/2 - (stdSW/2)
+  xoff = love.graphics.getWidth()/2 - (stdSH)
+  yoff = love.graphics.getHeight()/2 - (stdSW)
 
   for i = 1, sw/64 do
     love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])

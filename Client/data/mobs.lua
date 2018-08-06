@@ -213,7 +213,7 @@ mb.sp1[tm] = "spawn:Sand Worm"
 mb.sp1t[tm] = 1
 mb.sp2[tm] = "suicide"
 mb.sp2t[tm] = 1
-mb.img[tm] = worldImg["Sand"]
+mb.img[tm] = uiImg["none"]
 mb.rng[tm] =  16
 
 local tm = "Cannibal Tribesman"

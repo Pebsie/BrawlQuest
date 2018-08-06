@@ -54,10 +54,8 @@ function enterGame()
   --if not love.filesystem.exists("map.txt") then
    b, c, h = http.request("http://brawlquest.com/dl/map-beach.txt")
    if b then
-     love.filesystem.write("map.txt", b)
+     love.filesystem.write("map-beach.txt", b)
    end
-  --end
-    --  loadFog()
   --load map
     loadOverworld()
 
