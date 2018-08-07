@@ -1,50 +1,6 @@
 require "data/level"
 
 pl = {} --identified by username
-pl.hp = {}
-pl.en = {}
-pl.s1 = {} --scroll 2 (q)
-pl.s1t = {}
-pl.s2 = {} --scroll 2 (e)
-pl.s2t = {}
-pl.gold = {}
-pl.x = {}
-pl.y = {}
-pl.t = {} --tile
-pl.dt = {} --dead tile (home tile)
-pl.wep = {}
-pl.arm = {}
-pl.armd = {}
-pl.arm_head = {}
-pl.arm_chest = {}
-pl.arm_legs = {}
-pl.bud = {}
-pl.pot = {}
-pl.inv = {} --inventory
-pl.lvl = {}
-pl.xp = {}
-pl.at = {} --attack info. true/false
-pl.atm = {} --time left before attack is no longer there
-pl.str = {} --strength
-pl.msg = {} --messages separated with semicolons
-pl.online = {}
-pl.state = {}
-pl.spell = {}
-pl.spellT = {}
-pl.timeout = {}
-pl.playtime = {}
-pl.kills = {}
-pl.deaths = {}
-pl.distance = {}
-pl.lastEquip = {}
-pl.fightsPlayed = {}
-pl.lastLogin = {}
-pl.owed = {} --what items are owed to the player (for the post-fight section)
-pl.score = {} --this is reset at the start of each fight and represents the player's score for the last fight
-pl.combo = {} --this is the players current combo
-pl.aspects = {}
-pl.encounterBuild = {} --this increases by the % chance on each tile that a fight didn't occur to ensure that a player walking on 25% fight tiles will always encounter a fight at least once every 4 movements.
-pl.blueprints = {}
 
 acc = {} --identified by number
 acc.username = {}
@@ -53,58 +9,58 @@ acc.password = {}
 chat = {}
 
 function newPlayer(name, password)
-  if not pl.hp[name] then --we don't want to create a character that already exists!
+  if not pl[name] then --we don't want to create a character that already exists!
     acc.username[#acc.username + 1] = name
     acc.password[#acc.password + 1] = password
 
     local i = name
-    pl.hp[i] = 100
-    pl.en[i] = 100
-    pl.s1[i] = "None"
-    pl.s1t[i] = 0
-    pl.s2[i] = "None"
-    pl.s2t[i] = 0
-    pl.gold[i] = 0
-    pl.x[i] = 320
-    pl.y[i] = 240
-    pl.t[i] =  805--805 --CHANGE TO STARTING ZONE WHEN MAP IS READY <=== I've done that tyvm :)
-                  --Shipwrecked: 805
-                  --Swordbreak: 1263
-                  --Great Plains: 7693
-    pl.dt[i] = 1942
-    pl.wep[i] = "Long Stick"
-    pl.arm[i] = "Legendary Padding"
-    pl.armd[i] = 0
-    pl.arm_head[i] = "Legendary Helmet"
-    pl.arm_chest[i] = "Legendary Chestplate"
-    pl.arm_legs[i] = "Legendary Leggings"
-    pl.inv[i] = "A letter addressed to you;1"
-    pl.pot[i] = "None"
-    pl.lvl[i] = 1
-    pl.xp[i] = 0
-    pl.at[i] = false
-    pl.atm[i] = 0
-    pl.msg[i] = "world"
-    pl.online[i] = true
-    pl.state[i] = "world"
-    pl.spell[i] = "None"
-    pl.spellT[i] = 0
-    pl.timeout[i] = 0
-    pl.bud[i] = "None"
-    pl.playtime[i] = 0
-    pl.kills[i] = 0
-    pl.deaths[i] = 0
-    pl.distance[i] = 0
-    pl.lastEquip[i] = 0
-    pl.fightsPlayed[i] = {}
-    pl.str[i] = 0
-    pl.lastLogin[i] = 0
-    pl.owed[i] = "reset"
-    pl.score[i] = 0
-    pl.combo[i] = 0
-    pl.aspects[i] = {}
-    pl.encounterBuild[i] = 0
-    pl.blueprints[i] = "Wooden Chestplate;Wooden Helmet;Wooden Leggings;Healing Potion;Hilt;Short Sword;Iron Chestplate;Iron Helmet;Iron Leggings"
+    pl[i] = {
+      hp = 100,
+      en = 100,
+      s1 = "None",
+      s1t = 0,
+      s2 = "None",
+      s2t = 0,
+      gold = 0,
+      x = 0,
+      y = 0,
+      t = 805,
+      dt = 1942,
+      wep = "Long Stick",
+      arm = "Legendary Padding",
+      armd = 0,
+      arm_head = "Legendary Helmet",
+      arm_chest = "Legendary Chestplate",
+      arm_legs = "Legendary Leggings",
+      inv = "A letter addressed to you;1",
+      pot = "None",
+      lvl = 1,
+      xp = 0,
+      at = false,
+      atm = 0,
+      msg = "world",
+      online = true,
+      state = "world",
+      spell = "None",
+      spellT = 0,
+      timeout = 0,
+      bud = "None",
+      playtime = 0,
+      kills = 0,
+      deaths = 0,
+      distance = 0,
+      lastEquip = 0,
+      fightsPlayed = {},
+      str = 0,
+      lastLogin = 0,
+      owed = "reset",
+      score = 0,
+      combo = 0,
+      aspects = {},
+      encounterBuild = 0,
+      blueprints = "Wooden Chestplate;Wooden Helmet;Wooden Leggings;Hilt;Short Sword",
+      authcode = tostring(love.math.random(10000,99999))
+    }
 
 
     addMsg("New player by the name of "..name)
@@ -118,47 +74,47 @@ function updatePlayers(dt)
   for i = 1, countPlayers() do
     local k = getPlayerName(i)
 
-    pl.atm[k] = pl.atm[k] - 1*dt
-    if pl.atm[k] < 0 then pl.at[k] = false end
+    pl[k].atm = pl[k].atm - 1*dt
+    if pl[k].atm < 0 then pl[k].at = false end
 
-    pl.en[k] = pl.en[k] + 25*dt
-    if pl.en[k] > 100 then pl.en[k] = 100 end
+    pl[k].en = pl[k].en + 25*dt
+    if pl[k].en > 100 then pl[k].en = 100 end
 
-    if pl.spellT[k] then
-      pl.spellT[k] = pl.spellT[k] - 1*dt
-      if pl.spellT[k] < 0 then pl.spell[k] = "None" end
+    if pl[k].spellT then
+      pl[k].spellT = pl[k].spellT - 1*dt
+      if pl[k].spellT < 0 then pl[k].spell = "None" end
     else
-      pl.spellT[k] = 1
+      pl[k].spellT = 1
     end
 
-    if item.type[pl.spell[k]] == "hp" then
-      pl.hp[k] = pl.hp[k] + (item.val[pl.spell[k]]/3)*dt
+    if item.type[pl[k].spell] == "hp" then
+      pl[k].hp = pl[k].hp + (item.val[pl[k].spell]/3)*dt
     end
 
-    pl.armd[k] = pl.armd[k] - 1*dt
-    if pl.armd[k] <0 then pl.armd[k] = 0 end
+    pl[k].armd = pl[k].armd - 1*dt
+    if pl[k].armd <0 then pl[k].armd = 0 end
 
-    pl.s1t[k] = pl.s1t[k] - 1*dt
-    pl.s2t[k] = pl.s2t[k] - 1*dt
+    pl[k].s1t = pl[k].s1t - 1*dt
+    pl[k].s2t = pl[k].s2t - 1*dt
 
-    if pl.spell[k] == "Recovery" then
-      pl.hp[k] = pl.hp[k] + 1000*dt --increase by 10% per second
+    if pl[k].spell == "Recovery" then
+      pl[k].hp = pl[k].hp + 1000*dt --increase by 10% per second
     end
 
-    if pl.hp[k] > 100 then pl.hp[k] = 100 end
-    pl.at[k] = false
+    if pl[k].hp > 100 then pl[k].hp = 100 end
+    pl[k].at = false
 
-    if pl.timeout[k] > 0 then
-      pl.playtime[k] = pl.playtime[k] + 1*dt
+    if pl[k].timeout > 0 then
+      pl[k].playtime = pl[k].playtime + 1*dt
     end
 
-    pl.timeout[k] = pl.timeout[k] - 1*dt
+    pl[k].timeout = pl[k].timeout - 1*dt
 
-    for i, v in pairs(pl.aspects[k]) do
+    for i, v in pairs(pl[k].aspects) do
       if v == "Bleeding" then
         damagePlayer(k,2*dt)
       end
-      if aspect[v].antidote() then pl.aspects[k][i] = nil  end
+      if aspect[v].antidote() then pl[k].aspects[i] = nil  end
     end
   end
 end
@@ -183,25 +139,24 @@ function loginPlayer(name, password) --returns a boolean
 end
 
 function givePlayerXP(name, xp)
-  if pl.lvl[name] < 10 then
-    pl.xp[name] = pl.xp[name] + xp
+  if pl[name].lvl < 10 then
+    pl[name].xp = pl[name].xp + xp
 
-    if pl.xp[name] > lvlXP[pl.lvl[name]] then --level up
-      pl.lvl[name] = pl.lvl[name] + 1
-      pl.xp[name] = pl.xp[name] - lvlXP[pl.lvl[name]] --still earn XP from this reward
+    if pl[name].xp > lvlXP[pl[name].lvl] then --level up
+      pl[name].lvl = pl[name].lvl + 1
+      pl[name].xp = pl[name].xp - lvlXP[pl[name].lvl] --still earn XP from this reward
     end
   end
 end
 
 function givePlayerGold(name, gold)
-  --pl.gold[name] = pl.gold[name] + tonumber(gold)
   givePlayerItem(name,"Gold",gold)
 end
 
 function givePlayerItem(name, ritem, amount)
   if not amount then amount = 1 end
 
-  curInv = atComma(pl.inv[name], ";")
+  curInv = atComma(pl[name].inv, ";")
   local alreadyOwned = false
 
   for i=1,#curInv,2 do
@@ -217,18 +172,18 @@ function givePlayerItem(name, ritem, amount)
 
 
 
-  pl.inv[name] = ""
+  pl[name].inv = ""
   --rebuild inventory string
   for i = 1, #curInv do
 --    addMsg(curInv[i].." ("..i.."/"..#curInv..")")
-    pl.inv[name] = pl.inv[name]..curInv[i]..";"
-  --  addMsg(pl.inv[name])
+    pl[name].inv = pl[name].inv..curInv[i]..";"
+  --  addMsg(pl[name].inv)
   end
 end
 
 function playerUse(name, ritem, index, amount)
   if not amount then amount = 1 end
-  curInv = atComma(pl.inv[name],";")
+  curInv = atComma(pl[name].inv,";")
   local hasItem = false
 
   rebuiltInv = {}
@@ -251,85 +206,79 @@ function playerUse(name, ritem, index, amount)
   if hasItem == true then
     if item.type[ritem] == "wep" then
       rebuiltInv[#rebuiltInv + 1] = {}
-      rebuiltInv[#rebuiltInv].item = pl.wep[name]
+      rebuiltInv[#rebuiltInv].item = pl[name].wep
       rebuiltInv[#rebuiltInv].amount = 1
-      pl.wep[name] = ritem
+      pl[name].wep = ritem
     elseif item.type[ritem] == "arm" then
       rebuiltInv[#rebuiltInv + 1] = {}
-      rebuiltInv[#rebuiltInv].item = pl.arm[name]
+      rebuiltInv[#rebuiltInv].item = pl[name].arm
       rebuiltInv[#rebuiltInv].amount = 1
-      pl.arm[name] = ritem
+      pl[name].arm = ritem
     elseif item.type[ritem] == "Spell" then
-      local slot = pl.lastEquip[name]
+      local slot = pl[name].lastEquip
 
-      if slot == 0 and pl.s1[name] == "None" then
-        pl.s1[name] = ritem
-          pl.lastEquip[name] = 1
-      elseif slot == 1 and pl.s2[name] == "None" then
-        pl.s2[name] = ritem
-          pl.lastEquip[name] = 0
+      if slot == 0 and pl[name].s1 == "None" then
+        pl[name].s1 = ritem
+          pl[name].lastEquip = 1
+      elseif slot == 1 and pl[name].s2 == "None" then
+        pl[name].s2 = ritem
+          pl[name].lastEquip = 0
       else
-        if slot == 0 and pl.s1[name] ~= "None" then
+        if slot == 0 and pl[name].s1 ~= "None" then
           rebuiltInv[#rebuiltInv + 1] = {}
-          rebuiltInv[#rebuiltInv].item = pl.s1[name]
+          rebuiltInv[#rebuiltInv].item = pl[name].s1
           rebuiltInv[#rebuiltInv].amount = 1
-          pl.s1[name] = ritem
-          pl.lastEquip[name] = 1
-        elseif slot == 1 and pl.s2[name] ~= "None" then
+          pl[name].s1 = ritem
+          pl[name].lastEquip = 1
+        elseif slot == 1 and pl[name].s2 ~= "None" then
           rebuiltInv[#rebuiltInv + 1] = {}
-          rebuiltInv[#rebuiltInv].item = pl.s2[name]
+          rebuiltInv[#rebuiltInv].item = pl[name].s2
           rebuiltInv[#rebuiltInv].amount = 1
-          pl.s2[name] = ritem
-          pl.lastEquip[name] = 0
+          pl[name].s2 = ritem
+          pl[name].lastEquip = 0
         end
       end
     elseif item.type[ritem] == "hp" then
-      if pl.pot[name] ~= "None" then
+      if pl[name].pot ~= "None" then
         rebuiltInv[#rebuiltInv + 1] = {}
-        rebuiltInv[#rebuiltInv].item = pl.pot[name]
+        rebuiltInv[#rebuiltInv].item = pl[name].pot
         rebuiltInv[#rebuiltInv].amount = 1
       end
-      pl.pot[name] = ritem
+      pl[name].pot = ritem
     elseif item.type[ritem] == "buddy" then
-      if pl.bud[name] ~= "None" then
+      if pl[name].bud ~= "None" then
         rebuiltInv[#rebuiltInv + 1] = {}
-        rebuiltInv[#rebuiltInv].item = pl.bud[name]
+        rebuiltInv[#rebuiltInv].item = pl[name].bud
         rebuiltInv[#rebuiltInv].amount = 1
       end
-      pl.bud[name] = ritem
+      pl[name].bud = ritem
     elseif item.type[ritem] == "upgrade" then
       local stat = atComma(item.val[ritem])
       if stat[2] == "ATK" then
-        pl.str[name] = pl.str[name] + tonumber(stat[1])
+        pl[name].str = pl[name].str + tonumber(stat[1])
       end
     elseif item.type[ritem] == "head armour" then
-      if pl.arm_head[name] ~= "None" then
-        rebuiltInv[#rebuiltInv + 1] = {}
-        rebuiltInv[#rebuiltInv].item = pl.arm_head[name]
-        rebuiltInv[#rebuiltInv].amount = 1
-      end
-      pl.arm_head[name] = ritem
+
+      if pl[name].arm_head ~= "None" then rebuiltInv[#rebuiltInv + 1] = { item = pl[name].arm_head, amount = 1 } end
+      pl[name].arm_head = ritem
+
     elseif item.type[ritem] == "chest armour" then
-      if pl.arm_chest[name] ~= "None" then
-        rebuiltInv[#rebuiltInv + 1] = {}
-        rebuiltInv[#rebuiltInv].item = pl.arm_head[name]
-        rebuiltInv[#rebuiltInv].amount = 1
-      end
-      pl.arm_chest[name] = ritem
+
+      if pl[name].arm_chest ~= "None" then rebuiltInv[#rebuiltInv + 1] = { pl[name].arm_chest, amount = 1 } end
+      pl[name].arm_chest = ritem
+
     elseif item.type[ritem] == "leg armour" then
-      if pl.arm_legs[name] ~= "None" then
-        rebuiltInv[#rebuiltInv + 1] = {}
-        rebuiltInv[#rebuiltInv].item = pl.arm_head[name]
-        rebuiltInv[#rebuiltInv].amount = 1
-      end
-      pl.arm_legs[name] = ritem
+
+      if pl[name].arm_legs ~= "None" then rebuiltInv[#rebuiltInv + 1] = { pl[name].arm_legs, amount = 1 } end
+      pl[name].arm_legs = ritem
+
     end
   else
     addMsg(name.." tried to use an item ("..ritem..") that they don't own!")
   end
 
   --rebuild inventory
-  pl.inv[name] = ""
+  pl[name].inv = ""
   for i = 1, #rebuiltInv do
     if rebuiltInv[i].amount > 0 then
       givePlayerItem(name, rebuiltInv[i].item, rebuiltInv[i].amount)
@@ -340,7 +289,7 @@ end
 function playerHasItem(name,item,amount)
   if not amount then amount = 0 end
   local hasItem = false
-  curInv = atComma(pl.inv[name],";")
+  curInv = atComma(pl[name].inv,";")
   for i = 1, #curInv, 2 do
     if curInv[i] == item and tonumber(curInv[i+1]) > (tonumber(amount)-1) then hasItem = true end
   end
@@ -349,13 +298,13 @@ function playerHasItem(name,item,amount)
 end
 
 function playerClaim( name, item )
-  local claims = atComma(pl.owed[name])
+  local claims = atComma(pl[name].owed)
 
   for i = 1, #claims, 2 do
     if item == claims[i] then
 
       if string.sub(item,1,10) == "Blueprint:" then
-        pl.blueprints[name] = pl.blueprints[name]..";"..string.sub(item,12)
+        pl[name].blueprints = pl[name].blueprints..";"..string.sub(item,12)
       else
         givePlayerItem(name,claims[i],tonumber(claims[i+1]))
       end
@@ -365,111 +314,110 @@ function playerClaim( name, item )
      end
   end
 
-  pl.owed[name] = "" --rebuild owed inventory
+  pl[name].owed = "" --rebuild owed inventory
   for i = 1, #claims, 2 do
     if claims[i] and claims[i+1] then
-      pl.owed[name] = pl.owed[name]..claims[i]..","..claims[i+1]..","
+      pl[name].owed = pl[name].owed..claims[i]..","..claims[i+1]..","
     end
   end
 
-  if pl.owed[name] == "" then pl.state[name] = "world" pl.owed[name] = "reset" end --the player has collected all of their loot!
+  if pl[name].owed == "" then pl[name].state = "world" pl[name].owed = "reset" end --the player has collected all of their loot!
 end
 
 function movePlayer(name, dir)
-  local curt = pl.t[name]
-  if dir == "up" then pl.t[name] = pl.t[name] - 101
-  elseif dir == "down" then pl.t[name] = pl.t[name] + 101
-  elseif dir == "left" then pl.t[name] = pl.t[name] - 1
-  elseif dir == "right" then pl.t[name] = pl.t[name] + 1 end
+  local curt = pl[name].t
+  if dir == "up" then pl[name].t = pl[name].t - 101
+  elseif dir == "down" then pl[name].t = pl[name].t + 101
+  elseif dir == "left" then pl[name].t = pl[name].t - 1
+  elseif dir == "right" then pl[name].t = pl[name].t + 1 end
 
-  if world[pl.t[name]].fightc == 0 then pl.encounterBuild[name] = 0 end
+  if world[pl[name].t].fightc == 0 then pl[name].encounterBuild = 0 end
 
-  if world[pl.t[name]].collide then
-    pl.t[name] = curt
-  elseif string.sub(world[pl.t[name]].fight,1,3) == "tp|" then
-    pl.t[name] = tonumber(string.sub(world[pl.t[name]].fight,4))
-  elseif string.sub(world[pl.t[name]].fight,1,5) ~= "speak" then
-    if world[pl.t[name]].isFight == true then
-      local fightsOnTile = listFightsOnTile(pl.t[name])
+  if world[pl[name].t].collide then
+    pl[name].t = curt
+  elseif string.sub(world[pl[name].t].fight,1,3) == "tp|" then
+    pl[name].t = tonumber(string.sub(world[pl[name].t].fight,4))
+  elseif string.sub(world[pl[name].t].fight,1,5) ~= "speak" then
+    if world[pl[name].t].isFight == true then
+      local fightsOnTile = listFightsOnTile(pl[name].t)
       addPlayerToFight(fightsOnTile[1],name)
-      pl.encounterBuild[name] = 0
+      pl[name].encounterBuild = 0
     else
-      if not pl.fightsPlayed[name][pl.t[name]] then
-        local fightChance = love.math.random(1,100)-pl.encounterBuild[name]
-        if fightChance < world[pl.t[name]].fightc or world[pl.t[name]].fightc > 90 then
-          world[pl.t[name]].isFight = true
-          if fs[world[pl.t[name]].fight] then
-            newFight(pl.t[name], world[pl.t[name]].fight)
-            pl.encounterBuild[name] = 0
+      if not pl[name].fightsPlayed[pl[name].t] then
+        local fightChance = love.math.random(1,100)-pl[name].encounterBuild
+        if fightChance < world[pl[name].t].fightc or world[pl[name].t].fightc > 90 then
+          world[pl[name].t].isFight = true
+          if fs[world[pl[name].t].fight] then
+            newFight(pl[name].t, world[pl[name].t].fight)
+            pl[name].encounterBuild = 0
           else
-            newFight(pl.t[name], "Ghostly Haunting")
-            pl.encounterBuild[name] = 0
+            newFight(pl[name].t, "Ghostly Haunting")
+            pl[name].encounterBuild = 0
           end
           addPlayerToFight(#ft.t, name)
         end
       else
-        pl.encounterBuild[name] = pl.encounterBuild[name] + world[pl.t[name]].fightc
+        pl[name].encounterBuild = pl[name].encounterBuild + world[pl[name].t].fightc
       end
 
-      pl.distance[name] = pl.distance[name] + 1
+      pl[name].distance = pl[name].distance + 1
     end
   end
 end
 
 function setPlayerPos(name,x,y)
-  pl.en[name] = pl.en[name] - distanceFrom(pl.x[name],pl.y[name],x,y)*0.1
-  if pl.en[name] < 0 then pl.en[name] = 0 end
-  pl.x[name] = x
-  pl.y[name] = y
+  pl[name].en = pl[name].en - distanceFrom(pl[name].x,pl[name].y,x,y)*0.1
+  if pl[name].en < 0 then pl[name].en = 0 end
+  pl[name].x = x
+  pl[name].y = y
 end
 
 function setPlayerDT(name,dt)
-  pl.dt[name] = tonumber(dt)
+  pl[name].dt = tonumber(dt)
   return true
 end
 
 function damagePlayer(name, amount)
-  pl.armd[name] = pl.armd[name] + amount
-  if pl.armd[name] > (item.val[pl.arm_head[name]] + item.val[pl.arm_chest[name]] + item.val[pl.arm_legs[name]]) then
-    pl.armd[name] = item.val[pl.arm_head[name]] + item.val[pl.arm_chest[name]] + item.val[pl.arm_legs[name]]
-    pl.hp[name] = pl.hp[name] - amount
+  pl[name].armd = pl[name].armd + amount
+  if pl[name].armd > (item.val[pl[name].arm_head] + item.val[pl[name].arm_chest] + item.val[pl[name].arm_legs]) then
+    pl[name].armd = item.val[pl[name].arm_head] + item.val[pl[name].arm_chest] + item.val[pl[name].arm_legs]
+    pl[name].hp = pl[name].hp - amount
   end
---  pl.msg[name] = pl.msg[name].."tdmg,"..amount..";" --The client could figure this out itself
 
-  if pl.hp[name] < 1 then pl.hp[name] = 100 pl.t[name] =  pl.dt[name] removePlayerFromFight(name, true) pl.deaths[name] = pl.deaths[name] + 1 end
+  if pl[name].hp < 1 then pl[name].hp = 100 pl[name].t =  pl[name].dt removePlayerFromFight(name, true) pl[name].deaths = pl[name].deaths + 1 end
 end
 
 --return info functions
 
 function isPlayerDead(name)
-  if pl.hp[name] < 1 then return true else return false end
+  if pl[name].hp < 1 then return true else return false end
 end
 
 function isPlayerOnline(name)
-  return pl.online[name]
+  return pl[name].online
 end
 
 function getPlayerTile(name)
-  return pl.t[name]
+  return pl[name].t
 end
 
 function getPlayerArmour(name)
-  return pl.arm[name]
+  return pl[name].arm
 end
 
 function getPlayerState(name)
-  return pl.state[name]
+  return pl[name].state
 end
 
 function useSpell(spellName,name)
   vals = atComma(item.val[spellName])
 
-  if pl.spell[name] == "None" then
-    if tonumber(pl.en[name])+1 > tonumber(vals[2]) then
-      pl.spell[name] = spellName
+  if pl[name].spell == "None" then
+    if tonumber(pl[name].en)+1 > tonumber(vals[2]) then
+      pl[name].spell = spellName
       --addMsg(name.." used "..spellName)
-      pl.spellT[name] = tonumber(vals[3])
-      pl.en[name] = pl.en[name] - tonumber(vals[2])
+      pl[name].spellT = tonumber(vals[3])
+      pl[name].en = pl[name].en - tonumber(vals[2])
     end
 
   end
@@ -477,7 +425,7 @@ end
 
 function playerHasBlueprint(name,bprint)
   local result = false
-  local prints = atComma(pl.blueprints[name],";")
+  local prints = atComma(pl[name].blueprints,";")
   for i, v in pairs(prints) do
     if v == bprint then
       result = true
@@ -504,8 +452,8 @@ function canPlayerCraft(name, itemName) --returns true or false whether the play
 end
 
 function playerHasBuddy(name,itemName)
---  addMsg("Is "..item.type[itemName].."==buddy and does "..name.." have "..itemName.."? ("..tostring(playerHasItem(name,itemName,1))..") Does "..pl.bud[name].."=="..itemName.."?")
-  if item.type[itemName] == "buddy" and (playerHasItem(name,itemName,1) or pl.bud[name] == itemName) then
+--  addMsg("Is "..item.type[itemName].."==buddy and does "..name.." have "..itemName.."? ("..tostring(playerHasItem(name,itemName,1))..") Does "..pl[name].bud.."=="..itemName.."?")
+  if item.type[itemName] == "buddy" and (playerHasItem(name,itemName,1) or pl[name].bud == itemName) then
     addMsg("Yes!")
     return true
   else

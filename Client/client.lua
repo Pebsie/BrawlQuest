@@ -29,6 +29,8 @@ function netUpdate(dt)
         if cmd == "login" then
           if ent == pl.name then --verification to prevent hacking
             if param[1] == "true" then
+              authcode = param[2]
+              print(authcode)
               enterGame()
             else
               phase = "login"
@@ -38,7 +40,6 @@ function netUpdate(dt)
           end
         elseif cmd == "char" then
           if ent == pl.name then
-
           --  pl.x = tonumber(param[6])
           --  pl.y = tonumber(param[7])
             if pl.t ~= tonumber(param[8]) then
@@ -328,12 +329,16 @@ function netUpdate(dt)
           end
         elseif cmd == "blueprints" then
           pl.blueprints = param[1]
+        elseif cmd == "kick" then
+          phase = "login"
+
         end
 
         if cmd ~= "login" and cmd ~= "afterfight" then --if we aren't logged in yet then we don't have a username or position or anything, creating issues with fog.
         --  createWorldCanvas() --finally, update the world
           createWorldObjectCanvas()
         end
+
       elseif msg ~= 'timeout' then
         phase = "login"
         news = news.."\nUnable to connect to the server."

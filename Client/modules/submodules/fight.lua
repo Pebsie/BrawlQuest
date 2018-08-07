@@ -223,7 +223,7 @@ love.graphics.scale(scaleX,scaleY)
 end
 
 function requestFightInfo()
-  netSend("fight",pl.name..","..round(pl.x)..","..round(pl.y))
+  netSend("fight",pl.name..","..round(pl.x)..","..round(pl.y)..","..authcode)
   requestUserInfo()
 end
 

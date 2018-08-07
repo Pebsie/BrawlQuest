@@ -1,6 +1,11 @@
-Why are buddies drawing twice in full screen?
-Why does going full screen have such an effect on the frame rate?
+[b]BrawlQuest Alpha: Shipwrecked v1.0.2 Changelist[/b]
 
+[BUG FIXES]
+- Fixed a glitch that caused you to get a copy of your helmet when you changed gear (instead of returning the equipped gear back to your inventory)[/*]
+
+[SERVER]
+- Heavily optimised the way that player data is stored
+- Added anti-spoofing measures
 
 [b]BrawlQuest Alpha: Shipwrecked v1.0.1 Changelist[/b]
 [list]
