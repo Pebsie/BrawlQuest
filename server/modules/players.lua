@@ -345,7 +345,7 @@ function movePlayer(name, dir)
     else
       if not pl[name].fightsPlayed[pl[name].t] then
         local fightChance = love.math.random(1,100)-pl[name].encounterBuild
-        if fightChance < world[pl[name].t].fightc or world[pl[name].t].fightc > 90 then
+        if world[pl[name].t].spawned then --fightChance < world[pl[name].t].fightc or world[pl[name].t].fightc > 90 or world[pl[name].t].spawned then
           world[pl[name].t].isFight = true
           if fs[world[pl[name].t].fight] then
             newFight(pl[name].t, world[pl[name].t].fight)

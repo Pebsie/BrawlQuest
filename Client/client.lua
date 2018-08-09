@@ -225,7 +225,13 @@ function netUpdate(dt)
             weather.condition = param[tparam+2]
             weather.day = param[tparam+3]
           end
-          tparam = tparam + 4
+          tparam = tparam + 5
+
+          for i = 1, tonumber(param[tparam-1]) do
+            world[tonumber(param[tparam])].spawned = param[tparam+1]
+            tparam = tparam + 2
+          end
+
         elseif cmd == "fight" then
         --  love.window.showMessageBox("debug","got a fight update!")
           local mbs = tonumber(param[1])

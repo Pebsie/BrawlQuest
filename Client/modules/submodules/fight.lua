@@ -201,6 +201,8 @@ love.graphics.scale(scaleX,scaleY)
         end
       elseif owedItems[i] and owedItems[i+1] then
         love.graphics.printf(owedItems[i].." x"..owedItems[i+1],xLeft+(i*32)+xoff,200+yoff,100,"right")
+      else
+        error("Claim error: "..pl.owed)
       end
     end
   end

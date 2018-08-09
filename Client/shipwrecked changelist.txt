@@ -5,7 +5,7 @@
 
 [SERVER]
 - Heavily optimised the way that player data is stored
-- Added anti-spoofing measures
+- Added anti username spoofing measures
 
 [b]BrawlQuest Alpha: Shipwrecked v1.0.1 Changelist[/b]
 [list]

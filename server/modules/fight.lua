@@ -554,3 +554,15 @@ function getPlayerData(fight, id)
   pl[thisPlayer].name = thisPlayer
   return pl[thisPlayer]
 end
+
+function getFirstMob(fscript)
+  local firstMob = "unknown"
+  fightScript = atComma(fs[fscript], ";") --break down fight script, data/fights
+  for k = 1,#fightScript,2 do
+    if fightScript[k] ~= "speak" and firstMob == "unknown" then
+      firstMob = fightScript[k]
+    end
+  end
+
+  return firstMob
+end

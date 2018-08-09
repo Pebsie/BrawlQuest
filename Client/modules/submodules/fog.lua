@@ -123,6 +123,11 @@ function drawFog(xo,yo)
           love.graphics.setColor(255,255,255,255)
           love.graphics.print(round(val),world[i].x+xo,world[i].y+yo)
         end
+        
+        love.graphics.setColor(255,255,255,255)
+        if world[i].spawned ~= "unknown" and mb.img[world[i].spawned] then
+          love.graphics.draw(mb.img[world[i].spawned],world[i].x+xo,world[i].y+yo)
+        end
 
         if ambSnd[world[i].tile] then
           if love.math.random(1,250) == 1 and ambSnd[world[i].tile]:isPlaying() == false and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 256 then
@@ -145,6 +150,8 @@ function drawFog(xo,yo)
           drawNamePlate("Graveyard",world[i].x+xo,world[i].y+yo)
         end
       end
+
+
 
 
       if pl.dt == i then

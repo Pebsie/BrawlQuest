@@ -134,6 +134,20 @@ function love.update(dt)
 
          msgToSend = msgToSend..weather.time.."|"..weather.temperature.."|"..weather.condition.."|"..weather.day.."|"
 
+        local msgOn = ""
+        local spawned = 0
+        local i = tonumber(pl[name].t)
+         for k = -195,305,101 do
+           for t = -9, -5 do
+             if world[t+i+k] and world[t+i+k].spawned then
+               spawned = spawned + 1
+               msgOn = msgOn..t+i+k.."|"..getFirstMob(world[t+i+k].fight).."|"
+             end
+           end
+         end
+
+         msgToSend = msgToSend..spawned.."|"..msgOn
+
           udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
 
         elseif cmd == "fight" then
@@ -311,7 +325,7 @@ function saveGame()
         fs = fs.."new-file-format|"..acc.username[i].."|"..acc.password[i].."|" --..pl[k].hp.."|"..pl[k].en.."|"..pl[k].s1.."|"..pl[k].s2.."|"..pl[k].gold.."|"..pl[k].x.."|"..pl[k].y.."|"..pl[k].t.."|"..pl[k].wep.."|"..pl[k].arm.."|"..pl[k].inv.."|"..pl[k].pot.."|"..pl[k].lvl.."|"..pl[k].xp.."|"..pl[k].bud.."|"..pl[k].dt.."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|"..pl.str[k].."|"..pl[k].lastLogin.."|"..pl.blueprints[k].."|"..pl.arm_head[k].."|"..pl.arm_chest[k].."|"..pl.arm_legs[k].."\n"
         local alreadySet = {} --we were encountring a strange bug whereby with each save each value would save twice. Very strange. This is a lazy fix for that.
         for i, v in pairs(pl[k]) do
-          if type(v) ~= "table" and type(v) ~= "boolean" and i ~= "authcode" and not alreadySet[i] then
+          if type(v) ~= "table" and type(v) ~= "boolean" and i ~= "authcode" and not alreadySet[i] and i ~= "state" then
             if not v then v = 0 end
             fs = fs..i.."|"..v.."|"
             alreadySet[i] = true
@@ -352,8 +366,10 @@ function loadGame()
         newPlayer(word[2],word[3])
         i = getPlayerName(countPlayers())
         for k = 4, #word, 2 do
-          if tonumber(word[k+1]) ~= nil then word[k+1] = tonumber(word[k+1]) end
-          pl[i][word[k]] = word[k+1]
+          if word[k] ~= "state" then
+            if tonumber(word[k+1]) ~= nil then word[k+1] = tonumber(word[k+1]) end
+            pl[i][word[k]] = word[k+1]
+          end
         end
       else
         newPlayer(word[1],word[2])
