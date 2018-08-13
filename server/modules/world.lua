@@ -6,7 +6,7 @@ function loadOverworld()
     addMsg("Downloading world...")
     b, c, h = http.request("http://brawlquest.com/dl/map-beach.txt")
     if b then
-      love.filesystem.write("map.txt", b)
+      love.filesystem.write("map-beach.txt", b)
     else
       addMsg("Failed to download world file.")
     end

@@ -152,13 +152,17 @@ function useItem(titem)
   if item.type[titem] == "Letter" or item.type[titem] == "Key" then
     gameUI[4].isVisible = true
     gameUI[4].msg = item.val[titem]
-  elseif item.type[titem] ~= "currency" and item.type[titem] ~= "Reagent" then
+  elseif item.type[titem] ~= "currency" and item.type[titem] ~= "Reagent" and authcode then
     netSend("use", pl.name..","..titem..","..pl.selSpell..","..authcode)
   end
 end
 
 function movePlayer(dir)
-  netSend("move", pl.name..","..dir..","..authcode)
+  if authcode then
+    netSend("move", pl.name..","..dir..","..authcode)
+  else
+    login()
+  end
   requestUserInfo()
 
   curT = pl.t

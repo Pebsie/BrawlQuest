@@ -284,6 +284,11 @@ function love.update(dt)
             end
             givePlayerItem(param[1],param[2])
           end
+        elseif cmd == "fightInfo" then
+          param = atComma(parms)
+          if fs[param[2]] and fs.rewards[param[2]] and fs.spawnTime[param[2]] then
+            udp:sendto(param[1].." fightInfo "..fs[param[2]].."/"..fs.rewards[param[2]].."/"..fs.spawnTime[param[2]].."/"..param[2],msg_or_ip,port_or_nil)
+          end
         elseif cmd == "error" then
           addMsg("A player has encountered an error: "..parms)
         end

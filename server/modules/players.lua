@@ -17,21 +17,21 @@ function newPlayer(name, password)
     pl[i] = {
       hp = 100,
       en = 100,
-      s1 = "None",
+      s1 = "Recovery",
       s1t = 0,
       s2 = "None",
       s2t = 0,
       gold = 0,
       x = 0,
       y = 0,
-      t = 805,
-      dt = 1942,
+      t = 805, --805 is shipwrecked, 918 is hell
+      dt = 544,
       wep = "Long Stick",
       arm = "Legendary Padding",
       armd = 0,
-      arm_head = "Legendary Helmet",
-      arm_chest = "Legendary Chestplate",
-      arm_legs = "Legendary Leggings",
+      arm_head = "None",
+      arm_chest = "None",
+      arm_legs = "None",
       inv = "A letter addressed to you;1",
       pot = "None",
       lvl = 1,
@@ -58,7 +58,7 @@ function newPlayer(name, password)
       combo = 0,
       aspects = {},
       encounterBuild = 0,
-      blueprints = "Wooden Chestplate;Wooden Helmet;Wooden Leggings;Hilt;Short Sword",
+      blueprints = "Healing Potion;Wooden Chestplate;Wooden Helmet;Wooden Leggings;Hilt;Short Sword",
       authcode = tostring(love.math.random(10000,99999))
     }
 
@@ -350,11 +350,13 @@ function movePlayer(name, dir)
           if fs[world[pl[name].t].fight] then
             newFight(pl[name].t, world[pl[name].t].fight)
             pl[name].encounterBuild = 0
+            addPlayerToFight(#ft.t, name)
+            world[pl[name].t].spawned = false
           else
-            newFight(pl[name].t, "Ghostly Haunting")
+          --  newFight(pl[name].t, "Ghostly Haunting")
             pl[name].encounterBuild = 0
           end
-          addPlayerToFight(#ft.t, name)
+
         end
       else
         pl[name].encounterBuild = pl[name].encounterBuild + world[pl[name].t].fightc

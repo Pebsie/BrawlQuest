@@ -557,10 +557,15 @@ end
 
 function getFirstMob(fscript)
   local firstMob = "unknown"
-  fightScript = atComma(fs[fscript], ";") --break down fight script, data/fights
-  for k = 1,#fightScript,2 do
-    if fightScript[k] ~= "speak" and firstMob == "unknown" then
-      firstMob = fightScript[k]
+  if fs[fscript] then
+    fightScript = atComma(fs[fscript], ";") --break down fight script, data/fights
+    local k = 1
+    while firstMob == "unknown" do
+      if string.sub(fightScript[k],1,5) ~= "speak" then
+        firstMob = fightScript[k]
+      else
+        k = k + 2
+      end
     end
   end
 

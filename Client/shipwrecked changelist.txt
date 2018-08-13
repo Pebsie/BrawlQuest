@@ -1,7 +1,14 @@
-[b]BrawlQuest Alpha: Shipwrecked v1.0.2 Changelist[/b]
+[b]BrawlQuest Alpha: Shipwrecked v1.1 Changelist[/b]
+The newest mandatory update for BrawlQuest: Shipwrecked is NOW LIVE!
+It brings with it a host of changes and optimisations, some crucially changing the way that the game works.
+
+[GAMEPLAY]
+- Removed random encounters (fights now appear in the overworld with a 5 minute reset timer (1 in game hour))
+- Which fights spawn now depend on in game time of day and weather
 
 [BUG FIXES]
-- Fixed a glitch that caused you to get a copy of your helmet when you changed gear (instead of returning the equipped gear back to your inventory)[/*]
+- Fixed a glitch that caused you to get a copy of your helmet when you changed gear (instead of returning the equipped gear back to your inventory)
+- Fixed resolution upscaling issues
 
 [SERVER]
 - Heavily optimised the way that player data is stored

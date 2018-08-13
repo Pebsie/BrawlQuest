@@ -26,7 +26,7 @@ function drawGame()
   end
 
   love.graphics.setColor(255,255,255,255)
-  love.graphics.print(love.timer.getFPS().." FPS")
+--  love.graphics.print(love.timer.getFPS().." FPS")
 end
 
 function updateGame(dt)

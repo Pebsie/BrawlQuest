@@ -17,7 +17,7 @@ world.music = {}
 world.x = {}
 world.y = {}
 
-mapname = "map-forest.txt"
+mapname = "map-hell.txt"
 
 info = ""
 view = 0
@@ -82,13 +82,13 @@ function love.load()
       --  if love.math.random(1,200) == 1 then
         --  world[i] = "Tree"
       --  else
-          world[i] = "Grass"
+          world[i] = "Lava"
         --end
-        world.name[i] = "Hunter's Forest"
+        world.name[i] = "Literally Hell"
         world.fight[i] = "None"
         world.fightc[i] = 0 --5%
-        world.collide[i] = false
-        world.bg[i] = "Grass"
+        world.collide[i] = true
+        world.bg[i] = "Cave Floor"
         world.music[i] = "*"
   --    end
 
