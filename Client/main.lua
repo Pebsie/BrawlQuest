@@ -22,7 +22,7 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Shipwrecked v1.0.1"
+version = "Shipwrecked v1.1"
 newChatMsg("SERVER","Welcome to BrawlQuest: Shipwrecked",1)
 phase = "splash"
 

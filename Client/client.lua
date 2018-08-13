@@ -29,6 +29,8 @@ function netUpdate(dt)
         if cmd == "login" then
           if ent == pl.name then --verification to prevent hacking
             if param[1] == "true" then
+              authcode = param[2]
+              print(authcode)
               enterGame()
             else
               phase = "login"
@@ -38,7 +40,6 @@ function netUpdate(dt)
           end
         elseif cmd == "char" then
           if ent == pl.name then
-
           --  pl.x = tonumber(param[6])
           --  pl.y = tonumber(param[7])
             if pl.t ~= tonumber(param[8]) then
@@ -224,7 +225,24 @@ function netUpdate(dt)
             weather.condition = param[tparam+2]
             weather.day = param[tparam+3]
           end
-          tparam = tparam + 4
+          tparam = tparam + 5
+
+
+           for k = -195,305,101 do
+             for t = -9, -5 do
+               if world[t+tonumber(pl.t)+k] then world[t+tonumber(pl.t)+k].spawned = "unknown" end
+             end
+           end
+
+           if param[tparam-1] and tonumber(param[tparam-1]) then
+            for i = 1, tonumber(param[tparam-1]) do
+              if world[tonumber(param[tparam])] then
+                world[tonumber(param[tparam])].spawned = param[tparam+1]
+              end
+              tparam = tparam + 2
+            end
+          end
+
         elseif cmd == "fight" then
         --  love.window.showMessageBox("debug","got a fight update!")
           local mbs = tonumber(param[1])
@@ -332,12 +350,17 @@ function netUpdate(dt)
           end
         elseif cmd == "blueprints" then
           pl.blueprints = param[1]
+        elseif cmd == "fightInfo" then
+          setFightInfo(param[1])
+        elseif cmd == "kick" then
+          phase = "login"
         end
 
         if cmd ~= "login" and cmd ~= "afterfight" then --if we aren't logged in yet then we don't have a username or position or anything, creating issues with fog.
         --  createWorldCanvas() --finally, update the world
           createWorldObjectCanvas()
         end
+
       elseif msg ~= 'timeout' then
         phase = "login"
         news = news.."\nUnable to connect to the server."

@@ -39,6 +39,7 @@ function loadOverworld()
       world[i].x = x
       world[i].y = y
       world[i].i = i
+      world[i].spawned = "unknown"
       x = x + 32
       if x > 100*32 then
         x = 0

@@ -77,8 +77,8 @@ function drawFight()
 
 love.graphics.scale(scaleX,scaleY)
 
-  xoff = love.graphics.getWidth()/2 - (stdSH)
-  yoff = love.graphics.getHeight()/2 - (stdSW)
+  xoff = -round(stdSH/2 - love.graphics.getWidth()/(2*scaleX))--1920/2 - (1920*(love.graphics.getWidth()/(1920/2) / scaleX))
+  yoff = -round(stdSW/2 - love.graphics.getHeight()/(2*scaleY))--1080/2 - (1080*(love.graphics.getHeight()/(1080/2) / scaleY))
 
   for i = 1, sw/64 do
     love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
@@ -199,7 +199,7 @@ love.graphics.scale(scaleX,scaleY)
 
   if pl.state == "afterfight" then
     local owedItems = atComma(pl.owed)
-    xLeft = (stdSH/2) - ((#owedItems / 2 * 32))
+    xLeft = ((1920/2)/2) - ((#owedItems * 32)/2)
     for i = 1, #owedItems, 2 do
       if item.img[owedItems[i]] then
         love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
@@ -213,6 +213,8 @@ love.graphics.scale(scaleX,scaleY)
         end
       elseif owedItems[i] and owedItems[i+1] then
         love.graphics.printf(owedItems[i].." x"..owedItems[i+1],xLeft+(i*32)+xoff,200+yoff,100,"right")
+      else
+        error("Claim error: "..pl.owed)
       end
     end
   end
@@ -232,10 +234,12 @@ love.graphics.scale(scaleX,scaleY)
     love.graphics.setFont(rFont)
     love.graphics.print("Score: "..tostring(pl.score).." (x"..tostring(pl.combo+1)..")\nHighscore: "..tostring(fight.highscore).." (earned by "..tostring(fight.highscorePlayer)..")",0,0)
   end
+
+  --  love.graphics.print(xoff..", "..yoff,300,300)
 end
 
 function requestFightInfo()
-  netSend("fight",pl.name..","..round(pl.x)..","..round(pl.y))
+  netSend("fight",pl.name..","..round(pl.x)..","..round(pl.y)..","..authcode)
   requestUserInfo()
 end
 
@@ -265,10 +269,10 @@ function updateFight(dt)
   if updateTime[5] < 0 then
     if pl.state == "afterfight" then --we're piggy backing off of this timer so as to not have to create another
       local owedItems = atComma(pl.owed)
-      xLeft = (stdSH/2) - ((#owedItems / 2 * 32))
+    xLeft = ((1920/2)/2) - ((#owedItems * 32)/2)
       for i = 1, #owedItems, 2 do
       --  if item.img[owedItems[i]] then
-          if distanceFrom(pl.x+16, pl.y+16, xLeft+(i*32)+xoff, 200+32+yoff) < 30 then
+          if distanceFrom(pl.x+16+xoff, pl.y+16+yoff, xLeft+(i*32)+xoff,200+32+yoff) < 30 then
             netSend("claim",pl.name..","..owedItems[i])
             if string.sub(owedItems[i],1,10) == "Blueprint:" then
               newLoot(owedItems[i],1)
@@ -279,6 +283,8 @@ function updateFight(dt)
             love.audio.play(sfx["loot"])
             updateTime[1] = 2
           end
+      --  else
+
       --  end
       end
 

@@ -29,7 +29,7 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
- loadGame()
+  loadGame()
   loadOverworld()
   initAspects()
   initWeather()
@@ -57,37 +57,42 @@ function love.update(dt)
           namePass = atComma(parms)
         --  addMsg("Player claiming to be "..namePass[1].." is trying to login.")
           if loginPlayer(namePass[1], namePass[2]) then
-            udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
+            udp:sendto(string.format("%s %s %s|%s", namePass[1],  "login", "true",pl[namePass[1]].authcode), msg_or_ip, port_or_nil)
             addMsg("Player "..namePass[1].." logged in.")
             addChatMsg("SERVER",namePass[1].." entered the world.")
             --addChatMsg("SERVER",namePass[1].." entered the world.")
           elseif getPlayerID(namePass[1]) then
             udp:sendto(string.format("%s %s %s", namePass[1], "login", "false"), msg_or_ip, port_or_nil)
-           addMsg(namePass[1].." tried to login with an incorrect password.")
+            addMsg(namePass[1].." tried to login with an incorrect password.")
           else
             newPlayer(namePass[1],namePass[2])
 
-              udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
+            udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
           end
 
         elseif cmd == "char" then --client is requesting character info
         --  addMsg(param[1].." requested user info!")
           local i = param[1]
           local aspectString = ""
-          if #pl.aspects[i] > 0 then
-            for i, v in pairs(pl.aspects[i]) do
+          if #pl[i].aspects > 0 then
+            for i, v in pairs(pl[i].aspects) do
               aspectString = aspectString..v..","
             end
           else
             aspectString = "None"
           end
 
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl.hp[i], pl.en[i], pl.s1[i], pl.s2[i], pl.gold[i], pl.x[i], pl.y[i], pl.t[i], pl.dt[i], pl.wep[i], pl.arm[i], pl.inv[i], pl.lvl[i], pl.xp[i], pl.pot[i], pl.state[i], pl.armd[i], pl.bud[i], pl.dt[i], pl.str[i], pl.owed[i], round(pl.score[i]), round(pl.combo[i]), aspectString), msg_or_ip, port_or_nil)
-        --  pl.msg[i] = ""
-        pl.lastLogin[i] = 0
+          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl[i].hp, pl[i].en, pl[i].s1, pl[i].s2, pl[i].gold, pl[i].x, pl[i].y, pl[i].t, pl[i].dt, pl[i].wep, pl[i].arm, pl[i].inv, pl[i].lvl, pl[i].xp, pl[i].pot, pl[i].state, pl[i].armd, pl[i].bud, pl[i].dt, pl[i].str, pl[i].owed, round(pl[i].score), round(pl[i].combo), aspectString), msg_or_ip, port_or_nil)
+        pl[i].lastLogin = 0
         elseif cmd == "move" then
           parms = atComma(parms)
-          movePlayer(parms[1],parms[2])
+          if parms[3] == pl[parms[1]].authcode then
+            movePlayer(parms[1],parms[2])
+          else
+            pl[parms[1]].authcode = love.math.random(10000,99999)
+            addMsg(parms[1].."::Wrong authcode, kicked client.")
+            udp:sendto(parms[1].." kick authcode",msg_or_ip,port_or_nil)
+          end
         elseif cmd == "players" then
           local requestName = parms
           local plyrs = countPlayers()
@@ -98,13 +103,13 @@ function love.update(dt)
             --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
             local name = getPlayerName(i)
             local isOnline = true
-            if pl.timeout[name] < 1 then
+            if pl[name].timeout < 1 then
               isOnline = false
             else
               isOnline = true
             end
             if isOnline then
-              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|", name, getPlayerTile(name), getPlayerArmour(name), pl.arm_head[name], pl.arm_chest[name], pl.arm_legs[name], getPlayerState(name), pl.spell[name], pl.bud[name], isOnline, pl.wep[name])
+              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|", name, getPlayerTile(name), getPlayerArmour(name), pl[name].arm_head, pl[name].arm_chest, pl[name].arm_legs, getPlayerState(name), pl[name].spell, pl[name].bud, isOnline, pl[name].wep)
             else
               plyrs = plyrs - 1 --player is offline so we reduce the number of players the client should expect by 1
             end
@@ -114,7 +119,7 @@ function love.update(dt)
         elseif cmd == "world" then --URGENT TODO: separate parts of this to lower size of messages sent
           local msgToSend = countFights().."|"..countChats().."|"
           local name = parms
-          pl.timeout[name] = 5
+          pl[name].timeout = 5
 
           for i = 1, 100*100 do
             if world[i].isFight == true then
@@ -129,63 +134,90 @@ function love.update(dt)
 
          msgToSend = msgToSend..weather.time.."|"..weather.temperature.."|"..weather.condition.."|"..weather.day.."|"
 
+        local msgOn = ""
+        local spawned = 0
+        local i = tonumber(pl[name].t)
+         for k = -195,305,101 do
+           for t = -9, -5 do
+             if world[t+i+k] and world[t+i+k].spawned then
+               spawned = spawned + 1
+               msgOn = msgOn..t+i+k.."|"..getFirstMob(world[t+i+k].fight).."|"
+             end
+           end
+         end
+
+         msgToSend = msgToSend..spawned.."|"..msgOn
+
           udp:sendto(name.." world "..msgToSend,msg_or_ip,port_or_nil)
 
         elseif cmd == "fight" then
           parms = atComma(param[1])
           local i = parms[1]
-          local x = tonumber(parms[2])
-          local y = tonumber(parms[3])
+          if parms[4] == pl[i].authcode then
 
-          local id = findFightPlayerIsIn(getPlayerID(i))
-          if x > stdSW-32 then x = stdSW-32 end
-          if x < 0 then x = 0 end
-          if y > stdSH-32 then y = stdSH-32 end
-          if y < 0 then y = 0 end
+            local x = tonumber(parms[2])
+            local y = tonumber(parms[3])
 
-          setPlayerPos(i,x,y)
-      --    addMsg("Player "..i.." is at "..x..","..y)
-          -- * Number of players, mobs and spells in fight
-          -- * Player X,Y,Armour and HP
-          -- * Spell X,Y and type
-          -- * Mob X,Y,Type and HP
-          if id then
-            msgToSend = countMobs(id).."|"..countPlayersInFight(id).."|"
-            local playersIF = listPlayersInFight(id)
-            for i = 1, countPlayersInFight(id) do
-              pdata = getPlayerData(id,i)
-              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|",pdata["name"],pdata["x"],pdata["y"],pdata["arm"],pdata["hp"],pdata["spell"]) --id|x|y|arm|hp
-            end
+            local id = findFightPlayerIsIn(getPlayerID(i))
+            if x > stdSW-32 then x = stdSW-32 end
+            if x < 0 then x = 0 end
+            if y > stdSH-32 then y = stdSH-32 end
+            if y < 0 then y = 0 end
 
-            for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)
-              tmob = getMobData(id,i)
-              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp,mb.hp[tmob.type],tmob.id,tmob.spell1time,mb.sp1t[tmob.type],tmob.spell2time,mb.sp2t[tmob.type])
+            setPlayerPos(i,x,y)
+        --    addMsg("Player "..i.." is at "..x..","..y)
+            -- * Number of players, mobs and spells in fight
+            -- * Player X,Y,Armour and HP
+            -- * Spell X,Y and type
+            -- * Mob X,Y,Type and HP
+            if id then
+              msgToSend = countMobs(id).."|"..countPlayersInFight(id).."|"
+              local playersIF = listPlayersInFight(id)
+              for i = 1, countPlayersInFight(id) do
+                pdata = getPlayerData(id,i)
+                msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|",pdata["name"],pdata["x"],pdata["y"],pdata["arm"],pdata["hp"],pdata["spell"]) --id|x|y|arm|hp
+              end
+
+              for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)
+                tmob = getMobData(id,i)
+                msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp,mb.hp[tmob.type],tmob.id,tmob.spell1time,mb.sp1t[tmob.type],tmob.spell2time,mb.sp2t[tmob.type])
+              end
+              if hs[ft.title[id]] then
+                msgToSend = msgToSend..round(hs[ft.title[id]].score).."|"..hs[ft.title[id]].player.."|"
+              else
+                msgToSend = msgToSend.."0|No-one|"
+              end
+              udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
             end
-            if hs[ft.title[id]] then
-              msgToSend = msgToSend..round(hs[ft.title[id]].score).."|"..hs[ft.title[id]].player.."|"
-            else
-              msgToSend = msgToSend.."0|No-one|"
-            end
-            udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
+          else
+            pl[parms[1]].authcode = love.math.random(10000,99999)
+            addMsg(parms[1].."::Wrong authcode, kicked client.")
+            udp:sendto(parms[1].." kick authcode",msg_or_ip,port_or_nil)
           end
-        elseif cmd == "atk" then  --    netSend("atk",pl.name..","..dir)
+        elseif cmd == "atk" then
           parms = atComma(parms)
           local name = parms[1]
           local dir = parms[2]
-          if pl.en[name] > 20 then
-            pl.at[name] = true
-            pl.atm[name] = 0.05
-            pl.en[name] = pl.en[name] - 5
+          if pl[name].en > 20 then
+            pl[name].at = true
+            pl[name].atm = 0.05
+            pl[name].en = pl[name].en - 5
           end
         elseif cmd == "use" then --use item
 
           parms = atComma(param[1])
           local name = parms[1]
           local item = parms[2]
-          if parms[3] then
-            playerUse(name,item,parms[3])
+          if pl[name].authcode == parms[3] then
+            if parms[3] then
+              playerUse(name,item,parms[3])
+            else
+              playerUse(name,item)
+            end
           else
-            playerUse(name,item)
+            pl[name].authcode = love.math.random(10000,99999)
+            addMsg(name.."::Wrong authcode, kicked client.")
+            udp:sendto(name.." kick authcode",msg_or_ip,port_or_nil)
           end
         elseif cmd == "buy" then
           parms = atComma(param[1])
@@ -193,7 +225,7 @@ function love.update(dt)
           local titem = parms[2]
         --  addMsg(name.." is trying to buy "..titem)
           local itemCost = atComma(item.price[titem])
-          if world[pl.t[name]].tile == "Blacksmith" then --check that they're on the right shop tile
+          if world[pl[name].t].tile == "Blacksmith" then --check that they're on the right shop tile
             if playerHasItem(name,itemCost[2],tonumber(itemCost[1])) then
               playerUse(name,itemCost[2],0,tonumber(itemCost[1])) --remove gold from player
               givePlayerItem(name,titem) --give player item they've bought
@@ -202,36 +234,36 @@ function love.update(dt)
         elseif cmd == "potion" then --use potion
           local name = param[1]
 
-          if pl.pot[name] ~= "None" then
-            if item.type[pl.pot[name]] == "hp" and pl.hp[name] < 100 then
-              pl.spell[name] = pl.pot[name]
-              pl.spellT[name] = 3
-              pl.pot[name] = "None"
+          if pl[name].pot ~= "None" then
+            if item.type[pl[name].pot] == "hp" and pl[name].hp < 100 then
+              pl[name].spell = pl[name].pot
+              pl[name].spellT = 3
+              pl[name].pot = "None"
             end
           end
         elseif cmd == "spell1" then
           local name = param[1]
 
-          if pl.s1[name] ~= "None" and pl.s1t[name] < 0 then
-            vals = atComma(item.val[pl.s1[name]])
+          if pl[name].s1 ~= "None" and pl[name].s1t < 0 then
+            vals = atComma(item.val[pl[name].s1])
 
-            useSpell(pl.s1[name],name)
-            pl.s1t[name] = tonumber(vals[1])
+            useSpell(pl[name].s1,name)
+            pl[name].s1t = tonumber(vals[1])
           end
         elseif cmd == "spell2" then
           local name = param[1]
 
-          if pl.s2[name] ~= "None" and pl.s2t[name] < 0 then
-            vals = atComma(item.val[pl.s2[name]])
-            useSpell(pl.s2[name],name)
+          if pl[name].s2 ~= "None" and pl[name].s2t < 0 then
+            vals = atComma(item.val[pl[name].s2])
+            useSpell(pl[name].s2,name)
 
-            pl.s2t[name] = tonumber(vals[1])
+            pl[name].s2t = tonumber(vals[1])
           end
         elseif cmd == "pray" then
           local name = param[1]
 
-          if world[pl.t[name]].tile == "Graveyard" then
-            setPlayerDT(name,pl.t[name])
+          if world[pl[name].t].tile == "Graveyard" then
+            setPlayerDT(name,pl[name].t)
           end
         elseif cmd == "chat" then
           param = atComma(parms)
@@ -241,16 +273,21 @@ function love.update(dt)
           playerClaim(param[1],param[2])
         elseif cmd == "blueprints" then
           param = atComma(parms)
-          udp:sendto(param[1].." blueprints "..pl.blueprints[param[1]],msg_or_ip,port_or_nil)
+          udp:sendto(param[1].." blueprints "..pl[param[1]].blueprints,msg_or_ip,port_or_nil)
         elseif cmd == "craft" then --craft item
           param = atComma(parms)
           --addMsg(param[1].." is trying to craft "..param[2])
-          if canPlayerCraft(param[1],param[2]) and playerHasBlueprint(param[1],param[2]) and world[pl.t[param[1]]].tile == "Anvil" then
+          if canPlayerCraft(param[1],param[2]) and playerHasBlueprint(param[1],param[2]) and world[pl[param[1]].t].tile == "Anvil" then
             local craftMats = atComma(item.price[param[2]])
             for i = 1, #craftMats, 2 do --cycle through crafting materials and remove them from the user
               playerUse(param[1],craftMats[i+1],0,tonumber(craftMats[i]))
             end
             givePlayerItem(param[1],param[2])
+          end
+        elseif cmd == "fightInfo" then
+          param = atComma(parms)
+          if fs[param[2]] and fs.rewards[param[2]] and fs.spawnTime[param[2]] then
+            udp:sendto(param[1].." fightInfo "..fs[param[2]].."/"..fs.rewards[param[2]].."/"..fs.spawnTime[param[2]].."/"..param[2],msg_or_ip,port_or_nil)
           end
         elseif cmd == "error" then
           addMsg("A player has encountered an error: "..parms)
@@ -290,16 +327,24 @@ function saveGame()
   local fs = ""
   for i = 1, countPlayers() do
       local k = getPlayerName(i)
-      --if pl.state[k] ~= "fight" then
-        fs = fs..acc.username[i].."|"..acc.password[i].."|"..pl.hp[k].."|"..pl.en[k].."|"..pl.s1[k].."|"..pl.s2[k].."|"..pl.gold[k].."|"..pl.x[k].."|"..pl.y[k].."|"..pl.t[k].."|"..pl.wep[k].."|"..pl.arm[k].."|"..pl.inv[k].."|"..pl.pot[k].."|"..pl.lvl[k].."|"..pl.xp[k].."|"..pl.bud[k].."|"..pl.dt[k].."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|"..pl.str[k].."|"..pl.lastLogin[k].."|"..pl.blueprints[k].."|"..pl.arm_head[k].."|"..pl.arm_chest[k].."|"..pl.arm_legs[k].."\n"
+        fs = fs.."new-file-format|"..acc.username[i].."|"..acc.password[i].."|" --..pl[k].hp.."|"..pl[k].en.."|"..pl[k].s1.."|"..pl[k].s2.."|"..pl[k].gold.."|"..pl[k].x.."|"..pl[k].y.."|"..pl[k].t.."|"..pl[k].wep.."|"..pl[k].arm.."|"..pl[k].inv.."|"..pl[k].pot.."|"..pl[k].lvl.."|"..pl[k].xp.."|"..pl[k].bud.."|"..pl[k].dt.."|"..pl.playtime[k].."|"..pl.kills[k].."|"..pl.deaths[k].."|"..pl.distance[k].."|"..pl.str[k].."|"..pl[k].lastLogin.."|"..pl.blueprints[k].."|"..pl.arm_head[k].."|"..pl.arm_chest[k].."|"..pl.arm_legs[k].."\n"
+        local alreadySet = {} --we were encountring a strange bug whereby with each save each value would save twice. Very strange. This is a lazy fix for that.
+        for i, v in pairs(pl[k]) do
+          if type(v) ~= "table" and type(v) ~= "boolean" and i ~= "authcode" and not alreadySet[i] and i ~= "state" then
+            if not v then v = 0 end
+            fs = fs..i.."|"..v.."|"
+            alreadySet[i] = true
+          end
+        end
       --fp = "map-new.txt"
     --  end
-      uploadCharacter(k)
+    --  uploadCharacter(k)
       --now we check if it's tomorrow!
       if os.date("*t").wday ~= currentDay then
-        pl.fightsPlayed[k] = {} --this is a list of the fights that have been played today, and so it is reset at midnight
-        pl.lastLogin[k] = pl.lastLogin[k] + 1 --increase lastlogin day by 1. it'll be set to 0 when they login.
+        pl[k].fightsPlayed = {} --this is a list of the fights that have been played today, and so it is reset at midnight
+        pl[k].lastLogin = pl[k].lastLogin + 1 --increase lastlogin day by 1. it'll be set to 0 when they login.
       end
+      fs = fs .. "\n"
   end
   outputCharacterList()
   love.filesystem.write(fp, fs)
@@ -321,37 +366,49 @@ function loadGame()
   if love.filesystem.exists("bqplayers.txt") then
     for line in love.filesystem.lines("bqplayers.txt") do
       word = atComma(line,"|")
-      newPlayer(word[1],word[2])
-      i = getPlayerName(countPlayers())
-      pl.hp[i] = tonumber(word[3])
-      pl.en[i] = tonumber(word[4])
-      pl.s1[i] = word[5]
-      pl.s2[i] = word[6]
-      pl.gold[i] = tonumber(word[7])
-      pl.x[i] = tonumber(word[8])
-      pl.y[i] = tonumber(word[9])
-      pl.t[i] = tonumber(word[10])
-      pl.wep[i] = word[11]
-      pl.arm[i] = word[12]
-      pl.inv[i] = word[13]
-      pl.pot[i] = word[14]
-      pl.lvl[i] = tonumber(word[15])
-      pl.xp[i] = tonumber(word[16])
-      pl.bud[i] = word[17]
-      pl.dt[i] = word[18]
-      if word[19] then
-      pl.playtime[i] = word[19]
-      end
 
-      if word[20] then pl.kills[i] = word[20] end
-      if word[21] then pl.deaths[i] = word[21] end
-      if word[22] then  pl.distance[i] = word[22] end
-      if word[23] then pl.str[i] = tonumber(word[23]) end
-      if word[24] then pl.lastLogin[i] = tonumber(word[24]) end
-      if word[25] then pl.blueprints[i] = word[25] end
-      if word[26] then pl.arm_head[i] = word[26] end
-      if word[27] then pl.arm_chest[i] = word[27] end
-      if word[28] then pl.arm_legs[i] = word[28] end
+      if word[1] == "new-file-format" then
+        newPlayer(word[2],word[3])
+        i = getPlayerName(countPlayers())
+        for k = 4, #word, 2 do
+          if word[k] ~= "state" then
+            if tonumber(word[k+1]) ~= nil then word[k+1] = tonumber(word[k+1]) end
+            pl[i][word[k]] = word[k+1]
+          end
+        end
+      else
+        newPlayer(word[1],word[2])
+        i = getPlayerName(countPlayers())
+        pl[i].hp = tonumber(word[3])
+        pl[i].en = tonumber(word[4])
+        pl[i].s1 = word[5]
+        pl[i].s2 = word[6]
+        pl[i].gold = tonumber(word[7])
+        pl[i].x = tonumber(word[8])
+        pl[i].y = tonumber(word[9])
+        pl[i].t = tonumber(word[10])
+        pl[i].wep = word[11]
+        pl[i].arm = word[12]
+        pl[i].inv = word[13]
+        pl[i].pot = word[14]
+        pl[i].lvl = tonumber(word[15])
+        pl[i].xp = tonumber(word[16])
+        pl[i].bud = word[17]
+        pl[i].dt = word[18]
+        if word[19] then
+        pl[i].playtime = word[19]
+        end
+
+        if word[20] then pl[i].kills = word[20] end
+        if word[21] then pl[i].deaths = word[21] end
+        if word[22] then  pl[i].distance = word[22] end
+        if word[23] then pl[i].str = tonumber(word[23]) end
+        if word[24] then pl[i].lastLogin = tonumber(word[24]) end
+        if word[25] then pl[i].blueprints = word[25] end
+        if word[26] then pl[i].arm_head = word[26] end
+        if word[27] then pl[i].arm_chest = word[27] end
+        if word[28] then pl[i].arm_legs = word[28] end
+      end
     end
 
     if love.filesystem.exists("server-info.txt") then

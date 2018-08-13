@@ -6,7 +6,7 @@ function loadOverworld()
     addMsg("Downloading world...")
     b, c, h = http.request("http://brawlquest.com/dl/map-beach.txt")
     if b then
-      love.filesystem.write("map.txt", b)
+      love.filesystem.write("map-beach.txt", b)
     else
       addMsg("Failed to download world file.")
     end
@@ -31,6 +31,7 @@ function loadOverworld()
       world[i].players = ""
       world[i].x = x
       world[i].y = y
+      world[i].spawned = false
       x = x + 32
       if x > 100*32 then
         x = 0
@@ -49,17 +50,14 @@ function updateWorld(dt)
   worldUpdate = worldUpdate - 1*dt
   if worldUpdate < 0 then --this is the part that creates 100% fights on the world but it DOESN'T WORK
     simulateWeather()
-    --for i = 1, 100*100 do
-    --  if 1==5 and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc and love.math.random(1, 99) < world[i].fightc  then
-    --    world[i].isFight = true
-    --  else
-    --    world[i].isFight = false
-    --  end
-    --end
-  --[[  if love.math.random(1, 10) == 1 then
-      if weather == "snow" then weather = "clear" else weather = "snow" end
-      --addMsg("Weather is now "..weather)
-    end]] --WEATHER SIMULATION HERE
+
+    for i = 1, 100*100 do
+      if love.math.random(1, 50) < world[i].fightc or world[i].fightc > 90 then
+        world[i].spawned = true
+      else
+        world[i].spawned = false
+      end
+    end
     worldUpdate = 300
   end
 end

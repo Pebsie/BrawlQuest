@@ -34,6 +34,8 @@ pl.combo = 0
 pl.aspectString = ""
 pl.blueprints = ""
 
+authcode = "1000" --this is used to verify with the server that we aren't username spoofing
+
 function login() --we'll attempt to login
   if pl.name ~= "" and pl.cinput ~= "" then
     ui.selected = "logging in"
@@ -150,13 +152,17 @@ function useItem(titem)
   if item.type[titem] == "Letter" or item.type[titem] == "Key" then
     gameUI[4].isVisible = true
     gameUI[4].msg = item.val[titem]
-  elseif item.type[titem] ~= "currency" and item.type[titem] ~= "Reagent" then
-    netSend("use", pl.name..","..titem..","..pl.selSpell)
+  elseif item.type[titem] ~= "currency" and item.type[titem] ~= "Reagent" and authcode then
+    netSend("use", pl.name..","..titem..","..pl.selSpell..","..authcode)
   end
 end
 
 function movePlayer(dir)
-  netSend("move", pl.name..","..dir)
+  if authcode then
+    netSend("move", pl.name..","..dir..","..authcode)
+  else
+    login()
+  end
   requestUserInfo()
 
   curT = pl.t

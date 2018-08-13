@@ -48,19 +48,19 @@ function addPlayerToFight(fight, name)
     addMsg(name.." tried to join a fight even though they're already in one. How odd!")
   else
     local id = getPlayerID(name)
-    pl.state[name] = "fight"
-    pl.x[name] = love.math.random(1, 800)
-    pl.y[name] = love.math.random(1, 600)
-    pl.s1t[name] = 0
-    pl.s2t[name] = 0
-    pl.score[name] = 0
-    pl.combo[name] = 0
+    pl[name].state = "fight"
+    pl[name].x = love.math.random(1, 800)
+    pl[name].y = love.math.random(1, 600)
+    pl[name].s1t = 0
+    pl[name].stt = 0
+    pl[name].score = 0
+    pl[name].combo = 0
     --ALPHA TEMP
     if ft.title[fight] == "Shipwreck" then
-      pl.arm_head[name] = "Boat"
-      pl.arm_chest[name] = "None"
-      pl.arm_legs[name] = "None"
-      pl.t[name] = 819
+      pl[name].arm_head = "Boat"
+      pl[name].arm_chest = "None"
+      pl[name].arm_legs = "None"
+      pl[name].t = 819
     end
   --  addMsg(name.." has joined fight #"..fight)
     ft.pl[fight] = ft.pl[fight]..id..";" --semicolon at end to prevent repeat errors
@@ -69,8 +69,8 @@ end
 
 function removePlayerFromFight(name, isDead)
   --step 1: find out what fight the player is in
-  pl.s1t[name] = 0
-  pl.s2t[name] = 0
+  pl[name].s1t = 0
+  pl[name].stt = 0
   name = getPlayerID(name)
 
   local id = findFightPlayerIsIn(name)
@@ -89,15 +89,15 @@ function removePlayerFromFight(name, isDead)
     ft.pl[id] = ftpls
 
     if not isDead then
-      pl.state[getPlayerName(name)] = "afterfight"
+      pl[getPlayerName(name)].state = "afterfight"
     else
-      pl.state[getPlayerName(name)] = "world"
+      pl[getPlayerName(name)].state = "world"
     end
 
     if ft.title[id] == "Shipwreck" then
-      pl.arm_head[getPlayerName(name)] = "None"
-      pl.arm_chest[getPlayerName(name)] = "None"
-      pl.arm_legs[getPlayerName(name)] = "None"
+      pl[getPlayerName(name)].arm_head = "None"
+      pl[getPlayerName(name)].arm_chest = "None"
+      pl[getPlayerName(name)].arm_legs = "None"
     end
   --  addMsg(getPlayerName(name).." left fight #"..id)
 
@@ -117,38 +117,37 @@ function endFight(fight)
     local playersInFight = listPlayersInFight(fight)
     for i = 1, #playersInFight do
       local thisPlayerName = getPlayerName(tonumber(playersInFight[i]))
-    --  pl.msg[thisPlayerName] = ""
 
 
-     if pl.owed[getPlayerName(tonumber(playersInFight[i]))] == "reset" then pl.owed[getPlayerName(tonumber(playersInFight[i]))] = "" end
+
+     if pl[thisPlayerName].owed == "reset" then pl[thisPlayerName].owed = "" end
      rwds = atComma(fs.rewards[ft.title[fight]]) --give loot to players
-     if not pl.fightsPlayed[thisPlayerName][pl.t[thisPlayerName]] then
+     if not pl[thisPlayerName].fightsPlayed[pl[thisPlayerName].t] then
        rwdsRoll = {}
       for k = 1, #rwds, 3 do
         local trr = #rwdsRoll + 1
         rwdsRoll[trr] = love.math.random(1,99)
-        if rwdsRoll[trr] < tonumber(rwds[k+2]) and  playerHasBuddy(getPlayerName(tonumber(playersInFight[i])),rwds[k]) == false then
-          if string.sub(rwds[k],1,10) ~= "Blueprint:" or not playerHasBlueprint(getPlayerName(tonumber(playersInFight[i])), string.sub(rwds[k],12)) then
-            pl.owed[getPlayerName(tonumber(playersInFight[i]))] = pl.owed[getPlayerName(tonumber(playersInFight[i]))]..rwds[k]..","..tonumber(rwds[k+1]).."," --givePlayerItem(getPlayerName(tonumber(playersInFight[i])),rwds[k],tonumber(rwds[k+1]))
+        if rwdsRoll[trr] < tonumber(rwds[k+2]) and  playerHasBuddy(thisPlayerName,rwds[k]) == false then
+          if not playerHasBlueprint(thisPlayerName, string.sub(rwds[k],12)) then
+            pl[thisPlayerName].owed = pl[thisPlayerName].owed..rwds[k]..","..tonumber(rwds[k+1]).."," --givePlayerItem(thisPlayerName,rwds[k],tonumber(rwds[k+1]))
           end
         end
-        --pl.msg = rwdsRoll[trr].."% / "..rwds[k+2].."\n"
       end
     end
       if hs[ft.title[fight]] then
-        if pl.score[getPlayerName(tonumber(playersInFight[i]))] > hs[ft.title[fight]].score then
-          addMsg(getPlayerName(tonumber(playersInFight[i])).." got a new high score for fight "..fight.."!")
-          hs[ft.title[fight]].score = pl.score[getPlayerName(tonumber(playersInFight[i]))]
-          hs[ft.title[fight]].player = getPlayerName(tonumber(playersInFight[i]))
+        if pl[thisPlayerName].score > hs[ft.title[fight]].score then
+          addMsg(thisPlayerName.." got a new high score for fight "..fight.."!")
+          hs[ft.title[fight]].score = pl[thisPlayerName].score
+          hs[ft.title[fight]].player = thisPlayerName
         end
       else
         hs[ft.title[fight]] = {}
-        hs[ft.title[fight]].score = pl.score[getPlayerName(tonumber(playersInFight[i]))]
-        hs[ft.title[fight]].player = getPlayerName(tonumber(playersInFight[i]))
+        hs[ft.title[fight]].score = pl[thisPlayerName].score
+        hs[ft.title[fight]].player = thisPlayerName
       end
 
-      pl.fightsPlayed[getPlayerName(tonumber(playersInFight[i]))][pl.t[getPlayerName(tonumber(playersInFight[i]))]] = true --set this fight to complete for today
-      removePlayerFromFight(getPlayerName(tonumber(playersInFight[i])))
+      pl[thisPlayerName].fightsPlayed[pl[thisPlayerName].t] = true --set this fight to complete for today
+      removePlayerFromFight(thisPlayerName)
     end
   end
 end
@@ -352,9 +351,9 @@ function updateFights(dt) --the big one!!
           end
 
           if mob.target.t[v] ~= "static" then --if our target isn't a static point
-            if pl.state[mob.target.t[v]] == "fight" and pl.spell[mob.target.t[v]] ~= "Phase Shift" and mb.friend[mob[v]] == false then --if our target is in fight mode, isn't using Phase Shift (which is a de-aggro spell) and we aren't a friend
-              mob.target.x[v] = pl.x[mob.target.t[v]]+16 --set new x and y co-ords
-              mob.target.y[v] = pl.y[mob.target.t[v]]+16
+            if pl[mob.target.t[v]] and pl[mob.target.t[v]].state == "fight" and pl[mob.target.t[v]].spell ~= "Phase Shift" and mb.friend[mob[v]] == false then --if our target is in fight mode, isn't using Phase Shift (which is a de-aggro spell) and we aren't a friend
+              mob.target.x[v] = pl[mob.target.t[v]].x+16 --set new x and y co-ords
+              mob.target.y[v] = pl[mob.target.t[v]].y+16
             else --player is dead!
               if mb.friend[mob[v]] then --this is a friendly mob who will attack other mobs
                 local curMaxHP = 1000000 --for changing targets
@@ -401,8 +400,8 @@ function updateFights(dt) --the big one!!
                 freshTarget = getPlayerName(tonumber(freshTarget))
                 if freshTarget then
                   mob.target.t[v] = freshTarget
-                  mob.target.x[v] = pl.x[mob.target.t[v]]+16
-                  mob.target.y[v] = pl.y[mob.target.t[v]]+16
+                  mob.target.x[v] = pl[mob.target.t[v]].x+16
+                  mob.target.y[v] = pl[mob.target.t[v]].y+16
                 end
               end
             end
@@ -414,20 +413,18 @@ function updateFights(dt) --the big one!!
           for k = 1, #playersInThisFight do --cycle through plkayers
             --print("Player #"..k.." ID of "..playersInThisFight[k])
             local thisPlayer = getPlayerName(tonumber(playersInThisFight[k])) --get username
-            local atkInfo = pl.at[thisPlayer]
+            local atkInfo = pl[thisPlayer].at
             --addMsg(thisPlayer.." is "..tostring(atkInfo))
 
             if tostring(atkInfo) == "true" then
-              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.img[mob[v]] and not mb.friend[mob[v]] then
-                local pdmg = item.val[pl.wep[thisPlayer]] + pl.str[thisPlayer]
+              if distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.img[mob[v]] and not mb.friend[mob[v]] then
+                local pdmg = item.val[pl[thisPlayer].wep] + pl[thisPlayer].str
                 mob.hp[v] = mob.hp[v] - pdmg
-                pl.score[thisPlayer] = pl.score[thisPlayer] + (pdmg*(round(pl.combo[thisPlayer])+1))/item.val[pl.wep[thisPlayer]]
-                --addMsg(thisPlayer.." score: "..pl.score[thisPlayer].." (x"..pl.combo[thisPlayer]..")")
-                if mob.hp[v] < 1 then pl.kills[thisPlayer] = pl.kills[thisPlayer] + 1 pl.combo[thisPlayer] = pl.combo[thisPlayer] + 1.1 end
-              --  addMsg(thisPlayer.." dealth "..pdmg.." to "..mob[v]..", who is now on "..mob.hp[v].." HP.")
-              --  pl.msg[thisPlayer] = pl.msg[thisPlayer].."dmg,"..pdmg..","..mob.x[v]..","..mob.y[v]..";" --feedback for the player to see damage they've done
+                pl[thisPlayer].score = pl[thisPlayer].score + (pdmg*(round(pl[thisPlayer].combo)+1))/item.val[pl[thisPlayer].wep]
+                if mob.hp[v] < 1 then pl[thisPlayer].kills = pl[thisPlayer].kills + 1 pl[thisPlayer].combo = pl[thisPlayer].combo + 1.1 end
+
               end
-            elseif distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] and not mb.friend[mob[v]] then --this has to be separate because of mob range
+            elseif distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] and not mb.friend[mob[v]] then --this has to be separate because of mob range
               local pdmg = (mb.atk[mob[v]]/2)*dt
           --    if love.math.random(1,250) == 1 then inflictAspect(thisPlayer,"Bleeding") end
               --print("A "..mob[v].." dealt "..pdmg.." damage to "..thisPlayer.."!")
@@ -436,18 +433,18 @@ function updateFights(dt) --the big one!!
               end
             end
 
-            if pl.spell[thisPlayer] == "Enrage" then
-              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 320 then
+            if pl[thisPlayer].spell == "Enrage" then
+              if distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 320 then
                 mob.target.t[v] = thisPlayer
-                mob.target.x[v] = pl.x[mob.target.t[v]]+16
-                mob.target.y[v] = pl.y[mob.target.t[v]]+16
+                mob.target.x[v] = pl[mob.target.t[v]].x+16
+                mob.target.y[v] = pl[mob.target.t[v]].y+16
               end
-            elseif pl.spell[thisPlayer] == "Slam" then
-              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*5 then
-                mob.hp[v] = mob.hp[v] - (item.val[pl.wep[thisPlayer]]*16)*dt
+            elseif pl[thisPlayer].spell == "Slam" then
+              if distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*5 then
+                mob.hp[v] = mob.hp[v] - (item.val[pl[thisPlayer].wep]*16)*dt
               end
-            elseif pl.spell[thisPlayer] == "Polymorph" then
-              if distanceFrom(pl.x[thisPlayer]+16, pl.y[thisPlayer]+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*3 and item.val[pl.wep[thisPlayer]]+1 > mob.hp[v] then
+            elseif pl[thisPlayer].spell == "Polymorph" then
+              if distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*3 and item.val[pl[thisPlayer].wep]+1 > mob.hp[v] then
                 mob.hp[v] = 0
                 spawnMob(i, "Angry Chicken", mob.x[v], mob.y[v])
               end
@@ -502,7 +499,7 @@ function updateFights(dt) --the big one!!
               elseif string.sub(spellCast,1,10) == "spawnFeet," then
                 for k = 1, #playersInThisFight do
                   local thisPlayer = getPlayerName(tonumber(playersInThisFight[k]))
-                  spawnMob(i,string.sub(spellCast,11),pl.x[thisPlayer],pl.y[thisPlayer])
+                  spawnMob(i,string.sub(spellCast,11),pl[thisPlayer].x,pl[thisPlayer].y)
                 end
               elseif string.sub(spellCast,1,12) == "spawnRandom," then
                 spawnMob(i,string.sub(spellCast,13),love.math.random(1, stdSW),love.math.random(1,stdSH))
@@ -527,16 +524,16 @@ function updateFights(dt) --the big one!!
 
       for v = 1, #listPlayersInFight(i) do
         local thisPlayer = getPlayerName(v)
-        pl.at[getPlayerName(v)] = false
-        pl.combo[getPlayerName(v)] = pl.combo[getPlayerName(v)] - 1*dt
-        if pl.combo[getPlayerName(v)] < 0 then pl.combo[getPlayerName(v)] = 0 end
-        if string.sub(pl.spell[getPlayerName(v)],1,7) == "Summon " then
-          for k = 1, tonumber(string.sub(pl.spell[getPlayerName(v)],8,8)) do
-            spawnMob(i,string.sub(pl.spell[getPlayerName(v)],10),pl.x[getPlayerName(v)] + love.math.random(-64,64), pl.y[getPlayerName(v)] + love.math.random(-64,64))
+        pl[thisPlayer].at = false
+        pl[thisPlayer].combo = pl[thisPlayer].combo - 1*dt
+        if pl[thisPlayer].combo < 0 then pl[thisPlayer].combo = 0 end
+        if string.sub(pl[thisPlayer].spell,1,7) == "Summon " then
+          for k = 1, tonumber(string.sub(pl[thisPlayer].spell,8,8)) do
+            spawnMob(i,string.sub(pl[thisPlayer].spell,10),pl[thisPlayer].x + love.math.random(-64,64), pl[thisPlayer].y + love.math.random(-64,64))
           end
 
-          pl.spell[getPlayerName(v)] = "None"
-          pl.spellT[getPlayerName(v)] = 0
+          pl[thisPlayer].spell = "None"
+          pl[thisPlayer].spellT = 0
         end
       end
       if hasFightEnded == true and ft.queue.current[i] > #ft.queue[i] and ft.nextSpawn[i] < 0 then
@@ -554,23 +551,23 @@ end
 function getPlayerData(fight, id)
   local playersInThisFight = listPlayersInFight(fight)
   local thisPlayer = getPlayerName(tonumber(playersInThisFight[id])) --get username
-  --addMsg("Getting data for "..thisPlayer)
-  pdata = {}
-  pdata["name"] = thisPlayer
-  pdata["hp"] = pl.hp[thisPlayer]
-  pdata["en"] = pl.en[thisPlayer]
-  pdata["s1"] = pl.s1[thisPlayer]
-  pdata["s2"] = pl.s2[thisPlayer]
-  pdata["x"] = pl.x[thisPlayer]
-  pdata["y"] = pl.y[thisPlayer]
-  pdata["t"] = pl.t[thisPlayer]
-  pdata["wep"] = pl.wep[thisPlayer]
-  pdata["arm"] = pl.arm[thisPlayer]
-  pdata["lvl"] = pl.lvl[thisPlayer]
-  pdata["at"] = pl.at[thisPlayer]
-  pdata["online"] = pl.online[thisPlayer]
-  pdata["spell"] = pl.spell[thisPlayer]
-  pdata["bud"] = pl.bud[thisPlayer]
+  pl[thisPlayer].name = thisPlayer
+  return pl[thisPlayer]
+end
 
-  return pdata
+function getFirstMob(fscript)
+  local firstMob = "unknown"
+  if fs[fscript] then
+    fightScript = atComma(fs[fscript], ";") --break down fight script, data/fights
+    local k = 1
+    while firstMob == "unknown" do
+      if string.sub(fightScript[k],1,5) ~= "speak" then
+        firstMob = fightScript[k]
+      else
+        k = k + 2
+      end
+    end
+  end
+
+  return firstMob
 end

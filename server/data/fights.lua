@@ -7,6 +7,14 @@ fs["default"] = "Ghost;1"--default fight
 fs.spawnTime["default"] = 0.01
 fs.rewards["default"] = "Gold,100,100"
 
+fs["fight2"] = "speak,Mortus,IT BEGINS! MUHAHAHAHAHAHAHA,4;4;Spider;50;Scorpion;10;Minion;2"
+fs.spawnTime["fight2"] = 0.5
+fs.rewards["fight2"] = "Blueprint: Iron Helmet,1,100,Blueprint: Iron Chestplate,1,100,Blueprint: Iron Leggings,1,100,Blueprint: Long Sword,1,100,Fly,1,100,Dog,1,100,Beholder,1,100,Iron,20,100,String,100,100,Mana,5,100"
+
+fs["fight1"] = "Sand Worm;250"
+fs.spawnTime["fight1"] = 0.1
+fs.rewards["fight1"] = "String,250,100,Wood,100,100,Iron,20,100,Blueprint: Slam,1,100,Blueprint: Polymorph,1,100,Dog,1,100"
+
 fs["Shipwreck"] = "Ship;3;speak,Mortus,We've been travelling for 2 weeks West and are yet to encounter any land mass.,5;5;speak,Mortus,I'm beginning to think that there is nothing else out here...,5;5;speak,Guard,M'am! Black sails! All hands on deck!,3;3;Pirate Ship;2;speak,Mortus,Pirates? But we're miles from land!,5;5;Pirate Ship;12;speak,Guard,We're cutting through them like paper!,4;4;speak,Mortus,HAH! These fools are no match for us. Prepare a feast! We've fought valiantly today.,6;6;speak,Carus,I'm not sure it's quite over yet Mortus! My parrot continues to twitch...,5;5;Ghostly Ship;1;speak,Guard,BACK TO YOUR STATIONS! ANOTHER PIRATE SHIP APPROACHES!,4;4;speak,Mortus,Is it just me or is that ship somewhat... transparent? Hazy?,4;4;"
 fs.spawnTime["Shipwreck"] = 1
 fs.rewards["Shipwreck"] = "Gold,5,100"

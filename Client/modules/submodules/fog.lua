@@ -114,6 +114,26 @@ function drawFog(xo,yo)
       if fog[i] ~= 255 then
 
         --  if tileDarkness < 0 then tileDarkness = 0 end
+        love.graphics.setColor(255,255,255,255)
+        if world[i].spawned ~= "unknown" then
+          if mb.img[world[i].spawned] then
+            love.graphics.draw(mb.img[world[i].spawned],world[i].x+xo,world[i].y+yo)
+            if isMouseOver((world[i].x+xo)*scaleX,32*scaleX,(world[i].y+yo)*scaleY,32*scaleY) then
+              if fightInfo[world[i].fight] and fightInfo[world[i].fight].requested and not fightInfo[world[i].fight].mobs then
+                addTT(world[i].fight,"Awaiting fight info...",cx,cy)
+              elseif fightInfo[world[i].fight] and fightInfo[world[i].fight].requested and fightInfo[world[i].fight].mobs then
+                addTT(world[i].fight,fightInfo[world[i].fight].msg,cx,cy)
+              else
+                netSend("fightInfo",pl.name..","..world[i].fight)
+                fightInfo[world[i].fight] = {requested = true}
+                addTT(world[i].fight,"Requesting fight info...",cx,cy)
+              end
+            end
+          else
+            love.graphics.draw(uiImg["error"],world[i].x+xo,world[i].y+yo)
+            love.graphics.print(world[i].spawned,world[i].x+xo,world[i].y+yo)
+          end
+        end
 
       --  tileDarkness = tileDarkness - (lightmap[i]*20)
         love.graphics.setColor(0,0,25,tileDarkness[i])
@@ -123,6 +143,8 @@ function drawFog(xo,yo)
           love.graphics.setColor(255,255,255,255)
           love.graphics.print(round(val),world[i].x+xo,world[i].y+yo)
         end
+
+
 
         if ambSnd[world[i].tile] then
           if love.math.random(1,250) == 1 and ambSnd[world[i].tile]:isPlaying() == false and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 256 then
@@ -147,6 +169,8 @@ function drawFog(xo,yo)
       end
 
 
+
+
       if pl.dt == i then
         love.graphics.setColor(255,0,0)
         love.graphics.rectangle("line",world[i].x+xo,world[i].y+yo,32,32)
@@ -163,7 +187,7 @@ function updateLightmap()
   tileDarkness = {}
   weather.time = tonumber(weather.time)
   for i = 1, 100*100 do
-
+    world[i].spawned = "unknown"
    tileDarkness[i] = 0
 
 

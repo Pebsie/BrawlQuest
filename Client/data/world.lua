@@ -148,7 +148,6 @@ lightsource["Mushroom"] = 1
 lightsource["Lampost"] = 20
 lightsource["Crystal"] = 3
 lightsource["Wall Mounted Torch"] = 5
-lightsource["Lava"] = 10
 
 function setWColour(i)
   wname = world[i].tile
@@ -208,4 +207,53 @@ function createWeather()
       love.graphics.draw(rainImg,love.math.random(1,screenW*4),love.math.random(1,screenH*4))
     end
   love.graphics.setCanvas()
+end
+
+fightInfo = {}
+
+function setFightInfo(fdata) --mobs/rewards/time/name
+  fdata = atComma(fdata,"/")
+
+  local totalHP = 0
+  local time = 0
+  local msg = "Enemies:\n"
+
+  fMobs = {}
+  mobs = atComma(fdata[1],";")
+  for i = 1,#mobs,2 do
+    if string.sub(mobs[i],1,5) ~= "speak" then
+      if fMobs[mobs[i]] then
+        fMobs[mobs[i]] = fMobs[mobs[i]] + mobs[i+1]
+      else
+        fMobs[mobs[i]] = mobs[i+1]
+      end
+      totalHP = totalHP + (mb.hp[mobs[i]]*mobs[i+1])
+      time = time + (fdata[3]*mobs[i+1])
+    end
+  end
+
+  for i, v in pairs(fMobs) do
+    msg = msg..v.."x "..i.."\n"
+  end
+
+  msg = msg.."TOTAL HP: "..totalHP.."\nTIME: "..time.."s\n\nLoot:\n"
+
+  fLoot = {}
+  loot = atComma(fdata[2])
+
+  for i = 1,#loot,3 do
+    local k = #fLoot+1
+    fLoot[k] = {name = loot[i], chance = loot[i+1]}
+    k = k + 1
+    msg = msg..loot[i+1].."x "..tostring(loot[i]).." ("..tostring(loot[i+2]).."%)\n"
+  end
+
+  fightInfo[fdata[4]] = {mobs = fMobs, hp = totalHP, loot = loot, time = time, msg = msg, requested = true}
+
+end
+
+function requestFightInfo(fscript)
+  addMsg("requesting fight info for "..fscript)
+  netSend("fightInfo",pl.name..","..fscript)
+  fightInfo[fscript] = {requested = true}
 end
