@@ -306,6 +306,10 @@ function netUpdate(dt)
             updateMob(i,"hp",tonumber(param[tparam+3]))
             updateMob(i,"mhp",tonumber(param[tparam+4]))
             updateMob(i,"id",param[tparam+5])
+            updateMob(i,"spell1time",tonumber(param[tparam+6]))
+              mb.sp1t[getMob(i,"type")] = tonumber(param[tparam+7])
+            updateMob(i,"spell2time",tonumber(param[tparam+8]))
+            mb.sp2t[getMob(i,"type")] = tonumber(param[tparam+9])
             updateMob(i,"updated",true)
 
             if string.sub(param[tparam+2],1,5) == "speak" then
@@ -314,7 +318,7 @@ function netUpdate(dt)
               killMob(i)
             end
 
-            tparam = tparam + 6
+            tparam = tparam + 10
           end
 
           fight.highscore = param[tparam]

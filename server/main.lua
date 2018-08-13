@@ -159,7 +159,7 @@ function love.update(dt)
 
             for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)
               tmob = getMobData(id,i)
-              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp,mb.hp[tmob.type],tmob.id)
+              msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp,mb.hp[tmob.type],tmob.id,tmob.spell1time,mb.sp1t[tmob.type],tmob.spell2time,mb.sp2t[tmob.type])
             end
             if hs[ft.title[id]] then
               msgToSend = msgToSend..round(hs[ft.title[id]].score).."|"..hs[ft.title[id]].player.."|"

@@ -17,7 +17,7 @@ world.music = {}
 world.x = {}
 world.y = {}
 
-mapname = "map-forest.txt"
+mapname = "map-beach.txt"
 
 info = ""
 view = 0

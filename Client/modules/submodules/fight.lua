@@ -112,6 +112,18 @@ love.graphics.scale(scaleX,scaleY)
             love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff,(mob[i].hp/getMob(i,"mhp"))*mb.img[mob[i].type]:getWidth(),4)
             love.graphics.setColor(100,0,0)
             love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff,mb.img[mob[i].type]:getWidth(),4)
+            if mb.sp1[mob[i].type] ~= "None" and getMob(i,"spell1time") and mb.sp1t[mob[i].type] then
+              love.graphics.setColor(100,100,255)
+              love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+6,(getMob(i,"spell1time")/mb.sp1t[mob[i].type])*mb.img[mob[i].type]:getWidth(),4)
+              love.graphics.setColor(50,50,255)
+              love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+6,mb.img[mob[i].type]:getWidth(),4)
+            end
+            if mb.sp2[mob[i].type] ~= "None" and getMob(i,"spell2time") and mb.sp2t[mob[i].type]  then
+              love.graphics.setColor(100,100,255)
+              love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+12,(getMob(i,"spell2time")/mb.sp2t[mob[i].type])*mb.img[mob[i].type]:getWidth(),4)
+              love.graphics.setColor(50,50,255)
+              love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+12,mb.img[mob[i].type]:getWidth(),4)
+            end
           end
         end
       end
