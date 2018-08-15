@@ -51,6 +51,10 @@ fs["Dungeon: Demon"] = "Mysterious Figure;1;speak,**player**,WHO ARE YOU?,2;2;sp
 fs.spawnTime["Dungeon: Demon"] = 0
 fs.rewards["Dungeon: Demon"] = "Iron,20,100,Mana,10,100,Beholder,1,25,Guardian's Chestplate,1,10,Iron Leggings,1,10,Iron Helmet,1,10,Blueprint: Guardian's Chestplate,1,50,Blueprint: Guardian's Helmet,1,50,Blueprint: Guardian's Leggings,1,50,Blueprint: Guardian's Blade,1,100,Blueprint: Recovery,1,100,Blueprint: Slam,1,50"
 
+fs["Dungeon: Evil Figure"] = "Mortus;1;speak,Mortus,So here we are… this structure must be ancient…,4;4;speak,Mysterious Figure,Several thousand years old.,3;3;speak,Mortus,Who are you?,3;3;speak,**player**,A friend: he helped us defeat a great demon.,4;4;speak,Mysterious Figure,Well I hardly expected you to actually be able to defeat that one.,5;5;speak,**player**,You mean you weren’t trying to help?,3;3;speak,Mysterious Figure,Who do you think set him on you?,4;4;speak,Mortus,I don’t understand…,2;2;speak,Mysterious Figure,Two million years I have been trapped here. And then finally you show up in your fancy boats… now of course they are MY fancy boats and once I’m rid of you I’ll be FREE AT LAST!,8;8;speak,**player**,Our boats? But you destroyed our boat with… your boat?,4;4;speak,Mysterious Figure,A mere projection child. Your boats are stored in bottles just beyond these doors…,5;5;speak,Mortus,Sorry but that doesn’t work for me. You’ve massively underestimated us. ATTACK!,6;6;Evil Figure;1"
+fs.spawnTime["Dungeon: Evil Figure"] = 0
+fs.rewards["Dungeon: Evil Figure"] = "Iron,50,100,Mana,25,100,String,100,100,Blueprint: Legendary Helmet,1,50,Blueprint: Legendary Leggings,1,50,Protector,1,25,Dragonling,1,25,Orb of Power,1,10"
+
 --crafting
 fs["Gather: Wood"] = "Weak Tree;3"
 fs.spawnTime["Gather: Wood"] = 0

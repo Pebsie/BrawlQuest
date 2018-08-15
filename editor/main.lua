@@ -17,7 +17,7 @@ world.music = {}
 world.x = {}
 world.y = {}
 
-mapname = "map-beach.txt"
+mapname = "map-intro.txt"
 
 info = ""
 view = 0
@@ -82,13 +82,13 @@ function love.load()
       --  if love.math.random(1,200) == 1 then
         --  world[i] = "Tree"
       --  else
-          world[i] = "Lava"
+          world[i] = "Tree"
         --end
-        world.name[i] = "Literally Hell"
+        world.name[i] = "The Great Northern Forest"
         world.fight[i] = "None"
         world.fightc[i] = 0 --5%
         world.collide[i] = true
-        world.bg[i] = "Cave Floor"
+        world.bg[i] = "Grass"
         world.music[i] = "*"
   --    end
 
@@ -119,7 +119,7 @@ function love.draw()
 
   --v = round(((cx+camX)/32)*((cy+camY)/32))
   for i = 1, 100*100 do
-    if x-camX > -32 and x-camX < 800 and y-camY > -32 and y-camY < 600 then
+    if x-camX > -32 and x-camX < love.graphics.getWidth() and y-camY > -32 and y-camY < love.graphics.getHeight() then
       local cx, cy = love.mouse.getPosition()
       if cx+camX > x and cx+camX < x+32 and cy+camY > y and cy+camY < y+32 then
         selT = i

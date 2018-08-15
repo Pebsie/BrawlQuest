@@ -102,7 +102,7 @@ function removePlayerFromFight(name, isDead)
   --  addMsg(getPlayerName(name).." left fight #"..id)
 
     local curPlayers = listPlayersInFight(id)
-    if #curPlayers < 1 then endFight(id) end
+    if #curPlayers < 1 then endFight(id) world[ft.tile[id]].spawned = true end
   else
     addMsg("ERROR: can't remove "..getPlayerName(name).." from the fight that they're in, as we can't find what fight it is tha they're in!")
   end
@@ -492,7 +492,11 @@ function updateFights(dt) --the big one!!
               if spellCast == "suicide" then
                 mob.hp[v] = 0
               elseif string.sub(spellCast,1,6) == "spawn:" or string.sub(spellCast,1,6) == "spawn," then
-                spawnMob(i,string.sub(spellCast,7),mob.x[v],mob.y[v])
+                if string.sub(spellCast,7) == "randomMob" then
+                  spawnMob(i,mobSet[love.math.random(1,#mobSet)],mob.x[v],mob.y[v])
+                else
+                  spawnMob(i,string.sub(spellCast,7),mob.x[v],mob.y[v])
+                end
               elseif string.sub(spellCast,1,7) == "evolve," then
                 spawnMob(i,string.sub(spellCast,8),mob.x[v],mob.y[v])
                 mob.hp[v] = 0

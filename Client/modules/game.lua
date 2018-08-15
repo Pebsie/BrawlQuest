@@ -49,7 +49,7 @@ function updateGame(dt)
         requestUserInfo()
         frequentlyUpdate = false
       end
-      timeToUpdate = 1.5
+      timeToUpdate = 0.5
     end
 
     timeToMove = timeToMove - 1*dt

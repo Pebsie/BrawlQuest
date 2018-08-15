@@ -107,22 +107,22 @@ love.graphics.scale(scaleX,scaleY)
             love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2+xoff, mob[i].y+mb.img[mob[i].type]:getHeight()/2+yoff,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
           end
 
-          if getMob(i,"hp") > 0 and mb.friend[mob[i].type] ~= true and getMob(i,"hp") < 19999 then
+          if getMob(i,"hp") > 0 and mb.friend[mob[i].type] ~= true and getMob(i,"hp") < 99999 then
             love.graphics.setColor(255,0,0)
             love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff,(mob[i].hp/getMob(i,"mhp"))*mb.img[mob[i].type]:getWidth(),4)
             love.graphics.setColor(100,0,0)
             love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff,mb.img[mob[i].type]:getWidth(),4)
-            if mb.sp1[mob[i].type] ~= "None" and getMob(i,"spell1time") and mb.sp1t[mob[i].type] then
+            if mb.sp1[mob[i].type] ~= "None" and getMob(i,"spell1time") and mb.sp1t[mob[i].type] and mb.sp1[mob[i].type] ~= "suicide" then
               love.graphics.setColor(100,100,255)
-              love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+6,(getMob(i,"spell1time")/mb.sp1t[mob[i].type])*mb.img[mob[i].type]:getWidth(),4)
+              love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+5,(getMob(i,"spell1time")/mb.sp1t[mob[i].type])*mb.img[mob[i].type]:getWidth(),2)
               love.graphics.setColor(50,50,255)
-              love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+6,mb.img[mob[i].type]:getWidth(),4)
+              love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+5,mb.img[mob[i].type]:getWidth(),2)
             end
-            if mb.sp2[mob[i].type] ~= "None" and getMob(i,"spell2time") and mb.sp2t[mob[i].type]  then
+            if mb.sp2[mob[i].type] ~= "None" and getMob(i,"spell2time") and mb.sp2t[mob[i].type] and mb.sp2[mob[i].type] ~= "suicide"  then
               love.graphics.setColor(100,100,255)
-              love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+12,(getMob(i,"spell2time")/mb.sp2t[mob[i].type])*mb.img[mob[i].type]:getWidth(),4)
+              love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+9,(getMob(i,"spell2time")/mb.sp2t[mob[i].type])*mb.img[mob[i].type]:getWidth(),2)
               love.graphics.setColor(50,50,255)
-              love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+12,mb.img[mob[i].type]:getWidth(),4)
+              love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+9,mb.img[mob[i].type]:getWidth(),2)
             end
           end
         end
@@ -347,13 +347,14 @@ function updateFight(dt)
 
   --MOBS
   for i = 1, countMobs() do
+    if not mb.spd[mob[i].type] then mb.spd[mob[i].type] = 32 mb.rng[mob[i].type] = 40 love.window.showMessageBox("ERROR","The server spawned a mob that doesn't exist: "..mob[i].type) end
     local pls = mb.spd[mob[i].type]*dt
     if mob[i].x >  mob[i].tx then  mob[i].x =  mob[i].x - pls end
     if  mob[i].x <  mob[i].tx then  mob[i].x =  mob[i].x + pls end
     if  mob[i].y >  mob[i].ty then  mob[i].y =  mob[i].y - pls end
     if  mob[i].y <  mob[i].ty then  mob[i].y =  mob[i].y + pls end
 
-    if distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) > 128 or distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) < 1 then
+    if distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) > mb.spd[mob[i].type]*2 or distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) < 1 then
        mob[i].x =  mob[i].tx
        mob[i].y =  mob[i].ty
     end
@@ -369,6 +370,13 @@ function updateFight(dt)
     if distanceFrom(pl.x, pl.y, mob[i].x, mob[i].y) < mb.rng[mob[i].type] and mob[i].hp > 0 then
       pl.armd = pl.armd + (mb.atk[mob[i].type]/2)*dt --for smoothing purposes
       if pl.armd < 0 then pl.armd = 0 end
+     end
+
+     if mob[i].spell1time and mob[i].spell2time then
+       mob[i].spell1time = mob[i].spell1time - 1*dt
+       if mob[i].spell1time < 0 then mob[i].spell1time = 0 end
+       mob[i].spell2time = mob[i].spell2time - 1*dt
+       if mob[i].spell2time < 0 then mob[i].spell2time = 0 end
      end
   end
 

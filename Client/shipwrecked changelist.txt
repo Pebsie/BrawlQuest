@@ -1,3 +1,12 @@
+[b]BrawlQuest Alpha: Shipwrecked v1.2 Changelist[/b]
+[CONTENT]
+- New Dungeon
+- New Raid
+- 
+
+[UI]
+- You can now see spell timers for enemy mobs
+
 [b]BrawlQuest Alpha: Shipwrecked v1.1 Changelist[/b]
 The newest mandatory update for BrawlQuest: Shipwrecked is NOW LIVE!
 It brings with it a host of changes and optimisations, some crucially changing the way that the game works.

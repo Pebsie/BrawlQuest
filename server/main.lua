@@ -33,6 +33,14 @@ function love.load()
   loadOverworld()
   initAspects()
   initWeather()
+
+  newPlayer("a","a")
+  givePlayerItem("a","Guardian's Helmet",1)
+  givePlayerItem("a","Guardian's Leggings",1)
+  givePlayerItem("a","Guardian's Chestplate",1)
+  givePlayerItem("a","Guardian's Blade",1)
+  givePlayerItem("a","Recovery",1)
+  givePlayerItem("a","Polymorph",1)
 end
 
 function love.draw()
@@ -208,17 +216,17 @@ function love.update(dt)
           parms = atComma(param[1])
           local name = parms[1]
           local item = parms[2]
-          if pl[name].authcode == parms[3] then
+        --  if pl[name].authcode == parms[3] then
             if parms[3] then
               playerUse(name,item,parms[3])
             else
               playerUse(name,item)
             end
-          else
+        --[[  else
             pl[name].authcode = love.math.random(10000,99999)
             addMsg(name.."::Wrong authcode, kicked client.")
             udp:sendto(name.." kick authcode",msg_or_ip,port_or_nil)
-          end
+          end]]
         elseif cmd == "buy" then
           parms = atComma(param[1])
           local name = parms[1]
