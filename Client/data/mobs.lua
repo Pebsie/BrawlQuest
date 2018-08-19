@@ -1,3 +1,71 @@
+--new mob functions
+
+mobData = {}
+mfs = ""
+
+function newMob(name,hp,speed,attack,sp1,sp1t,sp2,sp2t,img,rng,friend)
+  if not friend then friend = false end
+
+  print("New mob: "..name)
+  local i = name
+  local imgData = love.image.newImageData(mobData[name].imgPath)
+  mfs = mfs.."name="..name.."=hp="..hp.."=spd="..speed.."=atk="..attack.."=sp1="..sp1.."=sp1t="..sp1t.."=sp2="..sp2.."=sp2t="..sp2t.."=imgPath="..img.."=rng="..rng.."=friend="..tostring(friend).."\n"
+--  mobData[name] = {name=name,hp=hp,atk=attack,sp1=sp1,sp1t=sp1t,sp2=sp2,sp2t=sp2t,imgPath=img,imgData=imgData,img=love.graphics.newImage(imgData),rng=rng,friend=friend}
+  mobData[name].imgData = imgData
+  --OLD FILE FORMAT TODO: CONVERT ALL SYSTEMS TO USE THE TABLE ABOVE
+  mb.hp[i] = name
+  mb.spd[i] = speed
+  mb.atk[i] = attack
+  mb.sp1[i] = sp1
+  mb.sp1t[i] = sp1t
+  mb.sp2[i] = sp2
+  mb.sp2t[i] = sp2t
+  mb.img[i] = love.graphics.newImage(imgData)
+  mb.rng[i] = rng
+  mb.friend[i] = friend
+  mb.imgData[i] = imgData
+end
+
+function convertMob(i)
+  if not mb.friend[i] then mb.friend[i] = false end
+  newMob(i,mb.hp[i],mb.spd[i],mb.atk[i],mb.sp1[i],mb.sp1t[i],mb.sp2[i],mb.sp2t[i],mb.img[i],mb.rng[i],mb.friend[i])
+end
+
+
+
+function saveMobList(fn) --fn - file name
+--[[  fs = ""
+  for i,v in pairs(mobData) do
+    for k,va in pairs(v) do
+      if k ~= "img" and k ~= "imgData" then
+        fs = fs..k.."="..tostring(va).."="
+      end
+    end
+    fs = fs.."\n"
+  end
+]] -- the 'correct' way of doing this, which looked quite ugly in the file output. This is temporary code, so we used mfs above.
+  love.filesystem.write(fn,mfs)
+  print("Written mobs list to "..fn)
+end
+
+function loadMobs()
+  if love.filesystem.getInfo("mobs.txt") then
+    for line in love.filesystem.lines("mobs.txt") do
+      local mbInfo = atComma(line,"=")
+      local name = mbInfo[2]
+      mobData[name] = {}
+      for i = 1, #mbInfo, 2 do
+        mobData[name][mbInfo[i]] = mbInfo[i+1]
+      end
+
+      newMob(mobData[name].name,tonumber(mobData[name].hp),tonumber(mobData[name].spd),tonumber(mobData[name].atk),mobData[name].sp1,tonumber(mobData[name].sp1t),mobData[name].sp2,tonumber(mobData[name].sp2t),mobData[name].imgPath,tonumber(mobData[name].rng),toboolean(mobData[name].friend)) --convert to old system
+    end
+  end
+end
+
+
+
+
 mb = {} --identified by name
 mb.hp = {}
 mb.spd = {}
@@ -10,12 +78,13 @@ mb.img = {} --width in this case
 mb.rng = {}
 mb.sfx = {}
 mb.friend = {}
+mb.imgData = {}
 
 local tm = "Player" --for bones
-mb.img[tm] = love.graphics.newImage("img/dragon/Red.png")
+mb.img[tm] = "img/dragon/Red.png"
 
 tm = "Mortus"
-mb.img["Mortus"] = love.graphics.newImage("img/human/Mortus.png")
+mb.img["Mortus"] = "img/human/Mortus.png"
 mb.sfx[tm] = {}
 mb.sfx[tm][1] = love.audio.newSource("sound/sfx/mob/"..tm.."/1.mp3","static")
 mb.sfx[tm][2] = love.audio.newSource("sound/sfx/mob/"..tm.."/2.mp3","static")
@@ -24,579 +93,12 @@ mb.sfx[tm][4] = love.audio.newSource("sound/sfx/mob/"..tm.."/4.mp3","static")
 mb.sfx[tm][5] = love.audio.newSource("sound/sfx/mob/"..tm.."/5.mp3","static")
 mb.friend[tm] = true
 
-local tm = "Adventurer"
-mb.hp[tm] = 1
-mb.spd[tm] = 50
-mb.atk[tm] = 1
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/human/Adventurer.png")
-mb.rng[tm] = 32
-mb.friend[tm] = true
-mb.sfx[tm] = {}
-mb.sfx[tm][1] = love.audio.newSource("sound/sfx/mob/"..tm.."/1.mp3","static")
-mb.sfx[tm][2] = love.audio.newSource("sound/sfx/mob/"..tm.."/2.mp3","static")
-mb.sfx[tm][3] = love.audio.newSource("sound/sfx/mob/"..tm.."/3.mp3","static")
-mb.sfx[tm][4] = love.audio.newSource("sound/sfx/mob/"..tm.."/4.mp3","static")
-mb.sfx[tm][5] = love.audio.newSource("sound/sfx/mob/"..tm.."/5.mp3","static")
-mb.sfx[tm][6] = love.audio.newSource("sound/sfx/mob/"..tm.."/6.mp3","static")
-mb.sfx[tm][7] = love.audio.newSource("sound/sfx/mob/"..tm.."/7.mp3","static")
-
-local tm = "Guard"
-mb.hp[tm] = 5
-mb.spd[tm] = 64
-mb.atk[tm] = 1
-mb.sp1[tm] = "suicide"
-mb.sp1t[tm] = 5
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/human/Guard.png")
-mb.rng[tm] = 64
-mb.friend[tm] = true
-mb.sfx[tm] = {}
-mb.sfx[tm][1] = love.audio.newSource("sound/sfx/mob/"..tm.."/1.mp3","static")
-mb.sfx[tm][2] = love.audio.newSource("sound/sfx/mob/"..tm.."/2.mp3","static")
-mb.sfx[tm][3] = love.audio.newSource("sound/sfx/mob/"..tm.."/3.mp3","static")
-mb.sfx[tm][4] = love.audio.newSource("sound/sfx/mob/"..tm.."/4.mp3","static")
-mb.sfx[tm][5] = love.audio.newSource("sound/sfx/mob/"..tm.."/5.mp3","static")
-mb.sfx[tm][6] = love.audio.newSource("sound/sfx/mob/"..tm.."/6.mp3","static")
-mb.sfx[tm][7] = love.audio.newSource("sound/sfx/mob/"..tm.."/7.mp3","static")
-mb.sfx[tm][8] = love.audio.newSource("sound/sfx/mob/"..tm.."/8.mp3","static")
-mb.sfx[tm][9] = love.audio.newSource("sound/sfx/mob/"..tm.."/9.mp3","static")
-mb.sfx[tm][10] = love.audio.newSource("sound/sfx/mob/"..tm.."/11.mp3","static")
-
-local tm = "Boar"
-mb.hp[tm] = 100
-mb.spd[tm] = 128
-mb.atk[tm] = 4
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/human/Mortus.png")
-mb.rng[tm] = 60
-mb.friend[tm] = true
-
-local tm = "Mortus"
-mb.hp[tm] = 100
-mb.spd[tm] = 128
-mb.atk[tm] = 4
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/human/Mortus.png")
-mb.rng[tm] = 60
-mb.friend[tm] = true
-
-local tm = "Angry Chicken"
-mb.hp[tm] = 1
-mb.spd[tm] = 128
-mb.atk[tm] = 2
-mb.sp1[tm] = "Suicide"
-mb.sp1t[tm] = 5
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Chicken.png")
-mb.rng[tm] = 16
-mb.friend[tm] = true
-
-
-local tm = "Ship"
-mb.hp[tm] = 500
-mb.spd[tm] = 100
-mb.atk[tm] = 20
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/world/objects/Boat.png")
-mb.rng[tm] =  32
-mb.friend[tm] = true
-
-local tm = "Ghostly Ship"
-mb.hp[tm] = 100000
-mb.spd[tm] = 64
-mb.atk[tm] = 50
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/world/objects/Pirate Boat.png")
-mb.rng[tm] =  64
-
-local tm = "Pirate Ship"
-mb.hp[tm] = 20
-mb.spd[tm] = 80
-mb.atk[tm] = 10
-mb.sp1[tm] = "spawn:Cannon Ball"
-mb.sp1t[tm] = 15
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/world/objects/Pirate Boat.png")
-mb.rng[tm] =  64
-
-local tm = "Cannon Ball"
-mb.hp[tm] = 100000
-mb.spd[tm] = 256
-mb.atk[tm] = 100
-mb.sp1[tm] = "suicide"
-mb.sp1t[tm] = 1
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Cannonball.png")
-mb.rng[tm] =  32
-
-local tm = "Friendly Cannon Ball"
-mb.hp[tm] = 100000
-mb.spd[tm] = 256
-mb.atk[tm] = 100
-mb.sp1[tm] = "suicide"
-mb.sp1t[tm] = 1
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Cannonball.png")
-mb.rng[tm] =  32
-mb.friend[tm] = true
-
-local tm = "Spider"
-mb.hp[tm] = 3
-mb.spd[tm] = 64
-mb.atk[tm] = 5
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Spider.png")
-mb.rng[tm] =  32
-
-local tm = "Scorpion"
-mb.hp[tm] = 10
-mb.spd[tm] = 40
-mb.atk[tm] = 8
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Scorpion.png")
-mb.rng[tm] =  16
-
-local tm = "Sand Worm"
-mb.hp[tm] = 1
-mb.spd[tm] = 32
-mb.atk[tm] = 1
-mb.sp1[tm] = "spawn:Sand"
-mb.sp1t[tm] = 3
-mb.sp2[tm] = "suicide"
-mb.sp2t[tm] = 3
-mb.img[tm] = love.graphics.newImage("img/mob/Sand Worm.png")
-mb.rng[tm] =  16
-
-local tm = "Manamite"
-mb.hp[tm] = 25
-mb.spd[tm] = 64
-mb.atk[tm] = 10
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Manamite.png")
-mb.rng[tm] =  16
-
-local tm = "Sand"
-mb.hp[tm] = 99999
-mb.spd[tm] = 128
-mb.atk[tm] = 0
-mb.sp1[tm] = "spawn:Sand Worm"
-mb.sp1t[tm] = 1
-mb.sp2[tm] = "suicide"
-mb.sp2t[tm] = 1
-mb.img[tm] = uiImg["none"]
-mb.rng[tm] =  16
-
-local tm = "Cannibal Tribesman"
-mb.hp[tm] = 30
-mb.spd[tm] = 40
-mb.atk[tm] = 5
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Cannibal Tribesman.png")
-mb.rng[tm] =  16
-
-local tm = "Cannibal Hunter"
-mb.hp[tm] = 30
-mb.spd[tm] = 60
-mb.atk[tm] = 5
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Cannibal Hunter.png")
-mb.rng[tm] =  16
-
-local tm = "Cannibal Leader"
-mb.hp[tm] = 100
-mb.spd[tm] = 50
-mb.atk[tm] = 10
-mb.sp1[tm] = "doOnce:stat;hp;20;spawn:speak,Cannibal Leader,WE EAT NOT WE BE EAT!!!,4"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Cannibal Leader.png")
-mb.rng[tm] =  16
-
-local tm = "Mysterious Figure"
-mb.hp[tm] = 500
-mb.spd[tm] = 40
-mb.atk[tm] = 5
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Tarquin.png")
-mb.rng[tm] = 100
-mb.friend[tm] = true
-
-local tm = "Image of a Phoenix"
-mb.hp[tm] = 999999
-mb.spd[tm] = 120
-mb.atk[tm] = 50
-mb.sp1[tm] = "suicide"
-mb.sp1t[tm] = 10
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Phoenix Image.png")
-mb.rng[tm] = 32
-mb.friend[tm] = true
-
-local tm = "Demon"
-mb.hp[tm] = 5000
-mb.spd[tm] = 40
-mb.atk[tm] = 5
-mb.sp1[tm] = "spawnRandom,Hellfire"
-mb.sp1t[tm] = 0.5
-mb.sp2[tm] = "spawnRandom,Minion"
-mb.sp2t[tm] = 4
-mb.img[tm] = love.graphics.newImage("img/mob/Demon.png")
-mb.rng[tm] = 64
-
-local tm = "Hellfire"
-mb.hp[tm] = 999999
-mb.spd[tm] = 0
-mb.atk[tm] = 30
-mb.sp1[tm] = "suicide"
-mb.sp1t[tm] = 10
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Hellfire.png")
-mb.rng[tm] = 32
-
-local tm = "Minion"
-mb.hp[tm] = 10
-mb.spd[tm] = 80
-mb.atk[tm] = 10
-mb.sp1[tm] = "spawnRandom:Minion"
-mb.sp1t[tm] = 5
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Minion.png")
-mb.rng[tm] = 32
-
-local tm = "Evil Figure"
-mb.hp[tm] = 25000
-mb.spd[tm] = 40
-mb.atk[tm] = 20
-mb.sp1[tm] = "spawnFeet,Hellfire"
-mb.sp1t[tm] = 3
-mb.sp2[tm] = "spawnRandom,Minion Portal"
-mb.sp2t[tm] = 10
-mb.img[tm] = love.graphics.newImage("img/mob/Evil Figure.png")
-mb.rng[tm] = 64
-
-local tm = "Minion Portal"
-mb.hp[tm] = 500
-mb.spd[tm] = 4
-mb.atk[tm] = 0
-mb.sp1[tm] = "spawn,Minion"
-mb.sp1t[tm] = 1
-mb.sp2[tm] = "spawn,Demon"
-mb.sp2t[tm] = 15
-mb.img[tm] = love.graphics.newImage("img/mob/Portal.png")
-mb.rng[tm] = 54
-
-
---crafting
-local tm = "Weak Tree"
-mb.hp[tm] = 20
-mb.spd[tm] = 0.1
-mb.atk[tm] = 0
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = worldImg["Beach Tree"]
-mb.rng[tm] = 0
-
-local tm = "Weak Rock"
-mb.hp[tm] = 40
-mb.spd[tm] = 0.1
-mb.atk[tm] = 0
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = worldImg["Rock"]
-mb.rng[tm] = 0
-
-local tm = "Mana Crystal"
-mb.hp[tm] = 100
-mb.spd[tm] = 0.1
-mb.atk[tm] = 0
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = worldImg["Crystal"]
-mb.rng[tm] = 0
-
---previous alpha mobs
-local tm = "Boar"
-mb.hp[tm] = 1
-mb.spd[tm] = 64
-mb.atk[tm] = 2
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Boar.png")
-mb.rng[tm] = 16
-mb.sfx[tm] = {}
-  mb.sfx[tm][1] = love.audio.newSource("sound/sfx/mob/Boar/1.ogg","static")
-  mb.sfx[tm][2] = love.audio.newSource("sound/sfx/mob/Boar/2.ogg","static")
-  mb.sfx[tm][3] = love.audio.newSource("sound/sfx/mob/Boar/3.ogg","static")
-  mb.sfx[tm][4] = love.audio.newSource("sound/sfx/mob/Boar/4.ogg","static")
-
-  local tm = "Big Boar"
-  mb.hp[tm] = 5
-  mb.spd[tm] = 35
-  mb.atk[tm] = 4
-  mb.sp1[tm] = "None"
-  mb.sp1t[tm] = 0
-  mb.sp2[tm] = "None"
-  mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Big Boar.png")
-mb.rng[tm] = 16
-mb.sfx[tm] = {}
-  mb.sfx[tm][1] = love.audio.newSource("sound/sfx/mob/Boar/1.ogg","static")
-  mb.sfx[tm][2] = love.audio.newSource("sound/sfx/mob/Boar/2.ogg","static")
-  mb.sfx[tm][3] = love.audio.newSource("sound/sfx/mob/Boar/3.ogg","static")
-  mb.sfx[tm][4] = love.audio.newSource("sound/sfx/mob/Boar/4.ogg","static")
-
-  local tm = "Biggest Boar"
-    mb.hp[tm] = 20
-    mb.spd[tm] = 16
-    mb.atk[tm] = 50
-    mb.sp1[tm] = "None"
-    mb.sp1t[tm] = 0
-    mb.sp2[tm] = "None"
-    mb.sp2t[tm] = 0
-  mb.img[tm] = love.graphics.newImage("img/mob/Biggest Boar.png")
-  mb.rng[tm] = 16
-  mb.sfx[tm] = {}
-    mb.sfx[tm][1] = love.audio.newSource("sound/sfx/mob/Boar/1.ogg","static")
-    mb.sfx[tm][2] = love.audio.newSource("sound/sfx/mob/Boar/2.ogg","static")
-    mb.sfx[tm][3] = love.audio.newSource("sound/sfx/mob/Boar/3.ogg","static")
-    mb.sfx[tm][4] = love.audio.newSource("sound/sfx/mob/Boar/4.ogg","static")
-
-  local tm = "Ghost"
-    mb.hp[tm] = 100
-    mb.spd[tm] = 200
-    mb.atk[tm] = 100
-    mb.sp1[tm] = "None"
-    mb.sp1t[tm] = 0
-    mb.sp2[tm] = "None"
-    mb.sp2t[tm] = 0
-    mb.img[tm] = love.graphics.newImage("img/mob/Ghost.png")
-    mb.rng[tm] = 16
-
-    local tm = "Savage Wolf"
-        mb.hp[tm] = 1
-        mb.spd[tm] = 100
-        mb.atk[tm] = 1
-        mb.sp1[tm] = "None"
-        mb.sp1t[tm] = 0
-        mb.sp2[tm] = "None"
-        mb.sp2t[tm] = 0
-        mb.img[tm] = love.graphics.newImage("img/mob/Savage Wolf.png")
-        mb.rng[tm] = 16
-
-    local tm = "Wolf"
-        mb.hp[tm] = 5
-        mb.spd[tm] = 80
-        mb.atk[tm] = 25
-        mb.sp1[tm] = "None"
-        mb.sp1t[tm] = 0
-        mb.sp2[tm] = "None"
-        mb.sp2t[tm] = 0
-        mb.img[tm] = love.graphics.newImage("img/mob/Wolf.png")
-        mb.rng[tm] = 16
-
-        local tm = "Alpha Wolf"
-            mb.hp[tm] = 20
-            mb.spd[tm] = 65
-            mb.atk[tm] = 30
-            mb.sp1[tm] = "None"
-            mb.sp1t[tm] = 0
-            mb.sp2[tm] = "None"
-            mb.sp2t[tm] = 0
-            mb.img[tm] = love.graphics.newImage("img/mob/Alpha Wolf.png")
-            mb.rng[tm] = 16
-
-        local tm = "Mother Wolf"
-          mb.hp[tm] = 20
-            mb.spd[tm] = 40
-              mb.atk[tm] = 30
-                mb.sp1[tm] = "spawn:Wolf"
-                mb.sp1t[tm] = 20
-                mb.sp2[tm] = "None"
-                mb.sp2t[tm] = 0
-                mb.img[tm] = love.graphics.newImage("img/mob/Mother Wolf.png")
-                mb.rng[tm] = 16
-
-                local tm = "Cub"
-                  mb.hp[tm] = 1
-                  mb.spd[tm] = 120
-                  mb.atk[tm] = 1
-                  mb.sp1[tm] = "None"
-                  mb.sp1t[tm] = 0
-                  mb.sp2[tm] = "None"
-                  mb.sp2t[tm] = 0
-                  mb.img[tm] = love.graphics.newImage("img/mob/Cub.png")
-                  mb.rng[tm] = 16
-
-local tm = "Sorcerer"
-mb.hp[tm] = 1
-mb.spd[tm] = 64
-mb.atk[tm] = 2
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Sorcerer.png")
-mb.rng[tm] = 16
-
-local tm = "Cursed Human"
-mb.hp[tm] = 1
-mb.spd[tm] = 96
-mb.atk[tm] = 2
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
-mb.rng[tm] =  32
-
-local tm = "Cursed Guard"
-mb.hp[tm] = 5
-mb.spd[tm] = 70
-mb.atk[tm] = 4
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
-mb.rng[tm] =  32
-
-local tm = "Cursed King"
-mb.hp[tm] = 25
-mb.spd[tm] = 60
-mb.atk[tm] = 8
-mb.sp1[tm] = "spawn:Cursed Human"
-mb.sp1t[tm] = 10
-mb.sp2[tm] = "spawn:Cursed Guard"
-mb.sp2t[tm] = 30
-mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
-mb.rng[tm] =  32
-
-local tm = "Cursed Miner"
-mb.hp[tm] = 15
-mb.spd[tm] = 30
-mb.atk[tm] = 10
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
-mb.rng[tm] =  32
-
-local tm = "Savage Bat"
-mb.hp[tm] = 3
-mb.spd[tm] = 120
-mb.atk[tm] = 2
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
-mb.rng[tm] = 16
-
-local tm = "Savage Bear"
-mb.hp[tm] = 30
-mb.spd[tm] = 70
-mb.atk[tm] = 5
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
-mb.rng[tm] = 16
-
-local tm = "Savage Hydra"
-mb.hp[tm] = 50
-mb.spd[tm] = 60
-mb.atk[tm] = 10
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
-mb.rng[tm] = 32
-
-local tm = "Savage Golem"
-mb.hp[tm] = 100
-mb.spd[tm] = 40
-mb.atk[tm] = 20
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/"..tm..".png")
-mb.rng[tm] = 64
-
-local tm = "Quake"
-mb.hp[tm] = 100000
-mb.spd[tm] = 0
-mb.atk[tm] = 30
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Quake.png")
-mb.rng[tm] = 8
-mb.friend[tm] = false
-
-local tm = "Venom"
-mb.hp[tm] = 100
-mb.spd[tm] = 0
-mb.atk[tm] = 0
-mb.sp1[tm] = "dmg,20"
-mb.sp1t[tm] = 5
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = love.graphics.newImage("img/mob/Venom.png")
-mb.rng[tm] = 0
-mb.friend[tm] = false
+function downloadMobs()
+--  addMsg("Downloading mobs list...")
+  b, c, h = http.request("http://brawlquest.com/dl/mobs.txt")
+  if b then
+    love.filesystem.write("mobs.txt", b)
+  else
+    --addMsg("Failed to download mobs list.")
+  end
+end

@@ -1,3 +1,5 @@
+toboolean = require "libraries/toboolean"
+
 function atComma(str, md)
   if not md then md = "," end
 	local word = {}

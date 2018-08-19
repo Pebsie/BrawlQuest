@@ -22,7 +22,19 @@ function addBones(mobType, x, y, amount,bid)
       bones[i].t = mobType
       bones[i].rotation = love.math.random(1, 360)
       bones[i].a = 255
-      if bid then
+
+    --  if mobData[mobType].img:getWidth() then
+    --    local rnd = love.math.random(1,mb.img[mobType]:getWidth()/2) --this is causing errors with Sand Worm because of the empty image "none", TODO: fix
+    ---    local data = mb.imgData[mobType]
+    --    if data and data:getPixel(rnd,rnd)  then
+    --      bones[i].r,bones[i].g,bones[i].b = data:getPixel(rnd,rnd)
+    --    else
+    --      bones[i].r,bones[i].g,bones[i].b = 0,0,0
+--end
+  --    else
+        bones[i].r,bones[i].g,bones[i].b = 200,0,200
+    --  end
+          if bid then
         bonesDone[bid] = true
       end
     end
@@ -32,13 +44,14 @@ end
 function drawBones()
   for i = 1, #bones do
     if bones[i].a > 1 then
-      love.graphics.setColor(255,255,255,bones[i].a)
+      love.graphics.setColor(bones[i].r,bones[i].g,bones[i].b,bones[i].a)
       if bones[i].t == "Player" then
         love.graphics.setColor(100,0,0,bones[i].a)
-        love.graphics.rectangle("line",bones[i].x+xoff,bones[i].y+yoff,2,2)
+
       elseif mb.img[bones[i].t] then
-        love.graphics.draw(mb.img[bones[i].t], bones[i].x+xoff, bones[i].y+yoff, math.rad(bones[i].rotation), 0.25, 0.25)
+      --  love.graphics.draw(mb.img[bones[i].t], bones[i].x+xoff, bones[i].y+yoff, math.rad(bones[i].rotation), 0.25, 0.25)
       end
+      love.graphics.rectangle("line",bones[i].x+xoff,bones[i].y+yoff,2,2)
     end
   end
 

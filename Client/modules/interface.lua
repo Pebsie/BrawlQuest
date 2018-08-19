@@ -138,7 +138,7 @@ function love.keypressed(key)
   elseif key == "e" and ui.selected ~= "chat" then
     if phase == "game" then
       vals = atComma(item.val[pl.s2])
-      if pl.s1 ~= "None" and pl.s2t < 0 and pl.en+1 > tonumber(vals[2]) then
+      if pl.s2 ~= "None" and pl.s2t < 0 and pl.en+1 > tonumber(vals[2]) then
         netSend("spell2", pl.name)
         pl.en = pl.en - tonumber(vals[2])
         pl.s2t = vals[1]

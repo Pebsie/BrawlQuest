@@ -227,7 +227,9 @@ function setFightInfo(fdata) --mobs/rewards/time/name
       else
         fMobs[mobs[i]] = mobs[i+1]
       end
-      totalHP = totalHP + (mb.hp[mobs[i]]*mobs[i+1])
+      if mobData[mobs[i]].hp then
+        totalHP = totalHP + mobData[mobs[i]].hp
+      end
       time = time + (fdata[3]*mobs[i+1])
     end
   end

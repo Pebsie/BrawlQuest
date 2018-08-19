@@ -28,13 +28,13 @@ function simulateWeather()
   if weather.temperature < -5 then weather.temperature = -5 end
 
   --status simulation
-  if weather.temperature > 5 and weather.temperature < 30 and love.math.random(1, 20) == 1 then
+  if weather.temperature > 5 and weather.temperature < 30 and love.math.random(1, 30) == 1 then
     if weather.condition ~= "rain" then addChatMsg("WORLD","Rain begins to fall...") end
     weather.condition = "rain"
   elseif weather.temperature > 15 and love.math.random(1, 20) == 1 then
     if weather.condition ~= "storm" then addChatMsg("WORLD","Thunder rumbles in the distance...") end
     weather.condition = "storm"
-  elseif love.math.random(1, 4) == 1 then
+  elseif love.math.random(1, 2) == 1 then
     if weather.condition ~= "clear" then addChatMsg("WORLD","The sun peaks out from behind the clouds...") end
     weather.condition = "clear"
   end

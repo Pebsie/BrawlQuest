@@ -22,7 +22,7 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Shipwrecked v1.1"
+version = "Shipwrecked v1.2"
 newChatMsg("SERVER","Welcome to BrawlQuest: Shipwrecked",1)
 phase = "splash"
 
@@ -58,7 +58,7 @@ function love.load()
     ipadd = "eu.brawlquest.com"
   end
 
-  ipadd = "127.0.0.1"   --override
+  ipadd = "eu.brawlquest.com"  --override
 
   netConnect(ipadd, "26655", 0.1)
   love.mouse.setVisible(false)
@@ -85,10 +85,13 @@ function love.load()
   createLoginCanvas()
   createWeather()
 
+  downloadMobs()
+  loadMobs()
   loadMusic()
   bindKeys()
   loadCharacters()
   loadTutorial()
+--  saveMobList("mobs.txt")
 
   scaleX = round(love.graphics.getWidth()/(1920/2))
   scaleY = round(love.graphics.getHeight()/(1080/2))

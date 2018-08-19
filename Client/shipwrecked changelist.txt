@@ -2,10 +2,13 @@
 [CONTENT]
 - New Dungeon
 - New Raid
-- 
+- New item: Old World Crystal (used to craft Legendary gear, earned from Dungeons and Raids)
+- New 3 piece Legendary armour set (full set protects for 50 DPS)
+- New Legendary Sword
 
 [UI]
 - You can now see spell timers for enemy mobs
+- Made dialogue boxes with small amounts of text pad better
 
 [b]BrawlQuest Alpha: Shipwrecked v1.1 Changelist[/b]
 The newest mandatory update for BrawlQuest: Shipwrecked is NOW LIVE!

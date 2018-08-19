@@ -4,7 +4,7 @@ LQaction = "off"
 LQcurrent = 0
 
 function newLoot(title,amount)
-  if tonumber(amount) > 0 then
+  if tonumber(amount) and tonumber(amount) > 0 then
     itemAlreadyQueued = false
     for i = LQcurrent, #lootQueue do
       if lootQueue[i] and title == lootQueue[i].title then

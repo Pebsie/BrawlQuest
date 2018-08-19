@@ -25,7 +25,7 @@ function newPlayer(name, password)
       x = 0,
       y = 0,
       t = 805, --805 is shipwrecked, 918 is hell
-      dt = 544,
+      dt = 1942,
       wep = "Long Stick",
       arm = "Legendary Padding",
       armd = 0,
@@ -264,12 +264,12 @@ function playerUse(name, ritem, index, amount)
 
     elseif item.type[ritem] == "chest armour" then
 
-      if pl[name].arm_chest ~= "None" then rebuiltInv[#rebuiltInv + 1] = { pl[name].arm_chest, amount = 1 } end
+      if pl[name].arm_chest ~= "None" then rebuiltInv[#rebuiltInv + 1] = {item = pl[name].arm_chest, amount = 1 } end
       pl[name].arm_chest = ritem
 
     elseif item.type[ritem] == "leg armour" then
 
-      if pl[name].arm_legs ~= "None" then rebuiltInv[#rebuiltInv + 1] = { pl[name].arm_legs, amount = 1 } end
+      if pl[name].arm_legs ~= "None" then rebuiltInv[#rebuiltInv + 1] = {item = pl[name].arm_legs, amount = 1 } end
       pl[name].arm_legs = ritem
 
     end
@@ -282,6 +282,8 @@ function playerUse(name, ritem, index, amount)
   for i = 1, #rebuiltInv do
     if rebuiltInv[i].amount > 0 then
       givePlayerItem(name, rebuiltInv[i].item, rebuiltInv[i].amount)
+    elseif not rebuiltInv[i] or not rebuiltInv[i].amount then
+      addMsg("AN ERROR OCCURRED REBUILDING "..name.."'S INVENTORY::"..i.."::Arguments were name = "..name..", ritem = "..ritem..", index = "..index..", amount = "..amount)
     end
   end
 end
@@ -317,7 +319,7 @@ function playerClaim( name, item )
   pl[name].owed = "" --rebuild owed inventory
   for i = 1, #claims, 2 do
     if claims[i] and claims[i+1] then
-      pl[name].owed = pl[name].owed..claims[i]..","..claims[i+1]..","
+      pl[name].owed = pl[name].owed..claims[i]..","..claims[i+1].."," --TODO: make this into a table (pl.owed)
     end
   end
 

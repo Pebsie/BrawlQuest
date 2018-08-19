@@ -217,11 +217,11 @@ item.lvl[ti] = 10
 item.price[ti] = "1,Hilt,20,Iron,10,Stone,10,String,25,Mana"
 item.img[ti] = "img/items/weapons/Guardians Blade.png" item.title[ti] = ti
 
-local ti = "Legendary Sword"
+local ti = "Legendary Blade"
 item.type[ti] = "wep"
 item.val[ti] = 30
 item.lvl[ti] = 15
-item.price[ti] = "100,Adver"
+item.price[ti] = "1,Hilt,100,Iron,20,Stone,10,String,100,Mana,5,Old World Crystal"
 item.img[ti] = "img/items/weapons/Legendary Blade.png" item.title[ti] = ti
 
 
@@ -502,6 +502,14 @@ item.img[ti] = buddy[ti]
   item.lvl[ti] = 1
   item.price[ti] = "1,Gold"
   item.img[ti] = "img/items/reagent/Metal.png" item.title[ti] = ti
+
+
+    local ti = "Old World Crystal"
+    item.type[ti] = "Reagent"
+    item.val[ti] = ""
+    item.lvl[ti] = 10
+    item.price[ti] = "1,Gold"
+    item.img[ti] = "img/items/reagent/Metal.png" item.title[ti] = ti
 
 
 shop = {}

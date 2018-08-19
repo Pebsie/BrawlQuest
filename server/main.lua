@@ -3,7 +3,9 @@ local udp = socket.udp()
 http = require("socket.http")
 
 udp:settimeout(0)
-udp:setsockname("127.0.0.1", 26655)
+udp:setsockname("*", 26655)
+
+toboolean = require "libraries/toboolean"
 
 msgs = "Server started."
 nett = 0.1
@@ -30,11 +32,15 @@ print("Entering server loop...")
 
 function love.load()
   loadGame()
+
+  downloadMobs()
+  loadMobs()
+
   loadOverworld()
   initAspects()
   initWeather()
 
-  newPlayer("a","a")
+ --newPlayer("a","a")
   givePlayerItem("a","Guardian's Helmet",1)
   givePlayerItem("a","Guardian's Leggings",1)
   givePlayerItem("a","Guardian's Chestplate",1)

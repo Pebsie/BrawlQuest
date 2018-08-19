@@ -97,7 +97,7 @@ function netUpdate(dt)
                 if isNewItem == "Yes" then
                   newLoot(newInv[i],newInv[i+1])
                 elseif isNewItem == "NewAmount" then
-                  newLoot(newInv[i],tonumber(newInv[i+1])-tonumber(oldInv[i+1]))
+                  newLoot(tostring(newInv[i]),tostring(tonumber(newInv[i+1])-tonumber(oldInv[i+1])))
                 end
               end
             end
