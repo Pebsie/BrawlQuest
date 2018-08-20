@@ -3,7 +3,9 @@
 ---ensure that the map.txt file is in the filesystem directory before running or a new map will be created
 utf8 = require("utf8")
 require "data/world"
-require "ui/select"
+
+require "light"
+
 http = require("socket.http")
 
 world = {}
@@ -13,9 +15,12 @@ world.fight = {}
 world.fightc = {}
 world.collide = {}
 world.isFight = {}
+world.music = {}
+world.x = {}
+world.y = {}
 
-uiPhase = ""
-mapname = "map-beach.txt"
+mapname = "map-forest.txt"
+
 
 info = ""
 view = 0
@@ -33,14 +38,18 @@ curTile = "Mountain"
 curFight = "Boar Hunt"
 curFightC = 5
 curCollide = false
+curMusic = "*"
 
 isType = false
 ts = 1
+
+displayTiles = false
 
 function love.load()
 
 --  b, c, h = http.request("http://brawlquest.com/dl/map-snow.txt")
 --  love.filesystem.write("map-snow.txt", b)
+
   heroImg = love.graphics.newImage("img/human/Legend.png")
   --load map data
   if love.filesystem.exists(mapname) then
@@ -55,6 +64,11 @@ function love.load()
       world.name[i] = word[5]
       world.bg[i] = word[6]
       world.isFight[i] = false
+      if word[7] then
+        world.music[i] = word[7]
+      else
+        world.music[i] = "1"
+      end
       --print("Tile #"..i..", '"..world.name[i].."', fight is "..world.fight[i].." ("..world.fightc[i].."% chance). Collide="..tostring(world.collide[i]))
     end
   else
@@ -68,17 +82,37 @@ function love.load()
 --        world.collide[i] = true
 --        world.bg[i] = "Grass"
 --      else
-        world[i] = "Tree"
-        world.name[i] = "Hunter's Forest"
+      --  if love.math.random(1,200) == 1 then
+        --  world[i] = "Tree"
+      --  else
+          world[i] = "Tree"
+        --end
+        world.name[i] = "The Great Northern Forest"
         world.fight[i] = "None"
         world.fightc[i] = 0 --5%
         world.collide[i] = true
         world.bg[i] = "Grass"
+        world.music[i] = "*"
   --    end
 
       world.isFight[i] = false
     end
     print("Done.")
+  end
+
+  lightmap = {}
+  local x = 0
+  local y = 0
+  for i = 1, 100*100 do
+    if world[i] and lightsource[world[i]] then lightmap[i] = lightsource[world[i]]
+    else lightmap[i] = 0 end
+    world.x[i] = x
+    world.y[i] = y
+    x = x + 32
+    if x > 100*32 then
+      x = 0
+      y = y + 32
+    end
   end
 end
 
@@ -88,19 +122,35 @@ function love.draw()
 
   --v = round(((cx+camX)/32)*((cy+camY)/32))
   for i = 1, 100*100 do
-    if x-camX > -32 and x-camX < 800 and y-camY > -32 and y-camY < 600 then
+    if x-camX > -32 and x-camX < love.graphics.getWidth() and y-camY > -32 and y-camY < love.graphics.getHeight() then
       local cx, cy = love.mouse.getPosition()
       if cx+camX > x and cx+camX < x+32 and cy+camY > y and cy+camY < y+32 then
         selT = i
       end
       if worldImg[world[i]] then
         --if world.isFight[i] == true then love.graphics.setColor(255,0,0) else love.graphics.setColor(255,255,255) end
-        if selT == i then love.graphics.setColor(1,1,1,0.2) else love.graphics.setColor(1,1,1) end
-        if view == 2 then if world.collide[i] == true then love.graphics.setColor(1,0,0) end end
+        if selT == i then love.graphics.setColor(255,255,255,50) else love.graphics.setColor(255,255,255) end
+        if view == 2 then if world.collide[i] == true then love.graphics.setColor(255,0,0) end end
+        if view == 3 then
+          local rs = 0
+           for k = 1, #world.name[i] do
+             local char = world.name[i]:sub(k,k)
+             rs = rs + string.byte(char)
+           end
+
+          love.math.setRandomSeed(rs)
+          love.graphics.setColor(love.math.random(100,255),love.math.random(100,255),love.math.random(100,255))
+        end
         if worldImg[world.bg[i]] then
           love.graphics.draw(worldImg[world.bg[i]], x-camX, y-camY)
+        else
+          love.graphics.setColor(100,0,0)
+          love.graphics.rectangle("fill",x-camX,y-camY,32,32)
         end
         love.graphics.draw(worldImg[world[i]], x-camX, y-camY)
+        if love.keyboard.isDown("l") then
+          drawLight(x-camX,y-camY,i)
+        end
 
         if world.isFight[i] == true then love.graphics.draw(heroImg, x-camX, y-camY) end
         if view == 1 then
@@ -143,13 +193,29 @@ function love.draw()
   love.graphics.setColor(1,0,0)
   love.graphics.rectangle("line",ox+(camX/32),oy+(camY/32),25,18.75)
 
-  love.graphics.setColor(0,0,0)
-  love.graphics.rectangle("fill",0,0,250,14*8)
-  love.graphics.setColor(1,1,1)
-  love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\nFloor is "..curBG.."\n"..info)
+  love.graphics.setColor(0,0,0,100)
+  love.graphics.rectangle("fill",0,0,250,14*10)
+  love.graphics.setColor(255,255,255)
+  love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\nFloor is "..curBG.."\nMusic is "..curMusic.."\n"..info)
 
   if isType == true then
     love.graphics.rectangle("line", 0, 14+(14*ts), 200,14)
+  end
+
+  if displayTiles then
+    local x = 200
+    local y = 100
+    for i, v in pairs (worldImg) do
+      love.graphics.draw(v,x,y)
+      if isMouseOver(x,32,y,32) then
+        love.graphics.print(i,love.mouse.getX( ),love.mouse.getY( ))
+      end
+      x = x + 32
+      if x > 200 + (32 * 6) then
+        x = 200
+        y = y + 32
+      end
+    end
   end
 end
 
@@ -171,7 +237,8 @@ function love.update(dt)
   world.fightc[selT] = curFightC
   world.collide[selT] = curCollide
   world.name[selT] = curName
-  world.bg[selT] = curBG end
+  world.bg[selT] = curBG
+  world.music[selT] = curMusic end
 end
 
 function love.mousepressed(x, y, button, istouch)
@@ -181,6 +248,7 @@ function love.mousepressed(x, y, button, istouch)
     world.fightc[selT] = curFightC
     world.collide[selT] = curCollide
     world.name[selT] = curName
+    world.music[selT] = curMusic
   end
 end
 
@@ -216,16 +284,17 @@ function love.keypressed(key)
       if ts == 1 then pl.cinput = curTile
       elseif ts == 2 then pl.cinput = curFight
       elseif ts == 3 then pl.cinput = curFightC
-      elseif ts == 6 then pl.cinput = curBG end
-
-      if ts == 7 then ts = 1 end
+      elseif ts == 6 then pl.cinput = curBG
+      elseif ts == 7 then pl.cinput = curMusic  end
+      if ts == 8 then ts = 1 end
     elseif key == "up" then
       ts = ts - 1
       if ts == 1 then pl.cinput = curTile
       elseif ts == 2 then pl.cinput = curFight
       elseif ts == 3 then pl.cinput = curFightC
-      elseif ts == 5 then pl.cinput = curName end
-      if ts == 0 then ts = 6 end
+      elseif ts == 5 then pl.cinput = curName
+      elseif ts == 7 then pl.cinput = curMusic end
+      if ts == 0 then ts = 7 end
     end
 
 
@@ -247,6 +316,8 @@ function love.keypressed(key)
             curBG = pl.cinput
           elseif ts == 5 then
             curName = pl.cinput
+          elseif ts == 7 then
+            curMusic = pl.cinput
           end
       end
     end
@@ -254,7 +325,7 @@ function love.keypressed(key)
   else
     if key == "v" then
       view = view + 1
-      if view > 2 then view = 0 end
+      if view > 3 then view = 0 end
     end
     if key == "i" then
       info = world.name[selT]..","..world.fight[selT].." ("..world.fightc[selT].."%)"
@@ -266,8 +337,12 @@ function love.keypressed(key)
        curCollide =  world.collide[selT]
        curName = world.name[selT]
        curBG = world.bg[selT]
+       curMusic = world.music[selT]
     end
     if key == "e" then saveWorld() end
+    if key == "y" and displayTiles == false then displayTiles = true elseif key == "y" then displayTiles = false end
+--    if key == "]" then weather.time = weather.time + 1 if weather.time > 24 then weather.time = 0 end elseif key == "[" then weather.time = weather.time - 1 if weather.time == -1 then weather.time = 24 end end
+    if key == "r" and love.keyboard.isDown("l") then resetLightmap() end
   end
 end
 
@@ -294,6 +369,8 @@ function love.textinput(t)
       curName = pl.cinput
     elseif ts == 6 then
       curBG = pl.cinput
+    elseif ts == 7 then
+      curMusic = pl.cinput
     end
   end
 end
@@ -307,8 +384,8 @@ function saveWorld()
     if not world.fightc[i] then print("Missing fight chance.") end
     if not tostring(world.collide[i]) then print("Missing collision info.") end
     if not world.name[i] then print("Missing world name.") end
-    if world[i] and world.fight[i] and world.fightc[i] and tostring(world.collide[i]) and world.name[i] then
-      fs = fs..world[i]..","..world.fight[i]..","..world.fightc[i]..","..tostring(world.collide[i])..","..world.name[i]..","..world.bg[i].."\n"
+    if world[i] and world.fight[i] and world.fightc[i] and tostring(world.collide[i]) and world.name[i] and world.music[i] then
+      fs = fs..world[i]..","..world.fight[i]..","..world.fightc[i]..","..tostring(world.collide[i])..","..world.name[i]..","..world.bg[i]..","..world.music[i].."\n"
     else
       fs = fs.."error,none,0,false,The Great Plains,error\n"
       print("ERROR! WRITING CURRENT WORLD TO ALTERNATE FILE!! (Error tile is "..i..")")
@@ -340,7 +417,7 @@ function round(x)
 end
 
 
---[[local oldSetColor = love.graphics.setColor
+local oldSetColor = love.graphics.setColor
  love.graphics.setColor = function (r, g, b, a)
    if type(r)=="table" then
        g = r[2] / 255
@@ -370,4 +447,77 @@ end
      a = (a or 255) / 255
    end
    oldSetBackgroundColor(r,g,b,a)
- end]]
+ end
+
+ function isMouseOver(xpos, width, ypos, height)
+   cx,cy = love.mouse.getPosition()
+   if cx > xpos and cx < xpos+width and cy > ypos and cy < ypos+height then
+     return true
+   else
+     return false
+   end
+ end
+
+ function distanceFrom(x1,y1,x2,y2) return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2) end
+
+function resetLightmap()
+  lightmap = {}
+  local x = 0
+  local y = 0
+  for i = 1, 100*100 do
+    if world[i] and lightsource[world[i]] then lightmap[i] = lightsource[world[i]]
+    else lightmap[i] = 0 end
+    world.x[i] = x
+    world.y[i] = y
+    x = x + 32
+    if x > 100*32 then
+      x = 0
+      y = y + 32
+    end
+  end
+
+  for i = 1, 100*100 do
+    weather.time = tonumber(weather.time)
+    local tileDarkness = 0
+
+
+    if weather.time == 0 then tileDarkness = 160
+    elseif weather.time == 1 then tileDarkness = 150
+    elseif weather.time == 2 then tileDarkness = 150
+    elseif weather.time == 3 then tileDarkness = 120
+    elseif weather.time == 4 then tileDarkness = 100
+    elseif weather.time == 5 then tileDarkness = 90
+    elseif weather.time == 6 then tileDarkness = 75
+    elseif weather.time == 7 then tileDarkness = 30
+    elseif weather.time == 8 then tileDarkness = 15
+    elseif weather.time == 16 then tileDarkness = 20
+    elseif weather.time == 17 then tileDarkness = 40
+    elseif weather.time == 18 then tileDarkness = 50
+    elseif weather.time == 19 then tileDarkness = 70
+    elseif weather.time == 20 then tileDarkness = 90
+    elseif weather.time == 21 then tileDarkness = 120
+    elseif weather.time == 22 then tileDarkness = 130
+    elseif weather.time == 23 then tileDarkness = 150
+    elseif weather.time == 24 then tileDarkness = 150 end
+
+
+
+        local val = 0
+        local calc = 0
+        for k = -195,305,101 do
+          for t = -9, -5 do
+            if lightmap[t+i+k] then
+              print(lightmap[t+i+k])
+              val = val + (lightmap[t+i+k]*20 - distanceFrom(world.x[i],world.y[i],world.x[t+i+k],world.y[t+i+k])/32)
+              calc = calc + 1
+            end
+          end
+        end
+
+      if val > 0 then
+        tileDarkness = tileDarkness - val
+      end
+
+      weather.tileDarkness[i] = tileDarkness
+    end
+end

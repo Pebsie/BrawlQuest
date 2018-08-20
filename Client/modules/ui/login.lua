@@ -53,8 +53,9 @@ function drawLogin() --login screen
  love.graphics.draw(uiTree,litems["ground"],sh-128)
  love.graphics.draw(uiTree,litems["ground"]+sw,sh-128)
 
-  love.graphics.draw(item.img["Old Cloth"],litems["player"],sh-40)
-  love.graphics.draw(bli[bli.s],litems["player"]+40,sh-40)
+  --love.graphics.draw(item.img["Old Cloth"],litems["player"],sh-40)
+  love.graphics.draw(worldImg["Skeleton"],litems["player"],sh-40)
+--  love.graphics.draw(bli[bli.s],litems["player"]+40,sh-40)
 
   local xpos = round(sw/2-(181/2)-11)
   local ypos = round(sh/2-(145/2))
@@ -149,6 +150,7 @@ function drawLogin() --login screen
       end
     end
 
+    if #loadedCharacter < 3 then
       if isMouseOver(xpos,204,ypos,66) then
         love.graphics.setColor(100,100,100)
         if isMouseDown then
@@ -170,6 +172,7 @@ function drawLogin() --login screen
       love.graphics.printf( "Add Character" , xpos , ypos+33-font:getHeight() , 204 , "center" )
       love.graphics.setColor(150,150,150)
       love.graphics.rectangle("line",xpos,ypos,204,66)
+    end
 
   elseif loginI.status == "create" then
     local oypos = ypos --original ypos
@@ -404,11 +407,11 @@ function createLoginCanvas()
   love.graphics.clear()
   for i = 0, (sw/32)*2 do
     if biome ~= 1 then
-      love.graphics.draw(worldImg["Grass"],i*32,0)
-      love.graphics.draw(worldImg["Grass"],i*32,32)
+      love.graphics.draw(worldImg["Water"],i*32,0) --grass for beta
+      love.graphics.draw(worldImg["Water"],i*32,32)
     else
-      love.graphics.draw(worldImg["Sand"],i*32,0)
-      love.graphics.draw(worldImg["Sand"],i*32,32)
+      love.graphics.draw(worldImg["Water"],i*32,0) --sand for beta
+      love.graphics.draw(worldImg["Water"],i*32,32)
     end
   end
 
@@ -416,12 +419,12 @@ function createLoginCanvas()
   love.graphics.clear()
 
   local y = {}
-  for i = 0, sw/128 do
+  for i = 0, sw/1024 do --sw/128 for beta
       y[i] = love.math.random(10,44)
       if biome == 1 then
-        love.graphics.draw(worldImg["Dead Tree"],i*128,y[i],0,2)
+        love.graphics.draw(worldImg["Boat"],i*128,y[i],0,2) --Dead Tree for beta
       else
-        love.graphics.draw(worldImg["Tree"],i*128,y[i],0,2) --this needs work
+        love.graphics.draw(worldImg["Boat"],i*128,y[i],0,2) --Tree for beta
       end
   end
 

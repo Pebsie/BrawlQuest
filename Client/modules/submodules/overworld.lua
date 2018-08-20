@@ -1,21 +1,29 @@
 require "modules/submodules/fog"
 
 world = {}
-world.weather = "clear"
+world.weather = "clear" --TODO: remove all references to this as it is no longer used
 world.weatherX = 0
 world.weatherY = 0
 world.weatherA = 0
 
+weather = {}
+weather.time = 9
+weather.condition = "clear"
+weather.temperature = 11
+weather.day = 1
+
 areaTitleAlpha = 255
 curAreaTitle = "The Great Plains"
+whiteOut = 255
+titleScreen = 1200
 
 objectCanvas = love.graphics.newCanvas(32*101,32*101)
 
 function loadOverworld()
-  if love.filesystem.getInfo("map.txt") then
+  if love.filesystem.getInfo("map-beach.txt") then
     local x = 0
     local y = 0
-    for line in love.filesystem.lines("map.txt") do
+    for line in love.filesystem.lines("map-beach.txt") do
       word = atComma(line)
       i = #world + 1
       world[i] = {}
@@ -25,11 +33,13 @@ function loadOverworld()
       if word[4] == "true" then world[i].collide = true else world[i].collide = false end
       world[i].name = word[5]
       world[i].bg = word[6]
+      world[i].music = word[7]
       world[i].isFight = false
       world[i].players = ""
       world[i].x = x
       world[i].y = y
       world[i].i = i
+      world[i].spawned = "unknown"
       x = x + 32
       if x > 100*32 then
         x = 0
@@ -37,11 +47,28 @@ function loadOverworld()
       end
     end
   else
-    love.window.showMessageBox("World doesn't exist!", "We couldn't find the world file. This means one of two things: 1) the Witch has successfully wiped out all of mankind or 2) the client didn't download the world properly. Either way, we need to exit. Report this to @Pebsiee!!", "error")
-    love.event.quit()
+    error("We couldn't find the world file. This means one of two things: 1) the Witch has successfully wiped out all of mankind or 2) the client didn't download the world properly. Either way, we need to exit. Report this to @Pebsiee!!")
   end
 
+  titleScreen = 1200
   createWorldCanvas()
+
+  --create lightmap
+  createLightmap()
+  updateLightmap()
+  --[[for i = 1, 100*100 do
+    lightmap[i] = 0
+    if lightsource[world[i].tile] then lightmap[i] = lightsource[world[i].tile]
+    else
+      for k = -5, 5 do --5 as max lightsource value is 5
+        if lightmap[i+k] and k ~= i then
+          if lightmap[i+k] > lightmap[i] then
+            lightmap[i] = lightmap[i+k] - math.abs(k)
+            if lightmap[i] < 0 then lightmap[i] = 0 end
+          end
+        end
+      end
+]]
 end
 
 
@@ -50,21 +77,14 @@ function requestWorldInfo()
   netSend("world", pl.name)
 end
 
+function requestPlayersInfo()
+  netSend("players", pl.name)
+end
+
 -- DRAWING RELATED FUNCTIONS
 function drawOverworld()
   love.graphics.push()
-  love.graphics.scale(scale, scale)   -- reduce everything by 50% in both X and Y coordinates
---  local x = 0
---  local y = 0
-
-  --love.graphics.setColor(200,200,200)
-  --background
-----  for i = 1, (sw/32)*((sh/32)+1) do
----    love.graphics.draw(worldImg["Grass"], x, y)
---    love.graphics.draw(worldImg["Mountain"], x, y)
---    x = x + 32
---    if x > sw then x = 0 y = y + 32 end
---  end
+  love.graphics.scale(scaleX,scaleY)
 
   love.graphics.setColor(255,255,255,255)
 
@@ -73,18 +93,27 @@ function drawOverworld()
   end
 
   love.graphics.setBlendMode("alpha", "premultiplied")
-  love.graphics.draw(worldCanvas, -mx, -my) --draw world
-  love.graphics.draw(objectCanvas, -mx, -my)
-  drawFog(-mx,-my)
+  love.graphics.draw(worldCanvas, round(-mx), round(-my)) --draw world
+  love.graphics.draw(objectCanvas, round(-mx), round(-my))
   love.graphics.setBlendMode("alpha")
   if playerExists(pl.name) then
-    drawPlayer(pl.name,pl.x-mx,pl.y-my)
+    drawPlayer(pl.name,pl.x-mx,pl.y-my,"buddy")
+    drawNamePlate(pl.name,pl.x-mx,pl.y-my)
   end
 
   for i = 1, countPlayers() do
     name = getPlayerName(i)
     if name ~= pl.name and fog[tonumber(getPlayer(name,"t"))] and getPlayer(name,"state") ~= "fight" then
-      drawPlayer(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my)
+      drawPlayer(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my,"buddy")
+    end
+  end
+
+  drawFog(-mx,-my)
+
+  for i = 1, countPlayers() do --we want nameplates to show above player sprites
+    name = getPlayerName(i)
+    if name ~= pl.name and fog[tonumber(getPlayer(name,"t"))] and getPlayer(name,"state") ~= "fight" then
+      drawNamePlate(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my)
     end
   end
 
@@ -93,164 +122,47 @@ function drawOverworld()
   end
   --weather
   love.graphics.setColor(255,255,255,world.weatherA)
-  love.graphics.draw(weatherImg["snow"],world.weatherX,world.weatherY)
+  love.graphics.draw(rain,world.weatherX,world.weatherY)
   love.graphics.setColor(255,255,255,255)
 
     love.graphics.pop()
 
-    for i = 1, 4 do
+    for i = 1, #gameUI do
       drawUIWindow(i)
     end
 
       local sw,sh = love.graphics.getDimensions()
       if world[pl.t].tile == "Blacksmith" then
-        drawShop(sw/2-75,sh/2-125)
+      --  drawShop(sw/2-75,sh/2-125)
       elseif world[pl.t].tile == "Graveyard" and pl.dt ~= pl.t then
         drawGraveyard(sw/2-75,sh/2-(72/2))
       end
 
-  love.graphics.setColor(0,0,0,areaTitleAlpha)
-  love.graphics.rectangle("fill",(sw/2)-(bFont:getWidth(world[pl.t].name)+10)/2,5,bFont:getWidth(world[pl.t].name)+10,bFont:getHeight()+10)
-  love.graphics.setFont(bFont)
-  love.graphics.setColor(255,255,255,areaTitleAlpha)
-  love.graphics.printf(world[pl.t].name,0,10,sw,"center")
-  love.graphics.setFont(font)
-end
-
-function drawGraveyard(tx,ty)
-  x = tx
-  y = ty
-  love.graphics.setColor(50,50,50)
-  love.graphics.rectangle("fill", x, y, 140+32, 72)
-  love.graphics.setFont(font)
-  love.graphics.setColor(255,255,255)
-  love.graphics.printf("Graveyard",x,y,140+32,"center")
-  y = y + font:getHeight()+6
-  love.graphics.setFont(sFont)
-  love.graphics.printf("Praying here will set this Graveyard to be your respawn point.",x,y,140+32,"center")
-  y = y + 36
-  love.graphics.setFont(font)
-  if cx > x and cx < x+140+32 and cy > y-1 and cy < y+font:getHeight() then
-    love.graphics.setColor(100,100,100)
+  if titleScreen < 0 then
+    love.graphics.setColor(0,0,0,areaTitleAlpha)
+    love.graphics.rectangle("fill",(sw/2)-(bFont:getWidth(world[pl.t].name)+10)/2,5,bFont:getWidth(world[pl.t].name)+10,bFont:getHeight()+10)
+    love.graphics.setFont(bFont)
+    love.graphics.setColor(255,255,255,areaTitleAlpha)
+    love.graphics.printf(world[pl.t].name,0,10,sw,"center")
+    love.graphics.setFont(font)
   else
-    love.graphics.setColor(0,0,0)
+    areaTitleAlpha = 0
   end
-  love.graphics.rectangle("fill",x,y,140+32,font:getHeight())
-  love.graphics.setColor(255,255,255)
-  love.graphics.printf("Pray",x,y,140+32,"center")
 
-  --border
-  love.graphics.setColor(150,150,150)
-  love.graphics.rectangle("line",tx,ty, 140+32, 72)
-end
+  drawMenu(love.graphics.getWidth()-gameUI[5].width-(64*4),0)
 
-function drawShop(tx,ty)
-  x = tx
-  y = ty
-  love.graphics.setColor(50,50,50)
-  love.graphics.rectangle("fill", x, y, 140+32, 240)
+  love.graphics.setColor(255,255,255,whiteOut)
+  love.graphics.rectangle("fill",0,0,sw,sh)
+
+  love.graphics.setColor(0,0,0,titleScreen)
+  love.graphics.rectangle("fill",0,0,sw,sh)
+  love.graphics.setColor(255,255,255,titleScreen)
+  love.graphics.setFont(bFont)
+  love.graphics.printf(world[pl.t].name,0,sh/2-200,sw,"center")
   love.graphics.setFont(font)
-  love.graphics.setColor(255,255,255)
-  love.graphics.printf("Shop",x,y,140+32,"center")
-  y = y + font:getHeight()+2
-  love.graphics.setFont(font)
-
-  x = x + 2
-
-  for k = 1, 4 do
-
-    if k == 1 then titype = "Armour"
-    elseif k == 2 then titype = "Weapons"
-    elseif k == 3 then titype = "Spells"
-    elseif k == 4 then titype = "Misc" end
-    love.graphics.print(titype,x,y)
-    y = y + font:getHeight()
-    for i = 1, #shop[titype] do
-      drawItem(shop[titype][i],-1,x,y)
-      x = x + 34
-    end
-    x = tx+2
-    y = y + 34
-
-  end
-
-
-  --border
-  love.graphics.setColor(150,150,150)
-  love.graphics.rectangle("line",tx,ty, 140+32, 240)
+  love.graphics.printf("Day "..weather.day.." of the year 302\n\nThe hour is "..weather.time.."\nThe weather is "..weather.condition.." and the temperature is "..weather.temperature.."C",0,sh/2,sw,"center")
 end
 
---UI elements
-function drawUIWindow(i)
-
-
-  if gameUI[i].isVisible == true then
-    local x = gameUI[i].x
-    local y = gameUI[i].y
-
-    if i == 4 then
-      local wid = font:getWidth(gameUI[i].msg)+32
-      if wid < 128 then
-        wid = 128
-      end
-      width, wrappedText = font:getWrap(gameUI[i].msg,wid)
-      gameUI[i].width = wid
-      gameUI[i].height = font:getHeight()*(#wrappedText+2)
-    end
-
-    love.graphics.setColor(50,50,50)
-    love.graphics.rectangle("fill", x, y, gameUI[i].width, gameUI[i].height)
-    love.graphics.setFont(font)
-    love.graphics.setColor(255,255,255)
-    love.graphics.printf(gameUI[i].label,x,y,gameUI[i].width,"center")
-    y = y + font:getHeight()+2
-    love.graphics.setFont(font)
-    if i == 1 then
-      drawFightUI(x,y)
-    elseif i == 2 then
-
-      love.graphics.setColor(255,255,255)
-      love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()).."\nCam: "..mx..", "..my.."\nST: "..selT, x, y)
-
-    elseif i == 3 then
-
-      local inv = atComma(pl.inv,";")
-
-      pl.selItem = "None"
-      local tx = 4
-      local ty = 4
-      love.graphics.setFont(sFont)
-      for i = 1, #inv, 2 do
-
-
-        love.graphics.setColor(255,255,255)
-        if item.img[inv[i]] then
-
-          --display tooltip
-          drawItem(inv[i],inv[i+1],x+tx, y+ty)
-          if cx > x+tx and cx < x+tx+32 and cy > y+ty and cy < y+ty+32 then
-            pl.selItem = inv[i]
-          end
-        end
-
-        tx = tx + 36
-        if tx > (36*4) then
-          tx = 2
-          ty = ty + 36
-        end
-      end
-    elseif i == 4 then
-      love.graphics.print(gameUI[4].msg,x+1,y)
-      --close button
-      love.graphics.setColor(100,0,0)
-      love.graphics.rectangle("fill",x+gameUI[i].width-16,y-font:getHeight()-2,16,16)
-    end
-
-    --border
-    love.graphics.setColor(150,150,150)
-    love.graphics.rectangle("line",x, y-font:getHeight()-2, gameUI[i].width, gameUI[i].height)
-  end
-end
 
 function updateOverworld(dt)
   for i = 1, sw/64 do
@@ -276,37 +188,14 @@ function updateOverworld(dt)
     world.weatherY = -800
   end
 
-  if world.weather == "snow" then world.weatherA = world.weatherA + 100*dt end
-  if world.weather == "clear" then world.weatherA = world.weatherA - 100*dt end
+  if weather.condition == "rain" or weather.condition == "storm" then world.weatherA = world.weatherA + 100*dt end
+  if weather.condition == "storm" and love.math.random(1,2500) == 1 then whiteOut = 200 love.audio.play(sfx["lightning"]) end
+  if weather.condition == "clear" then world.weatherA = world.weatherA - 100*dt end
   if world.weatherA > 255 then world.weatherA = 255 elseif world.weatherA < 0 then world.weatherA = 0 end
 
   local cx, cy = love.mouse.getPosition()
   local sw,sh = love.graphics.getDimensions()
 
-  for i = 1, #gameUI do
-    if isMouseDown then
-      if cx > gameUI[i].x+gameUI[i].width-16 and cx < gameUI[i].x+gameUI[i].width and cy > gameUI[i].y and cy < gameUI[i].y + 16 and i == 4 then
-        gameUI[i].isVisible = false
-      elseif cy < gameUI[i].y+12 and cy > gameUI[i].y and cx > gameUI[i].x and cx < gameUI[i].x+gameUI[i].width then
-        gameUI[i].isDrag = true
-      end
-    else
-      gameUI[i].isDrag = false
-    end
-    if gameUI[i].isDrag == true then
-      gameUI[i].x = cx
-      gameUI[i].y = cy
-    end
-
-    if gameUI[i].x+gameUI[i].width > sw+1 then --avoid leaving boundaries of the window
-        gameUI[i].x = sw-gameUI[i].width
-    end
-    if   gameUI[i].y+gameUI[i].height > sh+1 then
-      gameUI[i].y = sh-gameUI[i].height
-    end
-  end
-
-  updateTT(dt)
 end
 
 function createWorldCanvas()

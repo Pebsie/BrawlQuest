@@ -2,6 +2,7 @@ require "modules/submodules/players"
 require "modules/submodules/fight"
 require "modules/submodules/overworld"
 require "modules/submodules/buddy"
+require "modules/submodules/aspects"
 
 mx = 0
 my = 0
@@ -10,37 +11,40 @@ gameUI = {}
 
 timeToMove = 0.5
 timeToUpdate = 0.5
+thisUpdate = "world"
 
 frequentlyUpdate = false
 
 function drawGame()
   if pl.state == "world" then
-    drawOverworld()
-  elseif pl.state == "fight" then
+   drawOverworld()
+  elseif pl.state == "fight" or pl.state == "afterfight" then
     drawFight()
   else
     love.graphics.setFont(sFont)
     love.graphics.printf("Your character is presently floating through the void!\n\nSeriously, though, screenshot this and send it to @Pebsiee on Twitter.\nUsername: "..pl.name.."\nState: "..tostring(pl.state).."\n\nThere's also a possibility that we're just waiting on the next character update and this might be caused by a slow connection.\nIn that case - if you've had enough time to read this fully - you're not going to be able to play this game. Try changing server, ISP or contact @Pebsiee on Twitter with your location asking for a new server location.\n\nYou can ask again for user info by hitting u now.",0,0,sw,"left")
   end
+
+  love.graphics.setColor(255,255,255,255)
+--  love.graphics.print(love.timer.getFPS().." FPS")
 end
 
 function updateGame(dt)
   if pl.state == "world" then
     updateOverworld(dt)
-  --  if pl.t and moveQueue and #moveQueue > 0 then
-  --    timeToMove = timeToMove - 1*dt
-  --    if timeToMove < 0 then
-  --      pl.t = moveQueue[#moveQueue]
-  --      addFog(pl.t)
-  --      table.remove(moveQueue, #moveQueue)
-  --      centerCamera()
-    --    timeToMove = 0.2
-  --    end
-  --  end
 
     timeToUpdate = timeToUpdate - 1*dt
     if timeToUpdate < 0 then
+    --[[  if thisUpdate == "world" then
+        requestWorldInfo()
+        thisUpdate = "players"
+      elseif thisUpdate == "players" then
+        requestPlayersInfo()
+        thisUpdate = "world"
+      end]]
       requestWorldInfo()
+      requestPlayersInfo()
+
       if frequentlyUpdate == true then
         requestUserInfo()
         frequentlyUpdate = false
@@ -71,7 +75,7 @@ function updateGame(dt)
 
       updatePlayers(dt)
     end
-  elseif pl.state == "fight" then
+  elseif pl.state == "fight" or pl.state == "afterfight" then
     updateFight(dt)
   end
 

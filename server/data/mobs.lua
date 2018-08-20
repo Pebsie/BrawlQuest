@@ -9,7 +9,9 @@ mb.sp2t = {}
 mb.img = {} --width in this case
 mb.rng = {}
 mb.friend = {}
+mb.atr = {} --atributes
 
+--friendly
 local tm = "speak"
 mb.hp[tm] = 1
 mb.spd[tm] = 0
@@ -70,42 +72,272 @@ mb.img[tm] = 32
 mb.rng[tm] = 32
 mb.friend[tm] = true
 
-local tm = "Friendly Snake"
-mb.hp[tm] = 25000
+local tm = "Ship"
+mb.hp[tm] = 500
+mb.spd[tm] = 100
+mb.atk[tm] = 20
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] =  32
+mb.friend[tm] = true
+
+--opponents
+
+local tm = "Ghostly Ship"
+mb.hp[tm] = 100000
+mb.spd[tm] = 64
+mb.atk[tm] = 50
+mb.sp1[tm] = "spawn:Cannon Ball"
+mb.sp1t[tm] = 5
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] =  128
+
+local tm = "Pirate Ship"
+mb.hp[tm] = 10
 mb.spd[tm] = 80
-mb.atk[tm] = 25
+mb.atk[tm] = 0
 mb.sp1[tm] = "None"
 mb.sp1t[tm] = 0
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
 mb.img[tm] = 32
 mb.rng[tm] = 32
-mb.friend[tm] = true
 
-local tm = "Starved Rat"
-mb.hp[tm] = 0.5
-mb.spd[tm] = 74
-mb.atk[tm] = 1
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = 24
-mb.rng[tm] = 32
-mb.friend[tm] = false
-
-local tm = "Ghost"
-mb.hp[tm] = 100
-mb.spd[tm] = 200
+local tm = "Cannon Ball"
+mb.hp[tm] = 100000
+mb.spd[tm] = 256
 mb.atk[tm] = 100
-mb.sp1[tm] = "None"
-mb.sp1t[tm] = 0
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 1
 mb.sp2[tm] = "None"
 mb.sp2t[tm] = 0
-mb.img[tm] = 69
+mb.img[tm] = 16
 mb.rng[tm] =  32
 
-local tm = "Boar"
+local tm = "Friendly Cannon Ball"
+mb.hp[tm] = 100000
+mb.spd[tm] = 256
+mb.atk[tm] = 100
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 1
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 16
+mb.rng[tm] =  32
+mb.friend[tm] = true
+
+local tm = "Spider"
+mb.hp[tm] = 3
+mb.spd[tm] = 64
+mb.atk[tm] = 5
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] =  32
+
+local tm = "Scorpion"
+mb.hp[tm] = 10
+mb.spd[tm] = 40
+mb.atk[tm] = 8
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 16
+mb.rng[tm] =  16
+
+local tm = "Sand Worm"
+mb.hp[tm] = 1
+mb.spd[tm] = 32
+mb.atk[tm] = 1
+mb.sp1[tm] = "spawn:Sand"
+mb.sp1t[tm] = 8
+mb.sp2[tm] = "suicide"
+mb.sp2t[tm] = 8
+mb.img[tm] = 32
+mb.rng[tm] =  16
+
+local tm = "Manamite"
+mb.hp[tm] = 25
+mb.spd[tm] = 64
+mb.atk[tm] = 10
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 20
+mb.rng[tm] =  16
+
+local tm = "Sand"
+mb.hp[tm] = 99999
+mb.spd[tm] = 128
+mb.atk[tm] = 0
+mb.sp1[tm] = "spawn:Sand Worm"
+mb.sp1t[tm] = 1
+mb.sp2[tm] = "suicide"
+mb.sp2t[tm] = 1
+mb.img[tm] = 32
+mb.rng[tm] =  16
+
+local tm = "Cannibal Tribesman"
+mb.hp[tm] = 30
+mb.spd[tm] = 40
+mb.atk[tm] = 5
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] =  16
+mb.atr[tm] = "spawnRandom"
+
+local tm = "Cannibal Hunter"
+mb.hp[tm] = 30
+mb.spd[tm] = 60
+mb.atk[tm] = 5
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] =  16
+
+local tm = "Cannibal Leader"
+mb.hp[tm] = 100
+mb.spd[tm] = 50
+mb.atk[tm] = 10
+mb.sp1[tm] = "doOnce:stat;hp;20;spawn:speak,Cannibal Leader,WE EAT NOT WE BE EAT!!!,4"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] =  16
+
+local tm = "Mysterious Figure"
+mb.hp[tm] = 999999
+mb.spd[tm] = 40
+mb.atk[tm] = 10
+mb.sp1[tm] = "spawn:Image of a Phoenix"
+mb.sp1t[tm] = 20
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 128
+mb.friend[tm] = true
+
+local tm = "Image of a Phoenix"
+mb.hp[tm] = 99999
+mb.spd[tm] = 120
+mb.atk[tm] = 50
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 10
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 100
+mb.friend[tm] = true
+
+local tm = "Demon"
+mb.hp[tm] = 5000
+mb.spd[tm] = 40
+mb.atk[tm] = 5
+mb.sp1[tm] = "spawnRandom,Hellfire"
+mb.sp1t[tm] = 0.5
+mb.sp2[tm] = "spawnRandom,Minion"
+mb.sp2t[tm] = 4
+mb.img[tm] = 128
+mb.rng[tm] = 64
+
+local tm = "Hellfire"
+mb.hp[tm] = 999999
+mb.spd[tm] = 0
+mb.atk[tm] = 30
+mb.sp1[tm] = "suicide"
+mb.sp1t[tm] = 10
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 32
+
+local tm = "Minion"
+mb.hp[tm] = 30
+mb.spd[tm] = 80
+mb.atk[tm] = 10
+mb.sp1[tm] = "spawnRandom,Minion"
+mb.sp1t[tm] = 5
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 32
+
+local tm = "Evil Figure"
+mb.hp[tm] = 25000
+mb.spd[tm] = 40
+mb.atk[tm] = 20
+mb.sp1[tm] = "spawnRandom,Minion Portal"
+mb.sp1t[tm] = 10
+mb.sp2[tm] = "spawnRandom,Minion Portal"
+mb.sp2t[tm] = 10
+mb.img[tm] = 64
+mb.rng[tm] = 64
+
+local tm = "Minion Portal"
+mb.hp[tm] = 150
+mb.spd[tm] = 1
+mb.atk[tm] = 0
+mb.sp1[tm] = "spawn,randomMob"
+mb.sp1t[tm] = 3
+mb.sp2[tm] = "suicide"
+mb.sp2t[tm] = 20
+mb.img[tm] = 54
+mb.rng[tm] = 54
+
+
+--crafting
+local tm = "Weak Tree"
+mb.hp[tm] = 20
+mb.spd[tm] = 0.1
+mb.atk[tm] = 0
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 0
+mb.atr[tm] = "spawnRandom"
+
+local tm = "Weak Rock"
+mb.hp[tm] = 40
+mb.spd[tm] = 0.1
+mb.atk[tm] = 0
+mb.sp1[tm] = "None"
+mb.sp1t[tm] = 0
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 0
+mb.atr[tm] = "spawnRandom"
+
+local tm = "Mana Crystal"
+mb.hp[tm] = 100
+mb.spd[tm] = 0.1
+mb.atk[tm] = 0
+mb.sp1[tm] = "stat;hp;50;spawn:Manamite"
+mb.sp1t[tm] = 5
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
+mb.img[tm] = 32
+mb.rng[tm] = 0
+mb.atr[tm] = "spawnRandom"
+
+--previous alpha mobslocal tm = "Boar"
 mb.hp[tm] = 1
 mb.spd[tm] = 64
 mb.atk[tm] = 5
@@ -150,9 +382,9 @@ local tm = "Biggest Boar"
       mb.rng[tm] = 16
 
 local tm = "Wolf"
-    mb.hp[tm] = 1
+    mb.hp[tm] = 5
     mb.spd[tm] = 80
-    mb.atk[tm] = 10
+    mb.atk[tm] = 25
     mb.sp1[tm] = "None"
     mb.sp1t[tm] = 0
     mb.sp2[tm] = "None"
@@ -161,7 +393,7 @@ local tm = "Wolf"
     mb.rng[tm] = 16
 
   local tm = "Alpha Wolf"
-    mb.hp[tm] = 10
+    mb.hp[tm] = 20
     mb.spd[tm] = 65
     mb.atk[tm] = 30
     mb.sp1[tm] = "None"
@@ -172,9 +404,9 @@ local tm = "Wolf"
     mb.rng[tm] = 16
 
     local tm = "Mother Wolf"
-      mb.hp[tm] = 25
+      mb.hp[tm] = 20
       mb.spd[tm] = 40
-      mb.atk[tm] = 20
+      mb.atk[tm] = 30
       mb.sp1[tm] = "spawn:Cub"
       mb.sp1t[tm] = 5
       mb.sp2[tm] = "None"
@@ -187,44 +419,11 @@ local tm = "Wolf"
         mb.spd[tm] = 120
         mb.atk[tm] = 1
         mb.sp1[tm] = "spawn:Wolf"
-        mb.sp1t[tm] = 3
+        mb.sp1t[tm] = 5
         mb.sp2[tm] = "suicide"
-        mb.sp2t[tm] = 3
+        mb.sp2t[tm] = 5
         mb.img[tm] = 16
         mb.rng[tm] = 32
-
-        local tm = "Bandit"
-        mb.hp[tm] = 30
-        mb.spd[tm] = 64
-        mb.atk[tm] = 3
-        mb.sp1[tm] = "None"
-        mb.sp1t[tm] = 0
-        mb.sp2[tm] = "None"
-        mb.sp2t[tm] = 0
-        mb.img[tm] = 32
-        mb.rng[tm] = 16
-
-        local tm = "Bandit Mage"
-        mb.hp[tm] = 5
-        mb.spd[tm] = 32
-        mb.atk[tm] = 1
-        mb.sp1[tm] = "None"
-        mb.sp1t[tm] = 0
-        mb.sp2[tm] = "None"
-        mb.sp2t[tm] = 0
-        mb.img[tm] = 32
-        mb.rng[tm] = 128
-
-        local tm = "Bandit Leader"
-        mb.hp[tm] = 50
-        mb.spd[tm] = 40
-        mb.atk[tm] = 10
-        mb.sp1[tm] = "doOnce:spawn:speak,Bandit Leader,FINE! I'll deal with them myself!!,3"
-        mb.sp1t[tm] = 0
-        mb.sp2[tm] = "doOnce:stat;hp;20;spawn:speak,Bandit Leader,NO! THIS CAN'T BE HAPPENING! The Forest Alliance is meant to be STRONG!,10"
-        mb.sp2t[tm] = 0
-        mb.img[tm] = 32
-        mb.rng[tm] = 16
 
 local tm = "Cursed Human"
 mb.hp[tm] = 1
@@ -330,139 +529,108 @@ local tm = "Venom"
 mb.hp[tm] = 100
 mb.spd[tm] = 0
 mb.atk[tm] = 0
-mb.sp1[tm] = "dmg,30"
-mb.sp1t[tm] = 9
-mb.sp2[tm] = "suicide"
-mb.sp2t[tm] = 10
+mb.sp1[tm] = "dmg,1"
+mb.sp1t[tm] = 0.5
+mb.sp2[tm] = "None"
+mb.sp2t[tm] = 0
 mb.img[tm] = 32
 mb.rng[tm] = 0
 mb.friend[tm] = false
 
-local tm = "Savage Giant"
-mb.hp[tm] = 4000
-mb.spd[tm] = 18
-mb.atk[tm] = 10
-mb.sp1[tm] = "spawnFeet,Quake"
-mb.sp1t[tm] = 3
-mb.sp2[tm] = "spawnFeet,Savage Golem"
-mb.sp2t[tm] = 10
-mb.img[tm] = 195
-mb.rng[tm] = 80
-mb.friend[tm] = false
 
-local tm = "Hydra"
-mb.hp[tm] = 6000
-mb.spd[tm] = 32
-mb.atk[tm] = 20
-mb.sp1[tm] = "spawnFeet,Venom"
-mb.sp1t[tm] = 5
-mb.sp2[tm] = "spawn,Savage Golem"
-mb.sp2t[tm] = 15
-mb.img[tm] = 150
-mb.rng[tm] = 32
-mb.friend[tm] = false
 
-local tm = "Skeleton King"
-mb.hp[tm] = 12000
-mb.spd[tm] = 20
-mb.atk[tm] = 20
-mb.sp1[tm] = "spawnFeet,Venom"
-mb.sp1t[tm] = 20
-mb.sp2[tm] = "spawnFeet,Quake"
-mb.sp2t[tm] = 3
-mb.img[tm] = 182
-mb.rng[tm] = 64
-mb.friend[tm] = false
+function mobHasAttribute(name,attribute)
+  local result = false
+  if mb.atr[name] then
+    for i, v in pairs(atComma(mb.atr[name])) do
+      if v == attribute then
+        result = true
+      end
+    end
+  end
 
-local tm = "Giant"
-mb.hp[tm] = 6000
-mb.spd[tm] = 20
-mb.atk[tm] = 15
-mb.sp1[tm] = "spawnFeet,Quake"
-mb.sp1t[tm] = 3
-mb.sp2[tm] = "spawn,Savage Golem"
-mb.sp2t[tm] = 30
-mb.img[tm] = 96
-mb.rng[tm] = 50
-mb.friend[tm] = false
+  return result
+end
 
-local tm = "Ice Giant"
-mb.hp[tm] = 4000
-mb.spd[tm] = 10
-mb.atk[tm] = 5
-mb.sp1[tm] = "spawnFeet,Ice"
-mb.sp1t[tm] = 10
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = 96
-mb.rng[tm] = 50
-mb.friend[tm] = false
+function downloadMobs()
+  addMsg("Downloading mobs list...")
+  b, c, h = http.request("http://brawlquest.com/dl/mobs.txt")
+  if b then
+    love.filesystem.write("mobs.txt", b)
+  else
+    addMsg("Failed to download mobs list.")
+  end
+end
 
-local tm = "Ice"
-mb.hp[tm] = 60000
-mb.spd[tm] = 5
-mb.atk[tm] = 30
-mb.sp1[tm] = "suicide"
-mb.sp1t[tm] = 15
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 20
-mb.img[tm] = 32
-mb.rng[tm] = 32
-mb.friend[tm] = false
 
-local tm = "Fire Giant"
-mb.hp[tm] = 4000
-mb.spd[tm] = 30
-mb.atk[tm] = 10
-mb.sp1[tm] = "spawn,Fire"
-mb.sp1t[tm] = 3
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 5
-mb.img[tm] = 96
-mb.rng[tm] = 50
-mb.friend[tm] = false
+mobData = {}
+mfs = ""
 
-local tm = "Fire"
-mb.hp[tm] = 2000000
-mb.spd[tm] = 128
-mb.atk[tm] = 10
-mb.sp1[tm] = "suicide"
-mb.sp1t[tm] = 5
-mb.sp2[tm] = "None"
-mb.sp2t[tm] = 0
-mb.img[tm] = 32
-mb.rng[tm] = 32
-mb.friend[tm] = false
+function newMob(name,hp,speed,attack,sp1,sp1t,sp2,sp2t,img,rng,friend)
+  if not friend then friend = false end
 
-local tm = "Sorcerer"
-mb.hp[tm] = 6000
-mb.spd[tm] = 120
-mb.atk[tm] = 18
-mb.sp1[tm] = "spawn,Fire Giant"
-mb.sp1t[tm] = 60
-mb.sp2[tm] = "stat;hp;3000;evolve,Red Dragon"
-mb.sp2t[tm] = 0
-mb.img[tm] = 32
-mb.rng[tm] = 16
+  print("New mob: "..name)
+  local i = name
+--  local imgData = love.image.newImageData(mobData[name].imgPath)
+  mfs = mfs.."name="..name.."=hp="..hp.."=spd="..speed.."=atk="..attack.."=sp1="..sp1.."=sp1t="..sp1t.."=sp2="..sp2.."=sp2t="..sp2t.."=imgPath="..img.."=rng="..rng.."=friend="..tostring(friend).."\n"
+--  mobData[name] = {name=name,hp=hp,atk=attack,sp1=sp1,sp1t=sp1t,sp2=sp2,sp2t=sp2t,imgPath=img,imgData=imgData,img=love.graphics.newImage(imgData),rng=rng,friend=friend}
+--  mobData[name].imgData = imgData
+  --OLD FILE FORMAT TODO: CONVERT ALL SYSTEMS TO USE THE TABLE ABOVE
+  mb.hp[i] = tonumber(hp)
+  mb.spd[i] = tonumber(speed)
+  mb.atk[i] = tonumber(attack)
+  mb.sp1[i] = sp1
+  mb.sp1t[i] = tonumber(sp1t)
+  mb.sp2[i] = sp2
+  mb.sp2t[i] = tonumber(sp2t)
+  mb.img[i] = rng
+  mb.rng[i] = tonumber(rng)
+  mb.friend[i] = friend
+end
 
-local tm = "Red Dragon"
-mb.hp[tm] = 20000
-mb.spd[tm] = 10
-mb.atk[tm] = 30
-mb.sp1[tm] = "spawnRandom,Dragonling"
-mb.sp1t[tm] = 10
-mb.sp2[tm] = "spawnRandom,Venom"
-mb.sp2t[tm] = 10
-mb.img[tm] = 128
-mb.rng[tm] = 128
+function convertMob(i)
+  if not mb.friend[i] then mb.friend[i] = false end
+  newMob(i,mb.hp[i],mb.spd[i],mb.atk[i],mb.sp1[i],mb.sp1t[i],mb.sp2[i],mb.sp2t[i],mb.img[i],mb.rng[i],mb.friend[i])
+end
 
-local tm = "Dragonling"
-mb.hp[tm] = 20
-mb.spd[tm] = 80
-mb.atk[tm] = 5
-mb.sp1[tm] = "spawn,Fire"
-mb.sp1t[tm] = 1
-mb.sp2[tm] = "spawnRandom,Dragonling"
-mb.sp2t[tm] = 3
-mb.img[tm] = 32
-mb.rng[tm] = 16
+
+
+function saveMobList(fn) --fn - file name
+--[[  fs = ""
+  for i,v in pairs(mobData) do
+    for k,va in pairs(v) do
+      if k ~= "img" and k ~= "imgData" then
+        fs = fs..k.."="..tostring(va).."="
+      end
+    end
+    fs = fs.."\n"
+  end
+]] -- the 'correct' way of doing this, which looked quite ugly in the file output. This is temporary code, so we used mfs above.
+  love.filesystem.write(fn,mfs)
+  print("Written mobs list to "..fn)
+end
+
+function loadMobs()
+  if love.filesystem.getInfo("mobs.txt") then
+    for line in love.filesystem.lines("mobs.txt") do
+      local mbInfo = atComma(line,"=")
+      local name = mbInfo[2]
+      mobData[name] = {}
+      for i = 1, #mbInfo, 2 do
+        mobData[name][mbInfo[i]] = mbInfo[i+1]
+      end
+
+      newMob(mobData[name].name,tonumber(mobData[name].hp),tonumber(mobData[name].spd),tonumber(mobData[name].atk),mobData[name].sp1,tonumber(mobData[name].sp1t),mobData[name].sp2,tonumber(mobData[name].sp2t),mobData[name].imgPath,tonumber(mobData[name].rng),toboolean(mobData[name].friend)) --convert to old system
+    end
+  else
+    error("FATAL ERROR: Unable to access mobs list.")
+  end
+
+
+  mobSet = {}
+  for i,v in pairs(mb.hp) do
+    if v and tonumber(v) < 800 and mb.spd[i] and mb.atk[i] and mb.sp1[i] and mb.sp1t[i] and mb.sp2[i] and mb.sp2t[i] and mb.img[i] and mb.rng[i] and not mb.friend[i] then
+      mobSet[#mobSet+1] = i
+    end
+  end
+end

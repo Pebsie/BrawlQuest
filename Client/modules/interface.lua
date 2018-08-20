@@ -3,6 +3,10 @@ require "modules/submodules/tooltip"
 require "modules/ui/master"
 require "modules/ui/chat"
 require "modules/ui/floats"
+require "modules/ui/crafting"
+require "modules/ui/menu"
+require "modules/ui/character"
+require "modules/ui/tutorial"
 
 --ui variables, use as you wish
 ui = {}
@@ -35,13 +39,6 @@ function drawPhase(phase)
   elseif phase == "game" then
     drawGame()
     drawUI()
-  elseif phase == "read" then
-    love.graphics.push()
-    local xscale = realScreenWidth/stdSH
-    local yscale = realScreenHeight/stdSW
-   love.graphics.scale(xscale,yscale)
-    love.graphics.draw(uiImg["readme"])
-    love.graphics.pop()
   else
     love.graphics.print("ERROR: Unknown phase '"..phase.."'. Please report this error message.")
   end
@@ -114,11 +111,11 @@ function love.keypressed(key)
       requestWorldInfo()
     end
   elseif key == "z" and ui.selected ~= "chat" then
-    newScale = newScale + 0.25
+    newScale = newScale + 1
     love.resize(love.graphics.getWidth(),love.graphics.getHeight())
   elseif key == "x" and ui.selected ~= "chat" then
-    newScale = newScale - 0.25
-    if newScale < 0.25 then newScale = 0.25 end
+    newScale = newScale - 1
+    if newScale < 0.25 then newScale = 1 end
     love.resize(love.graphics.getWidth(),love.graphics.getHeight())
   elseif key == "left" then
     if phase == "login" then
@@ -131,7 +128,7 @@ function love.keypressed(key)
   elseif key == "q" and ui.selected ~= "chat" then
     if phase == "game" then
       vals = atComma(item.val[pl.s1])
-      if pl.s1t < 0 and pl.en+1 > tonumber(vals[2]) then --HEY, changing this won't alter when you can and can't use spells, it'll only mess up the UI, so, stop.
+      if pl.s1 ~= "None" and pl.s1t < 0 and pl.en+1 > tonumber(vals[2]) then --HEY, changing this won't alter when you can and can't use spells, it'll only mess up the UI, so, stop.
         netSend("spell1", pl.name)
         pl.en = pl.en - tonumber(vals[2])
         pl.s1t = vals[1]
@@ -141,7 +138,7 @@ function love.keypressed(key)
   elseif key == "e" and ui.selected ~= "chat" then
     if phase == "game" then
       vals = atComma(item.val[pl.s2])
-      if pl.s2t < 0 and pl.en+1 > tonumber(vals[2]) then
+      if pl.s2 ~= "None" and pl.s2t < 0 and pl.en+1 > tonumber(vals[2]) then
         netSend("spell2", pl.name)
         pl.en = pl.en - tonumber(vals[2])
         pl.s2t = vals[1]
@@ -149,19 +146,207 @@ function love.keypressed(key)
       end
     end
   elseif key == "escape" then
-    fullscreen, fstype = love.window.getFullscreen( )
+  --[[  fullscreen, fstype = love.window.getFullscreen( )
     if fullscreen == true then
       love.window.setFullscreen(false)
     else
       love.window.setFullscreen(true,"desktop")
+    end]]
+    if love.window.highdpi == true then
+      love.window.highdpi = false
+    else
+      love.window.highdpi = true
     end
-
+--  elseif key == "c" then
+  --  if gameUI[6].visible == true then gameUI[6].visible = false else gameUI[6].visible = true end
   end
 
    if phase == "splash" then
      phase = "login"
      ui.selected = "username"
    end
+end
+
+
+function drawGraveyard(tx,ty)
+  x = tx
+  y = ty
+  love.graphics.setColor(50,50,50)
+  love.graphics.rectangle("fill", x, y, 140+32, 72)
+  love.graphics.setFont(font)
+  love.graphics.setColor(255,255,255)
+  love.graphics.printf("Graveyard",x,y,140+32,"center")
+  y = y + font:getHeight()+6
+  love.graphics.setFont(sFont)
+  love.graphics.printf("Praying here will set this Graveyard to be your respawn point.",x,y,140+32,"center")
+  y = y + 36
+  love.graphics.setFont(font)
+  if cx > x and cx < x+140+32 and cy > y-1 and cy < y+font:getHeight() then
+    love.graphics.setColor(100,100,100)
+  else
+    love.graphics.setColor(0,0,0)
+  end
+  love.graphics.rectangle("fill",x,y,140+32,font:getHeight())
+  love.graphics.setColor(255,255,255)
+  love.graphics.printf("Pray",x,y,140+32,"center")
+
+  --border
+  love.graphics.setColor(150,150,150)
+  love.graphics.rectangle("line",tx,ty, 140+32, 72)
+end
+
+function drawShop(tx,ty)
+  x = tx
+  y = ty
+  love.graphics.setColor(50,50,50)
+  love.graphics.rectangle("fill", x, y, 140+32, 240)
+  love.graphics.setFont(font)
+  love.graphics.setColor(255,255,255)
+  love.graphics.printf("Shop",x,y,140+32,"center")
+  y = y + font:getHeight()+2
+  love.graphics.setFont(font)
+
+  x = x + 2
+
+  for k = 1, 4 do
+
+    if k == 1 then titype = "Armour"
+    elseif k == 2 then titype = "Weapons"
+    elseif k == 3 then titype = "Spells"
+    elseif k == 4 then titype = "Misc" end
+    love.graphics.print(titype,x,y)
+    y = y + font:getHeight()
+    for i = 1, #shop[titype] do
+      drawItem(shop[titype][i],-1,x,y)
+      x = x + 34
+    end
+    x = tx+2
+    y = y + 34
+
+  end
+
+
+  --border
+  love.graphics.setColor(150,150,150)
+  love.graphics.rectangle("line",tx,ty, 140+32, 240)
+end
+
+--UI elements
+function drawUIWindow(i)
+
+
+  if gameUI[i].isVisible == true then
+    local x = gameUI[i].x
+    local y = gameUI[i].y
+
+    if i == 4 then
+      local wid = font:getWidth(gameUI[i].msg)+32
+      if wid < 128 then
+        wid = 128
+      end
+      width, wrappedText = font:getWrap(gameUI[i].msg,wid)
+      gameUI[i].width = wid
+      gameUI[i].height = font:getHeight()*(#wrappedText+2)
+    end
+
+    love.graphics.setColor(50,50,50)
+    love.graphics.rectangle("fill", x, y, gameUI[i].width, gameUI[i].height)
+    love.graphics.setFont(font)
+    love.graphics.setColor(255,255,255)
+    love.graphics.printf(gameUI[i].label,x,y,gameUI[i].width,"center")
+    y = y + font:getHeight()+2
+    love.graphics.setFont(font)
+    if i == 1 then
+      drawActionBar(x,y)
+    elseif i == 2 then
+
+      love.graphics.setColor(255,255,255)
+      --love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()).."\nCam: "..mx..", "..my.."\nST: "..selT, x, y)
+
+    elseif i == 3 then
+
+      local inv = atComma(pl.inv,";")
+
+      pl.selItem = "None"
+      local tx = 4
+      local ty = 4
+      love.graphics.setFont(sFont)
+      for i = 1, #inv, 2 do
+        love.graphics.setColor(255,255,255)
+        if item.img[inv[i]] and item.type[inv[i]] ~= "buddy" then
+
+          --display tooltip
+          drawItem(inv[i],inv[i+1],x+tx, y+ty)
+          if cx > x+tx and cx < x+tx+32 and cy > y+ty and cy < y+ty+32 then
+            pl.selItem = inv[i]
+          end
+
+          tx = tx + 36
+          if tx > (36*4) then
+            tx = 2
+            ty = ty + 36
+          end
+        end
+      end
+    elseif i == 4 then
+      love.graphics.print(gameUI[4].msg,x+1,y)
+      --close button
+      love.graphics.setColor(100,0,0)
+      love.graphics.rectangle("fill",x+gameUI[i].width-16,y-font:getHeight()-2,16,16)
+
+    elseif i == 5 then
+      local tx = 0
+      local ty = 0
+      for i = 1, 100*100 do
+        setWColour(i)
+        love.graphics.rectangle("fill",x+tx,y+ty,1,1)
+        tx = tx + 1
+        if tx > 100 then
+          ty = ty + 1
+          tx = 0
+        end
+      end
+
+      love.graphics.setColor(255,255,255)
+      love.graphics.line(15+x+(mx)/32,y,15+x+(mx)/32,y+100) --xpos crossover
+      love.graphics.line(x,9+y+(my)/32,x+100,9+y+(my)/32)
+
+      if uiImg["weather-"..weather.condition] then
+        love.graphics.draw(uiImg["weather-"..weather.condition],x,y+100)
+      end
+      if weather.time > 21 or weather.time < 4 then love.graphics.draw(uiImg["time-night"],x,y+110)
+      elseif weather.time > 3 and weather.time < 9 then love.graphics.draw(uiImg["time-sunset"],x,y+110)
+      elseif weather.time > 8 and weather.time < 16 then love.graphics.draw(uiImg["time-day"],x,y+110)
+      elseif weather.time > 15 and weather.time < 19 then love.graphics.draw(uiImg["time-sunset"],x,y+110)
+      elseif weather.time > 18 and weather.time < 22 then love.graphics.draw(uiImg["time-moonrise"],x,y+110) end
+      love.graphics.setFont(sFont)
+      love.graphics.print(weather.condition.." ("..weather.temperature.." C)\nHour: "..weather.time,x+10,y+98)
+    elseif i == 6 then
+      drawCraftingMenu(gameUI[i].x,gameUI[i].y+font:getHeight())
+    elseif i == 7 then
+      drawBuddyWindow(gameUI[i].x,gameUI[i].y+font:getHeight())
+    elseif i == 8 then
+      love.graphics.setFont(sFont)
+      love.graphics.printf(tutorialContent,gameUI[i].x,gameUI[i].y+font:getHeight(),gameUI[i].width,"left")
+    end
+
+    --close button
+    if gameUI[i].closeButton then
+      if isMouseOver(gameUI[i].x+gameUI[i].width-16,16,gameUI[i].y,16) then
+        love.graphics.setColor(255,0,0)
+        if isMouseDown then
+          gameUI[i].isVisible = false
+        end
+      else
+        love.graphics.setColor(100,0,0)
+      end
+
+      love.graphics.rectangle("fill",gameUI[i].x+gameUI[i].width-16,gameUI[i].y,16,16)
+    end
+    --border
+    love.graphics.setColor(150,150,150)
+    love.graphics.rectangle("line",x, y-font:getHeight()-2, gameUI[i].width, gameUI[i].height)
+  end
 end
 
 function love.resize(w,h) --reset sw and sh
@@ -171,18 +356,27 @@ function love.resize(w,h) --reset sw and sh
   screenH = sh
   realScreenWidth = w
   realScreenHeight = h
+  scaleX = round(love.graphics.getWidth()/(1920/2))
+  scaleY = round(love.graphics.getHeight()/(1080/2))
+--  stdSH = love.graphics.getWidth()/(1920/2)
+  --stdSW = love.graphics.getHeight()/(1080/2)
 
   if phase == "login" or phase == "read" then
     createLoginCanvas()
   elseif phase == "game" then
   --  createWorldCanvas()
+    createWeather()
+    updateLightmap()
+    resetUIPosition(1)
+    resetUIPosition(5)
   end
+
 end
 
 function centerCamera()
    --my = round((pl.t/101)-((sh/32)/2))*32 mx = round(tonumber(string.sub(tostring(pl.t/101),3))*3200)-((sw/32)/2)*32
-   mx = round(pl.x - sw/2)
-   my = round(pl.y - sh/2)
+   mx = round(pl.x - love.graphics.getWidth()/(2*scaleX))
+   my = round(pl.y - love.graphics.getHeight()/(2*scaleY))
 
   -- if playerExists(pl.name) then
 --     mx = round(getPlayer(pl.name, "x") - sw/2)

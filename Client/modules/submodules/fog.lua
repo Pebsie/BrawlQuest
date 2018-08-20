@@ -2,20 +2,20 @@ function loadFog()
   fog = {}
 
 
-  if love.filesystem.getInfo("fog.txt") then
+  if love.filesystem.getInfo("fog-"..pl.name..".txt") then
       local i = 1
-    for line in love.filesystem.lines("fog.txt") do
+    for line in love.filesystem.lines("fog-"..pl.name..".txt") do
       if line == "true" then
-        fog[i] = true
+        fog[i] = 0
       else
-        fog[i] = false
+        fog[i] = 255
       end
       i = i + 1
     end
 
   else
     for i = 1, 100*100 do
-      fog[i] = false
+      fog[i] = 255
     end
   end
 
@@ -35,20 +35,37 @@ function loadFog()
   fog.ignore["Graveyard"] = true
 end
 
+function updateFog(dt)
+  if fog then
+    for i,v in ipairs(fog) do
+      if fog[i] > 0 and fog[i] ~= 255 then fog[i] = fog[i] - 1000*dt end
+    end
+  end
+end
+
 function checkFog(tile)
   if fog then
     return fog[tile]
   else
-    return false
+    return 255
   end
 end
 
 function addFog(t)
-  fog[t] = true
+  if t then
+    if not fog[t] then
+      fog[t] = 254
+    end
 
-  for k = -195,305,101 do
-    for i = -9, -5 do
-      fog[t+i+k] = true
+    for k = -195,305,101 do
+      for i = -9, -5 do
+        if fog[t+i+k] and fog[t+i+k] == 255 then
+          fog[t+i+k] = 254
+          if world[t+i+k] and lightsource[world[t+i+k].tile] and lightsource[world[t+i+k].tile] > 4 then
+            addFog(t+i+k)
+          end
+        end
+      end
     end
   end
 end
@@ -56,10 +73,15 @@ end
 function saveFog(fn)
   local fs = ""
   for i = 1, 100*100 do
-    fs = fs..tostring(fog[i]).."\n"
+    if tonumber(fog[i]) == 255 then
+      fs = fs.."false\n"
+    else
+      fs = fs.."true\n"
+    end
+
   end
 
-  love.filesystem.write(fn,fs)
+  love.filesystem.write("fog-"..pl.name..".txt",fs)
 end
 
 function drawFog(xo,yo)
@@ -72,7 +94,7 @@ function drawFog(xo,yo)
         love.graphics.draw(uiImg["fight"],world[i].x+xo,world[i].y+yo)
       end
 
-      if not fog[i] then
+      if fog[i] == 255 then
         if fog.ignore[world[i].tile] then
           love.graphics.setColor(0,0,0,200)
           love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
@@ -82,15 +104,139 @@ function drawFog(xo,yo)
         end
         --love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
         --love.graphics.draw(worldImg["Cloud"], world[i].x+xo, world[i].y+yo)
+      elseif fog[i] > 1 then
+        love.graphics.setColor(255,255,255)
+        love.graphics.draw(worldImg[world[i].bg],world[i].x+xo,world[i].y+yo)
+        love.graphics.draw(worldImg[world[i].tile],world[i].x+xo,world[i].y+yo)
+        love.graphics.setColor(0,0,0,fog[i])
+        love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
       end
+      if fog[i] ~= 255 then
+
+        --  if tileDarkness < 0 then tileDarkness = 0 end
+        love.graphics.setColor(255,255,255,255)
+        if world[i].spawned ~= "unknown" then
+          if mb.img[world[i].spawned] then
+            love.graphics.draw(mb.img[world[i].spawned],world[i].x+xo,world[i].y+yo)
+            if isMouseOver((world[i].x+xo)*scaleX,32*scaleX,(world[i].y+yo)*scaleY,32*scaleY) then
+              if fightInfo[world[i].fight] and fightInfo[world[i].fight].requested and not fightInfo[world[i].fight].mobs then
+                addTT(world[i].fight,"Awaiting fight info...",cx,cy)
+              elseif fightInfo[world[i].fight] and fightInfo[world[i].fight].requested and fightInfo[world[i].fight].mobs then
+                addTT(world[i].fight,fightInfo[world[i].fight].msg,cx,cy)
+              else
+                netSend("fightInfo",pl.name..","..world[i].fight)
+                fightInfo[world[i].fight] = {requested = true}
+                addTT(world[i].fight,"Requesting fight info...",cx,cy)
+              end
+            end
+          else
+            love.graphics.draw(uiImg["error"],world[i].x+xo,world[i].y+yo)
+            love.graphics.print(world[i].spawned,world[i].x+xo,world[i].y+yo)
+          end
+        end
+
+      --  tileDarkness = tileDarkness - (lightmap[i]*20)
+        love.graphics.setColor(0,0,25,tileDarkness[i])
+        love.graphics.rectangle("fill",world[i].x+xo,world[i].y+yo,32,32)
+        if love.keyboard.isDown("v") then
+          love.graphics.setFont(sFont)
+          love.graphics.setColor(255,255,255,255)
+          love.graphics.print(round(val),world[i].x+xo,world[i].y+yo)
+        end
+
+
+
+        if ambSnd[world[i].tile] then
+          if love.math.random(1,250) == 1 and ambSnd[world[i].tile]:isPlaying() == false and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 256 then
+            local ambSound = ambSnd[world[i].tile]
+            ambSound:setPitch(love.math.random(75,150)/100)
+          --  ambSound:setPosition((world[i].x-pl.x),world[i].y-pl.y,1)
+            love.audio.play(ambSound)
+          end
+        end
+
+        if string.sub(world[i].fight,1,6) == "speak|" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
+          drawNamePlate("<NPC> "..world[i].tile,world[i].x+xo,world[i].y+yo)
+        elseif string.sub(world[i].fight,1,7) == "Gather:" then --I'm well aware that this whole section is nasty. TODO: make it doable in the editor.
+          drawNamePlate("Harvestable",world[i].x+xo,world[i].y+yo,"gather")
+        elseif world[i].tile == "Anvil" then
+          drawNamePlate("Crafting Anvil",world[i].x+xo,world[i].y+yo)
+        elseif world[i].tile == "Dungeon" then
+          drawNamePlate("Dungeon",world[i].x+xo,world[i].y+yo,"dungeon")
+        elseif world[i].tile == "Graveyard" then
+          drawNamePlate("Graveyard",world[i].x+xo,world[i].y+yo)
+        end
+      end
+
+
+
 
       if pl.dt == i then
         love.graphics.setColor(255,0,0)
         love.graphics.rectangle("line",world[i].x+xo,world[i].y+yo,32,32)
         --love.graphics.draw(worldImg["DT"],world[i].x+xo,world[i].y+yo)
       end
-    end
-  end
+
+    end --if tile is on screen
+  end --for statement
 
   love.graphics.setColor(255,255,255)
+end
+
+function updateLightmap()
+  tileDarkness = {}
+  weather.time = tonumber(weather.time)
+  for i = 1, 100*100 do
+    world[i].spawned = "unknown"
+   tileDarkness[i] = 0
+
+
+    if weather.time == 0 then tileDarkness[i] = 160
+    elseif weather.time == 1 then tileDarkness[i] = 150
+    elseif weather.time == 2 then tileDarkness[i] = 150
+    elseif weather.time == 3 then tileDarkness[i] = 120
+    elseif weather.time == 4 then tileDarkness[i] = 100
+    elseif weather.time == 5 then tileDarkness[i] = 90
+    elseif weather.time == 6 then tileDarkness[i] = 75
+    elseif weather.time == 7 then tileDarkness[i] = 30
+    elseif weather.time == 8 then tileDarkness[i] = 15
+    elseif weather.time == 16 then tileDarkness[i] = 20
+    elseif weather.time == 17 then tileDarkness[i] = 40
+    elseif weather.time == 18 then tileDarkness[i] = 50
+    elseif weather.time == 19 then tileDarkness[i] = 70
+    elseif weather.time == 20 then tileDarkness[i] = 90
+    elseif weather.time == 21 then tileDarkness[i] = 120
+    elseif weather.time == 22 then tileDarkness[i] = 130
+    elseif weather.time == 23 then tileDarkness[i] = 150
+    elseif weather.time == 24 then tileDarkness[i] = 150 end
+
+    if weather.condition ~= "clear" then tileDarkness[i] = tileDarkness[i] + 25 end
+
+
+
+        local val = 0
+        local calc = 0
+        for k = -195,305,101 do
+          for t = -9, -5 do
+            if lightmap[t+i+k] then
+              val = val + (lightmap[t+i+k]*20 - distanceFrom(world[i].x,world[i].y,world[t+i+k].x,world[t+i+k].y)/32)
+              calc = calc + 1
+            end
+          end
+        end
+
+      if val > 0 then
+        tileDarkness[i] = tileDarkness[i] - val
+      end
+    end
+end
+
+function createLightmap()
+  lightmap = {}
+  tileDarkness = {}
+  for i = 1, 100*100 do
+    if world[i].tile and lightsource[world[i].tile] then lightmap[i] = lightsource[world[i].tile]
+    else lightmap[i] = 0 end
+    tileDarkness[i] = 0
+  end
 end

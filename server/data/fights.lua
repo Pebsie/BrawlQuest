@@ -3,26 +3,71 @@ fs.spawnTime = {}
 fs.rewards = {} --item,amount,percentage chance
 
 --fs["Boar Hunt"] = "Boar;5;Reward;Boar Hide|3|80"
-fs["Ghostly Haunting"] = "Ghost;1"--default fight
-fs.spawnTime["Ghostly Haunting"] = 0.01
-fs.rewards["Ghostly Haunting"] = "Gold,100"
+fs["default"] = "Ghost;1"--default fight
+fs.spawnTime["default"] = 0.01
+fs.rewards["default"] = "Gold,100,100"
 
-fs["Intro"] = "Mortus;1;speak,Mortus,So you're one of the new recruits from Swordbreak?,5;5;speak,Mortus,Right. Here's your mission. Three bandit camps have been set up to the south of here.,6;6;speak,Mortus,They've been terrorising Northvale and the citizens are afraid to leave their homes.,4;4;speak,Mortus,Take out the leaders of the three camps and I'll make it worth your while.,5;5;speak,Mortus,Northvale's blacksmith will be happy to sell you some gear. You aren't exactly fit for purpose as you are...,5;5;speak,Bandit,A new recruit! ATTACK!,3;3;speak,Mortus,Uh-oh...,2;2;Bandit;5"
-fs.spawnTime["Intro"] = 1
-fs.rewards["Intro"] = "Gold,25,100,Recovery,1,100"
+fs["fight2"] = "speak,Mortus,IT BEGINS! MUHAHAHAHAHAHAHA,4;4;Spider;50;Scorpion;10;Minion;2"
+fs.spawnTime["fight2"] = 0.5
+fs.rewards["fight2"] = "Blueprint: Iron Helmet,1,100,Blueprint: Iron Chestplate,1,100,Blueprint: Iron Leggings,1,100,Blueprint: Long Sword,1,100,Fly,1,100,Dog,1,100,Beholder,1,100,Iron,20,100,String,100,100,Mana,5,100"
 
-fs["Wolf Pack"] = "speak,Wolf,AWOOOOO,2;2;Wolf;5;Alpha Wolf;2;Wolf;2;Mother Wolf;1;"
-fs.spawnTime["Wolf Pack"] = 1
-fs.rewards["Wolf Pack"] = "Gold,5,100,Dog,1,50"
+fs["fight1"] = "Sand Worm;250"
+fs.spawnTime["fight1"] = 0.1
+fs.rewards["fight1"] = "String,250,100,Wood,100,100,Iron,20,100,Blueprint: Slam,1,100,Blueprint: Polymorph,1,100,Dog,1,100"
 
-fs["Bandit Camp East"] = "speak,Bandit Leader,We're under attack! STOP THIS INTRUDER!,4;4;Bandit;3;Bandit Mage;6;Bandit;2;Bandit Leader;1"
-fs.spawnTime["Bandit Camp East"] = 2
-fs.rewards["Bandit Camp East"] = "Gold,15,100,Leather Armour,1,25,Basic Cloth,1,75,Short Sword,1,80,Slam,1,25,Polymorph,1,25"
+fs["Shipwreck"] = "Ship;3;speak,Mortus,We've been travelling for 2 weeks West and are yet to encounter any land mass.,5;5;speak,Mortus,I'm beginning to think that there is nothing else out here...,5;5;speak,Guard,M'am! Black sails! All hands on deck!,3;3;Pirate Ship;2;speak,Mortus,Pirates? But we're miles from land!,5;5;Pirate Ship;12;speak,Guard,We're cutting through them like paper!,4;4;speak,Mortus,HAH! These fools are no match for us. Prepare a feast! We've fought valiantly today.,6;6;speak,Carus,I'm not sure it's quite over yet Mortus! My parrot continues to twitch...,5;5;Ghostly Ship;1;speak,Guard,BACK TO YOUR STATIONS! ANOTHER PIRATE SHIP APPROACHES!,4;4;speak,Mortus,Is it just me or is that ship somewhat... transparent? Hazy?,4;4;"
+fs.spawnTime["Shipwreck"] = 1
+fs.rewards["Shipwreck"] = "Gold,5,100"
 
-fs["Bandit Camp West"] = "speak,Bandit Leader,INTRUDER!!,3;3;Bandit;10;Bandit Leader;1"
-fs.spawnTime["Bandit Camp West"] = 1
-fs.rewards["Bandit Camp West"] = "Gold,30,100,Leather Armour,1,50,Bastard Sword,1,25,Recovery,1,25,Potent Healing Potion,2,50"
+fs["Spiders"] = "Spider;15"
+fs.spawnTime["Spiders"] = 1
+fs.rewards["Spiders"] = "String,3,100,String,2,50"
 
-fs["Bandit Camp South"] = "speak,Bandit Leader,You'll regret coming here! SEND IN THE RATS!,4;4;Starved Rat;25;speak,Bandit,Uh... boss... snakes are coming to eat the rats!!,3;3;Friendly Snake;10;Starved Rat;20;Friendly Snake;5;Bandit;1;Bandit Leader;1"
-fs.spawnTime["Bandit Camp South"] = 0.25
-fs.rewards["Bandit Camp South"] = "Snake,1,100,Summon 5 Friendly Snake,1,100"
+fs["Chest: String"] = "Spider;30"
+fs.spawnTime["Chest: String"] = 0.2
+fs.rewards["Chest: String"] = "String,15,100"
+
+fs["Chest: Crabs"] = "Scorpion;20"
+fs.spawnTime["Chest: Crabs"] = 0.2
+fs.rewards["Chest: Crabs"] = "Potent Healing Potion,3,100,Blueprint: Recovery,1,100,Iron,5,50,Stone,5,50,Wood,10,50,Mana,5,25"
+
+fs["Crabs"] = "Scorpion;5;Sand Worm;15;Scorpion;2;Sand Worm;5;Scorpion;1"
+fs.spawnTime["Crabs"] = 1.5
+fs.rewards["Crabs"] = "Potent Healing Potion,1,100,Snake,1,25,Short Sword,1,10,Blueprint: Polymorph,1,100"
+
+fs["Cannibals"] = "speak,Cannibal Leader,FRESH MEAT!! SMELL GOOD!! BRING HEAD!!,2;2;Cannibal Hunter;15;Cannibal Leader;1"
+fs.spawnTime["Cannibals"] = 1
+fs.rewards["Cannibals"] = "Blueprint: Bastard Sword,1,100,Suspicious Meat,3,50,Dog,1,50,Hilt,1,100"
+
+fs["Cannibal Hut"] = "Cannibal Tribesman;30;speak,Cannibal Tribesman,INTRUDE! INTRUDE! DEFENSE! GO!,3;3;"
+fs.spawnTime["Cannibal Hut"] = 0
+fs.rewards["Cannibal Hut"] = "Wood,1,100,Suspicious Meat,5,50,Blueprint: Long Sword,1,50,Blueprint: Bastard Sword,1,25"
+
+fs["Hell's Creatures"] = "Minion;5"
+fs.spawnTime["Hell's Creatures"] = 3
+fs.rewards["Hell's Creatures"] = "Fly,1,30,Mana,2,100,Baby Bat,1,40"
+
+fs["Dungeon: Demon"] = "Mysterious Figure;1;speak,**player**,WHO ARE YOU?,2;2;speak,**player**,WHERE DID YOU COME FROM?,3;3;speak,Mysterious Figure,Me? Where did YOU come from? Humans... I've been following you since I saw your ship crash... this is not your place.,7;7;speak,**player**,What's that meant to mean?,4;4;speak,Mysterious Figure,You should not have come here. You especially should not have started abusing our natural resources.,6;6;speak,**player**,We're trying to build a ship... we're trying to leave!,5;5;speak,Mysterious Figure,Your intentions may have been pure... but the demon that lurks in this cave will likely not accept your excuses.,6;6;speak,Mysterious Figure,And I fear that I sense him just a moment away... I will help protect you foolish humans.,6;6;speak,**player**,*You hear heavy stomps and a defeaning roar*,3;3;Demon;1"
+fs.spawnTime["Dungeon: Demon"] = 0
+fs.rewards["Dungeon: Demon"] = "Old World Crystal,1,100,Iron,20,100,Mana,10,100,Beholder,1,25,Guardian's Chestplate,1,10,Iron Leggings,1,10,Iron Helmet,1,10,Blueprint: Guardian's Chestplate,1,50,Blueprint: Guardian's Helmet,1,50,Blueprint: Guardian's Leggings,1,50,Blueprint: Guardian's Blade,1,100,Blueprint: Recovery,1,100,Blueprint: Slam,1,50"
+
+fs["Dungeon: Evil Figure"] = "Mortus;1;speak,Mortus,So here we are… this structure must be ancient…,4;4;speak,Mysterious Figure,Several thousand years old.,3;3;speak,Mortus,Who are you?,3;3;speak,**player**,A friend: he helped us defeat a great demon.,4;4;speak,Mysterious Figure,Well I hardly expected you to actually be able to defeat that one.,5;5;speak,**player**,You mean you weren’t trying to help?,3;3;speak,Mysterious Figure,Who do you think set him on you?,4;4;speak,Mortus,I don’t understand…,2;2;speak,Mysterious Figure,Two million years I have been trapped here. And then finally you show up in your fancy boats… now of course they are MY fancy boats and once I’m rid of you I’ll be FREE AT LAST!,8;8;speak,**player**,Our boats? But you destroyed our boat with… your boat?,4;4;speak,Mysterious Figure,A mere projection child. Your boats are stored in bottles just beyond these doors…,5;5;speak,Mortus,Sorry but that doesn’t work for me. You’ve massively underestimated us. ATTACK!,6;6;Evil Figure;1"
+fs.spawnTime["Dungeon: Evil Figure"] = 0
+fs.rewards["Dungeon: Evil Figure"] = "Old World Crystal,1,100,Iron,20,100,Mana,15,100,String,100,100,Blueprint: Legendary Helmet,1,50,Blueprint: Legendary Leggings,1,50,Protector,1,25,Dragonling,1,25,Orb of Power,1,10,Blueprint: Legendary Blade,1,50"
+
+fs["Raid: King of the Old World"] = "Mortus;1;speak,Mortus,So I suppose our boats should be just behind this door...,3;3;speak,Protector,Not so fast...,2;2;speak,Mortus,Will we ever get to catch a break?,4;4;speak,Protector,I'm sorry to say that there are boats no longer. You humans and your need to pollute every environment you encounter... NO MORE I SAY!,7;7;speak,Mortus,We were just trying to survive...,3;3;speak,Protector,I exist to protect these lands from threats... threats like you. Survive THIS!,5;5;Protector;1;speak,Mortus,I suppose we'll have to... and then try and build a new boat...,3;3;"
+fs.spawnTime["Raid: King of the Old World"] = 0
+fs.rewards["Raid: King of the Old World"] = "Old World Crystal,2,100,Iron,20,100,Mana,20,100,Blueprint: Legendary Chestplate,1,50,Blueprint: Legendary Blade,1,50,Orb of Power,1,50,Spirit of Death,1,20,Horse,1,20,Protector,1,20"
+
+--crafting
+fs["Gather: Wood"] = "Weak Tree;3"
+fs.spawnTime["Gather: Wood"] = 0
+fs.rewards["Gather: Wood"] = "Wood,5,100,Wood,3,50,Wood,2,25,Wood,5,10,Wood,10,1"
+
+fs["Gather: Stone"] = "Weak Rock;2"
+fs.spawnTime["Gather: Stone"] = 0
+fs.rewards["Gather: Stone"] = "Stone,5,100,Stone,2,50,Stone,1,25,Stone,10,1,Iron,3,50,Iron,2,10,Iron,1,75"
+
+fs["Gather: Mana"] = "Mana Crystal;4"
+fs.spawnTime["Gather: Mana"] = 0
+fs.rewards["Gather: Mana"] = "Mana,1,100,Mana,2,50,Mana,1,10"

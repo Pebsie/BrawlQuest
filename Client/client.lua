@@ -29,6 +29,8 @@ function netUpdate(dt)
         if cmd == "login" then
           if ent == pl.name then --verification to prevent hacking
             if param[1] == "true" then
+              authcode = param[2]
+              print(authcode)
               enterGame()
             else
               phase = "login"
@@ -38,13 +40,20 @@ function netUpdate(dt)
           end
         elseif cmd == "char" then
           if ent == pl.name then
-
           --  pl.x = tonumber(param[6])
           --  pl.y = tonumber(param[7])
             if pl.t ~= tonumber(param[8]) then
               addFog(tonumber(param[8]))
             end
 
+            if pl.t ~= tonumber(param[8]) and tonumber(param[8]) == pl.dt then
+              whiteOut = 500
+              love.audio.play(sfx["awake"])
+              mobSpeak("**player**","W-where am I?",5)
+            elseif distanceFrom(world[pl.t].x,world[pl.t].y,world[tonumber(param[8])].x,world[tonumber(param[8])].y) > 64 then
+              whiteOut = 400
+              love.audio.play(sfx["teleport"])
+            end
             pl.t = tonumber(param[8])
             pl.dt = param[9]
             pl.hp = tonumber(param[1])
@@ -88,7 +97,7 @@ function netUpdate(dt)
                 if isNewItem == "Yes" then
                   newLoot(newInv[i],newInv[i+1])
                 elseif isNewItem == "NewAmount" then
-                  newLoot(newInv[i],tonumber(newInv[i+1])-tonumber(oldInv[i+1]))
+                  newLoot(tostring(newInv[i]),tostring(tonumber(newInv[i+1])-tonumber(oldInv[i+1])))
                 end
               end
             end
@@ -96,8 +105,9 @@ function netUpdate(dt)
             pl.inv = param[12]
           --  love.window.showMessageBox("Debug",pl.inv)
             pl.pot = param[15]
-            if param[16] ~= pl.state then  --if we are newly entering this fight
-              music.curPlay:stop() --reset music
+            if pl.state ~= param[16] and string.sub(world[pl.t].fight,1,7) ~= "Gather:" then music.curPlay:stop() updateLightmap() end --reset music
+            if pl.state ~= "fight" and param[16] == "fight" then
+              love.graphics.setBackgroundColor(45, 139, 255)
               pl.x = love.math.random(200, 600) --place players in a line at the bottom of the arena
               pl.y = 380
               pl.s1t = 0
@@ -105,10 +115,13 @@ function netUpdate(dt)
               createFightCanvas(pl.t)
               killMobs()
               requestWorldInfo()
-            end
-            if pl.state ~= "fight" and param[16] == "fight" then
-              love.graphics.setBackgroundColor(45, 139, 255)
-            elseif pl.state ~= "fight" then
+            elseif pl.state ~= "afterfight" and param[16] == "afterfight" then
+              love.audio.play(sfx["victory"])
+              pl.x = love.math.random(200, 600) --place players in a line at the bottom of the arena
+              pl.y = 380
+              killMobs()
+              createFightCanvas(pl.t) --for some reason the fight canvas is resetting when we shift to afterfight. This is a temporary "fix"
+            elseif pl.state ~= "fight" and pl.state ~= "afterfight" then
               love.graphics.setBackgroundColor(0,0,0)
             end
             pl.state = param[16]
@@ -121,40 +134,58 @@ function netUpdate(dt)
             pl.armd = tonumber(param[17])
             pl.dt = tonumber(param[19])
             pl.str = param[20]
+            pl.owed = param[21]
+            pl.score = param[22]
+            pl.combo = param[23]
+            pl.aspectString = param[24]
 
             local i = loginI.select
-            loadedCharacter[i].arm = pl.arm
-            loadedCharacter[i].wep = pl.wep
-            loadedCharacter[i].bud = pl.buddy
-            saveCharacters()
-
-
-          end
-        elseif cmd == "world" then --update world
-          local plyrs = tonumber(param[1])
-          local fghts = tonumber(param[2])
-          world.weather = param[3]
-          local bcs = tonumber(param[4]) --broadcast chats
-          local tparam = 5
-          for i = 1, plyrs do --this is awful please stop doing this
-            if param[tparam] == "user" then
-              local name = param[tparam+1]
-
-              if not playerExists(name) then
-                addPlayer(name)
-              end
-
-              updatePlayer(name,"t",tonumber(param[tparam+2]))
-              updatePlayer(name,"arm",param[tparam+3])
-              updatePlayer(name,"state",param[tparam+4])
-              updatePlayer(name,"spell",param[tparam+5])
-              updatePlayer(name,"buddy",param[tparam+6])
-              if name == pl.name then pl.buddy = param[tparam+6] end
-              updatePlayer(name,"online",param[tparam+7])
-
-              tparam = tparam + 8
+            if pl.arm and pl.wep and pl.buddy then
+              loadedCharacter[i].arm = pl.arm
+              loadedCharacter[i].wep = pl.wep
+              loadedCharacter[i].bud = pl.buddy
             end
+            saveCharacters()
           end
+        elseif cmd == "players" then
+            local plyrs = tonumber(param[1])
+            local onlineTable = {}
+            local tparam = 2
+            for i = 1, plyrs do --this is awful please stop doing this
+              if param[tparam] == "user" then
+                local name = param[tparam+1]
+                onlineTable[name] = true
+                if not playerExists(name) then
+                  addPlayer(name)
+                end
+
+                updatePlayer(name,"t",tonumber(param[tparam+2]))
+                updatePlayer(name,"arm",param[tparam+3])
+                updatePlayer(name,"arm_head",param[tparam+4])
+                updatePlayer(name,"arm_chest",param[tparam+5])
+                updatePlayer(name,"arm_legs",param[tparam+6])
+                updatePlayer(name,"state",param[tparam+7])
+                updatePlayer(name,"spell",param[tparam+8])
+                updatePlayer(name,"buddy",param[tparam+9])
+                if name == pl.name then pl.buddy = param[tparam+9] end
+                updatePlayer(name,"online",param[tparam+10])
+                updatePlayer(name,"wep",param[tparam+11])
+
+                tparam = tparam + 12
+              end
+            end
+
+            for i = 1, players do
+              if not onlineTable[getPlayerName(i)] then
+                player[getPlayerName(i)].online = false --the player has gone offline since we joined
+              end
+            end
+        elseif cmd == "world" then --update world
+        --  love.window.showMessageBox("debug","got a world update!")
+          local fghts = tonumber(param[1])
+          local bcs = tonumber(param[2]) --broadcast chats
+          local tparam = 3
+
 
           for i = 1, 100*100 do --cycle through the world to calculate player positions and turn off all fights
             world[i].isFight = false
@@ -180,10 +211,40 @@ function netUpdate(dt)
           end
 
           for i = 1, bcs do --broadcast chats
-            newChatMsg(param[tparam],param[tparam+1],param[tparam+2])
+            if param[tparam] and param[tparam+1] and param[tparam+2] then
+              newChatMsg(param[tparam],param[tparam+1],param[tparam+2])
+            end
+
             tparam = tparam + 3
           end
+
+          if tonumber(param[tparam]) and param[tparam+1] and param[tparam+2] and param[tparam+3] then
+            if tonumber(weather.time) ~= tonumber(param[tparam]) and lightmap[1] then updateLightmap() end --reset the lightmap if the time has changed
+            weather.time = tonumber(param[tparam])
+            weather.temperature = param[tparam+1]
+            weather.condition = param[tparam+2]
+            weather.day = param[tparam+3]
+          end
+          tparam = tparam + 5
+
+
+           for k = -195,305,101 do
+             for t = -9, -5 do
+               if world[t+tonumber(pl.t)+k] then world[t+tonumber(pl.t)+k].spawned = "unknown" end
+             end
+           end
+
+           if param[tparam-1] and tonumber(param[tparam-1]) then
+            for i = 1, tonumber(param[tparam-1]) do
+              if world[tonumber(param[tparam])] then
+                world[tonumber(param[tparam])].spawned = param[tparam+1]
+              end
+              tparam = tparam + 2
+            end
+          end
+
         elseif cmd == "fight" then
+        --  love.window.showMessageBox("debug","got a fight update!")
           local mbs = tonumber(param[1])
           local plyrs = tonumber(param[2])
 
@@ -238,6 +299,7 @@ function netUpdate(dt)
             updateMob(i,"type",param[tparam+2])
             if getMob(i,"hp") > tonumber(param[tparam+3]) then
               if tonumber(param[tparam+3]) < 1 then
+              --  sfx["kill"]:setPosition((getMob(i,"x")/stdSH)-0.5,0)
                 love.audio.play(sfx["kill"])
               else
               --[[  if getMob(i,"hp")-tonumber(param[tparam+3]) > 4 and mb.friend[getMob(i,"type")] == false then
@@ -245,6 +307,8 @@ function netUpdate(dt)
                 else
                   addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
                 end]]
+              --  sfx["hit"]:setPosition((getMob(i,"x")/stdSH)-0.5,0)
+                addBones(getMob(i,"type"),getMob(i,"x"),getMob(i,"y"),4)
                 love.audio.play(sfx["hit"])
 
                 if not mb.friend[getMob(i,"type")] and getMob(i,"id") == param[tparam+5] then
@@ -260,6 +324,10 @@ function netUpdate(dt)
             updateMob(i,"hp",tonumber(param[tparam+3]))
             updateMob(i,"mhp",tonumber(param[tparam+4]))
             updateMob(i,"id",param[tparam+5])
+            updateMob(i,"spell1time",tonumber(param[tparam+6]))
+              mb.sp1t[getMob(i,"type")] = tonumber(param[tparam+7])
+            updateMob(i,"spell2time",tonumber(param[tparam+8]))
+            mb.sp2t[getMob(i,"type")] = tonumber(param[tparam+9])
             updateMob(i,"updated",true)
 
             if string.sub(param[tparam+2],1,5) == "speak" then
@@ -268,21 +336,31 @@ function netUpdate(dt)
               killMob(i)
             end
 
-            tparam = tparam + 6
+            tparam = tparam + 10
           end
 
+          fight.highscore = param[tparam]
+          fight.highscorePlayer = param[tparam+1]
+          tparam = tparam + 2
           --now we need to cycle through every mob and kill those that no longer exist
           for i = 1, countMobs() do
             if getMob(i,"updated") == false and getMob(i,"id") ~= -1 then
               killMob(i)
             end
           end
+        elseif cmd == "blueprints" then
+          pl.blueprints = param[1]
+        elseif cmd == "fightInfo" then
+          setFightInfo(param[1])
+        elseif cmd == "kick" then
+          phase = "login"
         end
 
-        if cmd ~= "login" then --if we aren't logged in yet then we don't have a username or position or anything, creating issues with fog.
+        if cmd ~= "login" and cmd ~= "afterfight" then --if we aren't logged in yet then we don't have a username or position or anything, creating issues with fog.
         --  createWorldCanvas() --finally, update the world
           createWorldObjectCanvas()
         end
+
       elseif msg ~= 'timeout' then
         phase = "login"
         news = news.."\nUnable to connect to the server."

@@ -11,6 +11,10 @@ function addPlayer(name)
   player[name].ty = 0
   player[name].t = 0
   player[name].arm = "Old Cloth"
+  player[name].arm_head = "None"
+  player[name].arm_chest = "None"
+  player[name].arm_legs = "None"
+  player[name].wep = "Legendary Sword"
   player[name].hp = 0
   player[name].state = "fight"
   player[name].spell = "None"
@@ -32,13 +36,16 @@ function playerExists(name)
 end
 
 function updatePlayer(name,a,value) --where a is attribute (x/y/t/arm/hp)
-  if player[name][a] then
+  if player[name] and player[name][a] then
     player[name][a] = value
   else
-    if player[name].name then
-      love.window.showMessageBox("ERROR","ERROR: attempt to update player['"..name.."']."..a.." to "..value..", but that attribute doesn't exist.")
+    if player[name] and player[name].name then
+      print("ERROR: attempt to update player['"..name.."']."..a.." to "..value..", but that attribute doesn't exist.")
+      player[name][a] = value
     else
-      love.window.showMessageBox("ERROR","ERROR: attempt to update player['"..name.."']."..a.." to "..value..", but that player doesn't exist.")
+      print("ERROR","ERROR: attempt to update player['"..name.."']."..a.." to "..value..", but that player doesn't exist.")
+      player[name] = {}
+      player[name][a] = value
     end
   end
 end
@@ -69,26 +76,45 @@ function getPlayerName(id)
 end
 
 function getPlayer(name,a) --where a is attribute
-  return player[name][a]
+  if player[name] and player[name][a] then
+    return player[name][a]
+  else
+    return 0
+  end
 end
 
 function drawPlayer(name,x,y,option)
 
-  if player[name] and item.img[player[name].arm] and player[name].online == "true" then
-    drawBuddy(name)
-    if player[name].x - player[name].tx > 1  then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INO
+  if player[name] and player[name].online == "true" then
+    if option == "buddy" then
+      drawBuddy(name)
+    end
+    
+    love.graphics.draw(item.img["Naked"],x,y)
+    if player[name].arm_head ~= "None" then love.graphics.draw(item.img[player[name].arm_head],x,y) end
+    if player[name].arm_chest ~= "None" then love.graphics.draw(item.img[player[name].arm_chest],x,y) end
+    if player[name].arm_legs ~= "None" then love.graphics.draw(item.img[player[name].arm_legs],x,y) end
+    love.graphics.draw(item.img[player[name].wep],x-(item.img[player[name].wep]:getWidth()-32),y-(item.img[player[name].wep]:getHeight()-32))
+    --[[
+    if player[name].x - player[name].tx > 1  then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INFO
       love.graphics.draw(item.img[player[name].arm],x,y,0,-1,1,32,0)
     else
       love.graphics.draw(item.img[player[name].arm],x,y)
-    end
+    end]]
 
     if player[name].spell ~= "None" then
       drawSpell(player[name].spell,x,y)
     end
   end
+end
 
+function drawNamePlate(name,x,y,option)
   if not player[name] or player[name].online == "true" then --so that <npc> shop still works
-    if option == "enemy" then
+    if option == "enemy" and string.sub(world[pl.t].fight,1,7) == "Gather:" or option == "gather" then
+      love.graphics.setColor(0,0,0,200)
+      love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
+      love.graphics.setColor(100,100,255)
+    elseif option == "enemy" then
       love.graphics.setColor(0,0,0,50)
       love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
       love.graphics.setColor(255,0,0)
@@ -96,6 +122,10 @@ function drawPlayer(name,x,y,option)
       love.graphics.setColor(0,0,0,100)
       love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
       love.graphics.setColor(0,255,0)
+    elseif option == "dungeon" then
+      love.graphics.setColor(0,0,0,200)
+      love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
+      love.graphics.setColor(255,0,0)
     else
       love.graphics.setColor(0,0,0,200)
       love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
@@ -104,5 +134,5 @@ function drawPlayer(name,x,y,option)
     love.graphics.setFont(sFont)
     love.graphics.printf(name,17+x-(round(sFont:getWidth(name)/2)),y-12,sFont:getWidth(name),"center")
   end
-
+  love.graphics.setColor(255,255,255,255)
 end

@@ -4,7 +4,7 @@ LQaction = "off"
 LQcurrent = 0
 
 function newLoot(title,amount)
-  if tonumber(amount) > 0 then
+  if tonumber(amount) and tonumber(amount) > 0 then
     itemAlreadyQueued = false
     for i = LQcurrent, #lootQueue do
       if lootQueue[i] and title == lootQueue[i].title then
@@ -36,7 +36,11 @@ function drawLootBox(x,y)
         drawItem(lootQueue[LQcurrent+(i-1)],x+4+(32*(i-1)),y,LQalpha)
       end
     else]]
-    drawItem(lootQueue[LQcurrent].title,lootQueue[LQcurrent].amount,x+4,y,LQalpha)
+    if string.sub(lootQueue[LQcurrent].title,1,10) == "Blueprint:" then
+      drawItem(string.sub(lootQueue[LQcurrent].title,12),lootQueue[LQcurrent].amount,x+4,y,LQalpha)
+    else
+      drawItem(lootQueue[LQcurrent].title,lootQueue[LQcurrent].amount,x+4,y,LQalpha)
+    end
       love.graphics.setFont(font)
       love.graphics.printf(lootQueue[LQcurrent].title,x+32,y+6,200-32,"center")
       love.graphics.setFont(sFont)
@@ -55,7 +59,7 @@ function drawLootBox(x,y)
 end
 
 function updateLootBox(dt)
-  local rate = 200*dt
+  local rate = 300*dt
 
   if LQcurrent < #lootQueue then --if we've got more loot to cycle through
     if LQaction == "off" then LQaction = "up" LQcurrent = LQcurrent + 1 end --let's get that box showing!

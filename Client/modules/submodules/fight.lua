@@ -17,12 +17,15 @@ updateFightTime = 0.2
 atkCooldown = 1
 
 fight = {}
+fight.highscore = 0
+fight.highscorePlayer = "Unknown"
 mob = {}
 updateTime = {}
 updateTime[1] = 0.1 --fight info
 updateTime[2] = 2 --world info
 updateTime[3] = 0.2 --player info
 updateTime[4] = 5 --time before we can talk again
+updateTime[5] = 1 --time before we can claim any more loot
 lastTalk = "anonymous"
 
 function createFightCanvas(t)
@@ -37,8 +40,10 @@ function createFightCanvas(t)
 
   for k = -195,305,101 do
     for i = -9, -5 do
-      extraImages[v] = worldImg[world[t+i+k].tile]
-      v = v + 1
+      if world[t+i+k] then
+        extraImages[v] = worldImg[world[t+i+k].tile]
+        v = v + 1
+      end
     end
   end
 
@@ -70,10 +75,10 @@ function drawFight()
  love.graphics.push()
 
 
-love.graphics.scale(scale,scale)
+love.graphics.scale(scaleX,scaleY)
 
-  xoff = sw/2 - (stdSH/2)
-  yoff = sh/2 - (stdSW/2)
+  xoff = -round(stdSH/2 - love.graphics.getWidth()/(2*scaleX))--1920/2 - (1920*(love.graphics.getWidth()/(1920/2) / scaleX))
+  yoff = -round(stdSW/2 - love.graphics.getHeight()/(2*scaleY))--1080/2 - (1080*(love.graphics.getHeight()/(1080/2) / scaleY))
 
   for i = 1, sw/64 do
     love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
@@ -102,14 +107,23 @@ love.graphics.scale(scale,scale)
             love.graphics.draw(mb.img[mob[i].type], mob[i].x+mb.img[mob[i].type]:getWidth()/2+xoff, mob[i].y+mb.img[mob[i].type]:getHeight()/2+yoff,0,-1,1,mb.img[mob[i].type]:getWidth()/2,mb.img[mob[i].type]:getHeight()/2)
           end
 
-          if getMob(i,"hp") > 0 and mb.friend[mob[i].type] ~= true and getMob(i,"hp") < 19999 then
+          if getMob(i,"hp") > 0 and mb.friend[mob[i].type] ~= true and getMob(i,"hp") < 99999 then
             love.graphics.setColor(255,0,0)
-            love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,(mob[i].hp/getMob(i,"mhp"))*mb.img[mob[i].type]:getWidth(),4)
+            love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff,(mob[i].hp/getMob(i,"mhp"))*mb.img[mob[i].type]:getWidth(),4)
             love.graphics.setColor(100,0,0)
-            love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getWidth()+yoff,mb.img[mob[i].type]:getWidth(),4)
-            drawPlayer(mob[i].type,mob[i].x+xoff,mob[i].y+yoff,"enemy")
-          elseif mb.friend[mob[i].type] then
-            drawPlayer(mob[i].type,mob[i].x+xoff,mob[i].y+yoff,"ally")
+            love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff,mb.img[mob[i].type]:getWidth(),4)
+            if mb.sp1[mob[i].type] ~= "None" and getMob(i,"spell1time") and mb.sp1t[mob[i].type] and mb.sp1[mob[i].type] ~= "suicide" then
+              love.graphics.setColor(100,100,255)
+              love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+5,(getMob(i,"spell1time")/mb.sp1t[mob[i].type])*mb.img[mob[i].type]:getWidth(),2)
+              love.graphics.setColor(50,50,255)
+              love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+5,mb.img[mob[i].type]:getWidth(),2)
+            end
+            if mb.sp2[mob[i].type] ~= "None" and getMob(i,"spell2time") and mb.sp2t[mob[i].type] and mb.sp2[mob[i].type] ~= "suicide"  then
+              love.graphics.setColor(100,100,255)
+              love.graphics.rectangle("fill",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+9,(getMob(i,"spell2time")/mb.sp2t[mob[i].type])*mb.img[mob[i].type]:getWidth(),2)
+              love.graphics.setColor(50,50,255)
+              love.graphics.rectangle("line",mob[i].x+xoff,mob[i].y+mb.img[mob[i].type]:getHeight()+yoff+9,mb.img[mob[i].type]:getWidth(),2)
+            end
           end
         end
       end
@@ -121,49 +135,112 @@ love.graphics.scale(scale,scale)
     end
   end
 
-  for i = 1, countPlayers() do
-      local playerName = getPlayerName(i)
-    if getPlayer(playerName,"t") == pl.t then
-      if pl.name == playerName then --we want to draw us client side to reduce jankiness
-        x = pl.x
-        y = pl.y
-        pl.spell = getPlayer(playerName,"spell")
-      else
-        x = getPlayer(playerName,"x")
-        y = getPlayer(playerName,"y")
+  for i = 1, countMobs() do
+    if mb.img[mob[i].type] then
+      if getMob(i,"hp") > 0 then
+        if getMob(i,"hp") > 0 and mb.friend[mob[i].type] ~= true and getMob(i,"hp") < 19999 then
+          drawNamePlate(mob[i].type,mob[i].x+xoff,mob[i].y+yoff,"enemy")
+        elseif mb.friend[mob[i].type] then
+          drawNamePlate(mob[i].type,mob[i].x+xoff,mob[i].y+yoff,"ally")
+        end
       end
-
-      drawPlayer(playerName,x+xoff,y+yoff)
-
-    --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
-    --  love.window.showMessageBox("Debug","Player #"..i..": "..playerName.." at position "..getPlayer(playerName,"tx")..","..getPlayer(playerName,"ty"))
-      love.graphics.setColor(0,255,0)
-      love.graphics.rectangle("fill",x+xoff,y+32+yoff,(getPlayer(playerName,"hp")/100)*32,6)
-      love.graphics.setColor(100,0,0)
-      love.graphics.rectangle("line",x+xoff,y+32+yoff,32,6)
-
-      if pl.name == playerName then --energy
-        love.graphics.setColor(255,216,0)
-        love.graphics.rectangle("fill",x+xoff,y+32+8+yoff,(pl.en/100)*32,6)
-        love.graphics.setColor(205,166,0)
-        love.graphics.rectangle("line",x+xoff,y+32+8+yoff,32,6)
-      end
-
-
-      love.graphics.setColor(255,255,255)
     end
   end
+
+
+    for i = 1, countPlayers() do
+     local playerName = getPlayerName(i)
+
+      if getPlayer(playerName,"t") == pl.t then
+        if pl.name == playerName then --we want to draw us client side to reduce jankiness
+          x = pl.x
+          y = pl.y
+          pl.spell = getPlayer(playerName,"spell")
+        elseif pl.state == "afterfight" then --don't show players in the afterfight
+          x = -32
+          y = -32
+        else
+          x = getPlayer(playerName,"x")
+          y = getPlayer(playerName,"y")
+        end
+
+        drawPlayer(playerName,x+xoff,y+yoff,"buddy")
+        drawNamePlate(playerName,x+xoff,y+yoff)
+
+      --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
+      --  love.window.showMessageBox("Debug","Player #"..i..": "..playerName.." at position "..getPlayer(playerName,"tx")..","..getPlayer(playerName,"ty"))
+        love.graphics.setColor(0,255,0)
+        love.graphics.rectangle("fill",x+xoff,y+32+yoff,(getPlayer(playerName,"hp")/100)*32,6)
+        love.graphics.setColor(100,0,0)
+        love.graphics.rectangle("line",x+xoff,y+32+yoff,32,6)
+
+        if pl.name == playerName then --energy
+          love.graphics.setColor(255,216,0)
+          love.graphics.rectangle("fill",x+xoff,y+32+8+yoff,(pl.en/100)*32,6)
+          love.graphics.setColor(205,166,0)
+          love.graphics.rectangle("line",x+xoff,y+32+8+yoff,32,6)
+        end
+
+
+        love.graphics.setColor(255,255,255)
+
+
+    end
+
+  end
+
+  for i = 1, countPlayers() do --we want nameplates to show above player sprites
+    name = getPlayerName(i)
+    if name ~= pl.name and fog[tonumber(getPlayer(name,"t"))] and getPlayer(name,"state") ~= "fight" then
+      drawNamePlate(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my)
+    end
+  end
+
+
+  if pl.state == "afterfight" then
+    local owedItems = atComma(pl.owed)
+    xLeft = ((1920/2)/2) - ((#owedItems * 32)/2)
+    for i = 1, #owedItems, 2 do
+      if item.img[owedItems[i]] then
+        love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
+        love.graphics.printf("x"..owedItems[i+1],xLeft+(i*32)+xoff,200+item.img[owedItems[i]]:getHeight()+yoff,item.img[owedItems[i]]:getWidth(),"right")
+      elseif string.sub(owedItems[i],1,10) == "Blueprint:" then
+        love.graphics.draw(item.img["Blueprint"],xLeft+(i*32)+xoff,200+yoff)
+        if item.img[string.sub(owedItems[i],12)] then
+          love.graphics.draw(item.img[string.sub(owedItems[i],12)],xLeft+(i*32)+xoff,200+yoff)
+        else
+          love.graphics.print(owedItems[i],xLeft+(i*32)+xoff,200+yoff)
+        end
+      elseif owedItems[i] and owedItems[i+1] then
+        love.graphics.printf(owedItems[i].." x"..owedItems[i+1],xLeft+(i*32)+xoff,200+yoff,100,"right")
+      else
+        error("Claim error: "..pl.owed)
+      end
+    end
+  end
+
   love.graphics.setColor(0,0,0)
   love.graphics.rectangle("line",xoff,yoff,stdSH,stdSW)
   love.graphics.setColor(255,255,255)
-  drawFightUI(sw/2 - 320,sh-94)
- love.graphics.pop()
-  love.graphics.print(love.timer.getFPS().." FPS")
+  love.graphics.pop()
 
+  drawActionBar(gameUI[1].x,realScreenHeight-(gameUI[1].height-font:getHeight()))
+  drawUIWindow(8) --tutorial
+  --love.graphics.print(love.timer.getFPS().." FPS")
+  if string.sub(world[pl.t].fight,1,7) ~= "Gather:" and pl.score and tonumber(pl.combo) and fight.highscore and fight.highscorePlayer then
+    love.graphics.setColor(0,0,0,100)
+    love.graphics.rectangle("fill",0,0,rFont:getWidth("Highscore: "..tostring(fight.highscore).." (earned by "..tostring(fight.highscorePlayer)..")")+12,rFont:getHeight()*2)
+    love.graphics.setColor(255,255,255)
+    love.graphics.setFont(rFont)
+    love.graphics.print("Score: "..tostring(pl.score).." (x"..tostring(pl.combo+1)..")\nHighscore: "..tostring(fight.highscore).." (earned by "..tostring(fight.highscorePlayer)..")",0,0)
+  end
+
+  --  love.graphics.print(xoff..", "..yoff,300,300)
 end
 
 function requestFightInfo()
-  netSend("fight",pl.name..","..round(pl.x)..","..round(pl.y))
+  netSend("fight",pl.name..","..round(pl.x)..","..round(pl.y)..","..authcode)
+  requestUserInfo()
 end
 
 function updateFight(dt)
@@ -180,14 +257,47 @@ function updateFight(dt)
 
   if updateTime[2] < 0 then
     requestWorldInfo()
+    requestPlayersInfo()
     updateTime[2] = 5
   end
 
   if updateTime[3] < 0 then
-    requestUserInfo()
-    updateTime[3] = 1
+  --  requestUserInfo()
+    updateTime[3] = 0.25
   end
 
+  if updateTime[5] < 0 then
+    if pl.state == "afterfight" then --we're piggy backing off of this timer so as to not have to create another
+      local owedItems = atComma(pl.owed)
+    xLeft = ((1920/2)/2) - ((#owedItems * 32)/2)
+      for i = 1, #owedItems, 2 do
+      --  if item.img[owedItems[i]] then
+          if distanceFrom(pl.x+16+xoff, pl.y+16+yoff, xLeft+(i*32)+xoff,200+32+yoff) < 30 then
+            netSend("claim",pl.name..","..owedItems[i])
+            if string.sub(owedItems[i],1,10) == "Blueprint:" then
+              newLoot(owedItems[i],1)
+            end
+            owedItems[i] = nil
+            owedItems[i+1] = nil
+            love.audio.stop(sfx["loot"])
+            love.audio.play(sfx["loot"])
+            updateTime[1] = 2
+          end
+      --  else
+
+      --  end
+      end
+
+      pl.owed = ""
+      for i = 1, #owedItems, 2 do
+        if owedItems[i] and owedItems[i+1] then
+          pl.owed = pl.owed..owedItems[i]..","..owedItems[i+1]..","
+        end
+      end
+
+      updateTime[5] = 0.1
+    end
+  end
 
   local speed = 128*dt --change this if you want but you'll find yourself running out of stamina CONSTANTLY
   if love.keyboard.isDown(KEY_RUN) then
@@ -237,13 +347,14 @@ function updateFight(dt)
 
   --MOBS
   for i = 1, countMobs() do
+    if not mb.spd[mob[i].type] then mb.spd[mob[i].type] = 32 mb.rng[mob[i].type] = 40 love.window.showMessageBox("ERROR","The server spawned a mob that doesn't exist: "..mob[i].type) end
     local pls = mb.spd[mob[i].type]*dt
     if mob[i].x >  mob[i].tx then  mob[i].x =  mob[i].x - pls end
     if  mob[i].x <  mob[i].tx then  mob[i].x =  mob[i].x + pls end
     if  mob[i].y >  mob[i].ty then  mob[i].y =  mob[i].y - pls end
     if  mob[i].y <  mob[i].ty then  mob[i].y =  mob[i].y + pls end
 
-    if distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) > 128 or distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) < 1 then
+    if distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) > mb.spd[mob[i].type]*2 or distanceFrom( mob[i].x,  mob[i].y,  mob[i].tx,  mob[i].ty) < 1 then
        mob[i].x =  mob[i].tx
        mob[i].y =  mob[i].ty
     end
@@ -259,6 +370,13 @@ function updateFight(dt)
     if distanceFrom(pl.x, pl.y, mob[i].x, mob[i].y) < mb.rng[mob[i].type] and mob[i].hp > 0 then
       pl.armd = pl.armd + (mb.atk[mob[i].type]/2)*dt --for smoothing purposes
       if pl.armd < 0 then pl.armd = 0 end
+     end
+
+     if mob[i].spell1time and mob[i].spell2time then
+       mob[i].spell1time = mob[i].spell1time - 1*dt
+       if mob[i].spell1time < 0 then mob[i].spell1time = 0 end
+       mob[i].spell2time = mob[i].spell2time - 1*dt
+       if mob[i].spell2time < 0 then mob[i].spell2time = 0 end
      end
   end
 
@@ -276,6 +394,8 @@ function updateFight(dt)
       lclouds.x[i] = love.math.random(-400,-200)
     end
   end
+
+
 end
 
 
@@ -362,88 +482,4 @@ function attack(dir)
     pl.en = pl.en - 5
     atkCooldown = 0.2
   end
-end
-
-function drawFightUI(x,y)
-  --boxes
-  love.graphics.setColor(51,51,51)
-  love.graphics.rectangle("fill",x,y,640,94) --main background
-  love.graphics.setColor(0,0,0) --item backgrounds
-  love.graphics.rectangle("fill",x+10,y+60,24,24) --wep image
-  love.graphics.rectangle("fill",x+43,y+60,24,24) --potion image
-  love.graphics.rectangle("fill",x+464,y+16,64,64) --spell 1
-  love.graphics.rectangle("fill",x+559,y+16,64,64) --spell 2
-  love.graphics.rectangle("fill",x+6,y+6,32,32) --character portrait
-  love.graphics.setColor(43,43,43)
-
-  --stats
-  love.graphics.setColor(0,255,0)
-  love.graphics.rectangle("fill",x+40,y+12,(pl.hp/100)*63,6)
-  love.graphics.setColor(255,216,0)
-  love.graphics.rectangle("fill",x+40,y+24,(pl.en/100)*63,6)
-  love.graphics.setColor(0,100,0)
-  love.graphics.rectangle("line",x+40,y+12,63,6)
-  love.graphics.setColor(205,166,0)
-  love.graphics.rectangle("line",x+40,y+24,63,6)
-
-  love.graphics.setColor(255,255,255)
-  love.graphics.draw(item.img[pl.wep],x+9,y+56)
-  love.graphics.draw(item.img[pl.pot],x+43,y+56)
-  love.graphics.draw(item.img[pl.arm],x+6,y+6)
-  love.graphics.draw(uiImg["itemportrait"],x+6,y+56)
-  love.graphics.draw(uiImg["itemportrait"],x+39,y+56)
-  love.graphics.draw(uiImg["smallportrait"],x+6,y+6)
-
-  if pl.s1t > 0 or pl.en < tonumber(atComma(item.val[pl.s1])[2]) then
-    love.graphics.setColor(255,255,255,100)
-  end
-  love.graphics.draw(item.img[pl.s1],x+464,y+16,0,2,2)
-
-    if pl.s2t > 0 or pl.en <  tonumber(atComma(item.val[pl.s2])[2]) then
-      love.graphics.setColor(255,255,255,100)
-    else
-      love.graphics.setColor(255,255,255,255)
-    end
-  love.graphics.draw(item.img[pl.s2],x+559,y+16,0,2,2)
-  love.graphics.setColor(255,255,255,255)
-
-  love.graphics.draw(uiImg["lvtmp"],x+13,y+37)
-  love.graphics.draw(uiImg["atkdef"],x+139,y+49)
-
-  --text
-  love.graphics.setFont(font)
-  love.graphics.setColor(76,255,0)
-  love.graphics.printf(item.val[pl.wep]+pl.str,x+114,y+52,24,"center")
-  if round(pl.armd) ~= 0 then
-    love.graphics.setColor(255,0,0)
-  end
-  love.graphics.printf(round(item.val[pl.arm] - pl.armd),x+114,y+72,24,"center")
-
-
-  --action prompts (text)
-  love.graphics.setColor(200,200,255)
-  love.graphics.print("R",x+45+5,y+56+23)
-  love.graphics.setFont(bFont)
-  love.graphics.print("Q",x+464+28,y-5)
-  love.graphics.print("E",x+559+28,y-5)
-
-
-  love.graphics.rectangle("fill",x+173,y+7,268,79) --
-
-  --spell timers
-  love.graphics.setColor(255,0,0)
-      if pl.s1t > 0 then
-        love.graphics.print(round(pl.s1t),x+474,y+16)
-      end
-      if pl.s2t > 0 then
-        love.graphics.print(round(pl.s2t),x+569,y+16)
-      end
-
-  drawChat(x+173,y+7,268,79)
-
-  --border
-  love.graphics.setColor(0,0,0)
-  love.graphics.rectangle("line",x,y,640,94)
-
-  love.graphics.setColor(255,255,255)
 end

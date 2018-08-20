@@ -226,7 +226,6 @@ function initItems()
   item.price[ti] = 8
   item.img[ti] = love.graphics.newImage("img/items/consumables/Potent Healing Potion.png")
 
-
   local ti = "Weak Yellow Potion"
   item.type[ti] = "en"
   item.val[ti] = 10

@@ -1,0 +1,98 @@
+[b]BrawlQuest Alpha: Shipwrecked v1.2 Changelist[/b]
+[CONTENT]
+- New Dungeon
+- New Raid
+- New item: Old World Crystal (used to craft Legendary gear, earned from Dungeons and Raids)
+- New 3 piece Legendary armour set (full set protects for 50 DPS)
+- New Legendary Sword
+
+[UI]
+- You can now see spell timers for enemy mobs
+- Made dialogue boxes with small amounts of text pad better
+
+[b]BrawlQuest Alpha: Shipwrecked v1.1 Changelist[/b]
+The newest mandatory update for BrawlQuest: Shipwrecked is NOW LIVE!
+It brings with it a host of changes and optimisations, some crucially changing the way that the game works.
+
+[GAMEPLAY]
+- Removed random encounters (fights now appear in the overworld with a 5 minute reset timer (1 in game hour))
+- Which fights spawn now depend on in game time of day and weather
+
+[BUG FIXES]
+- Fixed a glitch that caused you to get a copy of your helmet when you changed gear (instead of returning the equipped gear back to your inventory)
+- Fixed resolution upscaling issues
+
+[SERVER]
+- Heavily optimised the way that player data is stored
+- Added anti username spoofing measures
+
+[b]BrawlQuest Alpha: Shipwrecked v1.0.1 Changelist[/b]
+[list]
+  [*]Moved Buddies to their own separate UI panel[/*]
+  [*]Fixed a bug that caused stacks of reagent items to be decremented if clicked on in the inventory[/*]
+  [*]You can no longer loot Buddies that you already own[/*]
+  [*]Made several improvements to UI functionality[/*]
+  [*]Added a tutorial window that pops up at certain points to help new players understand the game[/*]
+  [*]Rain now makes the world slightly darker[/*]
+  [*]Optimised lighting[/*]
+  [*]Uncovering fog with a light source now causes the entire area lit by that light source to uncover (this can be chained to allow entire areas to be uncovered at once)[/*]
+  [*]The timer for NPCs who talk to you in the overworld now better matches the time it would take to read their dialogue[/*]
+  [*]Fixed a crash when encountering other players[/*]
+[/list]
+
+  [b]Full changelist[/b]
+
+[list]
+  [*]Uncovering fog now has a smooth animation[/*]
+  [*]Revamped 3 piece armour system[/*]
+  [*]You can now view your sword on your player model[/*]
+  [*]The world now flashes white when you die[/*]
+  [*]New music and sound effects[/*]
+  [*]Revamped looting system[/*]
+  [*]Added minimap[/*]
+  [*]Added weather system with day/night cycle[/*]
+  [*]Added encounter scoring system and leaderboards[/*]
+  [*]Added crafting and harvestable resources[/*]
+  [*]Added Mac support on Steam[/*]
+  [*]Added support for Steam Cloud saves[/*]
+  [*]Improved error reporting[/*]
+[/list]
+
+  [b]Elaborations & Notes[/b]
+
+[h1]Revamped armour system[/h1]
+There's something really satisfying about grinding away and [i]finally[/i] finishing your current tier armour set in other MMORPGs. BrawlQuest is designed around simplicity and at first it seemed like having one piece of armour per set would be perfect to fit this design ethos.
+
+However, as past Alpha events showed it feels somewhat anti-climactic to finish difficult content and get [i]the[/i] armour piece for this tier of content. It also means that most encounters can be completed once and are then considered "done" with no reason to redo that boss, and as a result you miss out on the ability to try out new strategies or there's no tangible reward in running lower powered guildies through this content.
+
+The new armour system (and subsequent character spriting changes) creates three parts to every armour tier: head, chest and legs. You can also [i]finally[/i] see your equipped weapon on your player. This will allow us to create special costumes in the future which enables opportunities for roleplaying, and means that we can change what the character beneath the armour looks like without having to redo every image for that character.
+
+[h1]New music and sound effects[/h1]
+Something that makes any game world come to life is the music and sound effects. I find it vital to creating an atmosphere and when I think back to past projects my greatest memory is the mixture of sound effects and music.
+
+My good friend Joey Pearce (YouTube: JoeyFunWithMusic) has agreed to compose the music to BrawlQuest and I've spent a few walks trying to take some original and natural sound effects to try and give this game that atmospheric feeling.
+
+The engine now allows for tiles to have their own ambient sounds when they're visible on your screen and the music is now set to trigger as you encounter different things rather than cycle randomly. The old music is removed for this Alpha to really give the Lost Island a different feel to past events.
+
+[h1]Revamped looting system[/h1]
+Once a fight is complete your earned loot is now displayed in a line allowing you to manually walk over it to pick it up. This feels a lot nicer and means that you can identify what loot you've earned without having to sit through the pop up window.
+
+[h1]Added minimap[/h1]
+The minimap will be worked on and updated throughout the course of Shipwrecked. It currently shows a tiny representation of what you've currently uncovered in the map with a crosshair that shows your current location. Hopefully this will make navigation a little bit easier!
+
+[h1]Added encounter scoring system[/h1]
+Your score is equal to the damage that you cause multiplied by your kill combo and then divided by your ATK. This last division is done so that your highscore isn't just defined by your current power level.
+
+
+New Fights:
+* Spiders (Level 1)
+* Crabs (Level 2)
+* Ghostly Knight (Late game)
+* Cannibals (Late game)
+* Cannibal Hut
+* Dungeon: Demon
+* Dungeon: Knight
+* Raid: King of the Old World
+
+Bugs:
+* Minimap crosshair is inaccurate when in anything other than default window width and height

@@ -22,8 +22,8 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "The Cursed Tribe v1.3.2"
-newChatMsg("SERVER","Welcome to BrawlQuest: The Cursed Tribe",1)
+version = "Shipwrecked v1.2"
+newChatMsg("SERVER","Welcome to BrawlQuest: Shipwrecked",1)
 phase = "splash"
 
 isMouseDown = false
@@ -52,17 +52,28 @@ function love.load()
 
   love.filesystem.setIdentity( "bq" )
 
-  --local ipadd = "127.0.0.1"
-  local ipadd = "eu.brawlquest.com"
-  netConnect(ipadd, "26657", 0.1)
-  love.mouse.setVisible(false)
-  b, c, h = http.request("http://brawlquest.com/dl/news-4.txt")
-  love.filesystem.write("news.txt", b)
-  local i = 1
-  for line in love.filesystem.lines("news.txt") do
-    news = news..line.."\n"
+  if dev then
+    ipadd = "127.0.0.1"
+  else
+    ipadd = "eu.brawlquest.com"
   end
 
+  ipadd = "eu.brawlquest.com"  --override
+
+  netConnect(ipadd, "26655", 0.1)
+  love.mouse.setVisible(false)
+  if not dev then b, c, h = http.request("http://brawlquest.com/dl/news.txt") end
+  if b then
+    love.filesystem.write("news.txt", b)
+    local i = 1
+    for line in love.filesystem.lines("news.txt") do
+      news = news..line.."\n"
+    end
+  else
+    news = "UNABLE TO UPDATE NEWS\nAre you connected to the internet?"
+  end
+
+  rFont = love.graphics.newFont(18)
   font = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",14)
   sFont = love.graphics.newFont(9)
   bFont = love.graphics.newFont("img/fonts/Pixel Digivolve.otf",26)
@@ -72,10 +83,18 @@ function love.load()
   worldCanvas = love.graphics.newCanvas(32*101,32*101)
   fightCanvas = love.graphics.newCanvas(stdSH,stdSW)
   createLoginCanvas()
+  createWeather()
 
+  downloadMobs()
+  loadMobs()
   loadMusic()
   bindKeys()
   loadCharacters()
+  loadTutorial()
+--  saveMobList("mobs.txt")
+
+  scaleX = round(love.graphics.getWidth()/(1920/2))
+  scaleY = round(love.graphics.getHeight()/(1080/2))
 end
 
 function love.draw()
@@ -95,6 +114,8 @@ function love.draw()
     love.graphics.setColor(255,255,255)
     love.graphics.setFont(sFont)
   end
+  drawAspects()
+--  drawMenu(100,200)
 end
 
 
@@ -105,6 +126,8 @@ function love.update(dt)
   updateMusic(dt)
   updateSpells(dt)
   updateFloats(dt)
+  updateFog(dt)
+  updateTutorial() --triggers for tutorial window
 end
 
 function love.mousepressed(button)
@@ -117,7 +140,7 @@ function love.mousereleased(button, cx, cy)
   cx, cy = love.mouse.getPosition()
   if phase == "game" then
     if pl.state == "world" then
-      if world[pl.t].tile == "Blacksmith" then
+      if world[pl.t].tile == "Blacksmithh" then --temporarily disabled for this Alpha
         cy = cy - 32
         local sw,sh = love.graphics.getDimensions()
         x = sw/2-75
@@ -152,6 +175,58 @@ function love.mousereleased(button, cx, cy)
         netSend("pray",pl.name)
         frequentlyUpdate = true
         love.audio.play(sfx["hit"])
+      elseif world[pl.t].tile == "Anvil" then
+        --crafting menu
+        if craftingMenu.scrn == "menu" then
+          local x = 0 + craftingMenu.x
+          local y = 4 + craftingMenu.y
+          for i = 1, 5 do
+            if isMouseOver(x,32*3,y,sFont:getHeight()) == true then
+                if i == 1 then craftingMenu.scrn = "wep"
+                elseif i == 2 then craftingMenu.scrn = "Spell"
+                elseif i == 3 then craftingMenu.scrn = "head armour"
+                elseif i == 4 then craftingMenu.scrn = "chest armour"
+                elseif i == 5 then craftingMenu.scrn = "leg armour" end
+            end
+            y = y + sFont:getHeight()
+          end
+          y = 4 + craftingMenu.y
+        else
+          local x = 0
+          local y = 0
+          for i, v in pairs(atComma(pl.blueprints,";")) do
+            if item.type[v] == craftingMenu.scrn then
+              if canPlayerCraft(v) then
+
+                if isMouseOver(craftingMenu.x+x,32,craftingMenu.y+y,32) then
+                  netSend("craft",pl.name..","..v)
+                  --craftingMenu.scrn = "crafting"
+                  frequentlyUpdate = true
+                end
+              end
+              x = x + 32
+              if x > (32*2) then
+                x = 0
+                y = y + 32
+              end
+            end
+          end
+        end
+      --[[elseif gameUI[7].visible == true and isMouseOver(gameUI[7].x,gameUI[7].width,gameUI[7].y,gameUI[7].height) then --buddy panel
+        local chy = gameUI[7].y + sFont:getHeight() + 8 --checky
+        local chx = gameUI[7].x
+        for i, v in pairs(buddy) do
+          if playerHasItem(i,1) or pl.buddy == i then
+            if isMouseOver(chx,32,chy,32) then
+              useItem(i)
+            end
+            chx = chx + 32
+            if chx-gameUI[7].x > 32*4 then
+              chx = gameUI[7].x
+              chy = chy + 32
+            end
+          end
+        end]]
       end
         if pl.selItem ~= "None" then
           useItem(pl.selItem)
@@ -159,7 +234,6 @@ function love.mousereleased(button, cx, cy)
           love.audio.play(sfx["hit"])
           frequentlyUpdate = true
         end
-
     end
   end
 end
@@ -167,5 +241,6 @@ end
 function love.quit()
   if phase == "game" then
     saveFog("fog.txt")
+    saveTutorial()
   end
 end
