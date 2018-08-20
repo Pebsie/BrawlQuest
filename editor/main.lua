@@ -3,7 +3,9 @@
 ---ensure that the map.txt file is in the filesystem directory before running or a new map will be created
 utf8 = require("utf8")
 require "data/world"
+
 require "light"
+
 http = require("socket.http")
 
 world = {}
@@ -18,6 +20,7 @@ world.x = {}
 world.y = {}
 
 mapname = "map-forest.txt"
+
 
 info = ""
 view = 0
@@ -154,9 +157,9 @@ function love.draw()
           love.graphics.setColor(0,0,0)
           love.graphics.print(world.fightc[i].."%", x-camX, y-camY)
         end
-          love.graphics.setColor(255,255,255)
+          love.graphics.setColor(1,1,1)
       else
-        love.graphics.setColor(255,0,0)
+        love.graphics.setColor(1,0,0)
         love.graphics.rectangle("line", x-camX, y-camY, 32, 32)
       end
     end
@@ -183,7 +186,11 @@ function love.draw()
     end
   end
 
-  love.graphics.setColor(255,0,0)
+  if uiPhase == "select" then
+    drawSelect(200,200)
+  end
+
+  love.graphics.setColor(1,0,0)
   love.graphics.rectangle("line",ox+(camX/32),oy+(camY/32),25,18.75)
 
   love.graphics.setColor(0,0,0,100)
@@ -265,6 +272,8 @@ function love.keypressed(key)
         world.isFight[i] = false
       end
     end
+  elseif key == "escape" then
+    if uiPhase == "world" then uiPhase = "select" else uiPhase = "world" end
   end
 
 
