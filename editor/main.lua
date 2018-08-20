@@ -17,7 +17,7 @@ world.music = {}
 world.x = {}
 world.y = {}
 
-mapname = "map-beach.txt"
+mapname = "map-forest.txt"
 
 info = ""
 view = 0
@@ -128,6 +128,16 @@ function love.draw()
         --if world.isFight[i] == true then love.graphics.setColor(255,0,0) else love.graphics.setColor(255,255,255) end
         if selT == i then love.graphics.setColor(255,255,255,50) else love.graphics.setColor(255,255,255) end
         if view == 2 then if world.collide[i] == true then love.graphics.setColor(255,0,0) end end
+        if view == 3 then
+          local rs = 0
+           for k = 1, #world.name[i] do
+             local char = world.name[i]:sub(k,k)
+             rs = rs + string.byte(char)
+           end
+
+          love.math.setRandomSeed(rs)
+          love.graphics.setColor(love.math.random(100,255),love.math.random(100,255),love.math.random(100,255))
+        end
         if worldImg[world.bg[i]] then
           love.graphics.draw(worldImg[world.bg[i]], x-camX, y-camY)
         else
@@ -306,7 +316,7 @@ function love.keypressed(key)
   else
     if key == "v" then
       view = view + 1
-      if view > 2 then view = 0 end
+      if view > 3 then view = 0 end
     end
     if key == "i" then
       info = world.name[selT]..","..world.fight[selT].." ("..world.fightc[selT].."%)"

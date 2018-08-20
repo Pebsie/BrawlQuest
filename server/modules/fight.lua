@@ -342,6 +342,7 @@ function updateFights(dt) --the big one!!
           end
           --movement
           local width = mb.img[mob[v]]/2
+          if width < 16 then width = 16 mb.img[mob[v]] = 32 end
           if distanceFrom(mob.x[v]+width, mob.y[v]+width, mob.target.x[v], mob.target.y[v]) > mb.rng[mob[v]] then --if we're further away from our target than our attacking range
             local speed = mb.spd[mob[v]]*dt --move towards the target
             if mob.target.x[v] > mob.x[v]+width then mob.x[v] = mob.x[v] + speed end

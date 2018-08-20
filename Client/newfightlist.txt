@@ -1,3 +1,6 @@
+editor quest format: quest|required item;amount;required item2;amount|reward item;amount;reward item2;amount|quest text|recommended level
+
+FIGHTS=====
 map-swordbreak.txt
 
 Alertness Training (all levels)
@@ -7,3 +10,9 @@ Combo Training (all levels)
 map-hunters.txt
 
 Pathway: Bandit Invasion of Squall's End (level 1)
+Hungry Bear (level 1) (Linked to quest in Squall's End to get 5 Bear Meat)
+Forest Bandits (level 2)
+Undead Lurkers (level 5)
+Dungeon: Shieldbreak Mine (level 10)
+
+ITEMS====

@@ -1,0 +1,44 @@
+1. Opening theme
+2. Peaceful Village with a dark past (Squal's End) - 40s (Puer Lavari)
+3. Forest Theme - 1m looping
+4. Bustling city, the hub of mankind (Swordbreak) - 50s
+5. Mining village built into the heart of a mountain, working class and scared for the future (Shieldbreak) - 30s
+6. On the road to the future - 30s looping
+7. The great plains, featuring only dead trees - 50s, slow
+8. Giant, ominous mountains presenting a fork in the path forward (The Midland Heights) - 30s
+9. The harsh Eastern desert, no place for a mortal (The Eastern Wasteland) - 30s
+10. Generic plains music #1 - 30s
+11. Generic plains music #2 - 30s
+12. Dark forest music (perhaps as Forest Theme above but minor?) (The Great Forest) - 40s looping
+13. Struggling village under constant threat from bandit raids - 30s
+14. Generic battle music #1 - 20s
+15. Generic battle music #2 - 20s
+16. Generic battle music #3 - 20s
+17. Bandit theme (Battle music, Pathway quests) - 30s
+18. Bandit theme but with more threat (Boss battle music, Pathway quests) - 30s
+19. Desert battle music (Eastern Wasteland battle music) - 20s
+20. Boss battle music (Dungeons) - 1m looping
+21. Big boss battle music (Raids) - 1m looping
+22. Dark forest battle music (as the Dark Forest music above but for battles within) - 20s
+23. Final boss battle music (Banshee raid) - 2m looping
+24. PvP battle music - 20s
+25. Fun tavern music - 30s
+
+14. Generic battle music #1 - 20s
+3. Mysterious Forest Theme - 1m looping
+4. Bustling city, the hub of mankind (Swordbreak) - 50s
+17. Bandit theme (Battle music, Pathway quests) - 30s
+5. Mining village built into the heart of a mountain, working class and scared for the future (Shieldbreak) - 30s
+7. The great plains, featuring only dead trees - 50s, slow
+8. Towering mountains presenting a fork in the path forward (The Midland Heights) - 30s
+10. Generic plains music #1 - 30s
+15. Generic battle music #2 - 20s
+18. Bandit theme but with more threat (Boss battle music, Pathway quests) - 30s
+16. Generic battle music #3 - 20s
+9. The harsh Eastern desert, no place for a mortal (The Eastern Wasteland) - 30s
+19. Desert battle music (Eastern Wasteland battle music) - 20s
+13. Struggling village under constant threat from bandit raids - 30s
+20. Boss battle music (Dungeons) - 1m looping
+11. Generic plains music #2 - 30s
+12. Dark forest music (perhaps as Forest Theme above but minor?) (The Great Forest) - 40s looping
+25. Fun tavern music - 30s

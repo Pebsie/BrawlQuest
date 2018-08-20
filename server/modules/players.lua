@@ -17,7 +17,7 @@ function newPlayer(name, password)
     pl[i] = {
       hp = 100,
       en = 100,
-      s1 = "Recovery",
+      s1 = "None",
       s1t = 0,
       s2 = "None",
       s2t = 0,

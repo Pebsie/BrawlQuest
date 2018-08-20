@@ -38,6 +38,4 @@ function simulateWeather()
     if weather.condition ~= "clear" then addChatMsg("WORLD","The sun peaks out from behind the clouds...") end
     weather.condition = "clear"
   end
-
-  weather.condition = "rain"
 end

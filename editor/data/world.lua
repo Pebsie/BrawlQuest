@@ -102,6 +102,7 @@ worldImg["Cobblestone"] = love.graphics.newImage("img/world/floors/Cobblestone.p
 worldImg["Wood Floor"] = love.graphics.newImage("img/world/floors/Wood Floor.png")
 worldImg["Wood Wall"] = love.graphics.newImage("img/world/floors/Wood Wall.png")
 worldImg["Vincent"] = love.graphics.newImage("img/world/objects/Vincent.png")
+worldImg["Crude Sign"] = love.graphics.newImage("img/world/objects/Crude Sign.png")
 
 lightsource = {}
 lightsource["Campfire"] = 5
