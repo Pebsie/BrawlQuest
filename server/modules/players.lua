@@ -24,8 +24,8 @@ function newPlayer(name, password)
       gold = 0,
       x = 0,
       y = 0,
-      t = 805, --805 is shipwrecked, 918 is hell
-      dt = 1942,
+      t = 7693, --805 is shipwrecked, 918 is hell
+      dt = 7693,
       wep = "Long Stick",
       arm = "Legendary Padding",
       armd = 0,

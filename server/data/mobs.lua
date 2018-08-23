@@ -554,9 +554,9 @@ end
 
 function downloadMobs()
   addMsg("Downloading mobs list...")
-  b, c, h = http.request("http://brawlquest.com/dl/mobs.txt")
+  b, c, h = http.request("http://brawlquest.com/dl/mobs-beta.txt")
   if b then
-    love.filesystem.write("mobs.txt", b)
+    love.filesystem.write("mobs-beta.txt", b)
   else
     addMsg("Failed to download mobs list.")
   end
@@ -611,8 +611,8 @@ function saveMobList(fn) --fn - file name
 end
 
 function loadMobs()
-  if love.filesystem.getInfo("mobs.txt") then
-    for line in love.filesystem.lines("mobs.txt") do
+  if love.filesystem.getInfo("mobs-beta.txt") then
+    for line in love.filesystem.lines("mobs-beta.txt") do
       local mbInfo = atComma(line,"=")
       local name = mbInfo[2]
       mobData[name] = {}

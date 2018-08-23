@@ -1,4 +1,6 @@
-editor quest format: quest|required item;amount;required item2;amount|reward item;amount;reward item2;amount|quest text|recommended level
+editor quest format: quest|type (item/tile/deliver)|requireditem;amount/requiredtile;rewardtext/requireditem;tile;rewardtext|reward item;amount;reward item2;amount|quest text|recommended level|thanks text
+
+quest|item|Ogre Head;5|Recovery;1;EXP;100|The only part of this town that still stands is myself and the church I swore to protect. Do you know what scares Ogres enough to stop them from bashing down your door? Ogre brains smeared on the door pane. I'm too old and frail to slay these ogres myself but... would you care to help a kindly old man who just wants to keep the last bastion of his town alive?|3|You're a saint.
 
 FIGHTS=====
 map-swordbreak.txt
@@ -12,6 +14,9 @@ map-hunters.txt
 Pathway: Bandit Invasion of Squall's End (level 1)
 Hungry Bear (level 1) (Linked to quest in Squall's End to get 5 Bear Meat)
 Forest Bandits (level 2)
+Ogres (level 2)
+Spiders (levl 2)
+Alliance Fury (level 4)
 Undead Lurkers (level 5)
 Dungeon: Shieldbreak Mine (level 10)
 

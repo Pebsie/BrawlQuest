@@ -22,8 +22,8 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Shipwrecked v1.2"
-newChatMsg("SERVER","Welcome to BrawlQuest: Shipwrecked",1)
+version = "Beta 0.1"
+newChatMsg("SERVER","Welcome to BrawlQuest!",1)
 phase = "splash"
 
 isMouseDown = false
@@ -58,7 +58,7 @@ function love.load()
     ipadd = "eu.brawlquest.com"
   end
 
-  ipadd = "eu.brawlquest.com"  --override
+  ipadd = "127.0.0.1"  --override
 
   netConnect(ipadd, "26655", 0.1)
   love.mouse.setVisible(false)

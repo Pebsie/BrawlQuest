@@ -103,6 +103,13 @@ worldImg["Wood Floor"] = love.graphics.newImage("img/world/floors/Wood Floor.png
 worldImg["Wood Wall"] = love.graphics.newImage("img/world/floors/Wood Wall.png")
 worldImg["Vincent"] = love.graphics.newImage("img/world/objects/Vincent.png")
 worldImg["Crude Sign"] = love.graphics.newImage("img/world/objects/Crude Sign.png")
+worldImg["Armoury Door"] = love.graphics.newImage("img/world/objects/Armoury Door.png")
+worldImg["Bar Door"] = love.graphics.newImage("img/world/objects/Bar Door.png")
+worldImg["Barracks Door"] = love.graphics.newImage("img/world/objects/Barracks Door.png")
+worldImg["Church Door"] = love.graphics.newImage("img/world/objects/Church Door.png")
+worldImg["Damaged Door"] = love.graphics.newImage("img/world/objects/Damaged Door.png")
+worldImg["Ghost"] = love.graphics.newImage("img/world/objects/Ghost.png")
+worldImg["Priest"] = love.graphics.newImage("img/world/objects/Priest.png")
 
 lightsource = {}
 lightsource["Campfire"] = 5

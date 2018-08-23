@@ -54,9 +54,9 @@ function enterGame()
   love.graphics.setBackgroundColor(0,0,0)
   --download map
   --if not love.filesystem.exists("map.txt") then
-   b, c, h = http.request("http://brawlquest.com/dl/map-beach.txt")
+   b, c, h = http.request("http://brawlquest.com/dl/map-forest.txt")
    if b then
-     love.filesystem.write("map-beach.txt", b)
+     love.filesystem.write("map-forest.txt", b)
    end
   --load map
     loadOverworld()

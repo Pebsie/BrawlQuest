@@ -109,6 +109,13 @@ item.lvl[ti] = 10
 item.price[ti] = "10,Iron,5,String,10,Mana"
 item.img[ti] = "img/human/armour/guardian/legs.png" item.title[ti] = ti
 
+local ti = "Red Facemask"
+item.type[ti] = "head armour"
+item.val[ti] = 2
+item.lvl[ti] = 1
+item.price[ti] = "3,String"
+item.img[ti] = "img/human/armour/misc/Red Facemask.png" item.title[ti] = ti
+
 
 --old armour
 local ti = "Boat"
@@ -189,6 +196,14 @@ item.lvl[ti] = 1
 item.price[ti] = "0,Gold"
 item.img[ti] = "img/items/weapons/Long Stick.png" item.title[ti] = ti
 
+local ti = "Small Dagger"
+item.type[ti] = "wep"
+item.val[ti] = 2
+item.lvl[ti] = 1
+item.price[ti] = "10,Gold"
+item.img[ti] = "img/items/weapons/Small Dagger.png" item.title[ti] = ti
+
+
 local ti = "Short Sword"
 item.type[ti] = "wep"
 item.val[ti] = 3
@@ -240,12 +255,12 @@ item.lvl[ti] = 12
 item.price[ti] = "3,Gold"
 item.img[ti] = "img/items/consumables/Potent Healing Potion.png" item.title[ti] = ti
 
-local ti = "Suspicious Meat"
+local ti = "Bear Meat"
 item.type[ti] = "hp"
-item.val[ti] = 80
-item.lvl[ti] = 10
-item.price[ti] = "3,Gold"
-item.img[ti] = "img/items/consumables/Suspicious Meat.png" item.title[ti] = ti
+item.val[ti] = 5
+item.lvl[ti] = 1
+item.price[ti] = "1,Gold"
+item.img[ti] = "img/items/consumables/Meat.png" item.title[ti] = ti
 
 --spells
 local ti = "Recovery"
@@ -466,6 +481,14 @@ item.img[ti] = buddy[ti]
   item.lvl[ti] = 10
   item.price[ti] = "350,Quia"
   item.img[ti] = "img/items/Orb of Power.png" item.title[ti] = ti
+
+  --quest
+  local ti = "Ogre's Head"
+  item.type[ti] = "Reagent"
+  item.val[ti] = ""
+  item.lvl[ti] = 1
+  item.price[ti] = "1,Gold"
+  item.img[ti] = "img/items/quest/Ogre Head.png" item.title[ti] = ti
 
   --craftable
   local ti = "Wood"

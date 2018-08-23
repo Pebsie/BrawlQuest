@@ -49,6 +49,7 @@ function love.load()
 
 --  b, c, h = http.request("http://brawlquest.com/dl/map-snow.txt")
 --  love.filesystem.write("map-snow.txt", b)
+  love.filesystem.setIdentity("editor")
 
   heroImg = love.graphics.newImage("img/human/Legend.png")
   --load map data

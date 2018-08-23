@@ -51,6 +51,11 @@ function drawItem(name,amount,x,y,alpha)
   love.graphics.rectangle("fill",x,y,32,32)
   love.graphics.setColor(255,255,255,alpha)
   if item.img[name] then
+    if item.type[name] == "head armour" or item.type[name] == "chest armour" or item.type[name] == "leg armour" then
+      love.graphics.setColor(255,255,255,100)
+      love.graphics.draw(item.img["Naked"],x,y)
+      love.graphics.setColor(255,255,255,255)
+    end
     love.graphics.draw(item.img[name],x,y)
   end
 

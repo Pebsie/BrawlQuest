@@ -20,10 +20,10 @@ titleScreen = 1200
 objectCanvas = love.graphics.newCanvas(32*101,32*101)
 
 function loadOverworld()
-  if love.filesystem.getInfo("map-beach.txt") then
+  if love.filesystem.getInfo("map-forest.txt") then
     local x = 0
     local y = 0
-    for line in love.filesystem.lines("map-beach.txt") do
+    for line in love.filesystem.lines("map-forest.txt") do
       word = atComma(line)
       i = #world + 1
       world[i] = {}

@@ -87,7 +87,7 @@ function drawLogin() --login screen
     love.graphics.rectangle("fill",(sw/2-(181/2)),(sh/2-(145/2))-20,181,bFont:getHeight())
     love.graphics.setColor(255,255,255)
 
-    love.graphics.printf("ALPHA",(sw/2-(181/2)),(sh/2-(145/2))-20,181,"center")
+    love.graphics.printf("BETA",(sw/2-(181/2)),(sh/2-(145/2))-20,181,"center")
     love.graphics.printf("LOGIN",xpos,ypos+32,(407/2),"center")
     --which at this size is 181x145
   ypos = ypos + 40
