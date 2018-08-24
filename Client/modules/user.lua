@@ -37,6 +37,7 @@ pl.blueprints = ""
 authcode = "1000" --this is used to verify with the server that we aren't username spoofing
 
 function login() --we'll attempt to login
+  
   if pl.name ~= "" and pl.cinput ~= "" then
     ui.selected = "logging in"
     netSend("login", pl.name..","..pl.cinput)

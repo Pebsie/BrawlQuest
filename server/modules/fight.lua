@@ -71,9 +71,9 @@ function removePlayerFromFight(name, isDead)
   --step 1: find out what fight the player is in
   pl[name].s1t = 0
   pl[name].stt = 0
-  name = getPlayerID(name)
+  plId = getPlayerID(name)
 
-  local id = findFightPlayerIsIn(name)
+  local id = findFightPlayerIsIn(plId)
 
   if id then
 
@@ -81,30 +81,31 @@ function removePlayerFromFight(name, isDead)
     local ftpls = "" --fight players string
 
     for i = 1, #plsif do
-      if tonumber(plsif[i]) ~= tonumber(name) then
+      if tonumber(plsif[i]) ~= tonumber(plId) then
         ftpls = ftpls..plsif[i]..";"
       end
     end
 
     ft.pl[id] = ftpls
 
-    if not isDead then
-      pl[getPlayerName(name)].state = "afterfight"
+    if not isDead and pl[name].owed ~= "" then
+      pl[name].state = "afterfight"
     else
-      pl[getPlayerName(name)].state = "world"
+      pl[name].state = "world"
+      if pl[name].owed == "" then pl[name].owed = "reset" end
     end
 
     if ft.title[id] == "Shipwreck" then
-      pl[getPlayerName(name)].arm_head = "None"
-      pl[getPlayerName(name)].arm_chest = "None"
-      pl[getPlayerName(name)].arm_legs = "None"
+      pl[name].arm_head = "None"
+      pl[name].arm_chest = "None"
+      pl[name].arm_legs = "None"
     end
   --  addMsg(getPlayerName(name).." left fight #"..id)
 
     local curPlayers = listPlayersInFight(id)
     if #curPlayers < 1 then endFight(id) world[ft.tile[id]].spawned = true end
   else
-    addMsg("ERROR: can't remove "..getPlayerName(name).." from the fight that they're in, as we can't find what fight it is tha they're in!")
+    addMsg("ERROR: can't remove "..name.." from the fight that they're in, as we can't find what fight it is tha they're in!")
   end
 end
 

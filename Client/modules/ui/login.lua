@@ -329,7 +329,7 @@ function drawLogin() --login screen
       if isMouseDown or love.keyboard.isDown("return") then
         login()
         pl.cinput = ""
-        ui.selected = "password"
+        ui.selected = "logging in"
         love.audio.play(sfx["hit"])
       end
     else
