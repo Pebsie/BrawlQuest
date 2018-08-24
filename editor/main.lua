@@ -19,7 +19,7 @@ world.music = {}
 world.x = {}
 world.y = {}
 
-mapname = "map-forest.txt"
+mapname = "map-west.txt"
 
 
 info = ""
@@ -86,12 +86,12 @@ function love.load()
       --  if love.math.random(1,200) == 1 then
         --  world[i] = "Tree"
       --  else
-          world[i] = "Tree"
+          world[i] = "Grass"
         --end
-        world.name[i] = "The Great Northern Forest"
+        world.name[i] = "West Shore"
         world.fight[i] = "None"
         world.fightc[i] = 0 --5%
-        world.collide[i] = true
+        world.collide[i] = false
         world.bg[i] = "Grass"
         world.music[i] = "*"
   --    end
