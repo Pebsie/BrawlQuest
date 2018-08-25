@@ -103,7 +103,7 @@ function removePlayerFromFight(name, isDead)
   --  addMsg(getPlayerName(name).." left fight #"..id)
 
     local curPlayers = listPlayersInFight(id)
-    if isDead and #curPlayers < 1 then world[ft.tile[id]].spawned = true end --fight was lost, so the mob is still on this tile
+    if isDead and #curPlayers < 1 then world[ft.tile[id]].spawned = true end --fight was lost, so the mob is still on this tile 
     if #curPlayers < 1 then endFight(id) end
   else
     addMsg("ERROR: can't remove "..name.." from the fight that they're in, as we can't find what fight it is tha they're in!")

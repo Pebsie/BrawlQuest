@@ -340,17 +340,18 @@ function movePlayer(name, dir)
   elseif string.sub(world[pl[name].t].fight,1,3) == "tp|" then
     pl[name].t = tonumber(string.sub(world[pl[name].t].fight,4))
   elseif string.sub(world[pl[name].t].fight,1,5) ~= "speak" then
-    if world[pl[name].t].isFight == true then
+    if world[pl[name].t].isFight == true and playerCanFight(name,pl[name].t) then
       local fightsOnTile = listFightsOnTile(pl[name].t)
       addPlayerToFight(fightsOnTile[1],name)
       pl[name].encounterBuild = 0
     else
-      if not pl[name].fightsPlayed[pl[name].t] then
+      if not pl[name].fightsPlayed[pl[name].t] and playerCanFight(name,pl[name].t) then
+        local fightData = atComma(world[pl[name].t].fight,"|")
         local fightChance = love.math.random(1,100)-pl[name].encounterBuild
         if world[pl[name].t].spawned then --fightChance < world[pl[name].t].fightc or world[pl[name].t].fightc > 90 or world[pl[name].t].spawned then
           world[pl[name].t].isFight = true
-          if fs[world[pl[name].t].fight] then
-            newFight(pl[name].t, world[pl[name].t].fight)
+          if fs[fightData[1]] then
+            newFight(pl[name].t, fightData[1])
             pl[name].encounterBuild = 0
             addPlayerToFight(#ft.t, name)
             world[pl[name].t].spawned = false
@@ -464,4 +465,25 @@ function playerHasBuddy(name,itemName)
     addMsg("No!")
     return false
   end
+end
+
+function playerCanFight(name,tile)
+--  addMsg("Can "..name.." fight on "..tile.."? ("..world[tile].fight..")")
+  local canFight = false
+  local word = atComma(world[tile].fight,"|")
+
+  if #word > 1 then
+  --  addMsg("There are requirements... does "..pl[name][word[2]].." == "..word[3].."? "..word[2])
+    if word[2] == "quest" then
+      --fill in once quest system is done
+    else
+      if pl[name][word[2]] == word[3] then
+        canFight = true
+      end
+    end
+  else
+    canFight = true
+  end
+
+  return canFight
 end

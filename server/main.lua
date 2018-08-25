@@ -135,9 +135,11 @@ function love.update(dt)
           local name = parms
           pl[name].timeout = 5
 
-          for i = 1, 100*100 do
-            if world[i].isFight == true then
-              msgToSend = msgToSend..string.format("fight|%s|", i)
+          for k = -195,305,101 do
+            for t = -9, -5 do
+              if world[i].isFight == true and playerCanFight(name,i) then
+                msgToSend = msgToSend..string.format("fight|%s|", i)
+              end
             end
           end
 
@@ -153,9 +155,10 @@ function love.update(dt)
         local i = tonumber(pl[name].t)
          for k = -195,305,101 do
            for t = -9, -5 do
-             if world[t+i+k] and world[t+i+k].spawned then
+             if world[t+i+k] and world[t+i+k].spawned and playerCanFight(name,t+i+k) then
                spawned = spawned + 1
-               msgOn = msgOn..t+i+k.."|"..getFirstMob(world[t+i+k].fight).."|"
+               local fightData = atComma(world[t+i+k].fight,"|")
+               msgOn = msgOn..t+i+k.."|"..getFirstMob(fightData[1]).."|"
              end
            end
          end

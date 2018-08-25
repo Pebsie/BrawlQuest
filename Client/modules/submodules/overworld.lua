@@ -29,6 +29,8 @@ function loadOverworld()
       world[i] = {}
       world[i].tile = word[1]
       world[i].fight = word[2]
+      local fightData = atComma(word[2])
+      world[i].fight = fightData[1]
       world[i].fightc = word[3]
       if word[4] == "true" then world[i].collide = true else world[i].collide = false end
       world[i].name = word[5]

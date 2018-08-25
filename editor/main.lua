@@ -19,7 +19,7 @@ world.music = {}
 world.x = {}
 world.y = {}
 
-mapname = "map-west.txt"
+mapname = "map-forest.txt"
 
 
 info = ""
