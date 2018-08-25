@@ -183,7 +183,7 @@ function drawFog(xo,yo)
         love.graphics.rectangle("line",world[i].x+xo,world[i].y+yo,32,32)
         --love.graphics.draw(worldImg["DT"],world[i].x+xo,world[i].y+yo)
       end
-
+      
     end --if tile is on screen
   end --for statement
 
