@@ -112,6 +112,7 @@ function netUpdate(dt)
               pl.y = 380
               pl.s1t = 0
               pl.s2t = 0
+              world[pl.t].spawned = "unknown"
               createFightCanvas(pl.t)
               killMobs()
               requestWorldInfo()
@@ -120,9 +121,9 @@ function netUpdate(dt)
               pl.x = love.math.random(200, 600) --place players in a line at the bottom of the arena
               pl.y = 380
               killMobs()
-              createFightCanvas(pl.t) --for some reason the fight canvas is resetting when we shift to afterfight. This is a temporary "fix"
+            --  createFightCanvas(pl.t) --for some reason the fight canvas is resetting when we shift to afterfight. This is a temporary "fix"
             elseif pl.state ~= "fight" and pl.state ~= "afterfight" then
-              love.graphics.setBackgroundColor(0,0,0)
+            --  love.graphics.setBackgroundColor(0,0,0)
             end
             pl.state = param[16]
 

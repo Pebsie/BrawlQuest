@@ -161,6 +161,7 @@ function drawOverworld()
   love.graphics.printf(world[pl.t].name,0,sh/2-200,sw,"center")
   love.graphics.setFont(font)
   love.graphics.printf("Day "..weather.day.." of the year 302\n\nThe hour is "..weather.time.."\nThe weather is "..weather.condition.." and the temperature is "..weather.temperature.."C",0,sh/2,sw,"center")
+  if dev then love.graphics.printf("DEV MODE",0,sh/2+200,sw,"center") end
 end
 
 

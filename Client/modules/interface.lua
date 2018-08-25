@@ -261,7 +261,7 @@ function drawUIWindow(i)
     elseif i == 2 then
 
       love.graphics.setColor(255,255,255)
-      --love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()).."\nCam: "..mx..", "..my.."\nST: "..selT, x, y)
+      love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()).."\nCam: "..mx..", "..my.."\nST: "..selT, x, y)
 
     elseif i == 3 then
 

@@ -37,7 +37,7 @@ pl.blueprints = ""
 authcode = "1000" --this is used to verify with the server that we aren't username spoofing
 
 function login() --we'll attempt to login
-  
+
   if pl.name ~= "" and pl.cinput ~= "" then
     ui.selected = "logging in"
     netSend("login", pl.name..","..pl.cinput)
@@ -80,7 +80,11 @@ function enterGame()
     gameUI[2].x = 0 --debug info
     gameUI[2].y = 0
     gameUI[2].isDrag = false
-    gameUI[2].isVisible = false
+    if dev then
+      gameUI[2].isVisible = true
+    else
+      gameUI[2].isVisible = false
+    end
     gameUI[2].width = 160
     gameUI[2].height = 46+font:getHeight()+2
     gameUI[2].label = "Debug"
@@ -166,6 +170,8 @@ function movePlayer(dir)
   end
   requestUserInfo()
 
+  if titleScreen > 255 then titleScreen = 255 end --allow skipping of title screen
+  
   curT = pl.t
   --perform on client side pre-confirmation to make things smoother
   if dir == "up" then pl.t = pl.t - 101
@@ -175,6 +181,7 @@ function movePlayer(dir)
 
   if string.sub(world[pl.t].fight,1,5) == "speak" then
     sInfo = atComma(world[pl.t].fight,"|")
+    triggerTutorial("npc")
     if sInfo[3] then
       mobSpeak(sInfo[2],sInfo[3],string.len(sInfo[3])/20)
     else

@@ -33,6 +33,11 @@ function loadFog()
   fog.ignore["PUL"] = true
   fog.ignore["PUR"] = true
   fog.ignore["Graveyard"] = true
+  fog.ignore["Cave Floor"] = true
+  fog.ignore["Stone Floor"] = true
+  fog.ignore["Wall"] = true
+  fog.ignore["Wood Wall"] = true
+  fog.ignore["Wood Floor"] = true
 end
 
 function updateFog(dt)
@@ -117,7 +122,9 @@ function drawFog(xo,yo)
         love.graphics.setColor(255,255,255,255)
         if world[i].spawned ~= "unknown" then
           if mb.img[world[i].spawned] then
-            love.graphics.draw(mb.img[world[i].spawned],world[i].x+xo,world[i].y+yo)
+            local xi = mb.img[world[i].spawned]:getWidth()/2
+            local yi = mb.img[world[i].spawned]:getHeight()/2
+            love.graphics.draw(mb.img[world[i].spawned],world[i].x+xo-xi+16,world[i].y+yo-yi+16)
             if isMouseOver((world[i].x+xo)*scaleX,32*scaleX,(world[i].y+yo)*scaleY,32*scaleY) then
               if fightInfo[world[i].fight] and fightInfo[world[i].fight].requested and not fightInfo[world[i].fight].mobs then
                 addTT(world[i].fight,"Awaiting fight info...",cx,cy)
