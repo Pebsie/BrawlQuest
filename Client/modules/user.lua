@@ -33,10 +33,12 @@ pl.score = 0
 pl.combo = 0
 pl.aspectString = ""
 pl.blueprints = ""
+pl.inv = {}
 
 authcode = "1000" --this is used to verify with the server that we aren't username spoofing
 
 function login() --we'll attempt to login
+
   if pl.name ~= "" and pl.cinput ~= "" then
     ui.selected = "logging in"
     netSend("login", pl.name..","..pl.cinput)
@@ -54,9 +56,9 @@ function enterGame()
   love.graphics.setBackgroundColor(0,0,0)
   --download map
   --if not love.filesystem.exists("map.txt") then
-   b, c, h = http.request("http://brawlquest.com/dl/map-beach.txt")
+   b, c, h = http.request("http://brawlquest.com/dl/map-forest.txt")
    if b then
-     love.filesystem.write("map-beach.txt", b)
+     love.filesystem.write("map-forest.txt", b)
    end
   --load map
     loadOverworld()
@@ -79,7 +81,11 @@ function enterGame()
     gameUI[2].x = 0 --debug info
     gameUI[2].y = 0
     gameUI[2].isDrag = false
-    gameUI[2].isVisible = false
+    if dev then
+      gameUI[2].isVisible = true
+    else
+      gameUI[2].isVisible = false
+    end
     gameUI[2].width = 160
     gameUI[2].height = 46+font:getHeight()+2
     gameUI[2].label = "Debug"
@@ -89,8 +95,8 @@ function enterGame()
     gameUI[3].y = 0
     gameUI[3].isDrag = false
     gameUI[3].isVisible = false
-    gameUI[3].width = 148
-    gameUI[3].height = 148+font:getHeight()+2
+    gameUI[3].width = 36*5+4
+    gameUI[3].height = 36*5+font:getHeight()+12
     gameUI[3].label = "Inventory"
     gameUI[3].closeButton = true
 
@@ -165,6 +171,8 @@ function movePlayer(dir)
   end
   requestUserInfo()
 
+  if titleScreen > 255 then titleScreen = 255 end --allow skipping of title screen
+
   curT = pl.t
   --perform on client side pre-confirmation to make things smoother
   if dir == "up" then pl.t = pl.t - 101
@@ -174,6 +182,7 @@ function movePlayer(dir)
 
   if string.sub(world[pl.t].fight,1,5) == "speak" then
     sInfo = atComma(world[pl.t].fight,"|")
+    triggerTutorial("npc")
     if sInfo[3] then
       mobSpeak(sInfo[2],sInfo[3],string.len(sInfo[3])/20)
     else
@@ -213,15 +222,25 @@ end
 function playerHasItem(item,amount)
   local hasItem = false
   if not amount then amount = 1 end
-  local inv = atComma(pl.inv,";")
 
-  for i = 1, #inv, 2 do
-    if inv[i] == item and tonumber(inv[i+1]) > tonumber(amount)-1 then
+  for i, v in pairs(pl.inv) do
+    if v.name == item and v.amount > amount-1 then
       hasItem = true
     end
   end
 
-  return hasItem
+  return hasitem
+end
+
+function getInventorySlot(item)
+  local slot = 1
+  for i, v in pairs(pl.inv) do
+    if v.name == item then
+      slot = i
+    end
+  end
+
+  return slot
 end
 
 function resetUIPosition(i) --resets the position of the specified window to the default setting

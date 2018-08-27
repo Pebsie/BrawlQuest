@@ -49,6 +49,7 @@ function love.load()
 
 --  b, c, h = http.request("http://brawlquest.com/dl/map-snow.txt")
 --  love.filesystem.write("map-snow.txt", b)
+  love.filesystem.setIdentity("editor")
 
   heroImg = love.graphics.newImage("img/human/Legend.png")
   --load map data
@@ -85,12 +86,12 @@ function love.load()
       --  if love.math.random(1,200) == 1 then
         --  world[i] = "Tree"
       --  else
-          world[i] = "Tree"
+          world[i] = "Grass"
         --end
-        world.name[i] = "The Great Northern Forest"
+        world.name[i] = "West Shore"
         world.fight[i] = "None"
         world.fightc[i] = 0 --5%
-        world.collide[i] = true
+        world.collide[i] = false
         world.bg[i] = "Grass"
         world.music[i] = "*"
   --    end

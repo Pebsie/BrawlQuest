@@ -20,15 +20,17 @@ titleScreen = 1200
 objectCanvas = love.graphics.newCanvas(32*101,32*101)
 
 function loadOverworld()
-  if love.filesystem.getInfo("map-beach.txt") then
+  if love.filesystem.getInfo("map-forest.txt") then
     local x = 0
     local y = 0
-    for line in love.filesystem.lines("map-beach.txt") do
+    for line in love.filesystem.lines("map-forest.txt") do
       word = atComma(line)
       i = #world + 1
       world[i] = {}
       world[i].tile = word[1]
       world[i].fight = word[2]
+      local fightData = atComma(word[2])
+      world[i].fight = fightData[1]
       world[i].fightc = word[3]
       if word[4] == "true" then world[i].collide = true else world[i].collide = false end
       world[i].name = word[5]
@@ -161,6 +163,7 @@ function drawOverworld()
   love.graphics.printf(world[pl.t].name,0,sh/2-200,sw,"center")
   love.graphics.setFont(font)
   love.graphics.printf("Day "..weather.day.." of the year 302\n\nThe hour is "..weather.time.."\nThe weather is "..weather.condition.." and the temperature is "..weather.temperature.."C",0,sh/2,sw,"center")
+  if dev then love.graphics.printf("DEV MODE",0,sh/2+200,sw,"center") end
 end
 
 

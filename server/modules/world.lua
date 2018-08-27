@@ -4,9 +4,9 @@ worldUpdate = 0
 function loadOverworld()
 --  if not love.filesystem.exists("map.txt") then
     addMsg("Downloading world...")
-    b, c, h = http.request("http://brawlquest.com/dl/map-beach.txt")
+    b, c, h = http.request("http://brawlquest.com/dl/map-forest.txt")
     if b then
-      love.filesystem.write("map-beach.txt", b)
+      love.filesystem.write("map-forest.txt", b)
     else
       addMsg("Failed to download world file.")
     end
@@ -14,10 +14,10 @@ function loadOverworld()
 
   --unpack
   addMsg("Unpacking world...")
-  if love.filesystem.exists("map-beach.txt") then
+  if love.filesystem.exists("map-forest.txt") then
     local x = 0
     local y = 0
-    for line in love.filesystem.lines("map-beach.txt") do
+    for line in love.filesystem.lines("map-forest.txt") do
       word = atComma(line)
       i = #world + 1
       world[i] = {}

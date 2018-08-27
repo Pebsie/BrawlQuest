@@ -76,33 +76,40 @@ function netUpdate(dt)
             pl.s1 = param[3]
             pl.s2 = param[4]
             --pl.msg = param[18]
-            if param[12] ~= pl.inv and pl.inv then --inventory has changed, we need to display the changes!
-              local oldInv = atComma(pl.inv,";")
+            if param[12] and param[12] ~= "None" then --inventory has changed, we need to display the changes!
+              --local oldInv = atComma(pl.inv,";")
               local newInv = atComma(param[12],";")
 
-              for i = 1, #newInv, 2 do
-                local isNewItem = "No" --not a bool to save having to create variables for each condition
-                if oldInv[i] then --does this part even exist?
-                  if oldInv[i] == newInv[i] then
-                    if oldInv[i+1] ~= newInv[i+1] then
-                      isNewItem = "NewAmount"
+              if newInv and #newInv > 3 then
+                for i = 1, #newInv, 3 do
+                  local isNewItem = "No" --not a bool to save having to create variables for each condition
+                  if playerHasItem(newInv[i]) then
+
+                  end
+                  pl.inv[tonumber(newInv[i+2])] = {name = newInv[i], amount = tonumber(newInv[i+1])}
+
+                --[[  if oldInv[i] then
+                    if oldInv[i] == newInv[i] then
+                      if oldInv[i+1] ~= newInv[i+1] then
+                        isNewItem = "NewAmount"
+                      end
+                    else
+                      isNewItem = "Yes"
                     end
                   else
                     isNewItem = "Yes"
-                  end
-                else
-                  isNewItem = "Yes"
-                end
+                  end]]
 
-                if isNewItem == "Yes" then
-                  newLoot(newInv[i],newInv[i+1])
-                elseif isNewItem == "NewAmount" then
-                  newLoot(tostring(newInv[i]),tostring(tonumber(newInv[i+1])-tonumber(oldInv[i+1])))
+                  if isNewItem == "Yes" then
+                    newLoot(newInv[i],newInv[i+1])
+                  elseif isNewItem == "NewAmount" then
+                    newLoot(tostring(newInv[i]),tostring(tonumber(newInv[i+1])-tonumber(oldInv[i+1])))
+                  end
                 end
               end
             end
 
-            pl.inv = param[12]
+            --pl.inv = param[12]
           --  love.window.showMessageBox("Debug",pl.inv)
             pl.pot = param[15]
             if pl.state ~= param[16] and string.sub(world[pl.t].fight,1,7) ~= "Gather:" then music.curPlay:stop() updateLightmap() end --reset music
@@ -112,6 +119,7 @@ function netUpdate(dt)
               pl.y = 380
               pl.s1t = 0
               pl.s2t = 0
+              world[pl.t].spawned = "unknown"
               createFightCanvas(pl.t)
               killMobs()
               requestWorldInfo()
@@ -120,9 +128,9 @@ function netUpdate(dt)
               pl.x = love.math.random(200, 600) --place players in a line at the bottom of the arena
               pl.y = 380
               killMobs()
-              createFightCanvas(pl.t) --for some reason the fight canvas is resetting when we shift to afterfight. This is a temporary "fix"
+            --  createFightCanvas(pl.t) --for some reason the fight canvas is resetting when we shift to afterfight. This is a temporary "fix"
             elseif pl.state ~= "fight" and pl.state ~= "afterfight" then
-              love.graphics.setBackgroundColor(0,0,0)
+            --  love.graphics.setBackgroundColor(0,0,0)
             end
             pl.state = param[16]
 

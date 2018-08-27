@@ -84,6 +84,7 @@ love.graphics.scale(scaleX,scaleY)
     love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
   end
 
+  love.graphics.setColor(255,255,255,255)
   love.graphics.draw(fightCanvas,xoff,yoff)
   --love.graphics.print("FIGHT!")
 
@@ -202,8 +203,9 @@ love.graphics.scale(scaleX,scaleY)
     xLeft = ((1920/2)/2) - ((#owedItems * 32)/2)
     for i = 1, #owedItems, 2 do
       if item.img[owedItems[i]] then
-        love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
-        love.graphics.printf("x"..owedItems[i+1],xLeft+(i*32)+xoff,200+item.img[owedItems[i]]:getHeight()+yoff,item.img[owedItems[i]]:getWidth(),"right")
+        --love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
+        drawItem(owedItems[i],owedItems[i+1],xLeft+(i*32)+xoff,200+yoff,255,true)
+        --love.graphics.printf("x"..owedItems[i+1],xLeft+(i*32)+xoff,200+item.img[owedItems[i]]:getHeight()+yoff,item.img[owedItems[i]]:getWidth(),"right")
       elseif string.sub(owedItems[i],1,10) == "Blueprint:" then
         love.graphics.draw(item.img["Blueprint"],xLeft+(i*32)+xoff,200+yoff)
         if item.img[string.sub(owedItems[i],12)] then
@@ -424,7 +426,7 @@ function addMob(id)
   mob[id].x = 0
   mob[id].ty = -32
   mob[id].y = -32
-  mob[id].type = "Boar"
+  mob[id].type = "Spider" --this line is what causes "phantom snorts" when a speak entity is spawned
   mob[id].hp = -100
   mob[id].id = -1
 end

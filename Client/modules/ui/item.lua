@@ -1,6 +1,6 @@
 --this makes it a lot easier to draw the standardised item. Woo!
 
-function drawItem(name,amount,x,y,alpha)
+function drawItem(name,amount,x,y,alpha,noRectangle)
   if not alpha then alpha = 255 end
 
   if cx > x and cx < x+32 and cy > y and cy < y+32 then
@@ -48,9 +48,16 @@ function drawItem(name,amount,x,y,alpha)
   else
     love.graphics.setColor(0,0,0,alpha)
   end
-  love.graphics.rectangle("fill",x,y,32,32)
+  if not noRectangle then
+    love.graphics.rectangle("fill",x,y,32,32)
+  end
   love.graphics.setColor(255,255,255,alpha)
   if item.img[name] then
+    if item.type[name] == "head armour" or item.type[name] == "chest armour" or item.type[name] == "leg armour" then
+      love.graphics.setColor(255,255,255,100)
+      love.graphics.draw(item.img["Naked"],x,y)
+      love.graphics.setColor(255,255,255,255)
+    end
     love.graphics.draw(item.img[name],x,y)
   end
 

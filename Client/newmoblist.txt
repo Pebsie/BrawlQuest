@@ -1,0 +1,8 @@
+name=Adventurer=hp=1=spd=50=atk=1=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/human/Adventurer.png=rng=32=friend=true
+name=Bandit=hp=5=spd=90=atk=5=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/mob/Bandit.png=rng=32=friend=false
+name=Ogre=hp=50=spd=50=atk=10=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/mob/Ogre.png=rng=64=friend=false
+name=Bear=hp=10=spd=70=atk=10=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/mob/Bear.png=rng=32=friend=false
+name=Undead Lurker=hp=30=spd=128=atk=10=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/mob/Risen Soul.png=rng=32=friend=false
+name=Tree=hp=20=spd=0.1=atk=0=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/world/objects/Beach Tree.png=rng=0=friend=false
+name=Weak Rock=hp=40=spd=0.1=atk=0=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/world/objects/Rock.png=rng=0=friend=false
+name=Mana Crystal=hp=100=spd=0.1=atk=0=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/world/objects/Crystal.png=rng=0=friend=false

@@ -3,7 +3,7 @@ local udp = socket.udp()
 http = require("socket.http")
 
 udp:settimeout(0)
-udp:setsockname("*", 26655)
+udp:setsockname("127.0.0.1", 26655)
 
 toboolean = require "libraries/toboolean"
 
@@ -31,7 +31,7 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
-  loadGame()
+  --loadGame()
 
   downloadMobs()
   loadMobs()
@@ -40,9 +40,9 @@ function love.load()
   initAspects()
   initWeather()
 
- --newPlayer("a","a")
-  givePlayerItem("a","Guardian's Helmet",1)
-  givePlayerItem("a","Guardian's Leggings",1)
+ newPlayer("a","a")
+  givePlayerItem("a","Guardian's Helmet",1,4)
+  givePlayerItem("a","Guardian's Leggings",1,12)
   givePlayerItem("a","Guardian's Chestplate",1)
   givePlayerItem("a","Guardian's Blade",1)
   givePlayerItem("a","Recovery",1)
@@ -135,9 +135,11 @@ function love.update(dt)
           local name = parms
           pl[name].timeout = 5
 
-          for i = 1, 100*100 do
-            if world[i].isFight == true then
-              msgToSend = msgToSend..string.format("fight|%s|", i)
+          for k = -195,305,101 do
+            for t = -9, -5 do
+              if world[i].isFight == true and playerCanFight(name,i) then
+                msgToSend = msgToSend..string.format("fight|%s|", i)
+              end
             end
           end
 
@@ -153,9 +155,10 @@ function love.update(dt)
         local i = tonumber(pl[name].t)
          for k = -195,305,101 do
            for t = -9, -5 do
-             if world[t+i+k] and world[t+i+k].spawned then
+             if world[t+i+k] and world[t+i+k].spawned and playerCanFight(name,t+i+k) then
                spawned = spawned + 1
-               msgOn = msgOn..t+i+k.."|"..getFirstMob(world[t+i+k].fight).."|"
+               local fightData = atComma(world[t+i+k].fight,"|")
+               msgOn = msgOn..t+i+k.."|"..getFirstMob(fightData[1]).."|"
              end
            end
          end

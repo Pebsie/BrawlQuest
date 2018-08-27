@@ -240,12 +240,40 @@ item.lvl[ti] = 12
 item.price[ti] = "3,Gold"
 item.img[ti] = love.graphics.newImage("img/items/consumables/Potent Healing Potion.png") item.title[ti] = ti
 
+local ti = "Small Dagger"
+item.type[ti] = "wep"
+item.val[ti] = 2
+item.lvl[ti] = 1
+item.price[ti] = "10,Gold"
+item.img[ti] = love.graphics.newImage("img/items/weapons/Dagger.png") item.title[ti] = ti
+
 local ti = "Suspicious Meat"
 item.type[ti] = "hp"
 item.val[ti] = 80
 item.lvl[ti] = 10
 item.price[ti] = "3,Gold"
 item.img[ti] = love.graphics.newImage("img/items/consumables/Suspicious Meat.png") item.title[ti] = ti
+
+local ti = "Bear Meat"
+item.type[ti] = "hp"
+item.val[ti] = 5
+item.lvl[ti] = 1
+item.price[ti] = "1,Gold"
+item.img[ti] = love.graphics.newImage("img/items/consumables/Meat.png") item.title[ti] = ti
+
+local ti = "Ogre's Head"
+item.type[ti] = "Reagent"
+item.val[ti] = ""
+item.lvl[ti] = 1
+item.price[ti] = "1,Gold"
+item.img[ti] = love.graphics.newImage("img/items/quest/Ogre Head.png") item.title[ti] = ti
+
+local ti = "Red Facemask"
+item.type[ti] = "head armour"
+item.val[ti] = 2
+item.lvl[ti] = 1
+item.price[ti] = "3,String"
+item.img[ti] = love.graphics.newImage("img/human/armour/misc/Red Facemask.png") item.title[ti] = ti
 
 --spells
 local ti = "Recovery"

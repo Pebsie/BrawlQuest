@@ -22,8 +22,8 @@ require "client"
 
 utf8 = require("utf8")
 
-version = "Shipwrecked v1.2"
-newChatMsg("SERVER","Welcome to BrawlQuest: Shipwrecked",1)
+version = "Beta 0.1"
+newChatMsg("SERVER","Welcome to BrawlQuest!",1)
 phase = "splash"
 
 isMouseDown = false
@@ -46,7 +46,7 @@ realScreenHeight = screenH
 
 news = ""
 
-dev = false--This variable just turns certain features on and off so that it's easier to dev the game
+dev = true--This variable just turns certain features on and off so that it's easier to dev the game
 
 function love.load()
 
@@ -58,7 +58,7 @@ function love.load()
     ipadd = "eu.brawlquest.com"
   end
 
-  ipadd = "eu.brawlquest.com"  --override
+  ipadd = "127.0.0.1"  --override
 
   netConnect(ipadd, "26655", 0.1)
   love.mouse.setVisible(false)
@@ -101,11 +101,11 @@ function love.draw()
   drawPhase(phase)
   love.graphics.setColor(255,255,255)
   love.graphics.draw(uiImg["cursor"],cx,cy)
-  if pl.state ~= "fight" then --this appeared to cause a strange flickering when on a fight. Bodge fix, UPDATE AFTER ALPHA EVENT!!!
+  --if pl.state ~= "fight" then --this appeared to cause a strange flickering when on a fight. Bodge fix, UPDATE AFTER ALPHA EVENT!!!
     drawTooltips()
-  end
+--  end
 
-  if dev == true then
+--[[  if dev == true then
     love.graphics.setFont(bFont)
     love.graphics.setColor(0,0,0)
     love.graphics.rectangle("fill",0,0,bFont:getWidth("DEV MODE"),bFont:getHeight())
@@ -113,7 +113,7 @@ function love.draw()
     love.graphics.printf("DEV MODE",0,0,bFont:getWidth("DEV MODE"),"center")
     love.graphics.setColor(255,255,255)
     love.graphics.setFont(sFont)
-  end
+  end]]
   drawAspects()
 --  drawMenu(100,200)
 end
@@ -230,7 +230,9 @@ function love.mousereleased(button, cx, cy)
       end
         if pl.selItem ~= "None" then
           useItem(pl.selItem)
-
+          local i = getInventorySlot(pl.selItem)
+          pl.inv[i].amount = pl.inv[i].amount - 1
+          if pl.inv[i].amount < 1 then pl.inv[i] = nil end
           love.audio.play(sfx["hit"])
           frequentlyUpdate = true
         end
