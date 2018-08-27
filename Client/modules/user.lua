@@ -33,6 +33,7 @@ pl.score = 0
 pl.combo = 0
 pl.aspectString = ""
 pl.blueprints = ""
+pl.inv = {}
 
 authcode = "1000" --this is used to verify with the server that we aren't username spoofing
 
@@ -94,8 +95,8 @@ function enterGame()
     gameUI[3].y = 0
     gameUI[3].isDrag = false
     gameUI[3].isVisible = false
-    gameUI[3].width = 148
-    gameUI[3].height = 148+font:getHeight()+2
+    gameUI[3].width = 36*5+4
+    gameUI[3].height = 36*5+font:getHeight()+12
     gameUI[3].label = "Inventory"
     gameUI[3].closeButton = true
 
@@ -171,7 +172,7 @@ function movePlayer(dir)
   requestUserInfo()
 
   if titleScreen > 255 then titleScreen = 255 end --allow skipping of title screen
-  
+
   curT = pl.t
   --perform on client side pre-confirmation to make things smoother
   if dir == "up" then pl.t = pl.t - 101
@@ -221,15 +222,25 @@ end
 function playerHasItem(item,amount)
   local hasItem = false
   if not amount then amount = 1 end
-  local inv = atComma(pl.inv,";")
 
-  for i = 1, #inv, 2 do
-    if inv[i] == item and tonumber(inv[i+1]) > tonumber(amount)-1 then
+  for i, v in pairs(pl.inv) do
+    if v.name == item and v.amount > amount-1 then
       hasItem = true
     end
   end
 
-  return hasItem
+  return hasitem
+end
+
+function getInventorySlot(item)
+  local slot = 1
+  for i, v in pairs(pl.inv) do
+    if v.name == item then
+      slot = i
+    end
+  end
+
+  return slot
 end
 
 function resetUIPosition(i) --resets the position of the specified window to the default setting

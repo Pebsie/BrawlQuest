@@ -32,7 +32,7 @@ function newPlayer(name, password)
       arm_head = "None",
       arm_chest = "None",
       arm_legs = "None",
-      inv = "A letter addressed to you;1",
+      inv = "None",
       pot = "None",
       lvl = 1,
       xp = 0,
@@ -153,43 +153,69 @@ function givePlayerGold(name, gold)
   givePlayerItem(name,"Gold",gold)
 end
 
-function givePlayerItem(name, ritem, amount)
+function givePlayerItem(name, ritem, amount, slot)
+  if pl[name].inv == "None" then pl[name].inv = "" end
+
   if not amount then amount = 1 end
+  if not slot then slot = -1 end
 
   curInv = atComma(pl[name].inv, ";")
   local alreadyOwned = false
 
-  for i=1,#curInv,2 do
+  for i=1,#curInv,3 do
     curInv[i+1] = tonumber(curInv[i+1])
-    if curInv[i] == ritem then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end
+    if curInv[i] == ritem and slot ~= -1 then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end --if slot is defined then the player wants the stack to be split
   end
 
-  if alreadyOwned == false then
-    curInv[#curInv + 1] = ritem
-    curInv[#curInv + 1] = amount
-  --  addMsg(name.." obtained "..amount.."x "..ritem)
+  if alreadyOwned == false then --insert into inventory
+    local i = #curInv+1
+    curInv[i] = ritem
+    curInv[i+1] = amount
+    if slot ~= -1 then
+      curInv[i+2] = slot --addMsg(curInv[i+2].."=="..slot.." (input via slot)")
+    else
+      curInv[i+2] = getNextFreeInventorySlot(name)
+    end
   end
-
-
 
   pl[name].inv = ""
   --rebuild inventory string
   for i = 1, #curInv do
---    addMsg(curInv[i].." ("..i.."/"..#curInv..")")
     pl[name].inv = pl[name].inv..curInv[i]..";"
-  --  addMsg(pl[name].inv)
   end
+end
+
+function getNextFreeInventorySlot(name)
+  local thisSlot = 1
+  local curInv = atComma(pl[name].inv,";")
+  local fullSlot = {}
+  local finished = false
+
+  for i = 1, #curInv, 3 do --build table of slots that have somthing in them
+    fullSlot[tonumber(curInv[i+2])] = true
+  end
+
+  while not finished do
+    for i = 1, #fullSlot do
+      if thisSlot == fullSlot[i] then thisSlot = thisSlot + 1 end --if we're on a full slot, increase by one
+    end
+
+    if not fullSlot[thisSlot] then finished = true else thisSlot = thisSlot + 1 end --if we're still on a full slot, increase by one and try again. Otherwise, exit the loop.
+  end
+
+  return thisSlot
 end
 
 function playerUse(name, ritem, index, amount)
   if not amount then amount = 1 end
   curInv = atComma(pl[name].inv,";")
   local hasItem = false
+  local haveInserted = false
 
   rebuiltInv = {}
   local k = 1
 
-  for i = 1, #curInv, 2 do --do we have this item?
+  for i = 1, #curInv, 3 do --do we have this item?
     curInv[i+1] = tonumber(curInv[i+1])
     if curInv[i] == ritem then --found item in inventory
       hasItem = true
@@ -199,6 +225,7 @@ function playerUse(name, ritem, index, amount)
     rebuiltInv[k] = {}
     rebuiltInv[k].item = curInv[i]
     rebuiltInv[k].amount = curInv[i+1]
+    rebuiltInv[k].slot = curInv[i+2]
     k = k + 1
   end
 
@@ -208,11 +235,13 @@ function playerUse(name, ritem, index, amount)
       rebuiltInv[#rebuiltInv + 1] = {}
       rebuiltInv[#rebuiltInv].item = pl[name].wep
       rebuiltInv[#rebuiltInv].amount = 1
+      haveInserted = true
       pl[name].wep = ritem
     elseif item.type[ritem] == "arm" then
       rebuiltInv[#rebuiltInv + 1] = {}
       rebuiltInv[#rebuiltInv].item = pl[name].arm
       rebuiltInv[#rebuiltInv].amount = 1
+      haveInserted = true
       pl[name].arm = ritem
     elseif item.type[ritem] == "Spell" then
       local slot = pl[name].lastEquip
@@ -228,12 +257,14 @@ function playerUse(name, ritem, index, amount)
           rebuiltInv[#rebuiltInv + 1] = {}
           rebuiltInv[#rebuiltInv].item = pl[name].s1
           rebuiltInv[#rebuiltInv].amount = 1
+          haveInserted = true
           pl[name].s1 = ritem
           pl[name].lastEquip = 1
         elseif slot == 1 and pl[name].s2 ~= "None" then
           rebuiltInv[#rebuiltInv + 1] = {}
           rebuiltInv[#rebuiltInv].item = pl[name].s2
           rebuiltInv[#rebuiltInv].amount = 1
+          haveInserted = true
           pl[name].s2 = ritem
           pl[name].lastEquip = 0
         end
@@ -243,6 +274,7 @@ function playerUse(name, ritem, index, amount)
         rebuiltInv[#rebuiltInv + 1] = {}
         rebuiltInv[#rebuiltInv].item = pl[name].pot
         rebuiltInv[#rebuiltInv].amount = 1
+        haveInserted = true
       end
       pl[name].pot = ritem
     elseif item.type[ritem] == "buddy" then
@@ -250,6 +282,7 @@ function playerUse(name, ritem, index, amount)
         rebuiltInv[#rebuiltInv + 1] = {}
         rebuiltInv[#rebuiltInv].item = pl[name].bud
         rebuiltInv[#rebuiltInv].amount = 1
+        haveInserted = true
       end
       pl[name].bud = ritem
     elseif item.type[ritem] == "upgrade" then
@@ -259,17 +292,17 @@ function playerUse(name, ritem, index, amount)
       end
     elseif item.type[ritem] == "head armour" then
 
-      if pl[name].arm_head ~= "None" then rebuiltInv[#rebuiltInv + 1] = { item = pl[name].arm_head, amount = 1 } end
+      if pl[name].arm_head ~= "None" then rebuiltInv[#rebuiltInv + 1] = { item = pl[name].arm_head, amount = 1 } haveInserted = true end
       pl[name].arm_head = ritem
 
     elseif item.type[ritem] == "chest armour" then
 
-      if pl[name].arm_chest ~= "None" then rebuiltInv[#rebuiltInv + 1] = {item = pl[name].arm_chest, amount = 1 } end
+      if pl[name].arm_chest ~= "None" then rebuiltInv[#rebuiltInv + 1] = {item = pl[name].arm_chest, amount = 1 } haveInserted = true end
       pl[name].arm_chest = ritem
 
     elseif item.type[ritem] == "leg armour" then
 
-      if pl[name].arm_legs ~= "None" then rebuiltInv[#rebuiltInv + 1] = {item = pl[name].arm_legs, amount = 1 } end
+      if pl[name].arm_legs ~= "None" then rebuiltInv[#rebuiltInv + 1] = {item = pl[name].arm_legs, amount = 1 } haveInserted = true end
       pl[name].arm_legs = ritem
 
     end
@@ -281,7 +314,11 @@ function playerUse(name, ritem, index, amount)
   pl[name].inv = ""
   for i = 1, #rebuiltInv do
     if rebuiltInv[i].amount > 0 then
-      givePlayerItem(name, rebuiltInv[i].item, rebuiltInv[i].amount)
+      if i == #rebuiltInv and haveInserted == true then --we insert into the rebuiltInv table when, say, a player unequips an item and we need to put the old one back into their inventory
+        givePlayerItem(name, rebuiltInv[i].item, rebuiltInv[i].amount) --slotless as the player might already ahve this item
+      else
+        givePlayerItem(name, rebuiltInv[i].item, rebuiltInv[i].amount, rebuiltInv[i].slot)
+      end
     elseif not rebuiltInv[i] or not rebuiltInv[i].amount then
       addMsg("AN ERROR OCCURRED REBUILDING "..name.."'S INVENTORY::"..i.."::Arguments were name = "..name..", ritem = "..ritem..", index = "..index..", amount = "..amount)
     end
@@ -292,7 +329,7 @@ function playerHasItem(name,item,amount)
   if not amount then amount = 0 end
   local hasItem = false
   curInv = atComma(pl[name].inv,";")
-  for i = 1, #curInv, 2 do
+  for i = 1, #curInv, 3 do
     if curInv[i] == item and tonumber(curInv[i+1]) > (tonumber(amount)-1) then hasItem = true end
   end
 
@@ -459,10 +496,8 @@ end
 function playerHasBuddy(name,itemName)
 --  addMsg("Is "..item.type[itemName].."==buddy and does "..name.." have "..itemName.."? ("..tostring(playerHasItem(name,itemName,1))..") Does "..pl[name].bud.."=="..itemName.."?")
   if item.type[itemName] == "buddy" and (playerHasItem(name,itemName,1) or pl[name].bud == itemName) then
-    addMsg("Yes!")
     return true
   else
-    addMsg("No!")
     return false
   end
 end

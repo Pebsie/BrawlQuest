@@ -230,7 +230,9 @@ function love.mousereleased(button, cx, cy)
       end
         if pl.selItem ~= "None" then
           useItem(pl.selItem)
-
+          local i = getInventorySlot(pl.selItem)
+          pl.inv[i].amount = pl.inv[i].amount - 1
+          if pl.inv[i].amount < 1 then pl.inv[i] = nil end
           love.audio.play(sfx["hit"])
           frequentlyUpdate = true
         end

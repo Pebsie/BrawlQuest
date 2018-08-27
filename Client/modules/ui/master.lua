@@ -2,6 +2,7 @@
 require "modules/ui/loot"
 require "modules/ui/item"
 require "modules/ui/speak"
+require "modules/ui/inventory"
 
 function drawUI(dt)
   drawLootBox(realScreenWidth/2-100,realScreenHeight-200)
@@ -11,7 +12,7 @@ end
 function updateUI(dt)
   updateLootBox(dt)
   updateSpeak(dt)
-  
+
   for i = 1, #gameUI do
     if isMouseDown then
       if isMouseOver(gameUI[i].x+gameUI[i].width-16,16,gameUI[i].y,16) and gameUI[i].closeButton then

@@ -103,7 +103,7 @@ function removePlayerFromFight(name, isDead)
   --  addMsg(getPlayerName(name).." left fight #"..id)
 
     local curPlayers = listPlayersInFight(id)
-    if isDead and #curPlayers < 1 then world[ft.tile[id]].spawned = true end --fight was lost, so the mob is still on this tile 
+    if isDead and #curPlayers < 1 then world[ft.tile[id]].spawned = true end --fight was lost, so the mob is still on this tile
     if #curPlayers < 1 then endFight(id) end
   else
     addMsg("ERROR: can't remove "..name.." from the fight that they're in, as we can't find what fight it is tha they're in!")
@@ -129,7 +129,7 @@ function endFight(fight)
       for k = 1, #rwds, 3 do
         local trr = #rwdsRoll + 1
         rwdsRoll[trr] = love.math.random(1,99)
-        if rwdsRoll[trr] < tonumber(rwds[k+2]) and  playerHasBuddy(thisPlayerName,rwds[k]) == false then
+        if rwdsRoll[trr] < tonumber(rwds[k+2]) and playerHasBuddy(thisPlayerName,rwds[k]) == false then
           if not playerHasBlueprint(thisPlayerName, string.sub(rwds[k],12)) then
             pl[thisPlayerName].owed = pl[thisPlayerName].owed..rwds[k]..","..tonumber(rwds[k+1]).."," --givePlayerItem(thisPlayerName,rwds[k],tonumber(rwds[k+1]))
           end

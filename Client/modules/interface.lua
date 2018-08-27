@@ -264,30 +264,7 @@ function drawUIWindow(i)
       love.graphics.print("Current FPS: "..tostring(love.timer.getFPS()).."\nCam: "..mx..", "..my.."\nST: "..selT, x, y)
 
     elseif i == 3 then
-
-      local inv = atComma(pl.inv,";")
-
-      pl.selItem = "None"
-      local tx = 4
-      local ty = 4
-      love.graphics.setFont(sFont)
-      for i = 1, #inv, 2 do
-        love.graphics.setColor(255,255,255)
-        if item.img[inv[i]] and item.type[inv[i]] ~= "buddy" then
-
-          --display tooltip
-          drawItem(inv[i],inv[i+1],x+tx, y+ty)
-          if cx > x+tx and cx < x+tx+32 and cy > y+ty and cy < y+ty+32 then
-            pl.selItem = inv[i]
-          end
-
-          tx = tx + 36
-          if tx > (36*4) then
-            tx = 2
-            ty = ty + 36
-          end
-        end
-      end
+      drawInventory(x,y)
     elseif i == 4 then
       love.graphics.print(gameUI[4].msg,x+1,y)
       --close button

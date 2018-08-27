@@ -31,7 +31,7 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
-  loadGame()
+  --loadGame()
 
   downloadMobs()
   loadMobs()
@@ -41,8 +41,8 @@ function love.load()
   initWeather()
 
  newPlayer("a","a")
-  givePlayerItem("a","Guardian's Helmet",1)
-  givePlayerItem("a","Guardian's Leggings",1)
+  givePlayerItem("a","Guardian's Helmet",1,4)
+  givePlayerItem("a","Guardian's Leggings",1,12)
   givePlayerItem("a","Guardian's Chestplate",1)
   givePlayerItem("a","Guardian's Blade",1)
   givePlayerItem("a","Recovery",1)
