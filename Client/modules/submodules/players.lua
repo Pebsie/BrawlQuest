@@ -89,7 +89,7 @@ function drawPlayer(name,x,y,option)
     if option == "buddy" then
       drawBuddy(name)
     end
-    
+
     love.graphics.draw(item.img["Naked"],x,y)
     if player[name].arm_head ~= "None" then love.graphics.draw(item.img[player[name].arm_head],x,y) end
     if player[name].arm_chest ~= "None" then love.graphics.draw(item.img[player[name].arm_chest],x,y) end
@@ -135,4 +135,8 @@ function drawNamePlate(name,x,y,option)
     love.graphics.printf(name,17+x-(round(sFont:getWidth(name)/2)),y-12,sFont:getWidth(name),"center")
   end
   love.graphics.setColor(255,255,255,255)
+end
+
+function getArmourValue(name)
+  return (item.val[player[name].arm_head] + item.val[player[name].arm_chest] + item.val[player[name].arm_legs])
 end

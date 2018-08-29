@@ -166,6 +166,7 @@ function netUpdate(dt)
                 if not playerExists(name) then
                   addPlayer(name)
                 end
+                if name == pl.name then currentArmourValue = getArmourValue(name) end --for float display
 
                 updatePlayer(name,"t",tonumber(param[tparam+2]))
                 updatePlayer(name,"arm",param[tparam+3])
@@ -178,6 +179,8 @@ function netUpdate(dt)
                 if name == pl.name then pl.buddy = param[tparam+9] end
                 updatePlayer(name,"online",param[tparam+10])
                 updatePlayer(name,"wep",param[tparam+11])
+
+                if name == pl.name and getArmourValue(name) > currentArmourValue then createFloat("+"..(getArmourValue(name)-currentArmourValue).." DEF",100,100,200,love.graphics.getWidth()/2,love.graphics.getHeight()/2,love.math.random(1,9999),false) end
 
                 tparam = tparam + 12
               end

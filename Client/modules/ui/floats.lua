@@ -26,6 +26,9 @@ end
 
 function drawFloats()
 --  if not fxoff then fxoff = 0 end
+if not xoff then xoff = 0 end
+if not yoff then yoff = 0 end
+love.graphics.setFont(sFont)
   --if not fyoff then fyoff = 0 end
   for i = 1, numFloats do
     love.graphics.setColor(0,0,0,floats[i].alpha)

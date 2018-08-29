@@ -89,7 +89,7 @@ love.graphics.scale(scaleX,scaleY)
   --love.graphics.print("FIGHT!")
 
   drawBones()
-  drawFloats()
+
 
   for i = 1, countMobs() do
     if mb.img[mob[i].type] then

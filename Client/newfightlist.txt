@@ -11,7 +11,7 @@ Combo Training (all levels)
 
 map-hunters.txt
 
-Pathway: Bandit Invasion of Squall's End (level 1)
+Pathway: Crossroad Ambush (level 1)
 Hungry Bear (level 1) (Linked to quest in Squall's End to get 5 Bear Meat)
 Forest Bandits (level 2)
 Ogres (level 2)

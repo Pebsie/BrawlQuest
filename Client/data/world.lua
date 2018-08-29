@@ -36,6 +36,11 @@ worldImg["PDR"] = love.graphics.newImage("img/world/objects/pathway/Down Right.p
 worldImg["PS"] = love.graphics.newImage("img/world/objects/pathway/Side.png")
 worldImg["PUL"] = love.graphics.newImage("img/world/objects/pathway/Up Left.png")
 worldImg["PUR"] = love.graphics.newImage("img/world/objects/pathway/Up Right.png")
+worldImg["3R"] = love.graphics.newImage("img/world/objects/pathway/3Right.png")
+worldImg["3L"] = love.graphics.newImage("img/world/objects/pathway/3Left.png")
+worldImg["3U"] = love.graphics.newImage("img/world/objects/pathway/3Up.png")
+worldImg["3D"] = love.graphics.newImage("img/world/objects/pathway/3Down.png")
+worldImg["4"] = love.graphics.newImage("img/world/objects/pathway/4.png")
 worldImg["Well"] = love.graphics.newImage("img/world/objects/Well.png")
 worldImg["Snow"] = love.graphics.newImage("img/world/floors/Snow.png")
 stepSnd["Snow"] = love.audio.newSource("sound/sfx/step/snow.ogg","static")
@@ -145,8 +150,12 @@ stepSnd["Damaged Door"] = love.audio.newSource("sound/sfx/step/door.mp3","static
 stepSnd["Damaged Door"]:setPitch(0.2)
 worldImg["Ghost"] = love.graphics.newImage("img/world/objects/Ghost.png")
 worldImg["Priest"] = love.graphics.newImage("img/world/objects/Priest.png")
+worldImg["Chair"] = love.graphics.newImage("img/world/objects/Chair.png")
+worldImg["Murky Tree"] = love.graphics.newImage("img/world/objects/Murky Tree.png")
+worldImg["Plant"] = love.graphics.newImage("img/world/objects/Plant.png")
+worldImg["Stairs"] = love.graphics.newImage("img/world/objects/Stairs.png")
 
-worldImg["DT"] = love.graphics.newImage("img/world/objects/Ghoul.png")
+worldImg["DT"] = love.graphics.newImage("img/world/objects/Ghost.png")
 worldImg["Cloud"] = love.graphics.newImage("img/world/objects/Cloud.png")
 
 weatherImg = {}

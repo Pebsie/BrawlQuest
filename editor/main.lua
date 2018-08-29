@@ -18,6 +18,7 @@ world.isFight = {}
 world.music = {}
 world.x = {}
 world.y = {}
+world.rest = {}
 
 mapname = "map-forest.txt"
 
@@ -39,6 +40,7 @@ curFight = "Boar Hunt"
 curFightC = 5
 curCollide = false
 curMusic = "*"
+curRest = false
 
 isType = false
 ts = 1
@@ -70,6 +72,10 @@ function love.load()
       else
         world.music[i] = "1"
       end
+      world.rest[i] = false
+      if word[8] and word[8] == "true" then
+        world.rest[i] = true
+      end
       --print("Tile #"..i..", '"..world.name[i].."', fight is "..world.fight[i].." ("..world.fightc[i].."% chance). Collide="..tostring(world.collide[i]))
     end
   else
@@ -94,6 +100,7 @@ function love.load()
         world.collide[i] = false
         world.bg[i] = "Grass"
         world.music[i] = "*"
+        world.rest[i] = false
   --    end
 
       world.isFight[i] = false
@@ -157,6 +164,12 @@ function love.draw()
         if view == 1 then
           love.graphics.setColor(0,0,0)
           love.graphics.print(world.fightc[i].."%", x-camX, y-camY)
+        elseif view == 4 and world.music[i] ~= "*" then
+          love.graphics.setColor(0,0,0)
+          love.graphics.print(world.music[i], x-camX, y-camY)
+        elseif view == 5 and world.rest[i] then
+          love.graphics.setColor(0,0,0)
+          love.graphics.print(tostring(world.rest[i]),x-camX,y-camY)
         end
           love.graphics.setColor(1,1,1)
       else
@@ -197,7 +210,7 @@ function love.draw()
   love.graphics.setColor(0,0,0,100)
   love.graphics.rectangle("fill",0,0,250,14*10)
   love.graphics.setColor(255,255,255)
-  love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\nFloor is "..curBG.."\nMusic is "..curMusic.."\n"..info)
+  love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\nFloor is "..curBG.."\nMusic is "..curMusic.."\nRest zone="..tostring(curRest).."\n"..info)
 
   if isType == true then
     love.graphics.rectangle("line", 0, 14+(14*ts), 200,14)
@@ -239,7 +252,8 @@ function love.update(dt)
   world.collide[selT] = curCollide
   world.name[selT] = curName
   world.bg[selT] = curBG
-  world.music[selT] = curMusic end
+  world.music[selT] = curMusic
+  world.rest[selT] = true end
 end
 
 function love.mousepressed(x, y, button, istouch)
@@ -250,6 +264,7 @@ function love.mousepressed(x, y, button, istouch)
     world.collide[selT] = curCollide
     world.name[selT] = curName
     world.music[selT] = curMusic
+    world.rest[selT] = curRest
   end
 end
 
@@ -287,7 +302,7 @@ function love.keypressed(key)
       elseif ts == 3 then pl.cinput = curFightC
       elseif ts == 6 then pl.cinput = curBG
       elseif ts == 7 then pl.cinput = curMusic  end
-      if ts == 8 then ts = 1 end
+      if ts == 9 then ts = 1 end
     elseif key == "up" then
       ts = ts - 1
       if ts == 1 then pl.cinput = curTile
@@ -295,7 +310,7 @@ function love.keypressed(key)
       elseif ts == 3 then pl.cinput = curFightC
       elseif ts == 5 then pl.cinput = curName
       elseif ts == 7 then pl.cinput = curMusic end
-      if ts == 0 then ts = 7 end
+      if ts == 0 then ts = 8 end
     end
 
 
@@ -326,7 +341,7 @@ function love.keypressed(key)
   else
     if key == "v" then
       view = view + 1
-      if view > 3 then view = 0 end
+      if view > 5 then view = 0 end
     end
     if key == "i" then
       info = world.name[selT]..","..world.fight[selT].." ("..world.fightc[selT].."%)"
@@ -339,6 +354,7 @@ function love.keypressed(key)
        curName = world.name[selT]
        curBG = world.bg[selT]
        curMusic = world.music[selT]
+       curRest = world.rest[selT]
     end
     if key == "e" then saveWorld() end
     if key == "y" and displayTiles == false then displayTiles = true elseif key == "y" then displayTiles = false end
@@ -366,6 +382,8 @@ function love.textinput(t)
       end
     elseif ts == 4 then
       if t == "t" then curCollide = true elseif t == "f" then curCollide = false end
+    elseif ts == 8 then
+      if t == "t" then curRest = true elseif t == "f" then curRest = false end
     elseif ts == 5 then
       curName = pl.cinput
     elseif ts == 6 then
@@ -386,15 +404,16 @@ function saveWorld()
     if not tostring(world.collide[i]) then print("Missing collision info.") end
     if not world.name[i] then print("Missing world name.") end
     if world[i] and world.fight[i] and world.fightc[i] and tostring(world.collide[i]) and world.name[i] and world.music[i] then
-      fs = fs..world[i]..","..world.fight[i]..","..world.fightc[i]..","..tostring(world.collide[i])..","..world.name[i]..","..world.bg[i]..","..world.music[i].."\n"
+      fs = fs..world[i]..","..world.fight[i]..","..world.fightc[i]..","..tostring(world.collide[i])..","..world.name[i]..","..world.bg[i]..","..world.music[i]..","..tostring(world.rest[i]).."\n"
     else
       fs = fs.."error,none,0,false,The Great Plains,error\n"
       print("ERROR! WRITING CURRENT WORLD TO ALTERNATE FILE!! (Error tile is "..i..")")
-      --fp = "map-new.txt"
+      fp = "map-new.txt"
     end
   end
 
   love.filesystem.write(fp, fs)
+  love.filesystem.write(fp.."-backup-"..os.time()..".txt",fs)
   print("Saved world to "..fp..".")
 end
 

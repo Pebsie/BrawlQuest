@@ -24,7 +24,7 @@ function drawGame()
     love.graphics.setFont(sFont)
     love.graphics.printf("Your character is presently floating through the void!\n\nSeriously, though, screenshot this and send it to @Pebsiee on Twitter.\nUsername: "..pl.name.."\nState: "..tostring(pl.state).."\n\nThere's also a possibility that we're just waiting on the next character update and this might be caused by a slow connection.\nIn that case - if you've had enough time to read this fully - you're not going to be able to play this game. Try changing server, ISP or contact @Pebsiee on Twitter with your location asking for a new server location.\n\nYou can ask again for user info by hitting u now.",0,0,sw,"left")
   end
-
+    drawFloats()
   love.graphics.setColor(255,255,255,255)
 --  love.graphics.print(love.timer.getFPS().." FPS")
 end
@@ -96,6 +96,10 @@ function updateGame(dt)
 
   pl.s1t = pl.s1t - 1*dt
   pl.s2t = pl.s2t - 1*dt
+
+  if world[pl.t].rest then
+    pl.hp = pl.hp + 10*dt
+  end
 
   updateBuddies(dt)
 end

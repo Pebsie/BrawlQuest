@@ -180,6 +180,10 @@ function movePlayer(dir)
   elseif dir == "left" then pl.t = pl.t - 1
   elseif dir == "right" then pl.t = pl.t + 1 end
 
+  if not world[curT].rest and world[pl.t].rest then
+    createFloat("Resting...",0,200,0,love.graphics.getWidth()/2,love.graphics.getHeight()/2,love.math.random(1,9999),false)
+  end
+
   if string.sub(world[pl.t].fight,1,5) == "speak" then
     sInfo = atComma(world[pl.t].fight,"|")
     triggerTutorial("npc")
@@ -214,6 +218,10 @@ function movePlayer(dir)
 
   if pl.t == 9185 then
     phase = "read"
+  end
+
+  if pl.hp < 25 then
+    triggerTutorial("hp")
   end
 
   --createWorldCanvas()

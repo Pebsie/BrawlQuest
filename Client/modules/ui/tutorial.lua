@@ -4,7 +4,8 @@ tutorial = {
   fight = "You're in a fight!\n\nUse W,A,S and D to move around and the arrow keys to attack!\n\nAttacking reduces your energy which is restored gradually over time.",
   death = "When you die you'll respawn at whichever graveyard you last prayed.\n\nTo pray at a graveyard and set your spawn point, walk over a Gravestone tile and click 'Pray' on the window that appears.",
   crafting = "You can craft gear at an Anvil. Each item has a crafting recipe that requires several items. Look around for natural resources that you can harvest. You can also pickup new recipes by being victorious in battle!",
-  potion = "You've equipped a potion!\n\nPress R in a fight or in the overworld to use it."
+  potion = "You've equipped a potion!\n\nPress R in a fight or in the overworld to use it.",
+  hp = "You're low on health!\n\nReturn to a bar or church and your health will regen.\n\nIf you run out of health then you'll die and awake at the last graveyard you prayed but your armour will be damaged."
 }
 
 tutorialDone = {}

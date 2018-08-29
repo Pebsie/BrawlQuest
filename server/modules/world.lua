@@ -32,6 +32,7 @@ function loadOverworld()
       world[i].x = x
       world[i].y = y
       world[i].spawned = false
+      if word[8] == "true" then world[i].rest = true else world[i].rest = false end
       x = x + 32
       if x > 100*32 then
         x = 0

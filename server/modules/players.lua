@@ -91,8 +91,8 @@ function updatePlayers(dt)
       pl[k].hp = pl[k].hp + (item.val[pl[k].spell]/3)*dt
     end
 
-    pl[k].armd = pl[k].armd - 1*dt
-    if pl[k].armd <0 then pl[k].armd = 0 end
+    pl[k].armd = pl[k].armd - (getArmourValue(k)/5)*dt
+    if pl[k].armd < 0 then pl[k].armd = 0 end
 
     pl[k].s1t = pl[k].s1t - 1*dt
     pl[k].s2t = pl[k].s2t - 1*dt
@@ -109,6 +109,10 @@ function updatePlayers(dt)
     end
 
     pl[k].timeout = pl[k].timeout - 1*dt
+
+    if world[pl[k].t].rest then
+      pl[k].hp = pl[k].hp + 10*dt
+    end
 
     for i, v in pairs(pl[k].aspects) do
       if v == "Bleeding" then
@@ -157,14 +161,14 @@ function givePlayerItem(name, ritem, amount, slot)
   if pl[name].inv == "None" then pl[name].inv = "" end
 
   if not amount then amount = 1 end
-  if not slot then slot = -1 end
+  if not slot then slot = -1 hadSlot = false end
 
   curInv = atComma(pl[name].inv, ";")
   local alreadyOwned = false
 
   for i=1,#curInv,3 do
     curInv[i+1] = tonumber(curInv[i+1])
-    if curInv[i] == ritem and slot ~= -1 then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end --if slot is defined then the player wants the stack to be split
+    if curInv[i] == ritem and hadSlot == false then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end --if slot is defined then the player wants the stack to be split
   end
 
   if alreadyOwned == false then --insert into inventory
@@ -427,6 +431,10 @@ function damagePlayer(name, amount)
   end
 
   if pl[name].hp < 1 then pl[name].hp = 100 pl[name].t =  pl[name].dt removePlayerFromFight(name, true) pl[name].deaths = pl[name].deaths + 1 end
+end
+
+function getArmourValue(name)
+  return (item.val[pl[name].arm_head] + item.val[pl[name].arm_chest] + item.val[pl[name].arm_legs])
 end
 
 --return info functions
