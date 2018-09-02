@@ -37,6 +37,10 @@ worldImg["3L"] = love.graphics.newImage("img/world/objects/pathway/3Left.png")
 worldImg["3U"] = love.graphics.newImage("img/world/objects/pathway/3Up.png")
 worldImg["3D"] = love.graphics.newImage("img/world/objects/pathway/3Down.png")
 worldImg["4"] = love.graphics.newImage("img/world/objects/pathway/4.png")
+worldImg["ER"] = love.graphics.newImage("img/world/objects/pathway/ER.png")
+worldImg["EL"] = love.graphics.newImage("img/world/objects/pathway/EL.png")
+worldImg["EU"] = love.graphics.newImage("img/world/objects/pathway/EU.png")
+worldImg["ED"] = love.graphics.newImage("img/world/objects/pathway/ED.png")
 worldImg["Well"] = love.graphics.newImage("img/world/objects/Well.png")
 worldImg["Snow"] = love.graphics.newImage("img/world/floors/Snow.png")
 worldImg["Cart"] = love.graphics.newImage("img/world/objects/Cart.png")
@@ -121,6 +125,12 @@ worldImg["Chair"] = love.graphics.newImage("img/world/objects/Chair.png")
 worldImg["Murky Tree"] = love.graphics.newImage("img/world/objects/Murky Tree.png")
 worldImg["Plant"] = love.graphics.newImage("img/world/objects/Plant.png")
 worldImg["Stairs"] = love.graphics.newImage("img/world/objects/Stairs.png")
+worldImg["Sand Hole"] = love.graphics.newImage("img/world/objects/Sand Hole.png")
+worldImg["Keg"] = love.graphics.newImage("img/world/objects/Keg.png")
+worldImg["Furnace"] = love.graphics.newImage("img/world/objects/Furnace.png")
+worldImg["Bookcase"] = love.graphics.newImage("img/world/objects/Bookcase.png")
+worldImg["Book Shelf"] = love.graphics.newImage("img/world/objects/Book Shelf.png")
+
 
 lightsource = {}
 lightsource["Campfire"] = 5

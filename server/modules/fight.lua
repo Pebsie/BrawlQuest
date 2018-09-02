@@ -421,7 +421,7 @@ function updateFights(dt) --the big one!!
 
             if tostring(atkInfo) == "true" then
               if distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.img[mob[v]] and not mb.friend[mob[v]] then
-                local pdmg = item.val[pl[thisPlayer].wep] + pl[thisPlayer].str
+                local pdmg = love.math.random(item.val[pl[thisPlayer].wep]/2,item.val[pl[thisPlayer].wep] + pl[thisPlayer].str)
                 mob.hp[v] = mob.hp[v] - pdmg
                 pl[thisPlayer].score = pl[thisPlayer].score + (pdmg*(round(pl[thisPlayer].combo)+1))/item.val[pl[thisPlayer].wep]
                 if mob.hp[v] < 1 then pl[thisPlayer].kills = pl[thisPlayer].kills + 1 pl[thisPlayer].combo = pl[thisPlayer].combo + 1.1 end
@@ -500,8 +500,11 @@ function updateFights(dt) --the big one!!
                 else
                   spawnMob(i,string.sub(spellCast,7),mob.x[v],mob.y[v])
                 end
-              elseif string.sub(spellCast,1,7) == "evolve," then
+              elseif string.sub(spellCast,1,6) == "evolve" then
                 spawnMob(i,string.sub(spellCast,8),mob.x[v],mob.y[v])
+                mob.hp[v] = 0
+              elseif string.sub(spellCast,1,9) == "transform" then
+                spawnMob(i,string.sub(spellCast,11),mob.x[v],mob.y[v])
                 mob.hp[v] = 0
               elseif string.sub(spellCast,1,10) == "spawnFeet," then
                 for k = 1, #playersInThisFight do

@@ -125,55 +125,6 @@ item.lvl[ti] = 1
 item.price[ti] = "0,Gold"
 item.img[ti] = love.graphics.newImage("img/human/base.png") item.title[ti] = ti
 
-local ti = "Old Cloth"
-item.type[ti] = "arm"
-item.val[ti] = 1
-item.lvl[ti] = 1
-item.price[ti] = "0,Gold"
-item.img[ti] = love.graphics.newImage("img/human/Adventurer.png") item.title[ti] = ti
-
-local ti = "Basic Cloth"
-item.type[ti] = "arm"
-item.val[ti] = 2
-item.lvl[ti] = 1
-item.price[ti] = "5,Gold"
-item.img[ti] = love.graphics.newImage("img/human/Clean Adventurer.png") item.title[ti] = ti
-
-local ti = "Leather Armour"
-item.type[ti] = "arm"
-item.val[ti] = 3
-item.lvl[ti] = 3
-item.price[ti] = "25,Gold"
-item.img[ti] = love.graphics.newImage("img/human/Clothed Adventurer.png") item.title[ti] = ti
-
-local ti = "Chainmail Armour"
-item.type[ti] = "arm"
-item.val[ti] = 4
-item.lvl[ti] = 7
-item.price[ti] = "100,Gold"
-item.img[ti] = love.graphics.newImage("img/human/Warrior.png") item.title[ti] = ti
-
-local ti = "Guardian's Padding"
-item.type[ti] = "arm"
-item.val[ti] = 8
-item.lvl[ti] = 10
-item.price[ti] = "20,Adver"
-item.img[ti] = love.graphics.newImage("img/human/Guardian.png") item.title[ti] = ti
-
-local ti = "Legendary Padding"
-item.type[ti] = "arm"
-item.val[ti] = 15
-item.lvl[ti] = 15
-item.price[ti] = "100,Adver"
-item.img[ti] = love.graphics.newImage("img/human/Legend.png") item.title[ti] = ti
-
-local ti = "Eldertouched Plate"
-item.type[ti] = "arm"
-item.val[ti] = 50
-item.lvl[ti] = 30
-item.price[ti] = "500,Adver"
-item.img[ti] = love.graphics.newImage("img/human/Eldertouched Plate.png") item.title[ti] = ti
-
 --weapons
 local ti = "Hilt"
 item.type[ti] = "wep"
@@ -539,6 +490,20 @@ item.img[ti] = buddy[ti]
     item.lvl[ti] = 10
     item.price[ti] = "1,Gold"
     item.img[ti] = love.graphics.newImage("img/items/Orb of Power.png") item.title[ti] = ti
+
+    local ti = "Pelt"
+    item.type[ti] = "Reagent"
+    item.val[ti] = ""
+    item.lvl[ti] = 1
+    item.price[ti] = "5,Gold"
+    item.img[ti] = love.graphics.newImage("img/items/reagent/Pelt.png") item.title[ti] = ti
+
+    local ti = "Tooth"
+    item.type[ti] = "Reagent"
+    item.val[ti] = ""
+    item.lvl[ti] = 1
+    item.price[ti] = "2,Gold"
+    item.img[ti] = love.graphics.newImage("img/items/reagent/Bloodied Tooth.png") item.title[ti] = ti
 
 shop = {}
 --[[

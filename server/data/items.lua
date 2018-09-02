@@ -534,6 +534,20 @@ item.img[ti] = buddy[ti]
     item.price[ti] = "1,Gold"
     item.img[ti] = "img/items/reagent/Metal.png" item.title[ti] = ti
 
+    local ti = "Pelt"
+    item.type[ti] = "Reagent"
+    item.val[ti] = ""
+    item.lvl[ti] = 1
+    item.price[ti] = "5,Gold"
+    item.img[ti] = "img/items/reagent/Pelt.png" item.title[ti] = ti
+
+    local ti = "Tooth"
+    item.type[ti] = "Reagent"
+    item.val[ti] = ""
+    item.lvl[ti] = 1
+    item.price[ti] = "2,Gold"
+    item.img[ti] = "img/items/reagent/Bloodied Tooth.png" item.title[ti] = ti
+
 
 shop = {}
 --[[

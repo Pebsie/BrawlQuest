@@ -253,7 +253,7 @@ function love.update(dt)
   world.name[selT] = curName
   world.bg[selT] = curBG
   world.music[selT] = curMusic
-  world.rest[selT] = true end
+  world.rest[selT] = curRest end
 end
 
 function love.mousepressed(x, y, button, istouch)

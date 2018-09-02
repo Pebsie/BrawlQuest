@@ -95,9 +95,9 @@ function drawOverworld()
   --  love.graphics.draw(loginImg["cloud"],lclouds.x[i],lclouds.y[i])
   end
 
-  love.graphics.setBlendMode("alpha", "premultiplied")
+  --love.graphics.setBlendMode("alpha", "premultiplied")
   love.graphics.draw(worldCanvas, round(-mx), round(-my)) --draw world
-  love.graphics.draw(objectCanvas, round(-mx), round(-my))
+  --love.graphics.draw(objectCanvas, round(-mx), round(-my))
   love.graphics.setBlendMode("alpha")
   if playerExists(pl.name) then
     drawPlayer(pl.name,pl.x-mx,pl.y-my,"buddy")
@@ -127,7 +127,7 @@ function drawOverworld()
   love.graphics.setColor(255,255,255,world.weatherA)
   love.graphics.draw(rain,world.weatherX,world.weatherY)
   love.graphics.setColor(255,255,255,255)
-
+    drawFloats()
     love.graphics.pop()
 
     for i = 1, #gameUI do
@@ -215,7 +215,9 @@ function createWorldCanvas()
           y = world[i].y
         --  if x-mx > -64 and x-mx < screenW+64 and y-my > -64 and y-my < screenH+64 then
           love.graphics.draw(worldImg[world[i].bg], x, y)
-          love.graphics.draw(worldImg[world[i].tile], x, y)
+          if world[i].bg ~= world[i].tile then
+            love.graphics.draw(worldImg[world[i].tile], x, y)
+          end
           if world[i].tile == "Blacksmith" then drawPlayer("<NPC> Shop",x,y) end
 
         else

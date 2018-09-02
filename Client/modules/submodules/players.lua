@@ -10,7 +10,6 @@ function addPlayer(name)
   player[name].y = 0
   player[name].ty = 0
   player[name].t = 0
-  player[name].arm = "Old Cloth"
   player[name].arm_head = "None"
   player[name].arm_chest = "None"
   player[name].arm_legs = "None"
@@ -83,18 +82,18 @@ function getPlayer(name,a) --where a is attribute
   end
 end
 
-function drawPlayer(name,x,y,option)
+function drawPlayer(name,x,y,option,scale)
 
   if player[name] and player[name].online == "true" then
     if option == "buddy" then
       drawBuddy(name)
     end
 
-    love.graphics.draw(item.img["Naked"],x,y)
-    if player[name].arm_head ~= "None" then love.graphics.draw(item.img[player[name].arm_head],x,y) end
-    if player[name].arm_chest ~= "None" then love.graphics.draw(item.img[player[name].arm_chest],x,y) end
-    if player[name].arm_legs ~= "None" then love.graphics.draw(item.img[player[name].arm_legs],x,y) end
-    love.graphics.draw(item.img[player[name].wep],x-(item.img[player[name].wep]:getWidth()-32),y-(item.img[player[name].wep]:getHeight()-32))
+    love.graphics.draw(item.img["Naked"],x,y,0,scale)
+    if player[name].arm_head ~= "None" then love.graphics.draw(item.img[player[name].arm_head],x,y,0,scale) end
+    if player[name].arm_chest ~= "None" then love.graphics.draw(item.img[player[name].arm_chest],x,y,0,scale) end
+    if player[name].arm_legs ~= "None" then love.graphics.draw(item.img[player[name].arm_legs],x,y,0,scale) end
+    love.graphics.draw(item.img[player[name].wep],x-(item.img[player[name].wep]:getWidth()-32),y-(item.img[player[name].wep]:getHeight()-32),0,scale)
     --[[
     if player[name].x - player[name].tx > 1  then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INFO
       love.graphics.draw(item.img[player[name].arm],x,y,0,-1,1,32,0)

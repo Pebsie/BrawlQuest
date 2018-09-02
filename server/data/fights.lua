@@ -9,7 +9,7 @@ fs.rewards["default"] = "Gold,100,100"
 
 fs["Hungry Bear"] = "Bear;4"
 fs.spawnTime["Hungry Bear"] = 0.5
-fs.rewards["Hungry Bear"] = "Bear Meat,1,100,Small Dagger,1,20"--"Bear Meat,1,100,Small Dagger,1,20"
+fs.rewards["Hungry Bear"] = "Bear Meat,1,100,Pelt,1,10,Small Dagger,1,20"--"Bear Meat,1,100,Small Dagger,1,20"
 
 fs["Forest Bandits"] = "Bandit;1;speak,Bandit,FOR THE FOREST ALLIANCE!,3;3;Bandit;9"
 fs.spawnTime["Forest Bandits"] = 0.5
@@ -26,6 +26,10 @@ fs.rewards["Undead Lurkers"] = "Gold,4,100"
 fs["Spiders"] = "Spider;10"
 fs.spawnTime["Spiders"] = 0.5
 fs.rewards["Spiders"] = "String,5,100,String,2,50"
+
+fs["Wolves"] = "Wolf;5;Mother Wolf;1"
+fs.spawnTime["Wolves"] = 0.25
+fs.rewards["Wolves"] = "Tooth,1,50,Pelt,1,20,Dog,1,25"
 
 
 --crafting

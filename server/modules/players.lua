@@ -27,7 +27,6 @@ function newPlayer(name, password)
       t = 7693, --805 is shipwrecked, 918 is hell
       dt = 7693,
       wep = "Long Stick",
-      arm = "Legendary Padding",
       armd = 0,
       arm_head = "None",
       arm_chest = "None",
@@ -98,7 +97,7 @@ function updatePlayers(dt)
     pl[k].s2t = pl[k].s2t - 1*dt
 
     if pl[k].spell == "Recovery" then
-      pl[k].hp = pl[k].hp + 1000*dt --increase by 10% per second
+      pl[k].hp = pl[k].hp + 10*dt --increase by 10% per second
     end
 
     if pl[k].hp > 100 then pl[k].hp = 100 end
@@ -158,34 +157,35 @@ function givePlayerGold(name, gold)
 end
 
 function givePlayerItem(name, ritem, amount, slot)
-  if pl[name].inv == "None" then pl[name].inv = "" end
+  if pl[name].inv == "None" then pl[name].inv = ritem..";"..amount..";1;" else
 
-  if not amount then amount = 1 end
-  if not slot then slot = -1 hadSlot = false end
+    if not amount then amount = 1 end
+    if not slot then slot = -1 hadSlot = false end
 
-  curInv = atComma(pl[name].inv, ";")
-  local alreadyOwned = false
+    curInv = atComma(pl[name].inv, ";")
+    local alreadyOwned = false
 
-  for i=1,#curInv,3 do
-    curInv[i+1] = tonumber(curInv[i+1])
-    if curInv[i] == ritem and hadSlot == false then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end --if slot is defined then the player wants the stack to be split
-  end
-
-  if alreadyOwned == false then --insert into inventory
-    local i = #curInv+1
-    curInv[i] = ritem
-    curInv[i+1] = amount
-    if slot ~= -1 then
-      curInv[i+2] = slot --addMsg(curInv[i+2].."=="..slot.." (input via slot)")
-    else
-      curInv[i+2] = getNextFreeInventorySlot(name)
+    for i=1,#curInv,3 do
+      curInv[i+1] = tonumber(curInv[i+1])
+      if curInv[i] == ritem and hadSlot == false then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end --if slot is defined then the player wants the stack to be split
     end
-  end
 
-  pl[name].inv = ""
-  --rebuild inventory string
-  for i = 1, #curInv do
-    pl[name].inv = pl[name].inv..curInv[i]..";"
+    if alreadyOwned == false then --insert into inventory
+      local i = #curInv+1
+      curInv[i] = ritem
+      curInv[i+1] = amount
+      if slot ~= -1 then
+        curInv[i+2] = slot --addMsg(curInv[i+2].."=="..slot.." (input via slot)")
+      else
+        curInv[i+2] = getNextFreeInventorySlot(name)
+      end
+    end
+
+    pl[name].inv = ""
+    --rebuild inventory string
+    for i = 1, #curInv do
+      pl[name].inv = pl[name].inv..curInv[i]..";"
+    end
   end
 end
 
@@ -241,12 +241,6 @@ function playerUse(name, ritem, index, amount)
       rebuiltInv[#rebuiltInv].amount = 1
       haveInserted = true
       pl[name].wep = ritem
-    elseif item.type[ritem] == "arm" then
-      rebuiltInv[#rebuiltInv + 1] = {}
-      rebuiltInv[#rebuiltInv].item = pl[name].arm
-      rebuiltInv[#rebuiltInv].amount = 1
-      haveInserted = true
-      pl[name].arm = ritem
     elseif item.type[ritem] == "Spell" then
       local slot = pl[name].lastEquip
 
@@ -425,8 +419,8 @@ end
 
 function damagePlayer(name, amount)
   pl[name].armd = pl[name].armd + amount
-  if pl[name].armd > (item.val[pl[name].arm_head] + item.val[pl[name].arm_chest] + item.val[pl[name].arm_legs]) then
-    pl[name].armd = item.val[pl[name].arm_head] + item.val[pl[name].arm_chest] + item.val[pl[name].arm_legs]
+  if pl[name].armd > getArmourValue(name) then
+    pl[name].armd = getArmourValue(name)
     pl[name].hp = pl[name].hp - amount
   end
 
@@ -449,10 +443,6 @@ end
 
 function getPlayerTile(name)
   return pl[name].t
-end
-
-function getPlayerArmour(name)
-  return pl[name].arm
 end
 
 function getPlayerState(name)
@@ -527,6 +517,8 @@ function playerCanFight(name,tile)
   else
     canFight = true
   end
+
+  if pl[name].fightsPlayed[tile] then canFight = false end
 
   return canFight
 end

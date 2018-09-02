@@ -96,7 +96,7 @@ function love.update(dt)
             aspectString = "None"
           end
 
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl[i].hp, pl[i].en, pl[i].s1, pl[i].s2, pl[i].gold, pl[i].x, pl[i].y, pl[i].t, pl[i].dt, pl[i].wep, pl[i].arm, pl[i].inv, pl[i].lvl, pl[i].xp, pl[i].pot, pl[i].state, pl[i].armd, pl[i].bud, pl[i].dt, pl[i].str, pl[i].owed, round(pl[i].score), round(pl[i].combo), aspectString), msg_or_ip, port_or_nil)
+          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl[i].hp, pl[i].en, pl[i].s1, pl[i].s2, pl[i].gold, pl[i].x, pl[i].y, pl[i].t, pl[i].dt, pl[i].wep, pl[i].inv, pl[i].lvl, pl[i].xp, pl[i].pot, pl[i].state, pl[i].armd, pl[i].bud, pl[i].dt, pl[i].str, pl[i].owed, round(pl[i].score), round(pl[i].combo), aspectString), msg_or_ip, port_or_nil)
         pl[i].lastLogin = 0
         elseif cmd == "move" then
           parms = atComma(parms)
@@ -123,7 +123,7 @@ function love.update(dt)
               isOnline = true
             end
             if isOnline then
-              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|", name, getPlayerTile(name), getPlayerArmour(name), pl[name].arm_head, pl[name].arm_chest, pl[name].arm_legs, getPlayerState(name), pl[name].spell, pl[name].bud, isOnline, pl[name].wep)
+              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|", name, getPlayerTile(name),pl[name].arm_head, pl[name].arm_chest, pl[name].arm_legs, getPlayerState(name), pl[name].spell, pl[name].bud, isOnline, pl[name].wep)
             else
               plyrs = plyrs - 1 --player is offline so we reduce the number of players the client should expect by 1
             end
@@ -393,38 +393,6 @@ function loadGame()
             pl[i][word[k]] = word[k+1]
           end
         end
-      else
-        newPlayer(word[1],word[2])
-        i = getPlayerName(countPlayers())
-        pl[i].hp = tonumber(word[3])
-        pl[i].en = tonumber(word[4])
-        pl[i].s1 = word[5]
-        pl[i].s2 = word[6]
-        pl[i].gold = tonumber(word[7])
-        pl[i].x = tonumber(word[8])
-        pl[i].y = tonumber(word[9])
-        pl[i].t = tonumber(word[10])
-        pl[i].wep = word[11]
-        pl[i].arm = word[12]
-        pl[i].inv = word[13]
-        pl[i].pot = word[14]
-        pl[i].lvl = tonumber(word[15])
-        pl[i].xp = tonumber(word[16])
-        pl[i].bud = word[17]
-        pl[i].dt = word[18]
-        if word[19] then
-        pl[i].playtime = word[19]
-        end
-
-        if word[20] then pl[i].kills = word[20] end
-        if word[21] then pl[i].deaths = word[21] end
-        if word[22] then  pl[i].distance = word[22] end
-        if word[23] then pl[i].str = tonumber(word[23]) end
-        if word[24] then pl[i].lastLogin = tonumber(word[24]) end
-        if word[25] then pl[i].blueprints = word[25] end
-        if word[26] then pl[i].arm_head = word[26] end
-        if word[27] then pl[i].arm_chest = word[27] end
-        if word[28] then pl[i].arm_legs = word[28] end
       end
     end
 

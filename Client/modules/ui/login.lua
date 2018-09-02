@@ -78,7 +78,7 @@ function drawLogin() --login screen
 
   love.graphics.setFont(sFont)
 
-  love.graphics.print("\nFreshPlay 2018 (http://freshplay.co.uk)\n\nPowered by enhost (http://enhost.io)\n\nGraphics by D.Gervais (used here under a Creative Commons Attribution 3.0 licence)\nTitle theme composed by Joey Pearce (YouTube @JoeyFunWithMusic)\nMusic by Eric Matyas (used here under a Creative Commons Attribution 4.0 license)\nLogo created by Danjoe Stubbs", 0, 18)
+  --love.graphics.print("\nFreshPlay 2018 (http://freshplay.co.uk)\n\nPowered by enhost (http://enhost.io)\n\nGraphics by D.Gervais (used here under a Creative Commons Attribution 3.0 licence)\nTitle theme composed by Joey Pearce (YouTube @JoeyFunWithMusic)\nMusic by Eric Matyas (used here under a Creative Commons Attribution 4.0 license)\nLogo created by Danjoe Stubbs", 0, 18)
 --  love.graphics.setFont(font)
 
     love.graphics.draw(logo,(sw/2-(181/2)),(sh/2-(145/2))-160,0,0.5)--logo is 362x290 which at this size is
@@ -107,10 +107,10 @@ function drawLogin() --login screen
         love.graphics.setFont(font)
         love.graphics.printf( loadedCharacter[i].name , xpos+64 , ypos , 140 , "center" )
         love.graphics.setFont(sFont)
-        love.graphics.printf( "Level "..loadedCharacter[i].lvl.."\n"..loadedCharacter[i].arm.." ("..item.val[loadedCharacter[i].arm].." DEF)\n"..loadedCharacter[i].wep.." ("..item.val[loadedCharacter[i].wep].." ATK)", xpos+64 , ypos+font:getHeight() , 140 , "center")
+        love.graphics.printf( "Level "..loadedCharacter[i].lvl.."\n"..loadedCharacter[i].arm.." (0 DEF)\n"..loadedCharacter[i].wep.." ("..item.val[loadedCharacter[i].wep].." ATK)", xpos+64 , ypos+font:getHeight() , 140 , "center")
 
         if isMouseOver(xpos,204,ypos,66) then
-          love.graphics.draw(item.img[loadedCharacter[i].arm],xpos+4,ypos,0,2,2)
+          love.graphics.draw(item.img["Naked"],xpos+4,ypos,0,2,2)
           if isMouseDown or love.keyboard.isDown("return") then
             if loadedCharacter[i].pw then
               pl.name = loadedCharacter[i].name
@@ -128,7 +128,7 @@ function drawLogin() --login screen
             isMouseDown = false
           end
         else
-          love.graphics.draw(item.img[loadedCharacter[i].arm],xpos,ypos,0,2,2)
+          love.graphics.draw(item.img["Naked"],xpos,ypos,0,2,2)
         end
 
         if buddy[loadedCharacter[i].bud] then
@@ -185,7 +185,7 @@ function drawLogin() --login screen
     love.graphics.draw(worldImg["Grass"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
     love.graphics.setFont(font)
     love.graphics.printf( "Add Character" , xpos , ypos , 204 , "center" )
-    love.graphics.draw(item.img["Old Cloth"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
+    love.graphics.draw(item.img["Naked"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
     love.graphics.setColor(150,150,150)
     love.graphics.rectangle("line",xpos+102-(32*1.5),ypos+font:getHeight()+3,96,96)
 
@@ -272,7 +272,7 @@ function drawLogin() --login screen
     --love.graphics.rectangle("fill",xpos+102-(32*1.5),ypos+font:getHeight()+3,94,94)
     love.graphics.setColor(255,255,255)
     love.graphics.draw(worldImg["Grass"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
-    love.graphics.draw(item.img["Old Cloth"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
+    love.graphics.draw(item.img["Naked"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
     love.graphics.setFont(font)
     love.graphics.printf( "#"..loginI.select..": "..pl.name , xpos , ypos , 204 , "center" )
   --  love.graphics.draw(item.img[loadedCharacter[loginI.select].arm],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
@@ -486,7 +486,7 @@ function loadCharacters()
     for line in love.filesystem.lines("char.txt") do
       local words = atComma(line)
       loadedCharacter[i] = {}
-      loadedCharacter[i].arm = words[1]
+      loadedCharacter[i].arm = "Naked"
       loadedCharacter[i].name = words[2]
       loadedCharacter[i].lvl = words[3]
       loadedCharacter[i].wep = words[4]

@@ -1,7 +1,6 @@
 bones = {}
 bonesDone = {}
 
-
 function addBones(mobType, x, y, amount,bid)
   local canCreate = true
   if bid then
@@ -32,8 +31,14 @@ function addBones(mobType, x, y, amount,bid)
     --      bones[i].r,bones[i].g,bones[i].b = 0,0,0
 --end
   --    else
-        bones[i].r,bones[i].g,bones[i].b = 200,0,200
-    --  end
+      if mobType ~= "Player" and mb.img[mobType] and mb.img[mobType]:getWidth() > 8 then
+        bones[i].r,bones[i].g,bones[i].b = mb.imgData[mobType]:getPixel(love.math.random(1,mb.img[mobType]:getWidth()-1),love.math.random(1,mb.img[mobType]:getHeight()-1))
+        bones[i].r = bones[i].r * 255
+        bones[i].g = bones[i].g * 255
+        bones[i].b = bones[i].b * 255
+      else
+        bones[i].r,bones[i].g,bones[i].b = 200,0,0
+      end
           if bid then
         bonesDone[bid] = true
       end
@@ -51,7 +56,7 @@ function drawBones()
       elseif mb.img[bones[i].t] then
       --  love.graphics.draw(mb.img[bones[i].t], bones[i].x+xoff, bones[i].y+yoff, math.rad(bones[i].rotation), 0.25, 0.25)
       end
-      love.graphics.rectangle("line",bones[i].x+xoff,bones[i].y+yoff,2,2)
+      love.graphics.rectangle("fill",bones[i].x+xoff,bones[i].y+yoff,2,2)
     end
   end
 
@@ -77,8 +82,19 @@ function updateBones(dt)
       else bones[i].yv = 0 end
     end
 
+    if distanceFrom(pl.x+16,pl.y+16,bones[i].x,bones[i].y) < 4 then
+      if pl.x+16 > bones[i].x then bones[i].xv = bones[i].xv + 20 end
+      if pl.x+16 < bones[i].x then bones[i].xv = bones[i].xv - 20 end
+      if pl.y+16 > bones[i].y then bones[i].yv = bones[i].yv + 20 end
+      if pl.y+16 < bones[i].y then bones[i].yv = bones[i].yv - 20 end
+      bones[i].a = 255
+    end
+
     if bones[i].t ~= "Player" then
-      bones[i].a = bones[i].a - 50*dt
+      bones[i].a = bones[i].a - 10*dt
+    elseif bones[i].t == "Player" then
+      bones[i].a = bones[i].a - 5*dt
+    end
       if bones[i].a < 0 and #bones > 1 then
         bones[i] = bones[#bones]
         bones[i].x = bones[#bones].x
@@ -90,7 +106,7 @@ function updateBones(dt)
         bones[i].t = bones[#bones].t
       end
 
-    elseif #bones == 1 then
+    if #bones == 1 then
       bones = {}
     end
   --  bones[i].rotation = bones[i].rotation + bones[i].xv

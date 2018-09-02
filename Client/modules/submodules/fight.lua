@@ -224,6 +224,7 @@ love.graphics.scale(scaleX,scaleY)
   love.graphics.setColor(0,0,0)
   love.graphics.rectangle("line",xoff,yoff,stdSH,stdSW)
   love.graphics.setColor(255,255,255)
+  drawFloats()
   love.graphics.pop()
 
   drawActionBar(gameUI[1].x,realScreenHeight-(gameUI[1].height-font:getHeight()))
@@ -417,7 +418,6 @@ end
 
 function killMobs()
   mob = {}
-  bones = {}
 end
 
 function addMob(id)
