@@ -303,21 +303,21 @@ function updateFight(dt)
   end
 
   local speed = 128*dt --change this if you want but you'll find yourself running out of stamina CONSTANTLY
-  if love.keyboard.isDown(KEY_RUN) then
+  if love.keyboard.isDown(KEY_RUN) or joystick:isGamepadDown(JS_RUN)  then
     speed = 256*dt
   end
-  if love.keyboard.isDown(KEY_UP) then
+  if love.keyboard.isDown(KEY_UP) or joystick:isGamepadDown(JS_UP) then
     pl.y = pl.y - speed
-  elseif love.keyboard.isDown(KEY_DOWN) then
+  elseif love.keyboard.isDown(KEY_DOWN) or joystick:isGamepadDown(JS_DOWN) then
     pl.y = pl.y + speed
   end
-  if love.keyboard.isDown(KEY_LEFT) then
+  if love.keyboard.isDown(KEY_LEFT) or joystick:isGamepadDown(JS_LEFT) then
     pl.x = pl.x - speed
-  elseif love.keyboard.isDown(KEY_RIGHT) then
+  elseif love.keyboard.isDown(KEY_RIGHT) or joystick:isGamepadDown(JS_RIGHT) then
     pl.x = pl.x + speed
   end
 
-  if love.keyboard.isDown(KEY_UP) or love.keyboard.isDown(KEY_DOWN) or love.keyboard.isDown(KEY_LEFT) or love.keyboard.isDown(KEY_RIGHT) then
+  if love.keyboard.isDown(KEY_UP) or joystick:isGamepadDown(JS_UP) or love.keyboard.isDown(KEY_DOWN) or joystick:isGamepadDown(JS_DOWN) or love.keyboard.isDown(KEY_LEFT) or joystick:isGamepadDown(JS_LEFT) or love.keyboard.isDown(KEY_RIGHT) or joystick:isGamepadDown(JS_RIGHT) then
       pl.en = pl.en - speed*0.15
   end
 
@@ -334,13 +334,13 @@ function updateFight(dt)
 
   atkCooldown = atkCooldown - 1*dt
 
-  if love.keyboard.isDown(KEY_ATK_UP) then
+  if love.keyboard.isDown(KEY_ATK_UP) or (joystick:isGamepadDown(JS_UP) and joystick:isGamepadDown(JS_ATK)) then
     attack("up")
-  elseif love.keyboard.isDown(KEY_ATK_DOWN) then
+  elseif love.keyboard.isDown(KEY_ATK_DOWN) or (joystick:isGamepadDown(JS_DOWN) and joystick:isGamepadDown(JS_ATK)) then
     attack("down")
-  elseif love.keyboard.isDown(KEY_ATK_RIGHT) then
+  elseif love.keyboard.isDown(KEY_ATK_RIGHT) or (joystick:isGamepadDown(JS_RIGHT) and joystick:isGamepadDown(JS_ATK)) then
     attack("right")
-  elseif love.keyboard.isDown(KEY_ATK_LEFT) then
+  elseif love.keyboard.isDown(KEY_ATK_LEFT) or (joystick:isGamepadDown(JS_LEFT) and joystick:isGamepadDown(JS_ATK)) then
     attack("left")
   end
 

@@ -1,3 +1,5 @@
+volume = 0.5
+
 function loadMusic()
   music = {}
   music.title = {}
@@ -16,6 +18,7 @@ function loadMusic()
   music.world[5] = love.audio.newSource("sound/music/world5.mp3", "stream")
   music.world[6] = love.audio.newSource("sound/music/world6.mp3", "stream")
   music.world[7] = love.audio.newSource("sound/music/world7.mp3", "stream")
+  music.world[8] = love.audio.newSource("sound/music/twistedmountains.mp3","stream")
 
   music.fight[1] = love.audio.newSource("sound/music/fight1.mp3", "stream")
   music.fight[2] = love.audio.newSource("sound/music/fight2.mp3", "stream")
@@ -39,9 +42,30 @@ end
 function updateMusic(dt)
   if dev == false then
     if phase == "game" and setting.audio == true and music[pl.state] then --diff code for each type
-      if not music.curPlay:isPlaying() then
+      if music.curPlay:isPlaying() then
+        if pl.state == "world" and world[pl.t].music ~= "*" then
+          local musicChoices = atComma(world[pl.t].music,"|")
+          local isZone = false --is this music appropriate for this zone?
+          for i = 1, #musicChoices do
+            if music.world[tonumber(musicChoices[i])] == music.curPlay then
+              isZone = true
+            end
+          end
+
+          if isZone == false then
+            music.curPlay:setVolume(music.curPlay:getVolume() - 0.2*dt)
+            if music.curPlay:getVolume() < 0 then
+              music.curPlay:stop()
+            end
+          else
+            if music.curPlay:getVolume() < volume then
+              music.curPlay:setVolume(music.curPlay:getVolume()+0.2*dt)
+            end
+          end
+        end
+      else
         if love.math.random(1, 200) == 1 then
-          if pl.state == "fight" and string.lower(string.sub(world[pl.t].fight,1,7)) == "dungeon" or string.lower(string.sub(world[pl.t].fight,1,4)) == "Raid" then
+          if pl.state == "fight" and string.lower(string.sub(world[pl.t].fight,1,7)) == "Dungeon" or string.lower(string.sub(world[pl.t].fight,1,4)) == "Raid" then
             music.curPlay = music["raid"][love.math.random(1, #music["raid"])]
           else
             if pl.state == "world" and world[pl.t].music == "*" then
@@ -56,7 +80,7 @@ function updateMusic(dt)
           end
           --if dev == false then music.curPlay:setLooping(false) end
         --love   music.curPlay:setVolume(0.05)
-          if dev == false then love.audio.play(music.curPlay) end
+          if dev == false then music.curPlay:play() end
         end
       end
 

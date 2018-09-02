@@ -29,6 +29,7 @@ function drawGame()
 end
 
 function updateGame(dt)
+--    if joystick:isGamepadDown("dpup") then error("yep") end
   if pl.state == "world" then
     updateOverworld(dt)
 
@@ -55,13 +56,14 @@ function updateGame(dt)
 
     if ui.selected ~= "chat" then
       if timeToMove < 0 then
-        if love.keyboard.isDown("w") then movePlayer("up") timeToMove = 0.5
-        elseif love.keyboard.isDown("s") then movePlayer("down") timeToMove = 0.5
-        elseif love.keyboard.isDown("d") then movePlayer("right") timeToMove = 0.5
-        elseif love.keyboard.isDown("a") then movePlayer("left") timeToMove = 0.5
+        if love.keyboard.isDown("w") or joystick:isGamepadDown(JS_UP) then movePlayer("up") timeToMove = 0.5
+        elseif love.keyboard.isDown("s") or joystick:isGamepadDown(JS_DOWN) then movePlayer("down") timeToMove = 0.5
+        elseif love.keyboard.isDown("d") or joystick:isGamepadDown(JS_RIGHT) then movePlayer("right") timeToMove = 0.5
+        elseif love.keyboard.isDown("a") or joystick:isGamepadDown(JS_LEFT) then movePlayer("left") timeToMove = 0.5
         else timeToMove = 0.01 end
       end
     end
+
 
     if pl.x then
       local pls = 64*dt

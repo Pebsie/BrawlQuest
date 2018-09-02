@@ -2,6 +2,9 @@ editor quest format: quest|type (item/tile/deliver)|requireditem;amount/required
 
 quest|item|Ogre Head;5|Recovery;1;EXP;100|The only part of this town that still stands is myself and the church I swore to protect. Do you know what scares Ogres enough to stop them from bashing down your door? Ogre brains smeared on the door pane. I'm too old and frail to slay these ogres myself but... would you care to help a kindly old man who just wants to keep the last bastion of his town alive?|3|You're a saint.
 
+Chests work like this:
+Chest: item;amount;chance;item;amount;chance etc
+
 FIGHTS=====
 map-swordbreak.txt
 
@@ -20,6 +23,10 @@ Wolves (level 2)
 Alliance Fury (level 4)
 Undead Lurkers (level 5)
 Dungeon: Shieldbreak Mine (level 10)
+Dungeon: Scholar Francis (level 10) (gives Mega Recovery spell recipe (along with other healing spells))
+Dungeon: Scholar Chance (level 10) (gives Mega Polymorph spell recipe (along with other twisted spells))
+Dungeon: Scholar Bruce (level 10) (gives Mega Slam spell recipe (along with other DPS spells))
+Raid: Scholar Matthew (level 10)
 
 map-west.txt
 King Crocodile (level 7)
@@ -27,3 +34,15 @@ Crocodiles (level 6)
 Cube (level 6) (non moving, high attack. When they reach 10% HP they spawn a small version of themselves once every 2 seconds)
 
 ITEMS====
+
+
+CREDITS====
+Created & Programmed by Thomas Lock
+FreshPlay 2017-2018
+Powered by enhost.io
+Artwork by David Gervais
+Logo by Danjoe Stubbs
+Original soundtrack by Joseph Pearce
+Additional music & sfx by Eric Matyas (www.soundimage.org) ("Forest Chase","Surfing the Jet Stream","Spell's a Brewin'","Strange Nature","RPG Battle Climax 2","Defending the Pricess Haunted","Winter Fantasy","Kingdom of Darkness","Their Sacred Place","Dreamy Game Menu","Kingdom of Lost Dreams","Sad Lands","Lost Meadow") (SFX: "SynthChime6","Creepy_Percussion_7","SynthChime1","Footstep_Carpet_Right","Footstep_Tile_Right","DroneAlert2","Gentle Rain")
+Special thanks to Sam Warland for inspiration, designs and above all letting me ramble on about MMO design for months on end
+Special thanks to everyone who played the Alpha events. Our tiny community will live on forever!

@@ -2,6 +2,7 @@ worldImg = {} --so called here so it doesn't conflict with the editor
 worldImg["Grass"] = love.graphics.newImage("img/world/floors/Grass.png")
 worldImg["Sandy Grass"] = love.graphics.newImage("img/world/floors/Sandy Grass.png")
 worldImg["Murky Grass"] = love.graphics.newImage("img/world/floors/Murky Grass.png")
+worldImg["Mana Grass"] = love.graphics.newImage("img/world/floors/Mana Grass.png")
 worldImg["Sandstone"] = love.graphics.newImage("img/world/floors/Sandstone.png")
 worldImg["Camp"] = love.graphics.newImage("img/world/objects/Camp.png")
 worldImg["Boulder"] = love.graphics.newImage("img/world/objects/Boulder.png")

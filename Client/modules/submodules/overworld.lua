@@ -216,7 +216,9 @@ function createWorldCanvas()
         --  if x-mx > -64 and x-mx < screenW+64 and y-my > -64 and y-my < screenH+64 then
           love.graphics.draw(worldImg[world[i].bg], x, y)
           if world[i].bg ~= world[i].tile then
-            love.graphics.draw(worldImg[world[i].tile], x, y)
+            if worldImg[world[i].tile] then
+              love.graphics.draw(worldImg[world[i].tile], x, y)
+            end
           end
           if world[i].tile == "Blacksmith" then drawPlayer("<NPC> Shop",x,y) end
 

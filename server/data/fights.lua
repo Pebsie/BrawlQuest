@@ -31,6 +31,10 @@ fs["Wolves"] = "Wolf;5;Mother Wolf;1"
 fs.spawnTime["Wolves"] = 0.25
 fs.rewards["Wolves"] = "Tooth,1,50,Pelt,1,20,Dog,1,25"
 
+fs["Twisted Students"] = "Confused Student;5;Senior Student;3;Confused Student;2"
+fs.spawnTime["Twisted Students"] = 4
+fs.rewards["Twisted Students"] = "Mana,4,100,Beholder,1,10"
+
 
 --crafting
 fs["Gather: Wood"] = "Weak Tree;3"

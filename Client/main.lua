@@ -16,6 +16,7 @@ require "modules/interface"
 require "modules/user"
 require "modules/game"
 require "modules/settings"
+require "modules/joystick"
 --connect
 require "client"
 
@@ -47,6 +48,11 @@ realScreenHeight = screenH
 news = ""
 
 dev = false--This variable just turns certain features on and off so that it's easier to dev the game
+
+local joysticks = love.joystick.getJoysticks()
+--error(love.joystick.getJoystickCount())
+joystick = joysticks[1]
+
 
 function love.load()
 
@@ -91,6 +97,7 @@ function love.load()
   bindKeys()
   loadCharacters()
   loadTutorial()
+  initJoystick()
 --  saveMobList("mobs.txt")
 
   scaleX = round(love.graphics.getWidth()/(1920/2))

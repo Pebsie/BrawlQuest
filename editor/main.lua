@@ -49,8 +49,8 @@ displayTiles = false
 
 function love.load()
 
---  b, c, h = http.request("http://brawlquest.com/dl/map-snow.txt")
---  love.filesystem.write("map-snow.txt", b)
+  --b, c, h = http.request("http://brawlquest.com/dl/map-forest.txt")
+--  love.filesystem.write("map-forest.txt", b)
   love.filesystem.setIdentity("editor")
 
   heroImg = love.graphics.newImage("img/human/Legend.png")
@@ -161,7 +161,7 @@ function love.draw()
         end
 
         if world.isFight[i] == true then love.graphics.draw(heroImg, x-camX, y-camY) end
-        if view == 1 then
+        if view == 1 and world.fightc[i] > 0 then
           love.graphics.setColor(0,0,0)
           love.graphics.print(world.fightc[i].."%", x-camX, y-camY)
         elseif view == 4 and world.music[i] ~= "*" then
@@ -190,7 +190,7 @@ function love.draw()
   oy = 480-100
   x = 0
   y = 0
-  for i = 1, 100*100 do
+--[[  for i = 1, 100*100 do
     setWColour(world[i])
     love.graphics.rectangle("fill",x+ox,y+oy,1,1)
     x = x + 1
@@ -198,19 +198,19 @@ function love.draw()
       y = y + 1
       x = 0
     end
-  end
+  end]]
 
   if uiPhase == "select" then
     drawSelect(200,200)
   end
 
   love.graphics.setColor(1,0,0)
-  love.graphics.rectangle("line",ox+(camX/32),oy+(camY/32),25,18.75)
+--  love.graphics.rectangle("line",ox+(camX/32),oy+(camY/32),25,18.75)
 
   love.graphics.setColor(0,0,0,100)
   love.graphics.rectangle("fill",0,0,250,14*10)
   love.graphics.setColor(255,255,255)
-  love.graphics.print("Camera: "..round(camX)..","..round(camY).."\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\nFloor is "..curBG.."\nMusic is "..curMusic.."\nRest zone="..tostring(curRest).."\n"..info)
+  love.graphics.print("Camera: "..round(camX)..","..round(camY).." (View #"..view..")\nSelected tile: "..selT.."\nPlacing tile "..curTile.."\nPlacing fight '"..curFight.."'\n"..curFightC.."% Chance\nCollide="..tostring(curCollide).."\nTitle '"..curName.."'\nFloor is "..curBG.."\nMusic is "..curMusic.."\nRest zone="..tostring(curRest).."\n"..info)
 
   if isType == true then
     love.graphics.rectangle("line", 0, 14+(14*ts), 200,14)
@@ -360,6 +360,7 @@ function love.keypressed(key)
     if key == "y" and displayTiles == false then displayTiles = true elseif key == "y" then displayTiles = false end
 --    if key == "]" then weather.time = weather.time + 1 if weather.time > 24 then weather.time = 0 end elseif key == "[" then weather.time = weather.time - 1 if weather.time == -1 then weather.time = 24 end end
     if key == "r" and love.keyboard.isDown("l") then resetLightmap() end
+    if key == "space" then camX = round(camX) camY = round(camY) end
   end
 end
 
