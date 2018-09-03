@@ -42,27 +42,29 @@ end
 function updateMusic(dt)
   if dev == false then
     if phase == "game" and setting.audio == true and music[pl.state] then --diff code for each type
+
       if music.curPlay:isPlaying() then
-        if pl.state == "world" and world[pl.t].music ~= "*" then
-          local musicChoices = atComma(world[pl.t].music,"|")
+
+        if pl.state == "world" then
           local isZone = false --is this music appropriate for this zone?
-          for i = 1, #musicChoices do
-            if music.world[tonumber(musicChoices[i])] == music.curPlay then
-              isZone = true
+          if world[pl.t].music == "*" then isZone = true else
+            local musicChoices = atComma(world[pl.t].music,"|")
+            for i = 1, #musicChoices do
+              if music.world[tonumber(musicChoices[i])] == music.curPlay then
+                isZone = true
+              end
             end
           end
 
           if isZone == false then
             music.curPlay:setVolume(music.curPlay:getVolume() - 0.2*dt)
-            if music.curPlay:getVolume() < 0 then
-              music.curPlay:stop()
-            end
-          else
-            if music.curPlay:getVolume() < volume then
-              music.curPlay:setVolume(music.curPlay:getVolume()+0.2*dt)
+            if music.curPlay:getVolume() < 0.1 then
+              love.audio.stop(music.curPlay)
             end
           end
         end
+
+
       else
         if love.math.random(1, 200) == 1 then
           if pl.state == "fight" and string.lower(string.sub(world[pl.t].fight,1,7)) == "Dungeon" or string.lower(string.sub(world[pl.t].fight,1,4)) == "Raid" then
@@ -80,7 +82,7 @@ function updateMusic(dt)
           end
           --if dev == false then music.curPlay:setLooping(false) end
         --love   music.curPlay:setVolume(0.05)
-          if dev == false then music.curPlay:play() end
+          if dev == false then music.curPlay:setVolume(volume) love.audio.play(music.curPlay) end
         end
       end
 

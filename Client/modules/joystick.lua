@@ -7,4 +7,6 @@ function initJoystick()
 
   JS_ATK = "a"
   JS_RUN = "b"
+
+  if not joystick then joystick = {isGamepadDown = function(a) return false end} end
 end
