@@ -39,7 +39,7 @@ function updateTutorial()
   if pl.pot ~= "None" then
     triggerTutorial("potion")
   end
-  if world[pl.t] and world[pl.t].tile == "Anvil" then
+  if world and world[pl.t] and world[pl.t].tile == "Anvil" then
     triggerTutorial("crafting")
   end
 end

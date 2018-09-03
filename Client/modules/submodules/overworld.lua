@@ -1,16 +1,15 @@
 require "modules/submodules/fog"
 
-world = {}
-world.weather = "clear" --TODO: remove all references to this as it is no longer used
-world.weatherX = 0
-world.weatherY = 0
-world.weatherA = 0
-
 weather = {}
 weather.time = 9
 weather.condition = "clear"
 weather.temperature = 11
 weather.day = 1
+weather.weatherX = 0
+weather.weatherY = 0
+weather.weatherA = 0
+
+loadedZone = "Swordbreak"
 
 areaTitleAlpha = 255
 curAreaTitle = "The Great Plains"
@@ -20,10 +19,19 @@ titleScreen = 1200
 objectCanvas = love.graphics.newCanvas(32*101,32*101)
 
 function loadOverworld()
-  if love.filesystem.getInfo("map-forest.txt") then
+  b, c, h = http.request("http://brawlquest.com/dl/"..zone[pl.zone])
+
+  world = {}
+  if b then
+    love.filesystem.write(zone[pl.zone], b)
+  else
+    print("WARNING: unable to download map!")
+  end
+
+  if love.filesystem.getInfo(zone[pl.zone]) then
     local x = 0
     local y = 0
-    for line in love.filesystem.lines("map-forest.txt") do
+    for line in love.filesystem.lines(zone[pl.zone]) do
       word = atComma(line)
       i = #world + 1
       world[i] = {}
@@ -52,8 +60,11 @@ function loadOverworld()
   else
     error("We couldn't find the world file. This means one of two things: 1) the Witch has successfully wiped out all of mankind or 2) the client didn't download the world properly. Either way, we need to exit. Report this to @Pebsiee!!")
   end
-
-  titleScreen = 1200
+  if loadedZone == pl.zone then
+    titleScreen = 1200
+  else
+    loadedZone = pl.zone
+  end
   createWorldCanvas()
 
   --create lightmap
@@ -124,7 +135,7 @@ function drawOverworld()
     love.graphics.print("Awaiting character info...")
   end
   --weather
-  love.graphics.setColor(255,255,255,world.weatherA)
+  love.graphics.setColor(255,255,255,weather.weatherA)
   love.graphics.draw(rain,world.weatherX,world.weatherY)
   love.graphics.setColor(255,255,255,255)
     drawFloats()
@@ -185,21 +196,27 @@ function updateOverworld(dt)
   if areaTitleAlpha < 0 then areaTitleAlpha = 0 end
 
   local windSpeed = 512*dt
-  world.weatherX = world.weatherX + windSpeed
-  world.weatherY = world.weatherY + windSpeed
-  if world.weatherY > 0 then --TODO: make this not an arbitrary value
-    world.weatherX = -800
-    world.weatherY = -800
+  weather.weatherX = weather.weatherX + windSpeed
+  weather.weatherY = weather.weatherY + windSpeed
+  if weather.weatherY > 0 then --TODO: make this not an arbitrary value
+    weather.weatherX = -800
+    weather.weatherY = -800
   end
 
-  if weather.condition == "rain" or weather.condition == "storm" then world.weatherA = world.weatherA + 100*dt end
+  if weather.condition == "rain" or weather.condition == "storm" then weather.weatherA = weather.weatherA + 100*dt end
   if weather.condition == "storm" and love.math.random(1,2500) == 1 then whiteOut = 200 love.audio.play(sfx["lightning"]) end
-  if weather.condition == "clear" then world.weatherA = world.weatherA - 100*dt end
-  if world.weatherA > 255 then world.weatherA = 255 elseif world.weatherA < 0 then world.weatherA = 0 end
+  if weather.condition == "clear" then weather.weatherA = weather.weatherA - 100*dt end
+  if weather.weatherA > 255 then weather.weatherA = 255 elseif weather.weatherA < 0 then weather.weatherA = 0 end
 
   local cx, cy = love.mouse.getPosition()
   local sw,sh = love.graphics.getDimensions()
 
+  if loadedZone ~= pl.zone then
+    saveFog()
+    loadOverworld()
+    loadFog()
+    addFog(pl.t)
+  end
 end
 
 function createWorldCanvas()

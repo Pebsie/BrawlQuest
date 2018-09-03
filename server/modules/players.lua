@@ -58,7 +58,8 @@ function newPlayer(name, password)
       aspects = {},
       encounterBuild = 0,
       blueprints = "Healing Potion;Wooden Chestplate;Wooden Helmet;Wooden Leggings;Hilt;Short Sword",
-      authcode = tostring(love.math.random(10000,99999))
+      authcode = tostring(love.math.random(10000,99999)),
+      zone = "Hunters"
     }
 
 
@@ -109,7 +110,7 @@ function updatePlayers(dt)
 
     pl[k].timeout = pl[k].timeout - 1*dt
 
-    if world[pl[k].t].rest then
+    if world[pl[k].zone][pl[k].t].rest then
       pl[k].hp = pl[k].hp + 10*dt
     end
 
@@ -368,28 +369,32 @@ function movePlayer(name, dir)
   elseif dir == "left" then pl[name].t = pl[name].t - 1
   elseif dir == "right" then pl[name].t = pl[name].t + 1 end
 
-  if world[pl[name].t].fightc == 0 then pl[name].encounterBuild = 0 end
+  if world[pl[name].zone][pl[name].t].fightc == 0 then pl[name].encounterBuild = 0 end
 
-  if world[pl[name].t].collide then
+  if world[pl[name].zone][pl[name].t].collide then
     pl[name].t = curt
-  elseif string.sub(world[pl[name].t].fight,1,3) == "tp|" then
-    pl[name].t = tonumber(string.sub(world[pl[name].t].fight,4))
-  elseif string.sub(world[pl[name].t].fight,1,5) ~= "speak" then
-    if world[pl[name].t].isFight == true and playerCanFight(name,pl[name].t) then
+  elseif string.sub(world[pl[name].zone][pl[name].t].fight,1,3) == "tp|" then --teleport
+    pl[name].t = tonumber(string.sub(world[pl[name].zone][pl[name].t].fight,4))
+  elseif string.sub(world[pl[name].zone][pl[name].t].fight,1,3) == "zw|" then --zone warp
+    local word = atComma(world[pl[name].zone][pl[name].t].fight,"|")
+    pl[name].zone = word[2]
+    pl[name].t = tonumber(word[3])
+  elseif string.sub(world[pl[name].zone][pl[name].t].fight,1,5) ~= "speak" then
+    if world[pl[name].zone][pl[name].t].isFight == true and playerCanFight(name,pl[name].t) then
       local fightsOnTile = listFightsOnTile(pl[name].t)
       addPlayerToFight(fightsOnTile[1],name)
       pl[name].encounterBuild = 0
     else
       if not pl[name].fightsPlayed[pl[name].t] and playerCanFight(name,pl[name].t) then
-        local fightData = atComma(world[pl[name].t].fight,"|")
+        local fightData = atComma(world[pl[name].zone][pl[name].t].fight,"|")
         local fightChance = love.math.random(1,100)-pl[name].encounterBuild
-        if world[pl[name].t].spawned then --fightChance < world[pl[name].t].fightc or world[pl[name].t].fightc > 90 or world[pl[name].t].spawned then
-          world[pl[name].t].isFight = true
+        if world[pl[name].zone][pl[name].t].spawned then --fightChance < world[pl[name].zone][pl[name].t].fightc or world[pl[name].zone][pl[name].t].fightc > 90 or world[pl[name].zone][pl[name].t].spawned then
+          world[pl[name].zone][pl[name].t].isFight = true
           if fs[fightData[1]] then
-            newFight(pl[name].t, fightData[1])
+            newFight(pl[name].t, fightData[1],pl[name].zone)
             pl[name].encounterBuild = 0
             addPlayerToFight(#ft.t, name)
-            world[pl[name].t].spawned = false
+            world[pl[name].zone][pl[name].t].spawned = false
           else
           --  newFight(pl[name].t, "Ghostly Haunting")
             pl[name].encounterBuild = 0
@@ -397,7 +402,7 @@ function movePlayer(name, dir)
 
         end
       else
-        pl[name].encounterBuild = pl[name].encounterBuild + world[pl[name].t].fightc
+        pl[name].encounterBuild = pl[name].encounterBuild + world[pl[name].zone][pl[name].t].fightc
       end
 
       pl[name].distance = pl[name].distance + 1
@@ -503,7 +508,7 @@ end
 function playerCanFight(name,tile)
 --  addMsg("Can "..name.." fight on "..tile.."? ("..world[tile].fight..")")
   local canFight = false
-  local word = atComma(world[tile].fight,"|")
+  local word = atComma(world[pl[name].zone][tile].fight,"|")
 
   if #word > 1 then
   --  addMsg("There are requirements... does "..pl[name][word[2]].." == "..word[3].."? "..word[2])

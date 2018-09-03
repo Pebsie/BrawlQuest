@@ -36,7 +36,7 @@ function love.load()
   downloadMobs()
   loadMobs()
 
-  loadOverworld()
+  initZones()
   initAspects()
   initWeather()
 
@@ -96,7 +96,7 @@ function love.update(dt)
             aspectString = "None"
           end
 
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl[i].hp, pl[i].en, pl[i].s1, pl[i].s2, pl[i].gold, pl[i].x, pl[i].y, pl[i].t, pl[i].dt, pl[i].wep, pl[i].inv, pl[i].lvl, pl[i].xp, pl[i].pot, pl[i].state, pl[i].armd, pl[i].bud, pl[i].dt, pl[i].str, pl[i].owed, round(pl[i].score), round(pl[i].combo), aspectString), msg_or_ip, port_or_nil)
+          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl[i].hp, pl[i].en, pl[i].s1, pl[i].s2, pl[i].gold, pl[i].x, pl[i].y, pl[i].t, pl[i].dt, pl[i].wep, pl[i].inv, pl[i].lvl, pl[i].xp, pl[i].pot, pl[i].state, pl[i].armd, pl[i].bud, pl[i].dt, pl[i].str, pl[i].owed, round(pl[i].score), round(pl[i].combo), aspectString, pl[i].zone), msg_or_ip, port_or_nil)
         pl[i].lastLogin = 0
         elseif cmd == "move" then
           parms = atComma(parms)
@@ -123,7 +123,7 @@ function love.update(dt)
               isOnline = true
             end
             if isOnline then
-              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|", name, getPlayerTile(name),pl[name].arm_head, pl[name].arm_chest, pl[name].arm_legs, getPlayerState(name), pl[name].spell, pl[name].bud, isOnline, pl[name].wep)
+              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|", name, getPlayerTile(name),pl[name].arm_head, pl[name].arm_chest, pl[name].arm_legs, getPlayerState(name), pl[name].spell, pl[name].bud, isOnline, pl[name].wep, pl[name].zone)
             else
               plyrs = plyrs - 1 --player is offline so we reduce the number of players the client should expect by 1
             end
@@ -137,7 +137,7 @@ function love.update(dt)
 
           for k = -195,305,101 do
             for t = -9, -5 do
-              if world[i].isFight == true and playerCanFight(name,i) then
+              if world[pl[name].zone][i].isFight == true and playerCanFight(name,i) then
                 msgToSend = msgToSend..string.format("fight|%s|", i)
               end
             end
@@ -155,9 +155,9 @@ function love.update(dt)
         local i = tonumber(pl[name].t)
          for k = -195,305,101 do
            for t = -9, -5 do
-             if world[t+i+k] and world[t+i+k].spawned and playerCanFight(name,t+i+k) then
+             if world[pl[name].zone][t+i+k] and world[pl[name].zone][t+i+k].spawned and playerCanFight(name,t+i+k) then
                spawned = spawned + 1
-               local fightData = atComma(world[t+i+k].fight,"|")
+               local fightData = atComma(world[pl[name].zone][t+i+k].fight,"|")
                msgOn = msgOn..t+i+k.."|"..getFirstMob(fightData[1]).."|"
              end
            end
@@ -242,7 +242,7 @@ function love.update(dt)
           local titem = parms[2]
         --  addMsg(name.." is trying to buy "..titem)
           local itemCost = atComma(item.price[titem])
-          if world[pl[name].t].tile == "Blacksmith" then --check that they're on the right shop tile
+          if world[pl[name].zone][pl[name].t].tile == "Blacksmith" then --check that they're on the right shop tile
             if playerHasItem(name,itemCost[2],tonumber(itemCost[1])) then
               playerUse(name,itemCost[2],0,tonumber(itemCost[1])) --remove gold from player
               givePlayerItem(name,titem) --give player item they've bought
@@ -279,7 +279,7 @@ function love.update(dt)
         elseif cmd == "pray" then
           local name = param[1]
 
-          if world[pl[name].t].tile == "Graveyard" then
+          if world[pl[name].zone][pl[name].t].tile == "Graveyard" then
             setPlayerDT(name,pl[name].t)
           end
         elseif cmd == "chat" then
@@ -294,7 +294,7 @@ function love.update(dt)
         elseif cmd == "craft" then --craft item
           param = atComma(parms)
           --addMsg(param[1].." is trying to craft "..param[2])
-          if canPlayerCraft(param[1],param[2]) and playerHasBlueprint(param[1],param[2]) and world[pl[param[1]].t].tile == "Anvil" then
+          if canPlayerCraft(param[1],param[2]) and playerHasBlueprint(param[1],param[2]) and world[pl[param[1]].zone][pl[param[1]].t].tile == "Anvil" then
             local craftMats = atComma(item.price[param[2]])
             for i = 1, #craftMats, 2 do --cycle through crafting materials and remove them from the user
               playerUse(param[1],craftMats[i+1],0,tonumber(craftMats[i]))

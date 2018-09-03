@@ -50,10 +50,11 @@ function netUpdate(dt)
               whiteOut = 500
               love.audio.play(sfx["awake"])
               mobSpeak("**player**","W-where am I?",5)
-            elseif distanceFrom(world[pl.t].x,world[pl.t].y,world[tonumber(param[8])].x,world[tonumber(param[8])].y) > 64 then
+            elseif distanceFrom(world[pl.t].x,world[pl.t].y,world[tonumber(param[8])].x,world[tonumber(param[8])].y) > 64 and pl.zone == param[24] then
               whiteOut = 400
               love.audio.play(sfx["teleport"])
             end
+
             pl.t = tonumber(param[8])
             pl.dt = param[9]
             pl.hp = tonumber(param[1])
@@ -132,7 +133,8 @@ function netUpdate(dt)
             --  love.graphics.setBackgroundColor(0,0,0)
           elseif pl.state ~= "world"  and param[15] == "world" then
               bones = {}
-            end
+          end
+
             pl.state = param[15]
 
             if curAreaTitle ~= world[pl.t].name then
@@ -147,6 +149,8 @@ function netUpdate(dt)
             pl.score = param[21]
             pl.combo = param[22]
             pl.aspectString = param[23]
+            pl.zone = param[24]
+
 
             local i = loginI.select
             if pl.arm and pl.wep and pl.buddy then

@@ -155,7 +155,9 @@ function love.draw()
           love.graphics.setColor(100,0,0)
           love.graphics.rectangle("fill",x-camX,y-camY,32,32)
         end
-        love.graphics.draw(worldImg[world[i]], x-camX, y-camY)
+        if view ~= 6 then
+          love.graphics.draw(worldImg[world[i]], x-camX, y-camY)
+        end
         if love.keyboard.isDown("l") then
           drawLight(x-camX,y-camY,i)
         end
@@ -246,25 +248,32 @@ function love.update(dt)
   if love.keyboard.isDown("d") then camX = camX +  speed end
   if love.keyboard.isDown("a") then camX = camX -  speed end
 
-  if love.mouse.isDown(1) then world[selT] = curTile
-  world.fight[selT] = curFight
-  world.fightc[selT] = curFightC
-  world.collide[selT] = curCollide
-  world.name[selT] = curName
-  world.bg[selT] = curBG
-  world.music[selT] = curMusic
-  world.rest[selT] = curRest end
+  if love.mouse.isDown(1) then
+    if view ~= 6 then
+      world[selT] = curTile
+      world.fight[selT] = curFight
+      world.fightc[selT] = curFightC
+      world.collide[selT] = curCollide
+      world.name[selT] = curName
+      world.music[selT] = curMusic
+      world.rest[selT] = curRest
+    end
+    world.bg[selT] = curBG
+
+  end
 end
 
 function love.mousepressed(x, y, button, istouch)
   if button == 1 then
-    world[selT] = curTile
-    world.fight[selT] = curFight
-    world.fightc[selT] = curFightC
-    world.collide[selT] = curCollide
-    world.name[selT] = curName
-    world.music[selT] = curMusic
-    world.rest[selT] = curRest
+    if view ~= 6 then
+      world[selT] = curTile
+      world.fight[selT] = curFight
+      world.fightc[selT] = curFightC
+      world.collide[selT] = curCollide
+      world.name[selT] = curName
+      world.music[selT] = curMusic
+      world.rest[selT] = curRest
+    end
   end
 end
 
@@ -341,7 +350,7 @@ function love.keypressed(key)
   else
     if key == "v" then
       view = view + 1
-      if view > 5 then view = 0 end
+      if view > 6 then view = 0 end
     end
     if key == "i" then
       info = world.name[selT]..","..world.fight[selT].." ("..world.fightc[selT].."%)"

@@ -33,6 +33,7 @@ pl.score = 0
 pl.combo = 0
 pl.aspectString = ""
 pl.blueprints = ""
+pl.zone = "Swordbreak"
 pl.inv = {}
 
 authcode = "1000" --this is used to verify with the server that we aren't username spoofing
@@ -52,16 +53,13 @@ end
 function enterGame()
   requestUserInfo()
   loadFog()
+  loadOverworld()
   stopMusic() --stop title music
   love.graphics.setBackgroundColor(0,0,0)
   --download map
   --if not love.filesystem.exists("map.txt") then
-   b, c, h = http.request("http://brawlquest.com/dl/map-forest.txt")
-   if b then
-     love.filesystem.write("map-forest.txt", b)
-   end
+
   --load map
-    loadOverworld()
 
 
     phase = "game"

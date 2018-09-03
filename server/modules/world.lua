@@ -1,12 +1,16 @@
 world = {}
-worldUpdate = 0
+worldUpdate = 500
 
-function loadOverworld()
+require "data/zones"
+
+
+function loadOverworld(thisZone)
 --  if not love.filesystem.exists("map.txt") then
+    addMsg("Setting up "..thisZone)
     addMsg("Downloading world...")
-    b, c, h = http.request("http://brawlquest.com/dl/map-forest.txt")
+    b, c, h = http.request("http://brawlquest.com/dl/"..zone[thisZone])
     if b then
-      love.filesystem.write("map-forest.txt", b)
+      love.filesystem.write(zone[thisZone], b)
     else
       addMsg("Failed to download world file.")
     end
@@ -14,25 +18,26 @@ function loadOverworld()
 
   --unpack
   addMsg("Unpacking world...")
-  if love.filesystem.exists("map-forest.txt") then
+  world[thisZone] = {}
+  if love.filesystem.exists(zone[thisZone]) then
     local x = 0
     local y = 0
-    for line in love.filesystem.lines("map-forest.txt") do
+    for line in love.filesystem.lines(zone[thisZone]) do
       word = atComma(line)
-      i = #world + 1
-      world[i] = {}
-      world[i].tile = word[1]
-      world[i].fight = word[2]
-      world[i].fightc = tonumber(word[3])
-      if word[4] == "true" then world[i].collide = true else world[i].collide = false end
-      world[i].name = word[5]
-      world[i].bg = word[6]
-      world[i].isFight = false
-      world[i].players = ""
-      world[i].x = x
-      world[i].y = y
-      world[i].spawned = false
-      if word[8] == "true" then world[i].rest = true else world[i].rest = false end
+      i = #world[thisZone] + 1
+      world[thisZone][i] = {}
+      world[thisZone][i].tile = word[1]
+      world[thisZone][i].fight = word[2]
+      world[thisZone][i].fightc = tonumber(word[3])
+      if word[4] == "true" then world[thisZone][i].collide = true else world[thisZone][i].collide = false end
+      world[thisZone][i].name = word[5]
+      world[thisZone][i].bg = word[6]
+      world[thisZone][i].isFight = false
+      world[thisZone][i].players = ""
+      world[thisZone][i].x = x
+      world[thisZone][i].y = y
+      world[thisZone][i].spawned = false
+      if word[8] == "true" then world[thisZone][i].rest = true else world[thisZone][i].rest = false end
       x = x + 32
       if x > 100*32 then
         x = 0
@@ -49,14 +54,16 @@ end
 
 function updateWorld(dt)
   worldUpdate = worldUpdate - 1*dt
-  if worldUpdate < 0 then --this is the part that creates 100% fights on the world but it DOESN'T WORK
+  if worldUpdate < 0 then
     simulateWeather()
-
-    for i = 1, 100*100 do
-      if love.math.random(1, 50) < world[i].fightc or world[i].fightc > 90 then
-        world[i].spawned = true
-      else
-        world[i].spawned = false
+    for k,v in pairs(zone) do
+      addMsg("Simulating "..k)
+      for i = 1, 100*100 do
+        if love.math.random(1, 50) < world[k][i].fightc or world[k][i].fightc > 90 then
+          world[k][i].spawned = true
+        else
+          world[k][i].spawned = false
+        end
       end
     end
     worldUpdate = 300

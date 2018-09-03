@@ -14,8 +14,9 @@ ft.tile = {} --tile in the world the fight is taking place
 ft.done = {} --Has the fight finished?
 ft.nextSpawn = {}
 ft.title = {} --title of fight
+ft.zone = {}
 
-function newFight(tile, fscript)
+function newFight(tile, fscript, fzone)
   local i = #ft.t + 1
 
   ft.t[i] = 0
@@ -28,6 +29,7 @@ function newFight(tile, fscript)
   ft.done[i] = false
   ft.nextSpawn[i] = 1.5
   ft.title[i] = fscript
+  ft.zone[i] = fzone
 
   if not fs[fscript] then fscript = "default" end
   fightScript = atComma(fs[fscript], ";") --break down fight script, data/fights
@@ -103,7 +105,7 @@ function removePlayerFromFight(name, isDead)
   --  addMsg(getPlayerName(name).." left fight #"..id)
 
     local curPlayers = listPlayersInFight(id)
-    if isDead and #curPlayers < 1 then world[ft.tile[id]].spawned = true end --fight was lost, so the mob is still on this tile
+    if isDead and #curPlayers < 1 then world[ft.zone[id]][ft.tile[id]].spawned = true end --fight was lost, so the mob is still on this tile
     if #curPlayers < 1 then endFight(id) end
   else
     addMsg("ERROR: can't remove "..name.." from the fight that they're in, as we can't find what fight it is tha they're in!")
@@ -114,7 +116,7 @@ function endFight(fight)
   if ft.done[fight] == false then
   --  addMsg("Fight #"..fight.." ended!")
     ft.done[fight] = true
-    world[ft.tile[fight]].isFight = false
+    world[ft.zone[fight]][ft.tile[fight]].isFight = false
 
     local playersInFight = listPlayersInFight(fight)
     for i = 1, #playersInFight do

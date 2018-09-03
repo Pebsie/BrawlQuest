@@ -307,6 +307,13 @@ lightsource["Lampost"] = 20
 lightsource["Crystal"] = 3
 lightsource["Wall Mounted Torch"] = 5
 
+zone = {}
+
+zone["Shipwrecked"] = "map-beach.txt"
+zone["Swordbreak"] = "map-swordbreak.txt"
+zone["Hunters"] = "map-hunters.txt"
+zone["West"] = "map-west.txt"
+
 function setWColour(i)
   wname = world[i].tile
   if fog[i] == 255 then

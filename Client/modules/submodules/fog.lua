@@ -2,9 +2,9 @@ function loadFog()
   fog = {}
 
 
-  if love.filesystem.getInfo("fog-"..pl.name..".txt") then
+  if love.filesystem.getInfo("fog-"..pl.name.."-"..pl.zone..".txt") then
       local i = 1
-    for line in love.filesystem.lines("fog-"..pl.name..".txt") do
+    for line in love.filesystem.lines("fog-"..pl.name.."-"..pl.zone..".txt") do
       if line == "true" then
         fog[i] = 0
       else
@@ -66,7 +66,7 @@ function addFog(t)
       for i = -9, -5 do
         if fog[t+i+k] and fog[t+i+k] == 255 then
           fog[t+i+k] = 254
-          if world[t+i+k] and lightsource[world[t+i+k].tile] and lightsource[world[t+i+k].tile] > 4 then
+          if world[t+i+k] and lightsource[world[t+i+k].tile] then
             addFog(t+i+k)
           end
         end
@@ -86,7 +86,7 @@ function saveFog(fn)
 
   end
 
-  love.filesystem.write("fog-"..pl.name..".txt",fs)
+  love.filesystem.write("fog-"..pl.name.."-"..pl.zone..".txt",fs)
 end
 
 function drawFog(xo,yo)
@@ -183,7 +183,7 @@ function drawFog(xo,yo)
         love.graphics.rectangle("line",world[i].x+xo,world[i].y+yo,32,32)
         --love.graphics.draw(worldImg["DT"],world[i].x+xo,world[i].y+yo)
       end
-      
+
     end --if tile is on screen
   end --for statement
 
