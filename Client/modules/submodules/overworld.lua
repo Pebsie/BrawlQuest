@@ -164,6 +164,7 @@ function drawOverworld()
   end
 
   drawMenu(love.graphics.getWidth()-gameUI[5].width-(64*4),0)
+  drawXP()
 
   love.graphics.setColor(255,255,255,whiteOut)
   love.graphics.rectangle("fill",0,0,sw,sh)
@@ -212,7 +213,7 @@ function updateOverworld(dt)
   local sw,sh = love.graphics.getDimensions()
 
   if loadedZone ~= pl.zone then
-    saveFog()
+    saveFog("fog-"..pl.name.."-"..loadedZone..".txt")
     loadOverworld()
     loadFog()
     addFog(pl.t)

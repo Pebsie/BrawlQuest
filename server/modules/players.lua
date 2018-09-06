@@ -50,7 +50,10 @@ function newPlayer(name, password)
       distance = 0,
       lastEquip = 0,
       fightsPlayed = {},
-      str = 0,
+      str = 10, --slightly improves all melee damage and massively improves damage caused by critical hits
+      int = 0, --improves all spell abilities
+      agl = 0, --reduces energy consumption
+      sta = 0,
       lastLogin = 0,
       owed = "reset",
       score = 0,
@@ -59,7 +62,8 @@ function newPlayer(name, password)
       encounterBuild = 0,
       blueprints = "Healing Potion;Wooden Chestplate;Wooden Helmet;Wooden Leggings;Hilt;Short Sword",
       authcode = tostring(love.math.random(10000,99999)),
-      zone = "Hunters"
+      zone = "Hunters",
+      party = 0
     }
 
 
@@ -77,7 +81,7 @@ function updatePlayers(dt)
     pl[k].atm = pl[k].atm - 1*dt
     if pl[k].atm < 0 then pl[k].at = false end
 
-    pl[k].en = pl[k].en + 25*dt
+    pl[k].en = pl[k].en + (25+(2.5*pl[k].agl))*dt
     if pl[k].en > 100 then pl[k].en = 100 end
 
     if pl[k].spellT then
@@ -101,7 +105,7 @@ function updatePlayers(dt)
       pl[k].hp = pl[k].hp + 10*dt --increase by 10% per second
     end
 
-    if pl[k].hp > 100 then pl[k].hp = 100 end
+    if pl[k].hp > 100+(1.5*pl[k].sta)-1.5 then pl[k].hp = 100+(1.5*pl[k].sta)-1.5  end
     pl[k].at = false
 
     if pl[k].timeout > 0 then
@@ -144,11 +148,11 @@ end
 
 function givePlayerXP(name, xp)
   if pl[name].lvl < 10 then
-    pl[name].xp = pl[name].xp + xp
+    pl[name].xp = pl[name].xp + xp/pl[name].lvl
 
-    if pl[name].xp > lvlXP[pl[name].lvl] then --level up
+    if pl[name].xp > 99 then --level up
       pl[name].lvl = pl[name].lvl + 1
-      pl[name].xp = pl[name].xp - lvlXP[pl[name].lvl] --still earn XP from this reward
+      pl[name].xp = (pl[name].xp - 100)/pl[name].lvl --still earn XP from this reward
     end
   end
 end
@@ -343,6 +347,8 @@ function playerClaim( name, item )
 
       if string.sub(item,1,10) == "Blueprint:" then
         pl[name].blueprints = pl[name].blueprints..";"..string.sub(item,12)
+      elseif item == "XP" then
+        givePlayerXP(name,tonumber(claims[i+1]))
       else
         givePlayerItem(name,claims[i],tonumber(claims[i+1]))
       end

@@ -505,6 +505,13 @@ item.img[ti] = buddy[ti]
     item.price[ti] = "2,Gold"
     item.img[ti] = love.graphics.newImage("img/items/reagent/Bloodied Tooth.png") item.title[ti] = ti
 
+    local ti = "XP"
+    item.type[ti] = "Reagent"
+    item.val[ti] = ""
+    item.lvl[ti] = 1
+    item.price[ti] = "1,Gold"
+    item.img[ti] = love.graphics.newImage("img/items/XP.png") item.title[ti] = ti
+
 shop = {}
 --[[
 shop["Armour"] = {"Basic Cloth", "Leather Armour", "Chainmail Armour", "Guardian's Padding", "Legendary Padding"}

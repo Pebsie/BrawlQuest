@@ -38,6 +38,8 @@ function loadFog()
   fog.ignore["Wall"] = true
   fog.ignore["Wood Wall"] = true
   fog.ignore["Wood Floor"] = true
+  fog.ignore["Cold Wall"] = true
+  fog.ignore["Cold Mountain"] = true
 end
 
 function updateFog(dt)
@@ -76,6 +78,7 @@ function addFog(t)
 end
 
 function saveFog(fn)
+
   local fs = ""
   for i = 1, 100*100 do
     if tonumber(fog[i]) == 255 then
@@ -86,7 +89,11 @@ function saveFog(fn)
 
   end
 
-  love.filesystem.write("fog-"..pl.name.."-"..pl.zone..".txt",fs)
+  if fn then
+    love.filesystem.write(fn,fs)
+  else
+    love.filesystem.write("fog-"..pl.name.."-"..pl.zone..".txt",fs)
+  end
 end
 
 function drawFog(xo,yo)
@@ -164,12 +171,14 @@ function drawFog(xo,yo)
 
         if string.sub(world[i].fight,1,6) == "speak|" and distanceFrom(world[i].x,world[i].y,world[pl.t].x,world[pl.t].y) < 92 then
           drawNamePlate("<NPC> "..world[i].tile,world[i].x+xo,world[i].y+yo)
-        elseif string.sub(world[i].fight,1,7) == "Gather:" then --I'm well aware that this whole section is nasty. TODO: make it doable in the editor.
+        elseif string.sub(world[i].fight,1,7) == "Gather:" and world[i].spawned ~= "unknown" then --I'm well aware that this whole section is nasty. TODO: make it doable in the editor.
           drawNamePlate("Harvestable",world[i].x+xo,world[i].y+yo,"gather")
         elseif world[i].tile == "Anvil" then
           drawNamePlate("Crafting Anvil",world[i].x+xo,world[i].y+yo)
-        elseif world[i].tile == "Dungeon" then
+        elseif string.sub(world[i].fight,1,7) == "Dungeon" then
           drawNamePlate("Dungeon",world[i].x+xo,world[i].y+yo,"dungeon")
+        elseif string.sub(world[i].fight,1,4) == "Raid" then
+          drawNamePlate("Raid",world[i].x+xo,world[i].y+yo,"dungeon")
         elseif world[i].tile == "Graveyard" then
           drawNamePlate("Graveyard",world[i].x+xo,world[i].y+yo)
         end

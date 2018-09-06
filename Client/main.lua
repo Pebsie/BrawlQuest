@@ -47,7 +47,7 @@ realScreenHeight = screenH
 
 news = ""
 
-dev = true--This variable just turns certain features on and off so that it's easier to dev the game
+dev = false--This variable just turns certain features on and off so that it's easier to dev the game
 
 local joysticks = love.joystick.getJoysticks()
 --error(love.joystick.getJoystickCount())

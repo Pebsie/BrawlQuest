@@ -423,7 +423,12 @@ function updateFights(dt) --the big one!!
 
             if tostring(atkInfo) == "true" then
               if distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.img[mob[v]] and not mb.friend[mob[v]] then
-                local pdmg = love.math.random(item.val[pl[thisPlayer].wep]/2,item.val[pl[thisPlayer].wep] + pl[thisPlayer].str)
+                local pdmg = 0
+                if love.math.random(1,10) == 1 then --critical hit!
+                  pdmg = love.math.random(item.val[pl[thisPlayer].wep],item.val[pl[thisPlayer].wep]*(pl[thisPlayer].str+1))
+                else
+                  pdmg = love.math.random(item.val[pl[thisPlayer].wep]/2,item.val[pl[thisPlayer].wep] + pl[thisPlayer].str)
+                end
                 mob.hp[v] = mob.hp[v] - pdmg
                 pl[thisPlayer].score = pl[thisPlayer].score + (pdmg*(round(pl[thisPlayer].combo)+1))/item.val[pl[thisPlayer].wep]
                 if mob.hp[v] < 1 then pl[thisPlayer].kills = pl[thisPlayer].kills + 1 pl[thisPlayer].combo = pl[thisPlayer].combo + 1.1 end
@@ -446,10 +451,10 @@ function updateFights(dt) --the big one!!
               end
             elseif pl[thisPlayer].spell == "Slam" then
               if distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*5 then
-                mob.hp[v] = mob.hp[v] - (item.val[pl[thisPlayer].wep]*16)*dt
+                mob.hp[v] = mob.hp[v] - ((pl[thisPlayer].int+item.val[pl[thisPlayer].wep])*16)*dt
               end
             elseif pl[thisPlayer].spell == "Polymorph" then
-              if distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*3 and item.val[pl[thisPlayer].wep]+1 > mob.hp[v] then
+              if distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*3 and item.val[pl[thisPlayer].wep]+pl[thisPlayer].int > mob.hp[v] then
                 mob.hp[v] = 0
                 spawnMob(i, "Angry Chicken", mob.x[v], mob.y[v])
               end

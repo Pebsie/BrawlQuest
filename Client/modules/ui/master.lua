@@ -3,8 +3,9 @@ require "modules/ui/loot"
 require "modules/ui/item"
 require "modules/ui/speak"
 require "modules/ui/inventory"
+require "modules/ui/xp"
 
-function drawUI(dt)
+function drawUI(dt) --TODO: find out what is causing this to draw things strangely (to do with zooming or resolution?)
   drawLootBox(realScreenWidth/2-100,realScreenHeight-200)
   drawSpeak(realScreenWidth/2-100, realScreenHeight/2)
 end
@@ -12,6 +13,7 @@ end
 function updateUI(dt)
   updateLootBox(dt)
   updateSpeak(dt)
+  updateXP(dt)
 
   for i = 1, #gameUI do
     if isMouseDown then

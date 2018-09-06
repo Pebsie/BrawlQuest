@@ -1,4 +1,4 @@
-volume = 0.5
+volume = 1
 
 function loadMusic()
   music = {}
@@ -19,6 +19,8 @@ function loadMusic()
   music.world[6] = love.audio.newSource("sound/music/world6.mp3", "stream")
   music.world[7] = love.audio.newSource("sound/music/world7.mp3", "stream")
   music.world[8] = love.audio.newSource("sound/music/twistedmountains.mp3","stream")
+  music.world[9] = love.audio.newSource("sound/music/world-snow.mp3","stream")
+  music.world[10] = love.audio.newSource("sound/music/desert.mp3","stream")
 
   music.fight[1] = love.audio.newSource("sound/music/fight1.mp3", "stream")
   music.fight[2] = love.audio.newSource("sound/music/fight2.mp3", "stream")
@@ -66,7 +68,7 @@ function updateMusic(dt)
 
 
       else
-        if love.math.random(1, 200) == 1 then
+        if 1 == 1 then
           if pl.state == "fight" and string.lower(string.sub(world[pl.t].fight,1,7)) == "Dungeon" or string.lower(string.sub(world[pl.t].fight,1,4)) == "Raid" then
             music.curPlay = music["raid"][love.math.random(1, #music["raid"])]
           else

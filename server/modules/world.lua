@@ -1,5 +1,5 @@
 world = {}
-worldUpdate = 500
+worldUpdate = 0
 
 require "data/zones"
 

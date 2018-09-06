@@ -32,6 +32,10 @@ map-west.txt
 King Crocodile (level 7)
 Crocodiles (level 6)
 Cube (level 6) (non moving, high attack. When they reach 10% HP they spawn a small version of themselves once every 2 seconds)
+Dungeon: The Snow Queen (level 10)
+Snow Troll (level 10)
+Mountain Goat (level 1)
+Forgotten Hiker (level 10)
 
 ITEMS====
 

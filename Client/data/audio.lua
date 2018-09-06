@@ -13,6 +13,7 @@ sfx["victory"] = love.audio.newSource("sound/sfx/victory.mp3","static")
 sfx["loot"] = love.audio.newSource("sound/sfx/loot.mp3","static")
 sfx["lightning"] = love.audio.newSource("sound/sfx/weather/flash.mp3","static")
 sfx["teleport"] = love.audio.newSource("sound/sfx/teleport.mp3","static")
+sfx["xp"] = love.audio.newSource("sound/sfx/xp.mp3","static")
 
 buddySnd = {}
 buddySnd["Baby Bat"] = love.audio.newSource("sound/sfx/pet/bat.mp3","static")

@@ -204,7 +204,11 @@ love.graphics.scale(scaleX,scaleY)
     for i = 1, #owedItems, 2 do
       if item.img[owedItems[i]] then
         --love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
-        drawItem(owedItems[i],owedItems[i+1],xLeft+(i*32)+xoff,200+yoff,255,true)
+        if owedItems[i] == "XP" then
+          drawItem(owedItems[i],round(owedItems[i+1]/pl.lvl),xLeft+(i*32)+xoff,200+yoff,255,true)
+        else
+          drawItem(owedItems[i],owedItems[i+1],xLeft+(i*32)+xoff,200+yoff,255,true)
+        end
         --love.graphics.printf("x"..owedItems[i+1],xLeft+(i*32)+xoff,200+item.img[owedItems[i]]:getHeight()+yoff,item.img[owedItems[i]]:getWidth(),"right")
       elseif string.sub(owedItems[i],1,10) == "Blueprint:" then
         love.graphics.draw(item.img["Blueprint"],xLeft+(i*32)+xoff,200+yoff)
@@ -219,6 +223,8 @@ love.graphics.scale(scaleX,scaleY)
         error("Claim error: "..pl.owed)
       end
     end
+
+    drawXP()
   end
 
   love.graphics.setColor(0,0,0)
@@ -279,6 +285,12 @@ function updateFight(dt)
             netSend("claim",pl.name..","..owedItems[i])
             if string.sub(owedItems[i],1,10) == "Blueprint:" then
               newLoot(owedItems[i],1)
+            elseif owedItems[i] == "XP" then
+            --[[  for k = 1, owedItems[i+1] do
+                addXP(pl.x+16+xoff+love.math.random(-16,16),pl.y+16+yoff+love.math.random(-16,16))
+                love.audio.play(sfx["xp"])
+                pl.xpt = pl.xpt + tonumber(owedItems[i+1])
+              end]]
             end
             owedItems[i] = nil
             owedItems[i+1] = nil

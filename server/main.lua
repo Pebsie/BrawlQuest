@@ -23,6 +23,7 @@ require "modules/chat"
 require "modules/highscores"
 require "modules/aspects"
 require "modules/weather"
+require "modules/party"
 
 stdSW = 1920/2
 stdSH = 1080/2
@@ -388,7 +389,7 @@ function loadGame()
         newPlayer(word[2],word[3])
         i = getPlayerName(countPlayers())
         for k = 4, #word, 2 do
-          if word[k] ~= "state" then
+          if word[k] ~= "state" and word[k] ~= "party" then
             if tonumber(word[k+1]) ~= nil then word[k+1] = tonumber(word[k+1]) end
             pl[i][word[k]] = word[k+1]
           end

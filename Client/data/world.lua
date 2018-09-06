@@ -294,6 +294,15 @@ worldImg["Keg"] = love.graphics.newImage("img/world/objects/Keg.png")
 worldImg["Furnace"] = love.graphics.newImage("img/world/objects/Furnace.png")
 worldImg["Bookcase"] = love.graphics.newImage("img/world/objects/Bookcase.png")
 worldImg["Book Shelf"] = love.graphics.newImage("img/world/objects/Book Shelf.png")
+worldImg["Cold Water"] = love.graphics.newImage("img/world/objects/Water.png")
+worldImg["Bedroll"] = love.graphics.newImage("img/world/objects/Bedroll.png")
+worldImg["Bedroll Corpse"] = love.graphics.newImage("img/world/objects/Bedroll Corpse.png")
+worldImg["Cold Mountain"] = love.graphics.newImage("img/world/objects/Cold Mountain.png")
+worldImg["Ice"] = love.graphics.newImage("img/world/objects/Ice.png")
+worldImg["University Fire"] = love.graphics.newImage("img/world/objects/University Fire.png")
+worldImg["Prisoner"] = love.graphics.newImage("img/world/objects/Watai.png")
+worldImg["Prison Door"] = love.graphics.newImage("img/world/objects/Prison Door.png")
+
 
 weatherImg = {}
 weatherImg["snow"] = love.graphics.newImage("img/world/snow.png")
@@ -393,7 +402,7 @@ function setFightInfo(fdata) --mobs/rewards/time/name
         fMobs[mobs[i]] = mobs[i+1]
       end
       if mobData[mobs[i]].hp then
-        totalHP = totalHP + mobData[mobs[i]].hp
+        totalHP = totalHP + mobData[mobs[i]].hp*mobs[i+1]
       end
       time = time + (fdata[3]*mobs[i+1])
     end

@@ -71,7 +71,10 @@ function netUpdate(dt)
             end
             pl.gold = tonumber(param[5])
             pl.lvl = tonumber(param[12])
-            pl.xp = tonumber(param[13])
+            if tonumber(param[13]) ~= pl.xp and tonumber(param[13]) ~= pl.xpt then
+              pl.xpt = tonumber(param[13])
+            end
+            --pl.xp = tonumber(param[13])
             pl.wep = param[10]
             pl.s1 = param[3]
             pl.s2 = param[4]
@@ -322,7 +325,11 @@ function netUpdate(dt)
                 love.audio.play(sfx["hit"])
 
                 if not mb.friend[getMob(i,"type")] and getMob(i,"id") == param[tparam+5] then
-                  createFloat("-"..round(getMob(i,"hp")-tonumber(param[tparam+3])),255,100,100,getMob(i,"x")+mb.img[getMob(i,"type")]:getWidth()/2,getMob(i,"y"),getMob(i,"id"),false)
+                  if round(getMob(i,"hp")-tonumber(param[tparam+3])) > item.val[pl.wep]+pl.str then
+                    createFloat("-"..round(getMob(i,"hp")-tonumber(param[tparam+3])),255,255,0,getMob(i,"x")+mb.img[getMob(i,"type")]:getWidth()/2,getMob(i,"y"),getMob(i,"id"),false)
+                  else
+                    createFloat("-"..round(getMob(i,"hp")-tonumber(param[tparam+3])),255,100,100,getMob(i,"x")+mb.img[getMob(i,"type")]:getWidth()/2,getMob(i,"y"),getMob(i,"id"),false)
+                  end
                 end
               end
             end
