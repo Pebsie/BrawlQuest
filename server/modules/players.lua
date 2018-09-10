@@ -15,7 +15,7 @@ function newPlayer(name, password)
 
     local i = name
     pl[i] = {
-      hp = 100,
+      hp = 150,
       en = 100,
       s1 = "None",
       s1t = 0,
@@ -51,9 +51,9 @@ function newPlayer(name, password)
       lastEquip = 0,
       fightsPlayed = {},
       str = 10, --slightly improves all melee damage and massively improves damage caused by critical hits
-      int = 0, --improves all spell abilities
-      agl = 0, --reduces energy consumption
-      sta = 0,
+      int = 10, --improves all spell abilities
+      agl = 10, --gain 10% en for each point in agility
+      sta = 10, --gain 5% hp for each point in stamina
       lastLogin = 0,
       owed = "reset",
       score = 0,
@@ -81,8 +81,8 @@ function updatePlayers(dt)
     pl[k].atm = pl[k].atm - 1*dt
     if pl[k].atm < 0 then pl[k].at = false end
 
-    pl[k].en = pl[k].en + (25+(2.5*pl[k].agl))*dt
-    if pl[k].en > 100 then pl[k].en = 100 end
+    pl[k].en = pl[k].en + 25*dt
+    if pl[k].en > 100+pl[k].agl*10 then pl[k].en = 100+pl[k].agl*10 end
 
     if pl[k].spellT then
       pl[k].spellT = pl[k].spellT - 1*dt
@@ -105,7 +105,7 @@ function updatePlayers(dt)
       pl[k].hp = pl[k].hp + 10*dt --increase by 10% per second
     end
 
-    if pl[k].hp > 100+(1.5*pl[k].sta)-1.5 then pl[k].hp = 100+(1.5*pl[k].sta)-1.5  end
+    if pl[k].hp > 100+5*pl[k].sta then pl[k].hp = 100+5*pl[k].sta  end
     pl[k].at = false
 
     if pl[k].timeout > 0 then
@@ -435,7 +435,7 @@ function damagePlayer(name, amount)
     pl[name].hp = pl[name].hp - amount
   end
 
-  if pl[name].hp < 1 then pl[name].hp = 100 pl[name].t =  pl[name].dt removePlayerFromFight(name, true) pl[name].deaths = pl[name].deaths + 1 end
+  if pl[name].hp < 1 then pl[name].hp = pl[name].hp+5*pl[name].sta pl[name].t =  pl[name].dt removePlayerFromFight(name, true) pl[name].deaths = pl[name].deaths + 1 end
 end
 
 function getArmourValue(name)

@@ -88,7 +88,7 @@ function updateGame(dt)
     pl.hp = pl.hp + 10*dt --increase by 10% per second
   end
 
-  if pl.hp > 100 then pl.hp = 100 end
+  if pl.hp > 100+5*pl.sta then pl.hp = 100+5*pl.sta end
 
   if pl.armd then
     pl.armd = pl.armd - 0.25*dt

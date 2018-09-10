@@ -8,7 +8,7 @@ function loadMusic()
   music.raid = {}
   music.weather = {}
 
-  music.title[1] = love.audio.newSource("sound/music/title.mp3", "stream")
+  music.title[1] = love.audio.newSource("sound/music/title-old.mp3", "stream")
   music.title[2] = love.audio.newSource("sound/music/title-old.mp3", "stream")
 
   music.world[1] = love.audio.newSource("sound/music/beach1.mp3", "stream")

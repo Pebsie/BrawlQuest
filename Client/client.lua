@@ -147,12 +147,15 @@ function netUpdate(dt)
       --      love.window.showMessageBox("Debug",param[17])
             pl.armd = tonumber(param[16])
             pl.dt = tonumber(param[18])
-            pl.str = param[19]
-            pl.owed = param[20]
-            pl.score = param[21]
-            pl.combo = param[22]
-            pl.aspectString = param[23]
-            pl.zone = param[24]
+            pl.str = tonumber(param[19])
+            pl.int = tonumber(param[20])
+            pl.sta = tonumber(param[21])
+            pl.agl = tonumber(param[22])
+            pl.owed = param[23]
+            pl.score = param[24]
+            pl.combo = param[25]
+            pl.aspectString = param[26]
+            pl.zone = param[27]
 
 
             local i = loginI.select
