@@ -32,7 +32,7 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
-  loadGame()
+--  loadGame()
 
   downloadMobs()
   loadMobs()

@@ -554,7 +554,7 @@ end
 
 function downloadMobs()
   addMsg("Downloading mobs list...")
-  b, c, h = http.request("http://brawlquest.com/dl/mobs-beta.txt")
+  b, c, h = http.request("http://brawlquest.com/dl/scripts/getMobs.php")
   if b then
     love.filesystem.write("mobs-beta.txt", b)
   else

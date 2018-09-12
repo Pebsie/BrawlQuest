@@ -15,7 +15,7 @@ function newPlayer(name, password)
 
     local i = name
     pl[i] = {
-      hp = 150,
+      hp = 100,
       en = 100,
       s1 = "None",
       s1t = 0,
@@ -51,10 +51,10 @@ function newPlayer(name, password)
       distance = 0,
       lastEquip = 0,
       fightsPlayed = {},
-      str = 10, --slightly improves all melee damage and massively improves damage caused by critical hits
-      int = 10, --improves all spell abilities
-      agl = 10, --gain 10% en for each point in agility
-      sta = 10, --gain 5% hp for each point in stamina
+      str = 0, --slightly improves all melee damage and massively improves damage caused by critical hits
+      int = 0, --improves all spell abilities
+      agl = 0, --gain 10% en for each point in agility
+      sta = 0, --gain 5% hp for each point in stamina
       lastLogin = 0,
       owed = "reset",
       score = 0,

@@ -8,7 +8,7 @@ function newMob(name,hp,speed,attack,sp1,sp1t,sp2,sp2t,img,rng,friend)
 
   print("New mob: "..name)
   local i = name
-  
+
   local imgData = love.image.newImageData(mobData[name].imgPath)
   mfs = mfs.."name="..name.."=hp="..hp.."=spd="..speed.."=atk="..attack.."=sp1="..sp1.."=sp1t="..sp1t.."=sp2="..sp2.."=sp2t="..sp2t.."=imgPath="..img.."=rng="..rng.."=friend="..tostring(friend).."\n"
 --  mobData[name] = {name=name,hp=hp,atk=attack,sp1=sp1,sp1t=sp1t,sp2=sp2,sp2t=sp2t,imgPath=img,imgData=imgData,img=love.graphics.newImage(imgData),rng=rng,friend=friend}
@@ -96,7 +96,7 @@ mb.friend[tm] = true
 
 function downloadMobs()
 --  addMsg("Downloading mobs list...")
-  b, c, h = http.request("http://brawlquest.com/dl/mobs-beta.txt")
+  b, c, h = http.request("http://brawlquest.com/dl/scripts/getMobs.php")
   if b then
     love.filesystem.write("mobs-beta.txt", b)
   else
