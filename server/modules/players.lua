@@ -26,6 +26,7 @@ function newPlayer(name, password)
       y = 0,
       t = 7693, --805 is shipwrecked, 918 is hell
       dt = 7693,
+      dtz = "Hunters", --death tile zone
       wep = "Long Stick",
       armd = 0,
       arm_head = "None",
@@ -436,6 +437,7 @@ end
 
 function setPlayerDT(name,dt)
   pl[name].dt = tonumber(dt)
+  pl[name].dtz = pl[name].zone
   return true
 end
 
@@ -446,7 +448,7 @@ function damagePlayer(name, amount)
     pl[name].hp = pl[name].hp - amount
   end
 
-  if pl[name].hp < 1 then pl[name].hp = pl[name].hp+5*pl[name].sta pl[name].t =  pl[name].dt removePlayerFromFight(name, true) pl[name].deaths = pl[name].deaths + 1 end
+  if pl[name].hp < 1 then pl[name].hp = pl[name].hp+5*pl[name].sta pl[name].t =  pl[name].dt pl[name].zone = pl[name].dtz removePlayerFromFight(name, true) pl[name].deaths = pl[name].deaths + 1 end
 end
 
 function getArmourValue(name)

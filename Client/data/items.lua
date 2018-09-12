@@ -131,7 +131,7 @@ item.type[ti] = "wep"
 item.val[ti] = 1
 item.lvl[ti] = 1
 item.price[ti] = "500,Gold"
-item.img[ti] = "img/items/Trophy.png" item.title[ti] = ti
+item.img[ti] = love.graphics.newImage("img/items/Trophy.png") item.title[ti] = ti
 
 local ti = "Hilt"
 item.type[ti] = "wep"

@@ -35,8 +35,8 @@ fs["Twisted Students"] = "Confused Student;5;Senior Student;3;Confused Student;2
 fs.spawnTime["Twisted Students"] = 4
 fs.rewards["Twisted Students"] = "Mana,4,100,Beholder,1,10"
 
-fs["The Arena"] = "Skeleton;9999"
-fs.spawnTime["The Arena"] = 0.2
+fs["The Arena"] = "Skeleton;999"
+fs.spawnTime["The Arena"] = 0.1
 fs.rewards["The Arena"] = "Trophy,1,100"
 
 --crafting
