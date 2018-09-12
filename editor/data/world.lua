@@ -139,6 +139,9 @@ worldImg["Ice"] = love.graphics.newImage("img/world/objects/Ice.png")
 worldImg["University Fire"] = love.graphics.newImage("img/world/objects/University Fire.png")
 worldImg["Prisoner"] = love.graphics.newImage("img/world/objects/Watai.png")
 worldImg["Prison Door"] = love.graphics.newImage("img/world/objects/Prison Door.png")
+worldImg["Sane Student Simon"] = love.graphics.newImage("img/world/objects/Sane Student Simon.png")
+worldImg["Mana Stream"] = love.graphics.newImage("img/world/floors/Mana Stream.png")
+worldImg["Throne"] = love.graphics.newImage("img/world/objects/Throne.png")
 
 lightsource = {}
 lightsource["Campfire"] = 5
@@ -151,6 +154,7 @@ lightsource["Wall Mounted Torch"] = 5
 lightsource["Lava"] = 10
 lightsource["Lantern"] = 5
 lightsource["Guard"] = 20
+lightsource["University Fire"] = 10
 
 
 function setWColour(wname)

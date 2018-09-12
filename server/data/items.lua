@@ -182,9 +182,16 @@ item.price[ti] = "500,Adver"
 item.img[ti] = "img/human/Eldertouched Plate.png" item.title[ti] = ti
 
 --weapons
+local ti = "Trophy"
+item.type[ti] = "wep"
+item.val[ti] = 1
+item.lvl[ti] = 1
+item.price[ti] = "500,Gold"
+item.img[ti] = "img/items/Trophy.png" item.title[ti] = ti
+
 local ti = "Hilt"
 item.type[ti] = "wep"
-item.val[ti] = 0
+item.val[ti] = 1
 item.lvl[ti] = 1
 item.price[ti] = "10,Wood,5,Stone,2,String"
 item.img[ti] = "img/items/reagent/Hilt.png" item.title[ti] = ti

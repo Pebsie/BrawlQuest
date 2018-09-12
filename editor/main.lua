@@ -20,7 +20,7 @@ world.x = {}
 world.y = {}
 world.rest = {}
 
-mapname = "map-hunters.txt"
+mapname = "map-swordbreak.txt"
 
 
 info = ""
@@ -92,14 +92,14 @@ function love.load()
       --  if love.math.random(1,200) == 1 then
         --  world[i] = "Tree"
       --  else
-          world[i] = "Grass"
+          world[i] = "Cold Wall"
         --end
-        world.name[i] = "West Shore"
+        world.name[i] = "Highmountain University: Newton"
         world.fight[i] = "None"
         world.fightc[i] = 0 --5%
-        world.collide[i] = false
-        world.bg[i] = "Grass"
-        world.music[i] = "*"
+        world.collide[i] = true
+        world.bg[i] = "Stone Floor"
+        world.music[i] = "11"
         world.rest[i] = false
   --    end
 

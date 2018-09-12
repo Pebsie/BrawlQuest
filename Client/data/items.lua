@@ -126,9 +126,16 @@ item.price[ti] = "0,Gold"
 item.img[ti] = love.graphics.newImage("img/human/base.png") item.title[ti] = ti
 
 --weapons
+local ti = "Trophy"
+item.type[ti] = "wep"
+item.val[ti] = 1
+item.lvl[ti] = 1
+item.price[ti] = "500,Gold"
+item.img[ti] = "img/items/Trophy.png" item.title[ti] = ti
+
 local ti = "Hilt"
 item.type[ti] = "wep"
-item.val[ti] = 0
+item.val[ti] = 1
 item.lvl[ti] = 1
 item.price[ti] = "10,Wood,5,Stone,2,String"
 item.img[ti] = love.graphics.newImage("img/items/reagent/Hilt.png") item.title[ti] = ti
@@ -163,7 +170,7 @@ item.img[ti] = love.graphics.newImage("img/items/weapons/Long Sword.png") item.t
 
 local ti = "Guardian's Blade"
 item.type[ti] = "wep"
-item.val[ti] = 15
+item.val[ti] = 30
 item.lvl[ti] = 10
 item.price[ti] = "1,Hilt,20,Iron,10,Stone,10,String,25,Mana"
 item.img[ti] = love.graphics.newImage("img/items/weapons/Guardians Blade.png") item.title[ti] = ti

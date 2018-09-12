@@ -385,6 +385,17 @@ function movePlayer(name, dir)
     local word = atComma(world[pl[name].zone][pl[name].t].fight,"|")
     pl[name].zone = word[2]
     pl[name].t = tonumber(word[3])
+  elseif world[pl[name].zone][pl[name].t].fight == "The Arena" then
+    givePlayerItem(name,pl[name].arm_head,1)
+    givePlayerItem(name,pl[name].arm_chest,1)
+    givePlayerItem(name,pl[name].arm_legs,1)
+    givePlayerItem(name,pl[name].wep,1)
+    pl[name].arm_head = "None"
+    pl[name].arm_chest = "None"
+    pl[name].arm_legs = "None"
+    pl[name].wep = "Long Stick"
+    newFight(pl[name].t,"The Arena",pl[name].zone)
+    addPlayerToFight(#ft.t,name)
   elseif string.sub(world[pl[name].zone][pl[name].t].fight,1,5) ~= "speak" then
     if world[pl[name].zone][pl[name].t].isFight == true and playerCanFight(name,pl[name].t) then
       local fightsOnTile = listFightsOnTile(pl[name].t)

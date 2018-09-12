@@ -11,6 +11,7 @@ map-swordbreak.txt
 Alertness Training (all levels)
 Speed Training (all levels)
 Combo Training (all levels)
+The Arena (all levels)
 
 map-hunters.txt
 
@@ -22,11 +23,13 @@ Spiders (level 2)
 Wolves (level 2)
 Alliance Fury (level 4)
 Undead Lurkers (level 5)
+Desert Creatures (level 8)
+Desert Dwellers (level 9)
+Desert Wind (level 9) (obstacle)
 Dungeon: Shieldbreak Mine (level 10)
-Dungeon: Scholar Francis (level 10) (gives Mega Recovery spell recipe (along with other healing spells))
-Dungeon: Scholar Chance (level 10) (gives Mega Polymorph spell recipe (along with other twisted spells))
-Dungeon: Scholar Bruce (level 10) (gives Mega Slam spell recipe (along with other DPS spells))
-Raid: Scholar Matthew (level 10)
+Dungeon: Scholar Francis (level 10) (gives Mega Recovery spell recipe (along with other healing spells) and Key Fragment A)
+Dungeon: Scholar Chance (level 10) (gives Mega Polymorph spell recipe (along with other twisted spells) and Key Fragment B)
+Dungeon: Scholar Bruce (level 10) (gives Mega Slam spell recipe (along with other DPS spells) and Key Fragment C)
 
 map-west.txt
 King Crocodile (level 7)
@@ -36,6 +39,11 @@ Dungeon: The Snow Queen (level 10)
 Snow Troll (level 10)
 Mountain Goat (level 1)
 Forgotten Hiker (level 10)
+
+map-raid-uni.txt
+Scholar Mattias
+Scholar Faith
+Janitor Tom (mentions the twisted world experiments)
 
 ITEMS====
 
@@ -47,6 +55,6 @@ Powered by enhost.io
 Artwork by David Gervais
 Logo by Danjoe Stubbs
 Original soundtrack by Joseph Pearce
-Additional music & sfx by Eric Matyas (www.soundimage.org) ("Forest Chase","Surfing the Jet Stream","Spell's a Brewin'","Strange Nature","RPG Battle Climax 2","Defending the Pricess Haunted","Winter Fantasy","Kingdom of Darkness","Their Sacred Place","Dreamy Game Menu","Kingdom of Lost Dreams","Sad Lands","Lost Meadow") (SFX: "SynthChime6","Creepy_Percussion_7","SynthChime1","Footstep_Carpet_Right","Footstep_Tile_Right","DroneAlert2","Gentle Rain")
+Additional music & sfx by Eric Matyas (www.soundimage.org) ("Forest Chase","Surfing the Jet Stream","Spell's a Brewin'","Strange Nature","RPG Battle Climax 2","Defending the Pricess Haunted","Winter Fantasy","Kingdom of Darkness","Their Sacred Place","Dreamy Game Menu","Kingdom of Lost Dreams","Sad Lands","Lost Meadow")
 Special thanks to Sam Warland for inspiration, designs and above all letting me ramble on about MMO design for months on end
 Special thanks to everyone who played the Alpha events. Our tiny community will live on forever!

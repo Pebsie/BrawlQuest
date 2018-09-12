@@ -302,10 +302,9 @@ worldImg["Ice"] = love.graphics.newImage("img/world/objects/Ice.png")
 worldImg["University Fire"] = love.graphics.newImage("img/world/objects/University Fire.png")
 worldImg["Prisoner"] = love.graphics.newImage("img/world/objects/Watai.png")
 worldImg["Prison Door"] = love.graphics.newImage("img/world/objects/Prison Door.png")
-
-
-weatherImg = {}
-weatherImg["snow"] = love.graphics.newImage("img/world/snow.png")
+worldImg["Sane Student Simon"] = love.graphics.newImage("img/world/objects/Sane Student Simon.png")
+worldImg["Mana Stream"] = love.graphics.newImage("img/world/floors/Mana Stream.png")
+worldImg["Throne"] = love.graphics.newImage("img/world/objects/Throne.png")
 
 lightsource = {}
 lightsource["Campfire"] = 5
@@ -315,6 +314,16 @@ lightsource["Mushroom"] = 1
 lightsource["Lampost"] = 20
 lightsource["Crystal"] = 3
 lightsource["Wall Mounted Torch"] = 5
+lightsource["Lava"] = 10
+lightsource["Lantern"] = 5
+lightsource["Guard"] = 20
+lightsource["University Fire"] = 10
+
+
+
+weatherImg = {}
+weatherImg["snow"] = love.graphics.newImage("img/world/snow.png")
+
 
 zone = {}
 
@@ -322,6 +331,7 @@ zone["Shipwrecked"] = "map-beach.txt"
 zone["Swordbreak"] = "map-swordbreak.txt"
 zone["Hunters"] = "map-hunters.txt"
 zone["West"] = "map-west.txt"
+zone["Newton"] = "map-raid-uni.txt"
 
 function setWColour(i)
   wname = world[i].tile

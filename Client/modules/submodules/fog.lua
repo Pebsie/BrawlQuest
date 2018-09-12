@@ -40,6 +40,14 @@ function loadFog()
   fog.ignore["Wood Floor"] = true
   fog.ignore["Cold Wall"] = true
   fog.ignore["Cold Mountain"] = true
+  fog.ignore["Beach Tree"] = true
+  fog.ignore["Portal"] = true
+  fog.ignore["Mana Stream"] = true
+  fog.ignore["Door"] = true
+  fog.ignore["Armoury Door"] = true
+  fog.ignore["Barracks Door"] = true
+  fog.ignore["Bar Door"] = true
+  fog.ignore["Library Door"] = true
 end
 
 function updateFog(dt)

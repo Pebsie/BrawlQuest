@@ -49,6 +49,23 @@ function addMemberToParty(name) --name of member who invited
   end
 end
 
+function removeMemberFromParty(name)
+  local id = findPartyMemberIsIn(name)
+  if id then
+    local newList = {}
+    for i = 1, #party[id].members do
+      if party[id].members[i] ~= name then
+        newList[#newList+1] = party[id].members[i]
+      end
+    end
+
+    party[id].members = newList
+  end
+
+  pl[name].party = 0
+
+end
+
 function findPartyMemberIsIn(name)
   if pl[name].party == 0 then
     return false
@@ -72,5 +89,22 @@ function getPartyInfo(name) --returns 'none','invite;inviter name' or 'party;mem
     end
   else
     return "none"
+  end
+end
+
+function handlePartyRequest(parms) --network commands
+  param = atComma(parms)
+  local name = param[1]
+  local cmd = param[2]
+  local target = param[3]
+
+  if not cmd then
+    udp:sendto(name.." partyInfo "..getPartyInfo(name),msg_or_ip,port_or_nil)
+  elseif cmd == "invite" then
+    inviteMemberToParty(name,target)
+  elseif cmd == "accept" then
+    addMemberToParty(name)
+  elseif cmd == "leave" then
+    removeMemberFromParty(name)
   end
 end

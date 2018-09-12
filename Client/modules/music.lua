@@ -21,11 +21,15 @@ function loadMusic()
   music.world[8] = love.audio.newSource("sound/music/twistedmountains.mp3","stream")
   music.world[9] = love.audio.newSource("sound/music/world-snow.mp3","stream")
   music.world[10] = love.audio.newSource("sound/music/desert.mp3","stream")
+    music.world[11] = love.audio.newSource("sound/music/shadows.mp3","stream")
+  --music.world[11] is raid #1
 
   music.fight[1] = love.audio.newSource("sound/music/fight1.mp3", "stream")
   music.fight[2] = love.audio.newSource("sound/music/fight2.mp3", "stream")
   music.fight[3] = love.audio.newSource("sound/music/fight3.mp3", "stream")
   music.fight[4] = love.audio.newSource("sound/music/fight4.mp3", "stream")
+
+  music.fight[5] = love.audio.newSource("sound/music/arena.mp3","stream")
 
   music.raid[1] = love.audio.newSource("sound/music/boss.mp3","stream")
   --music.raid[2] = love.audio.newSource("sound/music/raid2.mp3","stream")
@@ -77,9 +81,15 @@ function updateMusic(dt)
             elseif pl.state == "world" or (pl.state == "fight" and string.sub(world[pl.t].fight,1,6) == "Gather") then
               local musicChoices = atComma(world[pl.t].music,"|")
               local i = love.math.random(1, #musicChoices)
-              music.curPlay = music.world[tonumber(musicChoices[i])]
+              if musicChoices[i] then
+                music.curPlay = music.world[tonumber(musicChoices[i])]
+              end
             else
-              music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
+              if world[pl.t].fight == "The Arena" then
+                music.curPlay= music.fight[5]
+              else
+                music.curPlay = music[pl.state][love.math.random(1, #music[pl.state])]
+              end
             end
           end
           --if dev == false then music.curPlay:setLooping(false) end

@@ -17,6 +17,7 @@ function drawItem(name,amount,x,y,alpha,noRectangle)
     elseif cit == "Reagent" then pit = "Reagent" piv = "Can be used in crafting."
     elseif cit == "Key" then pit = "Key" piv = "Opens doors."
     elseif cit == "buddy" then pit = "Buddy" piv = "Your new best friend. "..item.desc[name]
+    elseif cit == "Quest" then pit = "Quest" piv = "This might help in fulfilling a task."
     elseif cit == "Spell" then
       pit = "Spell"
       piv = '"'..item.desc[name]..'."'

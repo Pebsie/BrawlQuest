@@ -13,4 +13,5 @@ name=Twisted Spark=hp=999999=spd=250=atk=5=sp1=suicide=sp1t=2=sp2=None=sp2t=0=rn
 name=Tree=hp=20=spd=0.1=atk=0=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/world/objects/Beach Tree.png=rng=0=friend=false
 name=Weak Rock=hp=40=spd=0.1=atk=0=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/world/objects/Rock.png=rng=0=friend=false
 name=Mana Crystal=hp=100=spd=0.1=atk=0=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/world/objects/Crystal.png=rng=0=friend=false
-name=Weak Tree=hp=20=spd=0.1=atk=0=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/world/objects/Beach Tree.png=rng=0=friend=false
+name=Weak Tree=hp=20=spd=0.1=atk=0=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/world/objects/Tree.png=rng=0=friend=false
+name=Skeleton=hp=1=spd=128=atk=5=sp1=None=sp1t=0=sp2=None=sp2t=0=imgPath=img/mobs/Cursed Human.png=rng=64=friend=false

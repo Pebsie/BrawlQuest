@@ -49,7 +49,6 @@ function netUpdate(dt)
             if pl.t ~= tonumber(param[8]) and tonumber(param[8]) == pl.dt then
               whiteOut = 500
               love.audio.play(sfx["awake"])
-              mobSpeak("**player**","W-where am I?",5)
             elseif distanceFrom(world[pl.t].x,world[pl.t].y,world[tonumber(param[8])].x,world[tonumber(param[8])].y) > 64 and pl.zone == param[24] then
               whiteOut = 400
               love.audio.play(sfx["teleport"])
