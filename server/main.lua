@@ -37,6 +37,9 @@ function love.load()
   downloadMobs()
   loadMobs()
 
+  downloadItems()
+  loadItems()
+
   initZones()
   initAspects()
   initWeather()
@@ -242,7 +245,7 @@ function love.update(dt)
           local name = parms[1]
           local titem = parms[2]
         --  addMsg(name.." is trying to buy "..titem)
-          local itemCost = atComma(item.price[titem])
+          local itemCost = atComma(item[titem].price)
           if world[pl[name].zone][pl[name].t].tile == "Blacksmith" then --check that they're on the right shop tile
             if playerHasItem(name,itemCost[2],tonumber(itemCost[1])) then
               playerUse(name,itemCost[2],0,tonumber(itemCost[1])) --remove gold from player
@@ -253,7 +256,7 @@ function love.update(dt)
           local name = param[1]
 
           if pl[name].pot ~= "None" then
-            if item.type[pl[name].pot] == "hp" and pl[name].hp < 100 then
+            if item[pl[name].pot].type == "hp" and pl[name].hp < 100 then
               pl[name].spell = pl[name].pot
               pl[name].spellT = 3
               pl[name].pot = "None"
@@ -263,7 +266,7 @@ function love.update(dt)
           local name = param[1]
 
           if pl[name].s1 ~= "None" and pl[name].s1t < 0 then
-            vals = atComma(item.val[pl[name].s1])
+            vals = atComma(item[pl[name].s1].val)
 
             useSpell(pl[name].s1,name)
             pl[name].s1t = tonumber(vals[1])
@@ -272,7 +275,7 @@ function love.update(dt)
           local name = param[1]
 
           if pl[name].s2 ~= "None" and pl[name].s2t < 0 then
-            vals = atComma(item.val[pl[name].s2])
+            vals = atComma(item[pl[name].s2].val)
             useSpell(pl[name].s2,name)
 
             pl[name].s2t = tonumber(vals[1])
@@ -296,7 +299,7 @@ function love.update(dt)
           param = atComma(parms)
           --addMsg(param[1].." is trying to craft "..param[2])
           if canPlayerCraft(param[1],param[2]) and playerHasBlueprint(param[1],param[2]) and world[pl[param[1]].zone][pl[param[1]].t].tile == "Anvil" then
-            local craftMats = atComma(item.price[param[2]])
+            local craftMats = atComma(item[param[2]].recipe)
             for i = 1, #craftMats, 2 do --cycle through crafting materials and remove them from the user
               playerUse(param[1],craftMats[i+1],0,tonumber(craftMats[i]))
             end

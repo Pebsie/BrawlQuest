@@ -131,7 +131,7 @@ function drawOverworld()
     end
   end
 
-  if not item.val[pl.wep] and not item.val[pl.arm] then
+  if not item[pl.wep].val and not item[pl.arm].val then
     love.graphics.print("Awaiting character info...")
   end
   --weather

@@ -31,24 +31,24 @@ function drawActionBar(x,y)
   love.graphics.print(round(pl.xp).."%",x+40+65,y+28)
 
   love.graphics.setColor(255,255,255)
-  love.graphics.draw(item.img[pl.wep],x+9,y+56)
-  love.graphics.draw(item.img[pl.pot],x+43,y+56)
+  love.graphics.draw(item[pl.wep].img,x+9,y+56)
+  love.graphics.draw(item[pl.pot].img,x+43,y+56)
   drawPlayer(pl.name,x+6,y+6)--love.graphics.draw(item.img[pl.arm],x+6,y+6)
   love.graphics.draw(uiImg["itemportrait"],x+6,y+56)
   love.graphics.draw(uiImg["itemportrait"],x+39,y+56)
   love.graphics.draw(uiImg["smallportrait"],x+6,y+6)
 
-  if pl.s1 ~= "None" and (pl.s1t > 0 or pl.en < tonumber(atComma(item.val[pl.s1])[2])) then
+  if pl.s1 ~= "None" and (pl.s1t > 0 or pl.en < tonumber(atComma(item[pl.s1].val)[2])) then
     love.graphics.setColor(255,255,255,100)
   end
-  love.graphics.draw(item.img[pl.s1],x+464,y+16,0,2,2)
+  love.graphics.draw(item[pl.s1].img,x+464,y+16,0,2,2)
 
-    if pl.s2 ~= "None" and (pl.s2t > 0 or pl.en <  tonumber(atComma(item.val[pl.s2])[2])) then
+    if pl.s2 ~= "None" and (pl.s2t > 0 or pl.en <  tonumber(atComma(item[pl.s2].val)[2])) then
       love.graphics.setColor(255,255,255,100)
     else
       love.graphics.setColor(255,255,255,255)
     end
-  love.graphics.draw(item.img[pl.s2],x+559,y+16,0,2,2)
+  love.graphics.draw(item[pl.s2].img,x+559,y+16,0,2,2)
   love.graphics.setColor(255,255,255,255)
 
   --love.graphics.draw(uiImg["lvtmp"],x+13,y+37)
@@ -57,13 +57,13 @@ function drawActionBar(x,y)
   --text
   love.graphics.setFont(font)
   love.graphics.setColor(76,255,0)
-  love.graphics.printf(item.val[pl.wep]+pl.str,x+114,y+52,24,"center")
+  love.graphics.printf(item[pl.wep].val+pl.str,x+114,y+52,24,"center")
   if round(pl.armd) ~= 0 then
     love.graphics.setColor(255,0,0)
   end
 
-  if player[pl.name] and player[pl.name].arm_head and player[pl.name].arm_chest and player[pl.name].arm_legs and item.val[player[pl.name].arm_head] and item.val[player[pl.name].arm_chest] and item.val[player[pl.name].arm_legs] then
-    love.graphics.printf(round((item.val[player[pl.name].arm_head]+item.val[player[pl.name].arm_chest]+item.val[player[pl.name].arm_legs]) - pl.armd),x+114,y+72,24,"center")
+  if player[pl.name] and player[pl.name].arm_head and player[pl.name].arm_chest and player[pl.name].arm_legs and item[player[pl.name].arm_head].val and item[player[pl.name].arm_chest].val and item[player[pl.name].arm_legs].val then
+    love.graphics.printf(round((item[player[pl.name].arm_head].val+item[player[pl.name].arm_chest].val+item[player[pl.name].arm_legs].val) - pl.armd),x+114,y+72,24,"center")
   else
     love.graphics.printf("??",x+114,y+72,24,"center")
   end

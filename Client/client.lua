@@ -327,7 +327,7 @@ function netUpdate(dt)
                 love.audio.play(sfx["hit"])
 
                 if not mb.friend[getMob(i,"type")] and getMob(i,"id") == param[tparam+5] then
-                  if round(getMob(i,"hp")-tonumber(param[tparam+3])) > item.val[pl.wep]+pl.str then
+                  if round(getMob(i,"hp")-tonumber(param[tparam+3])) > item[pl.wep].val+pl.str then
                     createFloat("-"..round(getMob(i,"hp")-tonumber(param[tparam+3])),255,255,0,getMob(i,"x")+mb.img[getMob(i,"type")]:getWidth()/2,getMob(i,"y"),getMob(i,"id"),false)
                   else
                     createFloat("-"..round(getMob(i,"hp")-tonumber(param[tparam+3])),255,100,100,getMob(i,"x")+mb.img[getMob(i,"type")]:getWidth()/2,getMob(i,"y"),getMob(i,"id"),false)

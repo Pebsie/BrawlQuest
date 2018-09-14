@@ -37,7 +37,7 @@ function drawCraftingMenu(x,y)
     local x = 0
     local y = 0
     for i, v in pairs(atComma(pl.blueprints,";")) do
-      if item.type[v] == craftingMenu.scrn then
+      if item[v].type == craftingMenu.scrn then
         drawItem(v,1,craftingMenu.x + x, craftingMenu.y + y, 255)
 
         if canPlayerCraft(v) then
@@ -78,15 +78,18 @@ function drawCraftingMenu(x,y)
 end
 
 function canPlayerCraft(name) --returns true or false whether the player has the materials to craft the item name. Ignores existence of blueprint.
-  local craftMats = atComma(item.price[name])
-  local canCraft = true
+  local canCraft = false
+  if item[name].recipe then
+    local craftMats = atComma(item[name].recipe)
+    canCraft = true
 
-  if #craftMats > 1 then
-    for i = 1, #craftMats, 2 do
-      if not playerHasItem(craftMats[i+1],tonumber(craftMats[i])) then
-        canCraft = false
+    if #craftMats > 1 then
+      for i = 1, #craftMats, 2 do
+        if not playerHasItem(craftMats[i+1],tonumber(craftMats[i])) then
+          canCraft = false
+        end
+      --  print(craftMats[i].." of ")--..tonumber(craftMats[i+1]))
       end
-    --  print(craftMats[i].." of ")--..tonumber(craftMats[i+1]))
     end
   end
 

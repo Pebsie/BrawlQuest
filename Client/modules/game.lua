@@ -80,8 +80,8 @@ function updateGame(dt)
     updateFight(dt)
   end
 
-  if item.type[pl.spell] == "hp" then
-    pl.hp = pl.hp + (item.val[pl.spell]/3)*dt
+  if item[pl.spell] and item[pl.spell].type == "hp" then
+    pl.hp = pl.hp + (item[pl.spell].val/3)*dt
   end
 
   if pl.spell == "Recovery" then
