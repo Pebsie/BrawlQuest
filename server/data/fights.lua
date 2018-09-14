@@ -13,7 +13,7 @@ fs.rewards["Hungry Bear"] = "Bear Meat,1,100,Pelt,1,10,Small Dagger,1,20,XP,20,1
 
 fs["Forest Bandits"] = "Bandit;1;speak,Bandit,FOR THE FOREST ALLIANCE!,3;3;Bandit;9"
 fs.spawnTime["Forest Bandits"] = 0.5
-fs.rewards["Forest Bandits"] = "Small Dagger,1,10,Red Facemask,1,50,Gold,3,100,Gold,2,50,XP,35,100"
+fs.rewards["Forest Bandits"] = "Small Dagger,1,10,Red Cloak,1,100,Gold,3,100,Gold,2,50,XP,35,100"
 
 fs["Ogres"] = "speak,Ogre,It face bonk time!,3;3;Ogre;3"
 fs.spawnTime["Ogres"] = 2

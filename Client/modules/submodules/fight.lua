@@ -202,7 +202,7 @@ love.graphics.scale(scaleX,scaleY)
     local owedItems = atComma(pl.owed)
     xLeft = ((1920/2)/2) - ((#owedItems * 32)/2)
     for i = 1, #owedItems, 2 do
-      if item[owedItems[i]].img then
+      if item[owedItems[i]] and item[owedItems[i]].img then
         --love.graphics.draw(item.img[owedItems[i]],xLeft+(i*32)+xoff,200+yoff)
         if owedItems[i] == "XP" then
           drawItem(owedItems[i],round(owedItems[i+1]/pl.lvl),xLeft+(i*32)+xoff,200+yoff,255,true)

@@ -30,8 +30,8 @@ function newPlayer(name, password)
       wep = "Long Stick",
       armd = 0,
       arm_head = "None",
-      arm_chest = "None",
-      arm_legs = "None",
+      arm_chest = "Green Shirt",
+      arm_legs = "Brown Trousers",
       inv = "None",
       pot = "None",
       lvl = 1,
@@ -529,7 +529,7 @@ end
 
 function playerHasBuddy(name,itemName)
 --  addMsg("Is "..item.type[itemName].."==buddy and does "..name.." have "..itemName.."? ("..tostring(playerHasItem(name,itemName,1))..") Does "..pl[name].bud.."=="..itemName.."?")
-  if item[itemName].type == "buddy" and (playerHasItem(name,itemName,1) or pl[name].bud == itemName) then
+  if item[itemName] and item[itemName].type == "buddy" and (playerHasItem(name,itemName,1) or pl[name].bud == itemName) then
     return true
   else
     return false

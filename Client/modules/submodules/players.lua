@@ -90,9 +90,9 @@ function drawPlayer(name,x,y,option,scale)
     end
 
     love.graphics.draw(item["Naked"].img,x,y,0,scale)
-    if player[name].arm_head ~= "None" then love.graphics.draw(item[player[name].arm_head].img,x,y,0,scale) end
-    if player[name].arm_chest ~= "None" then love.graphics.draw(item[player[name].arm_chest].img,x,y,0,scale) end
     if player[name].arm_legs ~= "None" then love.graphics.draw(item[player[name].arm_legs].img,x,y,0,scale) end
+    if player[name].arm_chest ~= "None" then love.graphics.draw(item[player[name].arm_chest].img,x,y,0,scale) end
+    if player[name].arm_head ~= "None" then love.graphics.draw(item[player[name].arm_head].img,x,y,0,scale) end
     love.graphics.draw(item[player[name].wep].img,x-(item[player[name].wep].img:getWidth()-32),y-(item[player[name].wep].img:getHeight()-32),0,scale)
     --[[
     if player[name].x - player[name].tx > 1  then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INFO
