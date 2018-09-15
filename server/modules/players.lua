@@ -30,8 +30,8 @@ function newPlayer(name, password)
       wep = "Long Stick",
       armd = 0,
       arm_head = "None",
-      arm_chest = "None",
-      arm_legs = "None",
+      arm_chest = "Green Shirt",
+      arm_legs = "Brown Trousers",
       inv = "None",
       pot = "None",
       lvl = 1,
@@ -92,8 +92,8 @@ function updatePlayers(dt)
       pl[k].spellT = 1
     end
 
-    if item.type[pl[k].spell] == "hp" then
-      pl[k].hp = pl[k].hp + (item.val[pl[k].spell]/3)*dt
+    if pl[k] and pl[k].spell and item[pl[k].spell] and item[pl[k].spell].type == "hp" then
+      pl[k].hp = pl[k].hp + (item[pl[k].spell].val/3)*dt
     end
 
     pl[k].armd = pl[k].armd - (getArmourValue(k)/5)*dt
@@ -163,35 +163,39 @@ function givePlayerGold(name, gold)
 end
 
 function givePlayerItem(name, ritem, amount, slot)
-  if pl[name].inv == "None" then pl[name].inv = ritem..";"..amount..";1;" else
+  if pl[name] and item[ritem] then
+    if pl[name].inv == "None" then pl[name].inv = ritem..";"..amount..";1;" else
 
-    if not amount then amount = 1 end
-    if not slot then slot = -1 hadSlot = false end
+      if not amount then amount = 1 end
+      if not slot then slot = -1 hadSlot = false end
 
-    curInv = atComma(pl[name].inv, ";")
-    local alreadyOwned = false
+      curInv = atComma(pl[name].inv, ";")
+      local alreadyOwned = false
 
-    for i=1,#curInv,3 do
-      curInv[i+1] = tonumber(curInv[i+1])
-      if curInv[i] == ritem and hadSlot == false then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end --if slot is defined then the player wants the stack to be split
-    end
+      for i=1,#curInv,3 do
+        curInv[i+1] = tonumber(curInv[i+1])
+        if curInv[i] == ritem and hadSlot == false then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end --if slot is defined then the player wants the stack to be split
+      end
 
-    if alreadyOwned == false then --insert into inventory
-      local i = #curInv+1
-      curInv[i] = ritem
-      curInv[i+1] = amount
-      if slot ~= -1 then
-        curInv[i+2] = slot --addMsg(curInv[i+2].."=="..slot.." (input via slot)")
-      else
-        curInv[i+2] = getNextFreeInventorySlot(name)
+      if alreadyOwned == false then --insert into inventory
+        local i = #curInv+1
+        curInv[i] = ritem
+        curInv[i+1] = amount
+        if slot ~= -1 then
+          curInv[i+2] = slot --addMsg(curInv[i+2].."=="..slot.." (input via slot)")
+        else
+          curInv[i+2] = getNextFreeInventorySlot(name)
+        end
+      end
+
+      pl[name].inv = ""
+      --rebuild inventory string
+      for i = 1, #curInv do
+        pl[name].inv = pl[name].inv..curInv[i]..";"
       end
     end
-
-    pl[name].inv = ""
-    --rebuild inventory string
-    for i = 1, #curInv do
-      pl[name].inv = pl[name].inv..curInv[i]..";"
-    end
+  else
+    addMsg("ERROR: Tried to give player "..name.." "..amount.."x "..ritem.." but that item or player doesn't exist!")
   end
 end
 
@@ -241,13 +245,13 @@ function playerUse(name, ritem, index, amount)
 
   --use item
   if hasItem == true then
-    if item.type[ritem] == "wep" then
+    if item[ritem].type == "wep" then
       rebuiltInv[#rebuiltInv + 1] = {}
       rebuiltInv[#rebuiltInv].item = pl[name].wep
       rebuiltInv[#rebuiltInv].amount = 1
       haveInserted = true
       pl[name].wep = ritem
-    elseif item.type[ritem] == "Spell" then
+    elseif item[ritem].type == "Spell" then
       local slot = pl[name].lastEquip
 
       if slot == 0 and pl[name].s1 == "None" then
@@ -273,7 +277,7 @@ function playerUse(name, ritem, index, amount)
           pl[name].lastEquip = 0
         end
       end
-    elseif item.type[ritem] == "hp" then
+    elseif item[ritem].type == "hp" then
       if pl[name].pot ~= "None" then
         rebuiltInv[#rebuiltInv + 1] = {}
         rebuiltInv[#rebuiltInv].item = pl[name].pot
@@ -281,7 +285,7 @@ function playerUse(name, ritem, index, amount)
         haveInserted = true
       end
       pl[name].pot = ritem
-    elseif item.type[ritem] == "buddy" then
+    elseif item[ritem].type == "buddy" then
       if pl[name].bud ~= "None" then
         rebuiltInv[#rebuiltInv + 1] = {}
         rebuiltInv[#rebuiltInv].item = pl[name].bud
@@ -289,22 +293,22 @@ function playerUse(name, ritem, index, amount)
         haveInserted = true
       end
       pl[name].bud = ritem
-    elseif item.type[ritem] == "upgrade" then
-      local stat = atComma(item.val[ritem])
+    elseif item[ritem].type == "upgrade" then
+      local stat = atComma(item[ritem].val)
       if stat[2] == "ATK" then
         pl[name].str = pl[name].str + tonumber(stat[1])
       end
-    elseif item.type[ritem] == "head armour" then
+    elseif item[ritem].type == "head armour" then
 
       if pl[name].arm_head ~= "None" then rebuiltInv[#rebuiltInv + 1] = { item = pl[name].arm_head, amount = 1 } haveInserted = true end
       pl[name].arm_head = ritem
 
-    elseif item.type[ritem] == "chest armour" then
+    elseif item[ritem].type == "chest armour" then
 
       if pl[name].arm_chest ~= "None" then rebuiltInv[#rebuiltInv + 1] = {item = pl[name].arm_chest, amount = 1 } haveInserted = true end
       pl[name].arm_chest = ritem
 
-    elseif item.type[ritem] == "leg armour" then
+    elseif item[ritem].type == "leg armour" then
 
       if pl[name].arm_legs ~= "None" then rebuiltInv[#rebuiltInv + 1] = {item = pl[name].arm_legs, amount = 1 } haveInserted = true end
       pl[name].arm_legs = ritem
@@ -452,7 +456,11 @@ function damagePlayer(name, amount)
 end
 
 function getArmourValue(name)
-  return (item.val[pl[name].arm_head] + item.val[pl[name].arm_chest] + item.val[pl[name].arm_legs])
+  if item[pl[name].arm_head] and item[pl[name].arm_chest] and item[pl[name].arm_legs] then
+    return (item[pl[name].arm_head].val + item[pl[name].arm_chest].val + item[pl[name].arm_legs].val)
+  else
+    return 0
+  end
 end
 
 --return info functions
@@ -474,7 +482,7 @@ function getPlayerState(name)
 end
 
 function useSpell(spellName,name)
-  vals = atComma(item.val[spellName])
+  vals = atComma(item[spellName].val)
 
   if pl[name].spell == "None" then
     if tonumber(pl[name].en)+1 > tonumber(vals[2]) then
@@ -500,24 +508,28 @@ function playerHasBlueprint(name,bprint)
 end
 
 function canPlayerCraft(name, itemName) --returns true or false whether the player has the materials to craft the item name. Ignores existence of blueprint.
-  local craftMats = atComma(item.price[itemName])
-  local canCraft = true
+  if item[itemName].recipe then
+    local craftMats = atComma(item[itemName].recipe)
+    local canCraft = true
 
-  if #craftMats > 1 then
-    for i = 1, #craftMats, 2 do
-      if not playerHasItem(name,craftMats[i+1],tonumber(craftMats[i])) then
-        canCraft = false
+    if #craftMats > 1 then
+      for i = 1, #craftMats, 2 do
+        if not playerHasItem(name,craftMats[i+1],tonumber(craftMats[i])) then
+          canCraft = false
+        end
+      --  print(craftMats[i].." of ")--..tonumber(craftMats[i+1]))
       end
-    --  print(craftMats[i].." of ")--..tonumber(craftMats[i+1]))
     end
-  end
 
-  return canCraft
+    return canCraft
+  else
+    return false
+  end
 end
 
 function playerHasBuddy(name,itemName)
 --  addMsg("Is "..item.type[itemName].."==buddy and does "..name.." have "..itemName.."? ("..tostring(playerHasItem(name,itemName,1))..") Does "..pl[name].bud.."=="..itemName.."?")
-  if item.type[itemName] == "buddy" and (playerHasItem(name,itemName,1) or pl[name].bud == itemName) then
+  if item[itemName] and item[itemName].type == "buddy" and (playerHasItem(name,itemName,1) or pl[name].bud == itemName) then
     return true
   else
     return false

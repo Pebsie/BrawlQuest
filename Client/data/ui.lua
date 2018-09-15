@@ -9,6 +9,8 @@ loginImg["king"] = love.graphics.newImage("img/cinematic/login/king.png")
 logo = love.graphics.newImage("img/logo.png")
 
 bli = {}
+
+--[[bli = {}
 bli[1] = buddy["Baby Bat"]
 bli[2] = buddy["Beholder"]
 bli[3] = buddy["Beholdling"]
@@ -20,7 +22,7 @@ bli[8] = buddy["Fire Elementling"]
 bli[9] = buddy["Scorpion"]
 bli[10] = buddy["Sheep"]
 bli[11] = buddy["Snake"]
-bli[12] = buddy["Water Elementling"]
+bli[12] = buddy["Water Elementling"]]
 
 
 

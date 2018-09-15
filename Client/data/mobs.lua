@@ -9,7 +9,11 @@ function newMob(name,hp,speed,attack,sp1,sp1t,sp2,sp2t,img,rng,friend)
   print("New mob: "..name)
   local i = name
 
-  local imgData = love.image.newImageData(mobData[name].imgPath)
+  if love.filesystem.getInfo(mobData[name].imgPath) then
+    imgData = love.image.newImageData(mobData[name].imgPath)
+  else
+    imgData = love.image.newImageData("img/ui/error.png")
+  end
   mfs = mfs.."name="..name.."=hp="..hp.."=spd="..speed.."=atk="..attack.."=sp1="..sp1.."=sp1t="..sp1t.."=sp2="..sp2.."=sp2t="..sp2t.."=imgPath="..img.."=rng="..rng.."=friend="..tostring(friend).."\n"
 --  mobData[name] = {name=name,hp=hp,atk=attack,sp1=sp1,sp1t=sp1t,sp2=sp2,sp2t=sp2t,imgPath=img,imgData=imgData,img=love.graphics.newImage(imgData),rng=rng,friend=friend}
   mobData[name].imgData = imgData

@@ -156,10 +156,10 @@ function requestUserInfo()
 end
 
 function useItem(titem)
-  if item.type[titem] == "Letter" or item.type[titem] == "Key" then
+  if item[titem].type == "Letter" or item[titem].type == "Key" then
     gameUI[4].isVisible = true
-    gameUI[4].msg = item.val[titem]
-  elseif item.type[titem] ~= "currency" and item.type[titem] ~= "Reagent" and authcode then
+    gameUI[4].msg = item[titem].val
+  elseif item[titem].type ~= "currency" and item[titem].type ~= "Reagent" and authcode then
     netSend("use", pl.name..","..titem..","..pl.selSpell..","..authcode)
   end
 end

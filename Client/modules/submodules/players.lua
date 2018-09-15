@@ -89,11 +89,11 @@ function drawPlayer(name,x,y,option,scale)
       drawBuddy(name)
     end
 
-    love.graphics.draw(item.img["Naked"],x,y,0,scale)
-    if player[name].arm_head ~= "None" then love.graphics.draw(item.img[player[name].arm_head],x,y,0,scale) end
-    if player[name].arm_chest ~= "None" then love.graphics.draw(item.img[player[name].arm_chest],x,y,0,scale) end
-    if player[name].arm_legs ~= "None" then love.graphics.draw(item.img[player[name].arm_legs],x,y,0,scale) end
-    love.graphics.draw(item.img[player[name].wep],x-(item.img[player[name].wep]:getWidth()-32),y-(item.img[player[name].wep]:getHeight()-32),0,scale)
+    love.graphics.draw(item["Naked"].img,x,y,0,scale)
+    if player[name].arm_legs ~= "None" then love.graphics.draw(item[player[name].arm_legs].img,x,y,0,scale) end
+    if player[name].arm_chest ~= "None" then love.graphics.draw(item[player[name].arm_chest].img,x,y,0,scale) end
+    if player[name].arm_head ~= "None" then love.graphics.draw(item[player[name].arm_head].img,x,y,0,scale) end
+    love.graphics.draw(item[player[name].wep].img,x-(item[player[name].wep].img:getWidth()-32),y-(item[player[name].wep].img:getHeight()-32),0,scale)
     --[[
     if player[name].x - player[name].tx > 1  then --rotation: THIS NEEDS TO BE REDONE ONCE THE CLIENT IS SENT TARGET INFO
       love.graphics.draw(item.img[player[name].arm],x,y,0,-1,1,32,0)
@@ -137,5 +137,5 @@ function drawNamePlate(name,x,y,option)
 end
 
 function getArmourValue(name)
-  return (item.val[player[name].arm_head] + item.val[player[name].arm_chest] + item.val[player[name].arm_legs])
+  return (item[player[name].arm_head].val + item[player[name].arm_chest].val + item[player[name].arm_legs].val)
 end

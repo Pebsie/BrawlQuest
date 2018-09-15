@@ -107,10 +107,10 @@ function drawLogin() --login screen
         love.graphics.setFont(font)
         love.graphics.printf( loadedCharacter[i].name , xpos+64 , ypos , 140 , "center" )
         love.graphics.setFont(sFont)
-        love.graphics.printf( "Level "..loadedCharacter[i].lvl.."\n"..loadedCharacter[i].arm.." (0 DEF)\n"..loadedCharacter[i].wep.." ("..item.val[loadedCharacter[i].wep].." ATK)", xpos+64 , ypos+font:getHeight() , 140 , "center")
+        --love.graphics.printf( "Level "..loadedCharacter[i].lvl.."\n"..loadedCharacter[i].arm.." (0 DEF)\n"..loadedCharacter[i].wep.." ("..item[loadedCharacter[i]].wep.." ATK)", xpos+64 , ypos+font:getHeight() , 140 , "center")
 
         if isMouseOver(xpos,204,ypos,66) then
-          love.graphics.draw(item.img["Naked"],xpos+4,ypos,0,2,2)
+          love.graphics.draw(item["Naked"].img,xpos+4,ypos,0,2,2)
           if isMouseDown or love.keyboard.isDown("return") then
             if loadedCharacter[i].pw then
               pl.name = loadedCharacter[i].name
@@ -128,10 +128,10 @@ function drawLogin() --login screen
             isMouseDown = false
           end
         else
-          love.graphics.draw(item.img["Naked"],xpos,ypos,0,2,2)
+          love.graphics.draw(item["Naked"].img,xpos,ypos,0,2,2)
         end
 
-        if buddy[loadedCharacter[i].bud] then
+        if buddy and buddy[loadedCharacter[i].bud] then
           local budPos = ypos
           while budPos+buddy[loadedCharacter[i].bud]:getHeight()*2 < ypos+64 do
             budPos = budPos + 1
@@ -185,7 +185,7 @@ function drawLogin() --login screen
     love.graphics.draw(worldImg["Grass"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
     love.graphics.setFont(font)
     love.graphics.printf( "Add Character" , xpos , ypos , 204 , "center" )
-    love.graphics.draw(item.img["Naked"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
+    love.graphics.draw(item["Naked"].img,xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
     love.graphics.setColor(150,150,150)
     love.graphics.rectangle("line",xpos+102-(32*1.5),ypos+font:getHeight()+3,96,96)
 
@@ -272,7 +272,7 @@ function drawLogin() --login screen
     --love.graphics.rectangle("fill",xpos+102-(32*1.5),ypos+font:getHeight()+3,94,94)
     love.graphics.setColor(255,255,255)
     love.graphics.draw(worldImg["Grass"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
-    love.graphics.draw(item.img["Naked"],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
+    love.graphics.draw(item["Naked"].img,xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
     love.graphics.setFont(font)
     love.graphics.printf( "#"..loginI.select..": "..pl.name , xpos , ypos , 204 , "center" )
   --  love.graphics.draw(item.img[loadedCharacter[loginI.select].arm],xpos+102-(32*1.5),ypos+font:getHeight()+3,0,3,3)
