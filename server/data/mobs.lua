@@ -566,7 +566,7 @@ end
 mobData = {}
 mfs = ""
 
-function newMob(name,hp,speed,attack,sp1,sp1t,sp2,sp2t,img,rng,friend)
+function newMob(name,hp,speed,attack,sp1,sp1t,sp2,sp2t,img,rng,friend,atr)
   if not friend then friend = false end
 
   print("New mob: "..name)
@@ -586,6 +586,8 @@ function newMob(name,hp,speed,attack,sp1,sp1t,sp2,sp2t,img,rng,friend)
   mb.img[i] = rng
   mb.rng[i] = tonumber(rng)
   mb.friend[i] = friend
+  mb.atr[i] = atr
+
 end
 
 function convertMob(i)
@@ -620,7 +622,7 @@ function loadMobs()
         mobData[name][mbInfo[i]] = mbInfo[i+1]
       end
 
-      newMob(mobData[name].name,tonumber(mobData[name].hp),tonumber(mobData[name].spd),tonumber(mobData[name].atk),mobData[name].sp1,tonumber(mobData[name].sp1t),mobData[name].sp2,tonumber(mobData[name].sp2t),mobData[name].imgPath,tonumber(mobData[name].rng),toboolean(mobData[name].friend)) --convert to old system
+      newMob(mobData[name].name,tonumber(mobData[name].hp),tonumber(mobData[name].spd),tonumber(mobData[name].atk),mobData[name].sp1,tonumber(mobData[name].sp1t),mobData[name].sp2,tonumber(mobData[name].sp2t),mobData[name].imgPath,tonumber(mobData[name].rng),toboolean(mobData[name].friend),mobData[name].atr) --convert to old system
     end
   else
     error("FATAL ERROR: Unable to access mobs list.")

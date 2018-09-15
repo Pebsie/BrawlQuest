@@ -136,7 +136,7 @@ function drawOverworld()
   end
   --weather
   love.graphics.setColor(255,255,255,weather.weatherA)
-  love.graphics.draw(rain,world.weatherX,world.weatherY)
+  love.graphics.draw(rain,weather.weatherX,weather.weatherY)
   love.graphics.setColor(255,255,255,255)
     drawFloats()
     love.graphics.pop()
@@ -217,11 +217,13 @@ function updateOverworld(dt)
     loadOverworld()
     loadFog()
     addFog(pl.t)
+    createWorldCanvas()
+    loadedZone = pl.zone
   end
 end
 
 function createWorldCanvas()
---  wCanvas = love.graphics.newCanvas(32*101,32*101)
+  worldCanvas = love.graphics.newCanvas(32*101,32*101)
  if not worldCanvas then worldCanvas = love.graphics.newCanvas(32*101,32*101) end
   love.graphics.setCanvas(worldCanvas)
   love.graphics.clear()

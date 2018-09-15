@@ -468,7 +468,7 @@ function updateFights(dt) --the big one!!
             local spellCast = ""
 
             if (mob.spell1time[v] < 0) then
-              if string.sub(mb.sp1[mob[v]],1,7) == "doOnce:" then
+              if string.sub(mb.sp1[mob[v]],1,6) == "doOnce" then
                 mob.spell1time[v] = 9999999
                 spellCast = string.sub(mb.sp1[mob[v]],8)
               else
@@ -477,7 +477,7 @@ function updateFights(dt) --the big one!!
               end
               isCast = true
             elseif (mob.spell2time[v] < 0) then
-              if string.sub(mb.sp2[mob[v]],1,7) == "doOnce:" then
+              if string.sub(mb.sp2[mob[v]],1,6) == "doOnce" then
                 mob.spell2time[v] = 9999999
                 spellCast = string.sub(mb.sp2[mob[v]],8)
               else

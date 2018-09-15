@@ -452,7 +452,7 @@ function damagePlayer(name, amount)
     pl[name].hp = pl[name].hp - amount
   end
 
-  if pl[name].hp < 1 then pl[name].hp = pl[name].hp+5*pl[name].sta pl[name].t =  pl[name].dt pl[name].zone = pl[name].dtz removePlayerFromFight(name, true) pl[name].deaths = pl[name].deaths + 1 end
+  if pl[name].hp < 1 then pl[name].hp = 100+5*pl[name].sta pl[name].t =  pl[name].dt pl[name].zone = pl[name].dtz removePlayerFromFight(name, true) pl[name].deaths = pl[name].deaths + 1 end
 end
 
 function getArmourValue(name)

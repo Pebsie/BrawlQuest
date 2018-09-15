@@ -16,11 +16,11 @@ function drawItem(name,amount,x,y,alpha,noRectangle)
     elseif cit == "Craftable" then pit = "Craftable" piv = "Can be used in crafting."
     elseif cit == "Reagent" then pit = "Reagent" piv = "Can be used in crafting."
     elseif cit == "Key" then pit = "Key" piv = "Opens doors."
-    elseif cit == "buddy" then pit = "Buddy" piv = "Your new best friend. "..item[name].description
+    elseif cit == "buddy" then pit = "Buddy" piv = "Your new best friend. "
     elseif cit == "Quest" then pit = "Quest" piv = "This might help in fulfilling a task."
     elseif cit == "Spell" then
       pit = "Spell"
-      piv = '"'..item[name].description..'."'
+      piv = ''
       local stats = atComma(item[name].val)
       piv = piv.."\n"..stats[1].." second cooldown.\nRequires "..stats[2].." energy."
     elseif cit == "Letter" then
@@ -54,7 +54,7 @@ function drawItem(name,amount,x,y,alpha,noRectangle)
       itemPriceStr = "Not sellable."
     end
 
-    addTT(name,"Level "..item[name].lvl.." "..pit..".\n"..piv.."\n"..itemPriceStr.."\n"..craftMatStr,cx,cy)
+    addTT(name,"Level "..item[name].lvl.." "..pit..".\n"..piv.."\n"..item[name].description.."\n"..itemPriceStr.."\n"..craftMatStr,cx,cy)
     love.graphics.setColor(150,150,150,alpha)
   else
     love.graphics.setColor(0,0,0,alpha)

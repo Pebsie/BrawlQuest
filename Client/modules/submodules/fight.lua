@@ -209,7 +209,7 @@ love.graphics.scale(scaleX,scaleY)
         else
           drawItem(owedItems[i],owedItems[i+1],xLeft+(i*32)+xoff,200+yoff,255,true)
         end
-      
+
       elseif string.sub(owedItems[i],1,10) == "Blueprint:" then
         love.graphics.draw(item["Blueprint"].img,xLeft+(i*32)+xoff,200+yoff)
         if item[string.sub(owedItems[i],12)].img then
@@ -226,6 +226,9 @@ love.graphics.scale(scaleX,scaleY)
 
     drawXP()
   end
+
+  love.graphics.setColor(0,0,25,tileDarkness[i])
+  love.graphics.rectangle("fill",0,0,sw,sh)
 
   love.graphics.setColor(0,0,0)
   love.graphics.rectangle("line",xoff,yoff,stdSH,stdSW)

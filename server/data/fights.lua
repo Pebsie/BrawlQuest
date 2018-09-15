@@ -51,6 +51,13 @@ fs["Desert Dwellers"] = "Desert Fanatic;1;speak,Desert Fanatic,The Wasteland is 
 fs.spawnTime["Desert Dwellers"] = 1
 fs.rewards["Desert Creatures"] = "Gold,40,100,XP,160,100"
 
+fs["Cube"] = "Cube;4"
+fs.spawnTime["Cube"] = 0.1
+fs.rewards["Cube"] = "XP,80,100,Gold,15,100,Vial of Quivering Sponge,1,45,Mold,1,65"
+
+fs["Crocodiles"] = "Crocodile;2"
+fs.spawnTime["Crocodiles"] = 0.1
+fs.rewards["Crocodiles"] = "XP,100,100,Gold,15,100,Mold,1,20,Bloodied Tooth,1,60"
 
 --crafting
 fs["Gather: Wood"] = "Weak Tree;3"
