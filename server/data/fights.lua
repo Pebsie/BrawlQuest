@@ -39,6 +39,19 @@ fs["The Arena"] = "Skeleton;999"
 fs.spawnTime["The Arena"] = 0.1
 fs.rewards["The Arena"] = "Trophy,1,100"
 
+fs["Desert Winds"] = "Mystical Sand Wind;10"
+fs.spawnTime["Desert Winds"] = 1
+fs.rewards["Desert Winds"] = "Earth Elementling,1,100,Gold,15,100,XP,50,100"
+
+fs["Desert Creatures"] = "Basilisk;5;Sand Worm;10;Basilisk;3"
+fs.spawnTime["Desert Creatures"] = 0.25
+fs.rewards["Desert Creatures"] = "Gold,15,100,XP,100,100"
+
+fs["Desert Dwellers"] = "Desert Fanatic;1;speak,Desert Fanatic,The Wasteland is SACRED! HOW DARE YOU BARE YOUR DIRTY FEET HERE!,5;5;Desert Fanatic;4;Desert Fanatic Mage;3;Desert Fanatic;1"
+fs.spawnTime["Desert Dwellers"] = 1
+fs.rewards["Desert Creatures"] = "Gold,40,100,XP,160,100"
+
+
 --crafting
 fs["Gather: Wood"] = "Weak Tree;3"
 fs.spawnTime["Gather: Wood"] = 0
