@@ -51,6 +51,7 @@ function love.load()
   givePlayerItem("a","Rose Axe",1)
   givePlayerItem("a","Recovery",1)
   givePlayerItem("a","Polymorph",1)
+  givePlayerItem("a","Summon 3 Drunk Guard",1)
 end
 
 function love.draw()

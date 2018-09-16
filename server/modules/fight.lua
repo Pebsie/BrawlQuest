@@ -190,7 +190,7 @@ function spawnMob(fight, mob, x, y)
     stdSW = 1920/2
     stdSH = 1080/2
      --name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
-    --print("Creating mob "..mob.." in fight #"..fight)
+    print("Creating mob "..mob.." in fight #"..fight)
     local freshTarget = listPlayersInFight(fight)
     if freshTarget then
       freshTarget = freshTarget[love.math.random(#freshTarget)]
@@ -380,6 +380,7 @@ function updateFights(dt) --the big one!!
                    if distanceFrom(mob.x[k], mob.y[k], mob.x[v], mob.y[v]) < mb.rng[mob[v]] and mob.target.t[v] == "mob" and k ~= v and not mb.friend[mob[k]] then
                      mob.hp[k] = mob.hp[k] - mb.atk[mob[v]]*dt
                      mob.hp[v] = mob.hp[v] - mb.atk[mob[k]]*dt
+
                       if not mb.friend[mob[k]] and love.math.random(1,10) == 1 then
                         mob.target.t[v] = "spread"
                         mob.target.x[v] = mob.x[v] + love.math.random(-50,50)
@@ -456,8 +457,15 @@ function updateFights(dt) --the big one!!
             elseif pl[thisPlayer].spell == "Polymorph" then
               if distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < 32*3 and item[pl[thisPlayer].wep].val+pl[thisPlayer].int > mob.hp[v] then
                 mob.hp[v] = 0
-                spawnMob(i, "Angry Chicken", mob.x[v], mob.y[v])
+                spawnMob(i, "Drunk Guard", mob.x[v], mob.y[v])
               end
+            elseif string.sub(pl[thisPlayer].spell,1,6) == "Summon" then
+                for k = 1, tonumber(string.sub(pl[thisPlayer].spell,8,8)) do
+                  spawnMob(i,string.sub(pl[thisPlayer].spell,10),pl[thisPlayer].x + love.math.random(-64,64), pl[thisPlayer].y + love.math.random(-64,64))
+                end
+
+                pl[thisPlayer].spell = "None"
+                pl[thisPlayer].spellT = 0
             end
           end
 
@@ -544,14 +552,14 @@ function updateFights(dt) --the big one!!
         pl[thisPlayer].at = false
         pl[thisPlayer].combo = pl[thisPlayer].combo - 1*dt
         if pl[thisPlayer].combo < 0 then pl[thisPlayer].combo = 0 end
-        if string.sub(pl[thisPlayer].spell,1,7) == "Summon " then
+      --[[  if string.sub(pl[thisPlayer].spell,1,6) == "Summon" then
           for k = 1, tonumber(string.sub(pl[thisPlayer].spell,8,8)) do
             spawnMob(i,string.sub(pl[thisPlayer].spell,10),pl[thisPlayer].x + love.math.random(-64,64), pl[thisPlayer].y + love.math.random(-64,64))
           end
 
           pl[thisPlayer].spell = "None"
           pl[thisPlayer].spellT = 0
-        end
+        end]]
       end
       if hasFightEnded == true and ft.queue.current[i] > #ft.queue[i] and ft.nextSpawn[i] < 0 then
         endFight(i)

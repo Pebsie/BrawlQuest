@@ -622,6 +622,9 @@ function loadMobs()
         mobData[name][mbInfo[i]] = mbInfo[i+1]
       end
 
+      if not mobData[name].sp1 then mobData[name].sp1 = "None" mobData[name].sp1t = 0 end
+      if not mobData[name].sp2 then mobData[name].sp2 = "None" mobData[name].sp2t = 0 end
+
       newMob(mobData[name].name,tonumber(mobData[name].hp),tonumber(mobData[name].spd),tonumber(mobData[name].atk),mobData[name].sp1,tonumber(mobData[name].sp1t),mobData[name].sp2,tonumber(mobData[name].sp2t),mobData[name].imgPath,tonumber(mobData[name].rng),toboolean(mobData[name].friend),mobData[name].atr) --convert to old system
     end
   else
