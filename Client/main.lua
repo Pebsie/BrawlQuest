@@ -187,7 +187,7 @@ function love.mousereleased(button, cx, cy)
       elseif pl.cp > 0 and gameUI[9].isVisible then --saveCharacterster point allocation
         local y = gameUI[9].y
         local x = gameUI[9].x
-        local ty = y+64+font:getHeight()*3+sFont:getHeight()+40
+        local ty = y+64+font:getHeight()*4+sFont:getHeight()+40
 
         if isMouseOver(x,128,ty,font:getHeight()) then
           netSend("skill",pl.name..",str")

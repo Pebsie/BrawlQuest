@@ -155,7 +155,7 @@ function enterGame()
     gameUI[9].x = 400
     gameUI[9].y = 300
     gameUI[9].isDrag = false
-    gameUI[9].isVisible = true
+    gameUI[9].isVisible = false
     gameUI[9].width = 128
     gameUI[9].height = 300
     gameUI[9].label = "Character"

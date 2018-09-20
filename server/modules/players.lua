@@ -55,7 +55,7 @@ function newPlayer(name, password)
       int = 0, --improves all spell abilities
       agl = 0, --gain 10% en for each point in agility
       sta = 0, --gain 5% hp for each point in stamina
-      cp = 0,
+      cp = 10,
       lastLogin = 0,
       owed = "reset",
       score = 0,

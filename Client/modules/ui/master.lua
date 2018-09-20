@@ -15,6 +15,7 @@ function updateUI(dt)
   updateLootBox(dt)
   updateSpeak(dt)
   updateXP(dt)
+  updateMenu(dt)
 
   for i = 1, #gameUI do
     if isMouseDown then

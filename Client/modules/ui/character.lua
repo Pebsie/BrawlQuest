@@ -7,12 +7,16 @@ function drawCharacterWindow(x,y,name)
 
   love.graphics.setFont(sFont)
 
-  love.graphics.printf("Level "..tostring(pl.lvl).." "..getClass(),x,y+64+font:getHeight(),128,"center")
+  love.graphics.printf("Level "..tostring(pl.lvl).."\n"..getClass(),x,y+64+font:getHeight(),128,"center")
 
   love.graphics.setFont(font)
+  y = y + font:getHeight()
 
   love.graphics.draw(uiImg["atk"],x+4,y+64+font:getHeight()+sFont:getHeight())
-  love.graphics.print(item[pl.wep].val,x+32,y+70+font:getHeight()+sFont:getHeight())
+  love.graphics.print(item[pl.wep].val+pl.str,x+32,y+70+font:getHeight()+sFont:getHeight())
+  if isMouseOver(x+4,32,y+64+font:getHeight()+sFont:getHeight(),64) then
+    addTT("Attack Score","Regular attacks will deal "..(item[pl.wep].val/2).."-"..(item[pl.wep].val+pl.str).." DMG.\nCritical hits will deal "..(item[pl.wep].val+1).."-"..(item[pl.wep].val*pl.str).." DMG.", love.mouse.getX(), love.mouse.getY())
+  end
 
   love.graphics.draw(uiImg["def"],x+68,y+64+font:getHeight()+sFont:getHeight())
   if player[pl.name] then --if we've received data about ourselves yet (otherwise leave this blank!)
@@ -89,10 +93,9 @@ function drawCharacterWindow(x,y,name)
 
 
   --STR: "..pl.str.."\nINT: "..pl.int.."\nSTA: "..pl.sta.."\nAGL: "..pl.agl.."\n
-
+love.graphics.setFont(sFont)
   if pl.cp > 0 then
-    love.graphics.setFont(sFont)
-    love.graphics.printf("You've got "..tonumber(pl.cp).." character points to spend! Click on attributes to increase them.",x,y+64+font:getHeight()*8+sFont:getHeight()+32,128,"center")
+    love.graphics.printf("You've got "..tonumber(pl.cp).." character points to spend! Click on attributes to increase them.",x,y+64+font:getHeight()*8+sFont:getHeight()+24,128,"center")
   else
     love.graphics.printf("Level up to earn more character points!",x,y+64+font:getHeight()*8+sFont:getHeight()+32,128,"center")
   end
@@ -103,16 +106,17 @@ function getClass() --gets an assumed class name for the player based on their s
   local cp = pl.str + pl.int + pl.sta + pl.agl
 
   if cp > 3 then
-    if pl.str > (pl.int+pl.sta+pl.agl)/cp then
-      result = "Warrior"
-    elseif pl.int > (pl.str+pl.sta+pl.agl)/cp then
-      result = "Wizard"
-    elseif pl.sta > (pl.str+pl.sta+pl.agl)/cp then
-      result = "Barbarian"
-    elseif pl.agl > (pl.str+pl.sta+pl.agl)/cp then
+    if pl.str > (pl.int+pl.sta+pl.agl+pl.str)/4 then
+      result = "Warrior "..result
+    end
+    if pl.int > (pl.int+pl.sta+pl.agl+pl.str)/4 then
+      result = "Wizard "..result
+    end
+    if pl.sta > (pl.int+pl.sta+pl.agl+pl.str)/4 then
+      result = "Barbarian "..result
+    end
+    if pl.agl > (pl.int+pl.sta+pl.agl+pl.str)/4 then
       result = "Hunter"
-    else
-      result = "Soldier"
     end
   elseif cp == 0 then
     result = "Civilian"
@@ -120,10 +124,10 @@ function getClass() --gets an assumed class name for the player based on their s
     result = "Adventurer"
   end
 
-  if pl.int > 4 then result = "Wise "..result end
-  if pl.str > 4 then result = "Strong "..result end
-  if pl.agl > 4 then result = "Agile "..result end
-  if pl.sta > 4 then result = "Tough "..result end
+  if pl.int > 14 then result = "Wise "..result end
+  if pl.str > 14 then result = "Strong "..result end
+  if pl.agl > 14 then result = "Agile "..result end
+  if pl.sta > 14 then result = "Tough "..result end
 
   return result
 end
