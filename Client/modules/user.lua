@@ -27,6 +27,7 @@ pl.str = 0
 pl.int = 0
 pl.sta = 0
 pl.agl = 0
+pl.cp = 0 --character points
 pl.state = "world"
 pl.selItem = "None"
 pl.selSpell = 1
@@ -75,7 +76,7 @@ function enterGame()
     gameUI[1].isVisible = true
     gameUI[1].width = 640
     gameUI[1].height = 94+font:getHeight()+2
-    gameUI[1].label = "Character"
+    gameUI[1].label = "Action Bar"
     gameUI[1].closeButton = true
 
     gameUI[2] = {}
@@ -149,6 +150,16 @@ function enterGame()
     gameUI[8].height = 100
     gameUI[8].label = "Tutorial"
     gameUI[8].closeButton = true
+
+    gameUI[9] = {}
+    gameUI[9].x = 400
+    gameUI[9].y = 300
+    gameUI[9].isDrag = false
+    gameUI[9].isVisible = true
+    gameUI[9].width = 128
+    gameUI[9].height = 300
+    gameUI[9].label = "Character"
+    gameUI[9].closeButton = true
 end
 
 function requestUserInfo()

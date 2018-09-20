@@ -187,6 +187,10 @@ function drawFog(xo,yo)
           drawNamePlate("Dungeon",world[i].x+xo,world[i].y+yo,"dungeon")
         elseif string.sub(world[i].fight,1,4) == "Raid" then
           drawNamePlate("Raid",world[i].x+xo,world[i].y+yo,"dungeon")
+        elseif string.sub(world[i].fight,1,4) == "Boss" then
+          drawNamePlate("Boss",world[i].x+xo,world[i].y+yo,"dungeon")
+        elseif string.sub(world[i].fight,1,8) == "Miniboss" then
+          drawNamePlate("Miniboss",world[i].x+xo,world[i].y+yo,"dungeon")
         elseif world[i].tile == "Graveyard" then
           drawNamePlate("Graveyard",world[i].x+xo,world[i].y+yo)
         end

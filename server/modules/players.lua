@@ -55,6 +55,7 @@ function newPlayer(name, password)
       int = 0, --improves all spell abilities
       agl = 0, --gain 10% en for each point in agility
       sta = 0, --gain 5% hp for each point in stamina
+      cp = 0,
       lastLogin = 0,
       owed = "reset",
       score = 0,
@@ -154,6 +155,7 @@ function givePlayerXP(name, xp)
     if pl[name].xp > 99 then --level up
       pl[name].lvl = pl[name].lvl + 1
       pl[name].xp = (pl[name].xp - 100)/pl[name].lvl --still earn XP from this reward
+      pl[name].cp = pl[name].cp + pl[name].lvl --give player character points
     end
   end
 end
@@ -557,4 +559,14 @@ function playerCanFight(name,tile)
   if pl[name].fightsPlayed[tile] then canFight = false end
 
   return canFight
+end
+
+function playerAssignSkill(name,skill)
+  if pl[name].cp > 0 then
+    pl[name][skill] = pl[name][skill] + 1
+    pl[name].cp = pl[name].cp - 1
+    return true
+  else
+    return false
+  end
 end

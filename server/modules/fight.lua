@@ -190,7 +190,6 @@ function spawnMob(fight, mob, x, y)
     stdSW = 1920/2
     stdSH = 1080/2
      --name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
-    print("Creating mob "..mob.." in fight #"..fight)
     local freshTarget = listPlayersInFight(fight)
     if freshTarget then
       freshTarget = freshTarget[love.math.random(#freshTarget)]

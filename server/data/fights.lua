@@ -59,6 +59,10 @@ fs["Crocodiles"] = "Crocodile;2"
 fs.spawnTime["Crocodiles"] = 0.1
 fs.rewards["Crocodiles"] = "XP,100,100,Gold,15,100,Mold,1,20,Bloodied Tooth,1,60"
 
+fs["Miniboss: King Croc"] = "speak,**player**,King Croc! We're here to take your throne!,4;4;speak,King Croc,Why?,2;2;speak,**player**,Why? What do you mean why? You've got to kill non-human kings!,4;4;speak,King Croc,Oh okay fair enough. ENGAGE ALL DEFENSES!,3;3;speak,**player**,Who are you talking to? Where are your servants?,3;3;speak,King Croc,Servants? I'm not some sort of evil king. I just make sure that this part of the swamp is well kept and part of that is trying to keep humans out of it.,7;7;speak,**player**,You know I'm really not sure I feel comfortable killing you... but these guards need some practice.,5;5;speak,King Croc,Not an issue really. You beat me to within an inch of my life and I'll yield. Sound fair? I'll let you borrow my crown as a reward!,5;5;speak,**player**,Sounds good but... I think I'll pass on the crown.,3;3;speak,King Croc,It'll stop those pesky crocodiles from attacking you! Might make your escape a bit quicker.,5;5;speak,**player**,Oh really? I'll have a think.,3;3;speak,King Croc,Righto mate.,2;2;King Croc;1"
+fs.spawnTime["Miniboss: King Croc"] = 0
+fs.rewards["Miniboss: King Croc"] = "XP,200,100,Gold,50,100,Mold,3,60,Fly,1,100,Tinfoil Crown,1,100"
+
 --crafting
 fs["Gather: Wood"] = "Weak Tree;3"
 fs.spawnTime["Gather: Wood"] = 0

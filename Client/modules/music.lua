@@ -73,7 +73,7 @@ function updateMusic(dt)
 
       else
         if 1 == 1 then
-          if pl.state == "fight" and string.lower(string.sub(world[pl.t].fight,1,7)) == "Dungeon" or string.lower(string.sub(world[pl.t].fight,1,4)) == "Raid" then
+          if pl.state == "fight" and string.lower(string.sub(world[pl.t].fight,1,7)) == "Dungeon" or string.lower(string.sub(world[pl.t].fight,1,4)) == "Raid" or string.lower(string.sub(world[pl.t].fight,1,4)) == "Miniboss" then
             music.curPlay = music["raid"][love.math.random(1, #music["raid"])]
           else
             if pl.state == "world" and world[pl.t].music == "*" then

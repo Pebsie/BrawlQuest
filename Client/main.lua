@@ -184,6 +184,36 @@ function love.mousereleased(button, cx, cy)
         netSend("pray",pl.name)
         frequentlyUpdate = true
         love.audio.play(sfx["hit"])
+      elseif pl.cp > 0 and gameUI[9].isVisible then --saveCharacterster point allocation
+        local y = gameUI[9].y
+        local x = gameUI[9].x
+        local ty = y+64+font:getHeight()*3+sFont:getHeight()+40
+
+        if isMouseOver(x,128,ty,font:getHeight()) then
+          netSend("skill",pl.name..",str")
+          pl.str = pl.str + 1
+        end
+        ty = ty + font:getHeight()
+
+        if isMouseOver(x,128,ty,font:getHeight()) then
+          netSend("skill",pl.name..",int")
+          pl.int = pl.int + 1
+        end
+        ty = ty + font:getHeight()
+
+
+        if isMouseOver(x,128,ty,font:getHeight()) then
+          netSend("skill",pl.name..",sta")
+          pl.sta = pl.sta +1
+        end
+        ty = ty + font:getHeight()
+
+
+        if isMouseOver(x,128,ty,font:getHeight()) then
+          netSend("skill",pl.name..",agl")
+          pl.agl = pl.agl + 1
+        end
+        ty = ty + font:getHeight()
       elseif world[pl.t].tile == "Anvil" then
         --crafting menu
         if craftingMenu.scrn == "menu" then
@@ -245,6 +275,7 @@ function love.mousereleased(button, cx, cy)
           love.audio.play(sfx["hit"])
           frequentlyUpdate = true
         end
+
     end
   end
 end

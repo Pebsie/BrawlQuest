@@ -101,7 +101,7 @@ function love.update(dt)
             aspectString = "None"
           end
 
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl[i].hp, pl[i].en, pl[i].s1, pl[i].s2, pl[i].gold, pl[i].x, pl[i].y, pl[i].t, pl[i].dt, pl[i].wep, pl[i].inv, pl[i].lvl, pl[i].xp, pl[i].pot, pl[i].state, pl[i].armd, pl[i].bud, pl[i].dt, pl[i].str, pl[i].int, pl[i].sta, pl[i].agl, pl[i].owed, round(pl[i].score), round(pl[i].combo), aspectString, pl[i].zone), msg_or_ip, port_or_nil)
+          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl[i].hp, pl[i].en, pl[i].s1, pl[i].s2, pl[i].gold, pl[i].x, pl[i].y, pl[i].t, pl[i].dt, pl[i].wep, pl[i].inv, pl[i].lvl, pl[i].xp, pl[i].pot, pl[i].state, pl[i].armd, pl[i].bud, pl[i].dt, pl[i].str, pl[i].int, pl[i].sta, pl[i].agl, pl[i].owed, round(pl[i].score), round(pl[i].combo), aspectString, pl[i].zone, pl[i].cp), msg_or_ip, port_or_nil)
         pl[i].lastLogin = 0
         elseif cmd == "move" then
           parms = atComma(parms)
@@ -313,6 +313,9 @@ function love.update(dt)
           end
         elseif cmd == "party" then --party name;command;target
           handlePartyRequest(parms)
+        elseif cmd == "skill" then
+          param = atComma(parms)
+          playerAssignSkill(param[1],param[2])
         elseif cmd == "error" then
           addMsg("A player has encountered an error: "..parms)
         end

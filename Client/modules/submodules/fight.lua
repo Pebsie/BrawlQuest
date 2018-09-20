@@ -188,6 +188,8 @@ love.graphics.scale(scaleX,scaleY)
 
     end
 
+      drawPlayer(pl.name,pl.x+xoff,pl.y+yoff)
+
   end
 
   for i = 1, countPlayers() do --we want nameplates to show above player sprites

@@ -155,6 +155,7 @@ function netUpdate(dt)
             pl.combo = param[25]
             pl.aspectString = param[26]
             pl.zone = param[27]
+            pl.cp = tonumber(param[28])
 
 
             local i = loginI.select
@@ -185,7 +186,7 @@ function netUpdate(dt)
                 updatePlayer(name,"state",param[tparam+6])
                 updatePlayer(name,"spell",param[tparam+7])
                 updatePlayer(name,"buddy",param[tparam+8])
-                if name == pl.name then pl.buddy = param[tparam+8] end
+                if name == pl.name then pl.buddy = param[tparam+8] pl.arm_head = param[tparam+3] pl.arm_chest = param[tparam+4] pl.arm_legs = param[tparam+5] end
                 updatePlayer(name,"online",param[tparam+9])
                 updatePlayer(name,"wep",param[tparam+10])
 

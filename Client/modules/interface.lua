@@ -5,7 +5,7 @@ require "modules/ui/chat"
 require "modules/ui/floats"
 require "modules/ui/crafting"
 require "modules/ui/menu"
-require "modules/ui/character"
+require "modules/ui/actionbar"
 require "modules/ui/tutorial"
 
 --ui variables, use as you wish
@@ -305,6 +305,8 @@ function drawUIWindow(i)
     elseif i == 8 then
       love.graphics.setFont(sFont)
       love.graphics.printf(tutorialContent,gameUI[i].x,gameUI[i].y+font:getHeight(),gameUI[i].width,"left")
+    elseif i == 9 then
+      drawCharacterWindow(gameUI[i].x,gameUI[i].y+font:getHeight())
     end
 
     --close button
@@ -352,8 +354,8 @@ end
 
 function centerCamera()
    --my = round((pl.t/101)-((sh/32)/2))*32 mx = round(tonumber(string.sub(tostring(pl.t/101),3))*3200)-((sw/32)/2)*32
-   mx = round(pl.x - love.graphics.getWidth()/(2*scaleX))
-   my = round(pl.y - love.graphics.getHeight()/(2*scaleY))
+   mx = pl.x - love.graphics.getWidth()/(2*scaleX)
+   my = pl.y - love.graphics.getHeight()/(2*scaleY)
 
   -- if playerExists(pl.name) then
 --     mx = round(getPlayer(pl.name, "x") - sw/2)

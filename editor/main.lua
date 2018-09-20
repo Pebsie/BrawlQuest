@@ -20,7 +20,7 @@ world.x = {}
 world.y = {}
 world.rest = {}
 
-mapname = "map-hunters.txt"
+mapname = "map-west.txt"
 
 
 info = ""

@@ -107,7 +107,7 @@ function drawOverworld()
   end
 
   --love.graphics.setBlendMode("alpha", "premultiplied")
-  love.graphics.draw(worldCanvas, round(-mx), round(-my)) --draw world
+  love.graphics.draw(worldCanvas, -mx, -my) --draw world
   --love.graphics.draw(objectCanvas, round(-mx), round(-my))
   love.graphics.setBlendMode("alpha")
   if playerExists(pl.name) then

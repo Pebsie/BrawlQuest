@@ -3,8 +3,8 @@ function drawMenu(x,y)
     love.graphics.setColor(255,255,255)
     addTT("Character","Opens the character window",cx,cy)
     love.graphics.setColor(180,180,180)
-    if love.mouse.isDown(1) then gameUI[1].isVisible = true end
-  elseif gameUI[1].isVisible == true then
+    if love.mouse.isDown(1) then gameUI[9].isVisible = true end
+  elseif gameUI[9].isVisible == true then
     love.graphics.setColor(200,200,200)
   else
     love.graphics.setColor(255,255,255)
