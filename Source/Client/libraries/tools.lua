@@ -62,12 +62,12 @@ local oldSetColor = love.graphics.setColor
    oldSetBackgroundColor(r,g,b,a)
  end
 
-function love.errorhandler(msg)
-  msg = tostring(msg)
+--[[ function love.errorhandler(msg)
+ msg = tostring(msg)
 
   netSend("error",pl.name.."::"..msg)
   love.filesystem.write("errorlog-"..os.time()..".txt","BrawlQuest encountered an error and had to close!\n\nWe've reported the error and the dev team will work on it. Relaunch the game and things should be okay!\n\n"..msg)
 
   love.window.setFullscreen(false) --this is necessary so that the error message is visible on Windows
   love.window.showMessageBox("ERROR!","BrawlQuest encountered an error and had to close!\n\nWe've reported the error and the dev team will work on it. Relaunch the game and things should be okay!\n\n"..msg)
-end
+end]]

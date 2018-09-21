@@ -436,7 +436,7 @@ function updateFights(dt) --the big one!!
               end
             elseif distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] and not mb.friend[mob[v]] then --this has to be separate because of mob range
               local pdmg = (mb.atk[mob[v]]/2)*dt
-          --    if love.math.random(1,250) == 1 then inflictAspect(thisPlayer,"Bleeding") end
+             if love.math.random(1,2) == 1 then inflictAspect(thisPlayer,"Bleeding") end
               --print("A "..mob[v].." dealt "..pdmg.." damage to "..thisPlayer.."!")
               if isPlayerDead(thisPlayer) == false then
                 damagePlayer(thisPlayer, pdmg)
