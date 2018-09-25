@@ -168,7 +168,7 @@ function netUpdate(dt)
           end
         elseif cmd == "players" then
             local plyrs = tonumber(param[1])
-    
+
             local onlineTable = {}
             local tparam = 2
             for i = 1, plyrs do
@@ -178,7 +178,7 @@ function netUpdate(dt)
                 if not playerExists(name) then
                   addPlayer(name)
                 end
-                if name == pl.name then currentArmourValue = getArmourValue(name) end --for float display
+                if name == pl.name then currentArmourValue = getArmourValue(name) currentWep = param[tparam+10] end --for float display
 
                 updatePlayer(name,"t",tonumber(param[tparam+2]))
                 updatePlayer(name,"arm_head",param[tparam+3])
@@ -187,13 +187,15 @@ function netUpdate(dt)
                 updatePlayer(name,"state",param[tparam+6])
                 updatePlayer(name,"spell",param[tparam+7])
                 updatePlayer(name,"buddy",param[tparam+8])
-                if name == pl.name then pl.buddy = param[tparam+8] pl.arm_head = param[tparam+3] pl.arm_chest = param[tparam+4] pl.arm_legs = param[tparam+5] end
+                if name == pl.name then pl.wep = param[tparam+10] pl.buddy = param[tparam+8] pl.arm_head = param[tparam+3] pl.arm_chest = param[tparam+4] pl.arm_legs = param[tparam+5] end
                 updatePlayer(name,"online",param[tparam+9])
                 updatePlayer(name,"wep",param[tparam+10])
                 updatePlayer(name,"zone",param[tparam+11])
 
-                if name == pl.name and getArmourValue(name) > currentArmourValue then createFloat("+"..(getArmourValue(name)-currentArmourValue).." DEF",100,100,200,love.graphics.getWidth()/2,love.graphics.getHeight()/2,love.math.random(1,9999),false) end
-                if name == pl.name and getArmourValue(name) < currentArmourValue then createFloat((getArmourValue(name)-currentArmourValue).." DEF",200,100,100,love.graphics.getWidth()/2,love.graphics.getHeight()/2,love.math.random(1,9999),false) end --this doesn't need to include a minus as the default
+                if name == pl.name and getArmourValue(name) > currentArmourValue then createFloat("+"..(getArmourValue(name)-currentArmourValue).." DEF",100,100,200,centerX,centerY,love.math.random(1,9999),false) end
+                if name == pl.name and getArmourValue(name) < currentArmourValue then createFloat((getArmourValue(name)-currentArmourValue).." DEF",200,100,100,centerX,centerY,love.math.random(1,9999),false) end --this doesn't need to include a minus as the default
+                if name == pl.name and item[pl.wep] and item[currentWep] and item[pl.wep].val > item[currentWep].val then createFloat("+"..(getArmourValue(name)-currentArmourValue).." ATK",100,100,200,centerX,centerY,love.math.random(1,9999),false) end
+                if name == pl.name and item[pl.wep] and item[currentWep] and item[pl.wep].val < item[currentWep].val then createFloat("-"..(getArmourValue(name)-currentArmourValue).." ATK",200,100,200,centerX,centerY,love.math.random(1,9999),false) end
 
                 tparam = tparam + 12
               end

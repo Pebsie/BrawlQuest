@@ -44,6 +44,7 @@ function updateGame(dt)
       end]]
       requestWorldInfo()
       requestPlayersInfo()
+      requestUserInfo()
 
       if frequentlyUpdate == true then
         requestUserInfo()

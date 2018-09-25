@@ -16,6 +16,9 @@ ui.window.x = 0
 ui.window.y = 0
 ui.window.content = "up"
 
+centerX = 0
+centerY = 0
+
 sw,sh = love.graphics.getDimensions()
 
 newScale = 1
@@ -358,6 +361,8 @@ function centerCamera()
    --my = round((pl.t/101)-((sh/32)/2))*32 mx = round(tonumber(string.sub(tostring(pl.t/101),3))*3200)-((sw/32)/2)*32
    mx = pl.x - love.graphics.getWidth()/(2*scaleX)
    my = pl.y - love.graphics.getHeight()/(2*scaleY)
+   centerX = love.graphics.getWidth()/(2*scaleX)
+   centerY = love.graphics.getHeight()/(2*scaleY)
 
   -- if playerExists(pl.name) then
 --     mx = round(getPlayer(pl.name, "x") - sw/2)

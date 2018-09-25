@@ -140,7 +140,8 @@ function drawOverworld()
   love.graphics.setColor(255,255,255,weather.weatherA)
   love.graphics.draw(rain,weather.weatherX,weather.weatherY)
   love.graphics.setColor(255,255,255,255)
-    drawFloats()
+      drawFloats()
+
     love.graphics.pop()
 
     for i = 1, #gameUI do

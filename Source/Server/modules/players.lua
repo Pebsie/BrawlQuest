@@ -564,6 +564,11 @@ end
 function playerAssignSkill(name,skill)
   if pl[name].cp > 0 then
     pl[name][skill] = pl[name][skill] + 1
+
+    if skill == "sta" then
+      pl[name].hp = pl[name].hp+5
+    end
+
     pl[name].cp = pl[name].cp - 1
     return true
   else

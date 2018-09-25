@@ -193,7 +193,7 @@ function movePlayer(dir)
   elseif dir == "right" then pl.t = pl.t + 1 end
 
   if not world[curT].rest and world[pl.t].rest then
-    createFloat("Resting...",0,200,0,love.graphics.getWidth()/2,love.graphics.getHeight()/2,love.math.random(1,9999),false)
+    createFloat("Resting...",0,200,0,centerX,centerY,love.math.random(1,9999),false)
   end
 
   if string.sub(world[pl.t].fight,1,5) == "speak" then
