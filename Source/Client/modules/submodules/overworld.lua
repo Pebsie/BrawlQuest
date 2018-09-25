@@ -113,11 +113,13 @@ function drawOverworld()
   if playerExists(pl.name) then
     drawPlayer(pl.name,pl.x-mx,pl.y-my,"buddy")
     drawNamePlate(pl.name,pl.x-mx,pl.y-my)
+  else
+    love.graphics.draw(uiImg["error"],pl.x-mx,pl.y-my)
   end
 
   for i = 1, countPlayers() do
     name = getPlayerName(i)
-    if name ~= pl.name and fog[tonumber(getPlayer(name,"t"))] and getPlayer(name,"state") ~= "fight" then
+   if name ~= pl.name and fog[tonumber(getPlayer(name,"t"))] and getPlayer(name,"state") ~= "fight" then
       drawPlayer(name,getPlayer(name,"x")-mx,getPlayer(name,"y")-my,"buddy")
     end
   end

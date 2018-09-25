@@ -13,7 +13,7 @@ tutorialDone = {}
 tutorialContent = ""
 
 function loadTutorial()
-  if love.filesystem.getInfo("tutorial.txt") then
+  if love.filesystem.getInfo("tutoriall.txt") then
     for line in love.filesystem.lines("tutorial.txt") do
       tutorialDone[line] = true
     end

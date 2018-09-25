@@ -168,9 +168,10 @@ function netUpdate(dt)
           end
         elseif cmd == "players" then
             local plyrs = tonumber(param[1])
+    
             local onlineTable = {}
             local tparam = 2
-            for i = 1, plyrs do --this is awful please stop doing this
+            for i = 1, plyrs do
               if param[tparam] == "user" then
                 local name = param[tparam+1]
                 onlineTable[name] = true
@@ -189,11 +190,12 @@ function netUpdate(dt)
                 if name == pl.name then pl.buddy = param[tparam+8] pl.arm_head = param[tparam+3] pl.arm_chest = param[tparam+4] pl.arm_legs = param[tparam+5] end
                 updatePlayer(name,"online",param[tparam+9])
                 updatePlayer(name,"wep",param[tparam+10])
+                updatePlayer(name,"zone",param[tparam+11])
 
                 if name == pl.name and getArmourValue(name) > currentArmourValue then createFloat("+"..(getArmourValue(name)-currentArmourValue).." DEF",100,100,200,love.graphics.getWidth()/2,love.graphics.getHeight()/2,love.math.random(1,9999),false) end
                 if name == pl.name and getArmourValue(name) < currentArmourValue then createFloat((getArmourValue(name)-currentArmourValue).." DEF",200,100,100,love.graphics.getWidth()/2,love.graphics.getHeight()/2,love.math.random(1,9999),false) end --this doesn't need to include a minus as the default
 
-                tparam = tparam + 11
+                tparam = tparam + 12
               end
             end
 

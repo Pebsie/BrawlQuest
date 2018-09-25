@@ -14,7 +14,7 @@ function drawActionBar(x,y)
   love.graphics.setColor(0,255,0)
   love.graphics.rectangle("fill",x+40,y+6,(pl.hp/(100+pl.sta*5))*63,6) --health
   love.graphics.setColor(255,216,0)
-  love.graphics.rectangle("fill",x+40,y+18,(pl.en/100+pl.agl*10)*63,6) --energy
+  love.graphics.rectangle("fill",x+40,y+18,(pl.en/(100+pl.agl*10))*63,6) --energy
   love.graphics.setColor(100,100,255)
   love.graphics.rectangle("fill",x+40,y+30,(pl.xp/100)*63,6) --xp
   love.graphics.setColor(0,100,0)

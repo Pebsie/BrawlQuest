@@ -43,8 +43,7 @@ function updatePlayer(name,a,value) --where a is attribute (x/y/t/arm/hp)
       player[name][a] = value
     else
       print("ERROR","ERROR: attempt to update player['"..name.."']."..a.." to "..value..", but that player doesn't exist.")
-      player[name] = {}
-      player[name][a] = value
+      addPlayer(name)
     end
   end
 end

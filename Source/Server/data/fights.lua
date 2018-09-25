@@ -63,6 +63,14 @@ fs["Miniboss: King Croc"] = "speak,**player**,King Croc! We're here to take your
 fs.spawnTime["Miniboss: King Croc"] = 0
 fs.rewards["Miniboss: King Croc"] = "XP,200,100,Gold,50,100,Mold,3,60,Fly,1,100,Tinfoil Crown,1,100"
 
+fs["Snow Troll"] = "Snow Troll;3"
+fs.spawnTime["Snow Troll"] = 0
+fs.rewards["Snow Troll"] = "Gold,200,50,Summon Blizzard,1,100"
+
+fs["Forgotten Hiker"] = "speak,Forgotten Hiker,S-So cold...,2;2;Forgotten Hiker;5"
+fs.spawnTime["Forgotten Hiker"] = 0
+fs.rewards["Forgotten Hiker"] = "Gold,100,100,Icey Shirt,1,20,Icey Trousers,1,20,Spirit Token,1,100"
+
 --crafting
 fs["Gather: Wood"] = "Weak Tree;3"
 fs.spawnTime["Gather: Wood"] = 0

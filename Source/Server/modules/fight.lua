@@ -436,7 +436,7 @@ function updateFights(dt) --the big one!!
               end
             elseif distanceFrom(pl[thisPlayer].x+16, pl[thisPlayer].y+16, mob.x[v]+(mb.img[mob[v]]/2), mob.y[v]+(mb.img[mob[v]]/2)) < mb.rng[mob[v]] and not mb.friend[mob[v]] then --this has to be separate because of mob range
               local pdmg = (mb.atk[mob[v]]/2)*dt
-             if love.math.random(1,2) == 1 then inflictAspect(thisPlayer,"Bleeding") end
+             if love.math.random(1,2) == 3 then inflictAspect(thisPlayer,"Bleeding") end
               --print("A "..mob[v].." dealt "..pdmg.." damage to "..thisPlayer.."!")
               if isPlayerDead(thisPlayer) == false then
                 damagePlayer(thisPlayer, pdmg)
@@ -459,9 +459,13 @@ function updateFights(dt) --the big one!!
                 spawnMob(i, "Drunk Guard", mob.x[v], mob.y[v])
               end
             elseif string.sub(pl[thisPlayer].spell,1,6) == "Summon" then
+              if #atComma(pl[thisPlayer].spell," ") > 3 then
                 for k = 1, tonumber(string.sub(pl[thisPlayer].spell,8,8)) do
                   spawnMob(i,string.sub(pl[thisPlayer].spell,10),pl[thisPlayer].x + love.math.random(-64,64), pl[thisPlayer].y + love.math.random(-64,64))
                 end
+              else
+                spawnMob(i,string.sub(pl[thisPlayer].spell,8),pl[thisPlayer].x + love.math.random(-64,64), pl[thisPlayer].y + love.math.random(-64,64))
+              end
 
                 pl[thisPlayer].spell = "None"
                 pl[thisPlayer].spellT = 0

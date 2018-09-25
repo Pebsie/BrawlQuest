@@ -120,7 +120,7 @@ function love.update(dt)
           local msgToSend = ""
           --compile location of current players, including ourselves
           for i = 1, countPlayers() do
-            --addMsg("Player "..i.."/"..countPlayers().." is "..getPlayerName(i))
+
             local name = getPlayerName(i)
             local isOnline = true
             if pl[name].timeout < 1 then
@@ -128,8 +128,9 @@ function love.update(dt)
             else
               isOnline = true
             end
-            if isOnline then
-              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|", name, getPlayerTile(name),pl[name].arm_head, pl[name].arm_chest, pl[name].arm_legs, getPlayerState(name), pl[name].spell, pl[name].bud, isOnline, pl[name].wep, pl[name].zone)
+            if isOnline and pl[name].zone == pl[requestName].zone then --if they player is online and in the same zone
+
+              msgToSend = msgToSend..string.format("user|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|", name, getPlayerTile(name),pl[name].arm_head, pl[name].arm_chest, pl[name].arm_legs, getPlayerState(name), pl[name].spell, pl[name].bud, tostring(isOnline), pl[name].wep, pl[name].zone)
             else
               plyrs = plyrs - 1 --player is offline so we reduce the number of players the client should expect by 1
             end
