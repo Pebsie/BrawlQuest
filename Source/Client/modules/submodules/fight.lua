@@ -171,13 +171,13 @@ love.graphics.scale(scaleX,scaleY)
       --  drawPlayer(playerName,getPlayer(playerName,"tx"),getPlayer(playerName,"ty"))
       --  love.window.showMessageBox("Debug","Player #"..i..": "..playerName.." at position "..getPlayer(playerName,"tx")..","..getPlayer(playerName,"ty"))
         love.graphics.setColor(0,255,0)
-        love.graphics.rectangle("fill",x+xoff,y+32+yoff,(getPlayer(playerName,"hp")/100)*32,6)
+        love.graphics.rectangle("fill",x+xoff,y+32+yoff,(getPlayer(playerName,"hp")/(100+5*getPlayer(playerName,"sta")))*32,6)
         love.graphics.setColor(100,0,0)
         love.graphics.rectangle("line",x+xoff,y+32+yoff,32,6)
 
         if pl.name == playerName then --energy
           love.graphics.setColor(255,216,0)
-          love.graphics.rectangle("fill",x+xoff,y+32+8+yoff,(pl.en/100)*32,6)
+          love.graphics.rectangle("fill",x+xoff,y+32+8+yoff,(pl.en/(100+10*pl.agl))*32,6)
           love.graphics.setColor(205,166,0)
           love.graphics.rectangle("line",x+xoff,y+32+8+yoff,32,6)
         end
@@ -238,7 +238,7 @@ love.graphics.scale(scaleX,scaleY)
   drawFloats()
   love.graphics.pop()
 
-  drawActionBar(gameUI[1].x,realScreenHeight-(gameUI[1].height-font:getHeight()))
+  
   drawUIWindow(8) --tutorial
   --love.graphics.print(love.timer.getFPS().." FPS")
   if string.sub(world[pl.t].fight,1,7) ~= "Gather:" and pl.score and tonumber(pl.combo) and fight.highscore and fight.highscorePlayer then

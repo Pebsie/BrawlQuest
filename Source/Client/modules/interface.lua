@@ -262,7 +262,7 @@ function drawUIWindow(i)
     y = y + font:getHeight()+2
     love.graphics.setFont(font)
     if i == 1 then
-      drawActionBar(x,y)
+    
     elseif i == 2 then
 
       love.graphics.setColor(255,255,255)

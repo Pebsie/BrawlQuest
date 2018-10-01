@@ -199,12 +199,12 @@ function love.update(dt)
               local playersIF = listPlayersInFight(id)
               for i = 1, countPlayersInFight(id) do
                 pdata = getPlayerData(id,i)
-                msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|",pdata["name"],pdata["x"],pdata["y"],pdata["arm"],pdata["hp"],pdata["spell"]) --id|x|y|arm|hp
+                msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|%s|%s|",pdata["name"],round(tonumber(pdata["x"])),round(tonumber(pdata["y"])),pdata["arm"],pdata["hp"],pdata["spell"],pdata["sta"],pdata["agl"]) --id|x|y|arm|hp
               end
 
               for i = 1, countMobs(id) do-- * All mob info (X,Y,Type,HP)
                 tmob = getMobData(id,i)
-                msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,tmob.hp,mb.hp[tmob.type],tmob.id,tmob.spell1time,mb.sp1t[tmob.type],tmob.spell2time,mb.sp2t[tmob.type])
+                msgToSend = msgToSend..string.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|",tmob.x,tmob.y,tmob.type,round(tmob.hp),mb.hp[tmob.type],tmob.id,round(tmob.spell1time),mb.sp1t[tmob.type],round(tmob.spell2time),mb.sp2t[tmob.type])
               end
               if hs[ft.title[id]] then
                 msgToSend = msgToSend..round(hs[ft.title[id]].score).."|"..hs[ft.title[id]].player.."|"

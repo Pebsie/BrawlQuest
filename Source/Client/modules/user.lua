@@ -71,11 +71,11 @@ function enterGame()
 
     gameUI[1] = {}
     gameUI[1].x = sw/2-320 --character info
-    gameUI[1].y = sh-94
+    gameUI[1].y = sh-70
     gameUI[1].isDrag = false
     gameUI[1].isVisible = true
     gameUI[1].width = 640
-    gameUI[1].height = 94+font:getHeight()+2
+    gameUI[1].height = 94
     gameUI[1].label = "Action Bar"
     gameUI[1].closeButton = true
 

@@ -144,7 +144,7 @@ function drawOverworld()
 
     love.graphics.pop()
 
-    for i = 1, #gameUI do
+    for i = 2, #gameUI do --1 is no longer part of this window system and is drawn in game.lua
       drawUIWindow(i)
     end
 

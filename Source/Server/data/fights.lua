@@ -49,7 +49,7 @@ fs.rewards["Desert Creatures"] = "Gold,15,100,XP,100,100"
 
 fs["Desert Dwellers"] = "Desert Fanatic;1;speak,Desert Fanatic,The Wasteland is SACRED! HOW DARE YOU BARE YOUR DIRTY FEET HERE!,5;5;Desert Fanatic;4;Desert Fanatic Mage;3;Desert Fanatic;1"
 fs.spawnTime["Desert Dwellers"] = 1
-fs.rewards["Desert Creatures"] = "Gold,40,100,XP,160,100"
+fs.rewards["Desert Dwellers"] = "Gold,40,100,XP,160,100"
 
 fs["Cube"] = "Cube;4"
 fs.spawnTime["Cube"] = 0.1

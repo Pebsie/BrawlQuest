@@ -32,10 +32,13 @@ function addBones(mobType, x, y, amount,bid)
 --end
   --    else
       if mobType ~= "Player" and mb.img[mobType] and mb.img[mobType]:getWidth() > 8 then
-        bones[i].r,bones[i].g,bones[i].b = mb.imgData[mobType]:getPixel(love.math.random(1,mb.img[mobType]:getWidth()-1),love.math.random(1,mb.img[mobType]:getHeight()-1))
-        bones[i].r = bones[i].r * 255
-        bones[i].g = bones[i].g * 255
-        bones[i].b = bones[i].b * 255
+        local a = 0
+        while a == 0 do
+          bones[i].r,bones[i].g,bones[i].b,a = mb.imgData[mobType]:getPixel(love.math.random(1,mb.img[mobType]:getWidth()-1),love.math.random(1,mb.img[mobType]:getHeight()-1))
+          bones[i].r = bones[i].r * 255
+          bones[i].g = bones[i].g * 255
+          bones[i].b = bones[i].b * 255
+        end
       else
         bones[i].r,bones[i].g,bones[i].b = 200,0,0
       end

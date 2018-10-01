@@ -187,44 +187,55 @@ function listFightsOnTile(tile)
 end
 
 function spawnMob(fight, mob, x, y)
-    stdSW = 1920/2
-    stdSH = 1080/2
-     --name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
-    local freshTarget = listPlayersInFight(fight)
-    if freshTarget then
-      freshTarget = freshTarget[love.math.random(#freshTarget)]
-      --print("Target is "..freshTarget)
-      freshTarget = getPlayerName(tonumber(freshTarget))
-    --  addMsg(string.sub(mob,1,5))
-    if not freshTarget then freshTarget = "static" end
+    if countMobs(tonumber(fight)) < 101 then
+  --    addMsg("Fight "..fight..": "..countMobs(tonumber(fight)))
+      stdSW = 1920/2
+      stdSH = 1080/2
+       --name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
+      local freshTarget = listPlayersInFight(fight)
+      if freshTarget then
+        freshTarget = freshTarget[love.math.random(#freshTarget)]
+        --print("Target is "..freshTarget)
+        freshTarget = getPlayerName(tonumber(freshTarget))
+      --  addMsg(string.sub(mob,1,5))
+      if not freshTarget then freshTarget = "static" end
 
-      if string.sub(mob,1,5) == "speak" then
-        ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp["speak"]..";320,240,"..freshTarget..";"..mb.sp1t["speak"]..";"..mb.sp2t["speak"]..";"..love.math.random(1,9999)..";"
-      elseif mobHasAttribute(mob,"spawnRandom") then
-        ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(100,stdSW-100)..";"..love.math.random(100,stdSH-200)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
-      else
-        if not x and freshTarget then
-          local side = love.math.random(1, 3)
+        if string.sub(mob,1,5) == "speak" then
+          ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp["speak"]..";320,240,"..freshTarget..";"..mb.sp1t["speak"]..";"..mb.sp2t["speak"]..";"..love.math.random(1,9999)..";"
+        elseif mobHasAttribute(mob,"spawnRandom") then
+          ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(100,stdSW-100)..";"..love.math.random(100,stdSH-200)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+        else
+          if not x and freshTarget then
+            local side = love.math.random(1, 3)
 
-          if side == 1 then --top
-            ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
-          elseif side == 2 then --left
-            ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, stdsH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
-          elseif side == 3 then --right
-            ft.mb[fight] = ft.mb[fight]..mob..";"..(stdSW+129)..";"..love.math.random(1, stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+            if side == 1 then --top
+              ft.mb[fight] = ft.mb[fight]..mob..";"..love.math.random(1, stdSW)..";-129;"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+            elseif side == 2 then --left
+              ft.mb[fight] = ft.mb[fight]..mob..";-129;"..love.math.random(1, stdsH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+            elseif side == 3 then --right
+              ft.mb[fight] = ft.mb[fight]..mob..";"..(stdSW+129)..";"..love.math.random(1, stdSH)..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
+            end
+          elseif freshTarget then
+            ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
           end
-        elseif freshTarget then
-          ft.mb[fight] = ft.mb[fight]..mob..";"..x..";"..y..";"..mb.hp[mob]..";320,240,"..freshTarget..";"..mb.sp1t[mob]..";"..mb.sp2t[mob]..";"..love.math.random(1,9999)..";"
         end
       end
+        return true
+    else
+      return false
     end
-      return true
   --print(ft.mb[fight])
 end
 
 function countMobs(fight)
   if fight then
-    return #atComma(ft.mb[fight],";")/8
+    if round(#atComma(ft.mb[fight],";")/8) == #atComma(ft.mb[fight],";")/8 then
+      return #atComma(ft.mb[fight],";")/8
+    else
+      addMsg("ERROR: "..ft.mb[fight])
+    end
+  else
+    addMsg("ERROR: FIGHT "..tostrng(fight).." DOESN'T EXIST!")
   end
 end
 
@@ -275,7 +286,7 @@ function updateFights(dt) --the big one!!
         if (ft.queue.amount[i][current] > 0) then
 
 
-          if ft.nextSpawn[i] < 0 and countMobs(i) < 100 then
+          if ft.nextSpawn[i] < 0 then
           --print("Spawning a mob")
         --  addMsg(ft.queue[i][current])
             if spawnMob(i,ft.queue[i][current]) then
@@ -512,7 +523,7 @@ function updateFights(dt) --the big one!!
 
               if spellCast == "suicide" then
                 mob.hp[v] = 0
-              elseif string.sub(spellCast,1,6) == "spawn:" or string.sub(spellCast,1,6) == "spawn," then
+              elseif string.sub(spellCast,1,5) == "spawn" then
                 if string.sub(spellCast,7) == "randomMob" then
                   spawnMob(i,mobSet[love.math.random(1,#mobSet)],mob.x[v],mob.y[v])
                 else
@@ -524,14 +535,14 @@ function updateFights(dt) --the big one!!
               elseif string.sub(spellCast,1,9) == "transform" then
                 spawnMob(i,string.sub(spellCast,11),mob.x[v],mob.y[v])
                 mob.hp[v] = 0
-              elseif string.sub(spellCast,1,10) == "spawnFeet," then
+              elseif string.sub(spellCast,1,9) == "spawnFeet" then
                 for k = 1, #playersInThisFight do
                   local thisPlayer = getPlayerName(tonumber(playersInThisFight[k]))
                   spawnMob(i,string.sub(spellCast,11),pl[thisPlayer].x,pl[thisPlayer].y)
                 end
-              elseif string.sub(spellCast,1,12) == "spawnRandom," then
+              elseif string.sub(spellCast,1,11) == "spawnRandom" then
                 spawnMob(i,string.sub(spellCast,13),love.math.random(1, stdSW),love.math.random(1,stdSH))
-              elseif string.sub(spellCast,1,4) == "dmg," then
+              elseif string.sub(spellCast,1,3) == "dmg" then
                 for k = 1, #playersInThisFight do --cycle through plkayers
                   --print("Player #"..k.." ID of "..playersInThisFight[k])
                   local thisPlayer = getPlayerName(tonumber(playersInThisFight[k])) --get username
@@ -546,6 +557,8 @@ function updateFights(dt) --the big one!!
         --rebuild mob string  name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
         if mob.hp[v] > 0 then
           ft.mb[i] = ft.mb[i]..mob[v]..";"..mob.x[v]..";"..mob.y[v]..";"..mob.hp[v]..";"..mob.target.x[v]..","..mob.target.y[v]..","..mob.target.t[v]..";"..mob.spell1time[v]..";"..mob.spell2time[v]..";"..mob.id[v]..";"
+        else
+          addMsg("A mob died!")
         end
 
       end

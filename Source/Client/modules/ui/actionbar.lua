@@ -100,5 +100,5 @@ function drawActionBar(x,y)
   love.graphics.setColor(255,255,255)
 
   local aspects = atComma(pl.aspectString) --TODO: make the network part of the client do this automatically and store it in pl.aspects
-  drawAspects(x,y-(#aspects*font:getHeight())-font:getHeight()*2)
+  drawAspects(x,y-#aspects*font:getHeight())
 end

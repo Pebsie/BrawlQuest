@@ -279,12 +279,14 @@ function netUpdate(dt)
             end
             updatePlayer(id,"hp",tonumber(param[tparam+4]))
             updatePlayer(id,"spell",param[tparam+5])
+            updatePlayer(id,"sta",tonumber(param[tparam+6]))
+            updatePlayer(id,"agl",tonumber(param[tparam+7]))
         --    updatePlayer(id,"buddy",param[tparam+6])
 
 
             --  love.window.showMessageBox("debug",getPlayerName(i)..","..getPlayer(name,"buddy"))
            --love.window.showMessageBox("Debug","Player in fight #"..i.." is ID #"..i.." "..getPlayerName(id))
-            tparam = tparam + 6
+            tparam = tparam + 8
           end
 
           --we need to cycle through every existing mob and set their "updated" attribute to false so that we can see who is and isn't still alive
