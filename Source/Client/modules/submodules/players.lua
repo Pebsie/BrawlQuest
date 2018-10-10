@@ -124,6 +124,10 @@ function drawNamePlate(name,x,y,option)
       love.graphics.setColor(0,0,0,200)
       love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
       love.graphics.setColor(255,0,0)
+    elseif option == "quest" then
+      love.graphics.setColor(0,0,0,200)
+      love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)
+      love.graphics.setColor(254,197,66)
     else
       love.graphics.setColor(0,0,0,200)
       love.graphics.rectangle("fill",16+x-(round(sFont:getWidth(name)/2)),y-14,sFont:getWidth(name)+4,sFont:getHeight()+2)

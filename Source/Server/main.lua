@@ -3,7 +3,7 @@ local udp = socket.udp()
 http = require("socket.http")
 
 udp:settimeout(0)
-udp:setsockname("127.0.0.1", 26655)
+udp:setsockname("*", 26655)
 
 toboolean = require "libraries/toboolean"
 
@@ -138,7 +138,8 @@ function love.update(dt)
 
             udp:sendto(requestName.." players "..plyrs.."|"..msgToSend,msg_or_ip,port_or_nil)
         elseif cmd == "world" then --URGENT TODO: separate parts of this to lower size of messages sent
-          local msgToSend = countFights().."|"..countChats().."|"
+          local msgToSend = ""
+          local totalFights = 0
           local name = parms
           pl[name].timeout = 5
 
@@ -146,9 +147,12 @@ function love.update(dt)
             for t = -9, -5 do
               if world[pl[name].zone][i].isFight == true and playerCanFight(name,i) then
                 msgToSend = msgToSend..string.format("fight|%s|", i)
+                totalFights = totalFights + 1
               end
             end
           end
+
+          msgToSend = totalFights.."|"..countChats().."|"..msgToSend
 
          c = getChats()
          for i = 1, #c do

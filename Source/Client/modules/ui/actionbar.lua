@@ -26,7 +26,7 @@ function drawActionBar(x,y)
 
   love.graphics.setColor(255,255,255)
   love.graphics.setFont(sFont)
-  love.graphics.print(round(pl.hp).."%",x+40+65,y+4)
+  love.graphics.print( round( pl.hp ) .. "%" , x+40+65 , y+4 )
   love.graphics.print(round(pl.en).."%",x+40+65,y+16)
   love.graphics.print(round(pl.xp).."%",x+40+65,y+28)
 

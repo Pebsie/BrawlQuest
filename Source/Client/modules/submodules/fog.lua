@@ -108,7 +108,6 @@ function drawFog(xo,yo)
   for i = 1, 100*100 do
     --we're doing this here because it saves having to do another 100*100 calculation
     if world[i].x-mx > -64 and world[i].x-mx < screenW+64 and world[i].y-my > -64 and world[i].y-my < screenH+64 then
-
       if world[i].isFight then
         love.graphics.setColor(255,255,255)
         love.graphics.draw(uiImg["fight"],world[i].x+xo,world[i].y+yo)
@@ -181,6 +180,8 @@ function drawFog(xo,yo)
           drawNamePlate("<NPC> "..world[i].tile,world[i].x+xo,world[i].y+yo)
         elseif string.sub(world[i].fight,1,7) == "Gather:" and world[i].spawned ~= "unknown" then --I'm well aware that this whole section is nasty. TODO: make it doable in the editor.
           drawNamePlate("Harvestable",world[i].x+xo,world[i].y+yo,"gather")
+        elseif string.lower(string.sub(world[i].fight,1,5)) == "quest" then
+          drawNamePlate("!",world[i].x+xo,world[i].y+yo,"quest")
         elseif world[i].tile == "Anvil" then
           drawNamePlate("Crafting Anvil",world[i].x+xo,world[i].y+yo)
         elseif string.sub(world[i].fight,1,7) == "Dungeon" then
@@ -205,6 +206,10 @@ function drawFog(xo,yo)
         --love.graphics.draw(worldImg["DT"],world[i].x+xo,world[i].y+yo)
       end
 
+      if world[i].isFight == true then
+        love.graphics.draw(uiImg["fight"],world[i].x+xo,world[i].y+yo)
+      end
+
     end --if tile is on screen
   end --for statement
 
@@ -216,6 +221,7 @@ function updateLightmap()
   weather.time = tonumber(weather.time)
   for i = 1, 100*100 do
     world[i].spawned = "unknown"
+    world[i].isFight = false
    tileDarkness[i] = 0
 
 

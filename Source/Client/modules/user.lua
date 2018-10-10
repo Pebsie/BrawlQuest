@@ -160,6 +160,8 @@ function enterGame()
     gameUI[9].height = 300
     gameUI[9].label = "Character"
     gameUI[9].closeButton = true
+
+    
 end
 
 function requestUserInfo()
