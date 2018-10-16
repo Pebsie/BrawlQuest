@@ -39,6 +39,8 @@ pl.aspectString = ""
 pl.blueprints = ""
 pl.zone = "Swordbreak"
 pl.inv = {}
+pl.completedQuests = "7827"
+pl.activeQuests = "5803"
 
 authcode = "1000" --this is used to verify with the server that we aren't username spoofing
 
@@ -273,4 +275,23 @@ function resetUIPosition(i) --resets the position of the specified window to the
     gameUI[5].x = love.graphics.getWidth()-100
     gameUI[5].y = -16
   end
+end
+
+function hasPlayerCompletedQuest(tile)
+  local completeQuests = atComma(pl.completedQuests)
+
+  for i = 1, #completeQuests do
+    if tonumber(completeQuests[i]) == tile then
+      return "completed"
+    end
+  end
+
+  local activeQuests = atComma(pl.activeQuests)
+  for i = 1, #activeQuests do
+    if tonumber(activeQuests[i]) == tile then
+      return "active"
+    end
+  end
+
+  return false
 end

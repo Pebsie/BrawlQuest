@@ -1,3 +1,13 @@
+--[[
+ THE FOG MODULE!
+
+ This file actually contains a lot more than just fog, because it is the only module in the entire game that is allowed to call a 100*100 draw function on the overworld.
+  As a result this module contains not only fog but also nameplate and quest display for NPC, overlays for lighting and death tile / fight tile drawing.
+]]
+
+questY = 0 -- modifier for quest display to make the exclamation marks float
+questMove = 0 -- 0 means that the quest float is moving up, 1 means down
+
 function loadFog()
   fog = {}
 
@@ -56,6 +66,9 @@ function updateFog(dt)
       if fog[i] > 0 and fog[i] ~= 255 then fog[i] = fog[i] - 1000*dt end
     end
   end
+
+  if questMove == 0 then questY = questY + 1*dt if questY > 0 then questMove = 1 end end
+  if questMove == 1 then questY = questY - 1*dt if questY < -4 then questMove = 0 end end
 end
 
 function checkFog(tile)
@@ -181,7 +194,17 @@ function drawFog(xo,yo)
         elseif string.sub(world[i].fight,1,7) == "Gather:" and world[i].spawned ~= "unknown" then --I'm well aware that this whole section is nasty. TODO: make it doable in the editor.
           drawNamePlate("Harvestable",world[i].x+xo,world[i].y+yo,"gather")
         elseif string.lower(string.sub(world[i].fight,1,5)) == "quest" then
-          drawNamePlate("!",world[i].x+xo,world[i].y+yo,"quest")
+          if not hasPlayerCompletedQuest(i) then
+            love.graphics.setColor(0,0,0,100)
+            love.graphics.rectangle("fill",world[i].x+xo+12,world[i].y+yo-16+questY,7,16)
+            love.graphics.setColor(255,255,255)
+            love.graphics.draw(uiImg["Quest"],world[i].x+xo+8,world[i].y+yo-16+questY)
+          elseif hasPlayerCompletedQuest(i) == "active" then
+            love.graphics.setColor(0,0,0,100)
+            love.graphics.rectangle("fill",world[i].x+xo+12,world[i].y+yo-16+questY,7,16)
+            love.graphics.setColor(255,255,255)
+            love.graphics.draw(uiImg["Active Quest"],world[i].x+xo+8,world[i].y+yo-16+questY)
+          end
         elseif world[i].tile == "Anvil" then
           drawNamePlate("Crafting Anvil",world[i].x+xo,world[i].y+yo)
         elseif string.sub(world[i].fight,1,7) == "Dungeon" then

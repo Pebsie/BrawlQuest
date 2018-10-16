@@ -61,7 +61,7 @@ function love.load()
   if dev then
     ipadd = "127.0.0.1"
   else
-    ipadd = "eu.brawlquest.com"
+   -- ipadd = "manager.brawlquest.com"
   end
 
   ipadd = "127.0.0.1"  --override
