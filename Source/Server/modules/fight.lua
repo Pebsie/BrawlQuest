@@ -557,8 +557,6 @@ function updateFights(dt) --the big one!!
         --rebuild mob string  name;x;y;hp;target(x,y,static/playername);mb1st;mb2st;
         if mob.hp[v] > 0 then
           ft.mb[i] = ft.mb[i]..mob[v]..";"..mob.x[v]..";"..mob.y[v]..";"..mob.hp[v]..";"..mob.target.x[v]..","..mob.target.y[v]..","..mob.target.t[v]..";"..mob.spell1time[v]..";"..mob.spell2time[v]..";"..mob.id[v]..";"
-        else
-          addMsg("A mob died!")
         end
 
       end

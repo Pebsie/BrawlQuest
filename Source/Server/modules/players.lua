@@ -63,7 +63,7 @@ function newPlayer(name, password)
       aspects = {},
       encounterBuild = 0,
       blueprints = "Healing Potion;Wooden Chestplate;Wooden Helmet;Wooden Leggings;Hilt;Short Sword",
-      authcode = tostring(love.math.random(10000,99999)),
+      authcode = 0,
       zone = "Hunters",
       party = 0
     }
@@ -573,5 +573,14 @@ function playerAssignSkill(name,skill)
     return true
   else
     return false
+  end
+end
+
+function getNameFromAuthcode(authcode)
+  for i,v in pairs(pl) do
+    addMsg(tostring(v.name).."'s authcode is "..v.authcode)
+    if tostring(v.authcode) == tostring(authcode) and v.name then
+      return v.name -- return the player name if we find the correct authcode
+    end
   end
 end

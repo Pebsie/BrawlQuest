@@ -5,6 +5,7 @@ require "modules/ui/speak"
 require "modules/ui/inventory"
 require "modules/ui/xp"
 require "modules/ui/character"
+require "modules/ui/quest"
 
 function drawUI(dt) --TODO: find out what is causing this to draw things strangely (to do with zooming or resolution?)
   drawLootBox(realScreenWidth/2-100,realScreenHeight-200)

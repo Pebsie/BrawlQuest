@@ -312,6 +312,8 @@ function drawUIWindow(i)
       love.graphics.printf(tutorialContent,gameUI[i].x,gameUI[i].y+font:getHeight(),gameUI[i].width,"left")
     elseif i == 9 then
       drawCharacterWindow(gameUI[i].x,gameUI[i].y+font:getHeight())
+    elseif i == 10 then
+      drawQuestWindow(gameUI[i].x,gameUI[i].y+font:getHeight())
     end
 
     --close button

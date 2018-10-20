@@ -44,7 +44,7 @@ function love.load()
   initAspects()
   initWeather()
 
- newPlayer("a","a")
+ --[[newPlayer("a","a")
   givePlayerItem("a","Guard's Helmet",1)
   givePlayerItem("a","Guard's Leggings",1)
   givePlayerItem("a","Guard's Chestplate",1)
@@ -52,7 +52,7 @@ function love.load()
   givePlayerItem("a","Recovery",1)
   givePlayerItem("a","Polymorph",1)
   givePlayerItem("a","Summon 3 Drunk Guard",1)
-  inflictAspect("a","Assisted by 3 Drunk Guards")
+  inflictAspect("a","Assisted by 3 Drunk Guards")]]
 end
 
 function love.draw()
@@ -66,28 +66,22 @@ function love.update(dt)
     repeat
       data, msg_or_ip, port_or_nil = udp:receivefrom()
       if data then --REMINDER: when sending messages format is username command paramaters (split by |)
-        entity, cmd, parms = data:match("^(%S*) (%S*) (.*)")
+        entity, cmd, authcode, parms = data:match("^(%S*) (%S*) (%S*) (.*)")
 
         param = {}
         --for word in parms:gmatch("([^%s]+)") do param[#param+1] = word end --split params at space
         param[1] = parms
+        
 
-        if cmd == "login" then
-
-          namePass = atComma(parms)
-        --  addMsg("Player claiming to be "..namePass[1].." is trying to login.")
-          if loginPlayer(namePass[1], namePass[2]) then
-            udp:sendto(string.format("%s %s %s|%s", namePass[1],  "login", "true",pl[namePass[1]].authcode), msg_or_ip, port_or_nil)
-            addMsg("Player "..namePass[1].." logged in.")
-            addChatMsg("SERVER",namePass[1].." entered the world.")
-            --addChatMsg("SERVER",namePass[1].." entered the world.")
-          elseif getPlayerID(namePass[1]) then
-            udp:sendto(string.format("%s %s %s", namePass[1], "login", "false"), msg_or_ip, port_or_nil)
-            addMsg(namePass[1].." tried to login with an incorrect password.")
+        if cmd == "login" then -- THIS WILL NEVER HAPPEN BUT IS HERE FOR LEGACY PURPOSES. TODO: be confident enough in the ability of the new login system to delete this.
+          local username = getNameFromAuthcode(parms)
+          addMsg("Does "..parms.." belong to someone?")
+          if username then
+            addMsg("Yes!")
+            udp:sendto(string.format("%s %s %s", username,  "login", "true"), msg_or_ip, port_or_nil)
           else
-            newPlayer(namePass[1],namePass[2])
-
-            udp:sendto(string.format("%s %s %s", namePass[1],  "login", "true"), msg_or_ip, port_or_nil)
+            addMsg("Nope! ("..tostring(username)..")")
+            udp:sendto(string.format("%s %s %s",username,  "login", "false"), msg_or_ip, port_or_nil)
           end
 
         elseif cmd == "char" then --client is requesting character info
@@ -106,10 +100,9 @@ function love.update(dt)
         pl[i].lastLogin = 0
         elseif cmd == "move" then
           parms = atComma(parms)
-          if 1 == 1 or parms[3] == pl[parms[1]].authcode then
+          if tostring(authcode) == tostring(pl[parms[1]].authcode) then
             movePlayer(parms[1],parms[2])
           else
-            pl[parms[1]].authcode = love.math.random(10000,99999)
             addMsg(parms[1].."::Wrong authcode, kicked client.")
             udp:sendto(parms[1].." kick authcode",msg_or_ip,port_or_nil)
           end
@@ -181,7 +174,7 @@ function love.update(dt)
         elseif cmd == "fight" then
           parms = atComma(param[1])
           local i = parms[1]
-          if parms[4] == pl[i].authcode then
+          if tostring(authcode) == tostring(pl[i].authcode) then
 
             local x = tonumber(parms[2])
             local y = tonumber(parms[3])
@@ -218,8 +211,8 @@ function love.update(dt)
               udp:sendto(i.." fight "..msgToSend,msg_or_ip,port_or_nil)
             end
           else
-            pl[parms[1]].authcode = love.math.random(10000,99999)
-            addMsg(parms[1].."::Wrong authcode, kicked client.")
+          
+            addMsg(parms[1].."::Wrong authcode, kicked client." )
             udp:sendto(parms[1].." kick authcode",msg_or_ip,port_or_nil)
           end
         elseif cmd == "atk" then
@@ -369,6 +362,10 @@ function saveGame()
             alreadySet[i] = true
           end
         end
+        local c = pl[k] -- this makes the string below a bit more readable
+        local str = c.hp.."|"..c.s1.."|"..c.s2.."|"..c.gold.."|"..c.t.."|"..c.dt.."|"..c.dtz.."|"..c.wep.."|"..c.arm_head.."|"..c.arm_chest.."|"..c.arm_legs.."|"..c.inv.."|"..c.pot.."|"..c.lvl.."|"..c.xp.."|"..c.bud.."|"..c.playtime.."|"..c.kills.."|"..c.deaths.."|"..c.distance.."|"..c.lastEquip.."|"..c.str.."|"..c.int.."|"..c.agl.."|"..c.sta.."|"..c.cp.."|"..c.lastLogin.."|"..c.owed.."|"..c.blueprints.."|"..c.zone.."|"..c.party
+        b, c, h = http.request("https://brawlquest.com/dl/api.php?a=put&key=s1eu&name="..k.."&str='"..str) -- send http request to API to put data into the database
+        addMsg(b)
       --fp = "map-new.txt"
     --  end
     --  uploadCharacter(k)
@@ -380,8 +377,8 @@ function saveGame()
       fs = fs .. "\n"
   end
   outputCharacterList()
-  love.filesystem.write(fp, fs)
-  love.filesystem.write("bqplayers-backup-"..os.date("*t").wday.."-"..os.time()..".txt",fs) --backup
+  --love.filesystem.write(fp, fs)
+  --love.filesystem.write("bqplayers-backup-"..os.date("*t").wday.."-"..os.time()..".txt",fs) --backup
 
   local fs = "weather=|"..weather.time.."|"..weather.condition.."|"..weather.temperature.."|"..weather.day.."|"
   love.filesystem.write("server-info.txt",fs)
@@ -396,6 +393,13 @@ function love.quit()
 end
 
 function loadGame()
+  b, c, h = http.request("https://brawlquest.com/dl/api.php?a=char&key=s1eu")
+  if b then
+    love.filesystem.write("bqplayers.txt", b)
+  else
+    error("Failed to download characters. Are you connected to the internet?")
+  end
+
   if love.filesystem.exists("bqplayers.txt") then
     for line in love.filesystem.lines("bqplayers.txt") do
       word = atComma(line,"|")

@@ -266,6 +266,8 @@ function updateLightmap()
     elseif weather.time == 22 then tileDarkness[i] = 130
     elseif weather.time == 23 then tileDarkness[i] = 150
     elseif weather.time == 24 then tileDarkness[i] = 150 end
+    
+    love.graphics.setBackgroundColor(255-tileDarkness[i]*2,255-tileDarkness[i]*2,285-tileDarkness[i]*2)
 
     if weather.condition ~= "clear" then tileDarkness[i] = tileDarkness[i] + 25 end
 

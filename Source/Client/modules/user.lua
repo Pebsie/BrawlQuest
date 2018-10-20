@@ -48,7 +48,11 @@ function login() --we'll attempt to login
 
   if pl.name ~= "" and pl.cinput ~= "" then
     ui.selected = "logging in"
-    netSend("login", pl.name..","..pl.cinput)
+    --netSend("login", pl.name..","..pl.cinput)
+    b, c, h = http.request("https://brawlquest.com/dl/api.php?a=login&username="..pl.name.."&password="..pl.cinput)
+   -- love.window.showMessageBox("debug",b)
+    netSend("login", b)
+    authcode = b
   else
     phase = "login"
     pl.cinput = ""
@@ -163,6 +167,16 @@ function enterGame()
     gameUI[9].label = "Character"
     gameUI[9].closeButton = true
 
+    gameUI[10] = {}
+    gameUI[10].x = 400
+    gameUI[10].y = 300
+    gameUI[10].isDrag = false
+    gameUI[10].isVisible = true
+    gameUI[10].width = 128
+    gameUI[10].height = 305
+    gameUI[10].label = "Quest"
+    gameUI[10].closeButton = true
+
     
 end
 
@@ -240,6 +254,11 @@ function movePlayer(dir)
     triggerTutorial("hp")
   end
 
+  if string.sub(world[pl.t].fight,1,5) == "quest" and not hasPlayerCompletedQuest(i) then
+    gameUI[10].isVisible = true
+  else
+    gameUI[10].isVisible = false
+  end
   --createWorldCanvas()
 end
 

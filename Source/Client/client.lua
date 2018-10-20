@@ -24,20 +24,14 @@ function netUpdate(dt)
         --print("Entity is "..ent..", command is "..cmd.." with parameters ("..parms..")")
 
         param = atComma(parms, "|")
-
-        --data received, input what you want to occur here
         if cmd == "login" then
-          if ent == pl.name then --verification to prevent hacking
             if param[1] == "true" then
-              authcode = param[2]
-              print(authcode)
               enterGame()
             else
               phase = "login"
               pl.cinput = ""
               ui.selected = "username"
             end
-          end
         elseif cmd == "char" then
           if ent == pl.name then
           --  pl.x = tonumber(param[6])
@@ -395,7 +389,7 @@ end
 
 function netSend(cmd, var1)
 
-  local dg = string.format("%s %s %s", net.id, cmd, var1)
+  local dg = string.format("%s %s %s %s", net.id, cmd, authcode, var1)
   udp:send(dg)
 end
 
