@@ -168,15 +168,14 @@ function enterGame()
     gameUI[9].closeButton = true
 
     gameUI[10] = {}
-    gameUI[10].x = 400
+    gameUI[10].x = 600
     gameUI[10].y = 300
     gameUI[10].isDrag = false
-    gameUI[10].isVisible = true
+    gameUI[10].isVisible = false
     gameUI[10].width = 128
     gameUI[10].height = 305
     gameUI[10].label = "Quest"
     gameUI[10].closeButton = true
-
     
 end
 

@@ -315,6 +315,13 @@ function love.update(dt)
         elseif cmd == "skill" then
           param = atComma(parms)
           playerAssignSkill(param[1],param[2])
+        elseif cmd == "questAccept" then
+          local name = param[1]
+          
+          if not hasPlayerCompletedQuest(name,pl[name].t) then
+            pl[name].activeQuests = pl[name].activeQuests..","..pl[name].t
+            addMsg("Player "..name.." has embarked on quest "..pl[name].t)
+          end
         elseif cmd == "error" then
           addMsg("A player has encountered an error: "..parms)
         end

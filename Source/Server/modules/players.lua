@@ -65,7 +65,9 @@ function newPlayer(name, password)
       blueprints = "Healing Potion;Wooden Chestplate;Wooden Helmet;Wooden Leggings;Hilt;Short Sword",
       authcode = 0,
       zone = "Hunters",
-      party = 0
+      party = 0,
+      activeQuests = "",
+      completedQuests = ""
     }
 
 
@@ -583,4 +585,23 @@ function getNameFromAuthcode(authcode)
       return v.name -- return the player name if we find the correct authcode
     end
   end
+end
+
+function hasPlayerCompletedQuest(i,quest)
+  local completeQuests = atComma(pl[i].completedQuests)
+
+  for i = 1, #completeQuests do
+    if tonumber(completeQuests[i]) == tile then
+      return "completed"
+    end
+  end
+
+  local activeQuests = atComma(pl[i].activeQuests)
+  for i = 1, #activeQuests do
+    if tonumber(activeQuests[i]) == tile then
+      return "active"
+    end
+  end
+
+  return false
 end

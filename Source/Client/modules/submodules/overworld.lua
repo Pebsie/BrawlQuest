@@ -155,6 +155,12 @@ function drawOverworld()
         drawGraveyard(sw/2-75,sh/2-(72/2))
       end
 
+      love.graphics.setColor(0,0,0,0.5)
+      love.graphics.rectangle("fill",sw-200,140,200,300)
+      love.graphics.setColor(255,255,255)
+      love.graphics.setFont(sFont)
+      love.graphics.printf(overMsg,sw-200,140,200,"right")
+
   if titleScreen < 0 then
     love.graphics.setColor(0,0,0,areaTitleAlpha)
     love.graphics.rectangle("fill",(sw/2)-(bFont:getWidth(world[pl.t].name)+10)/2,5,bFont:getWidth(world[pl.t].name)+10,bFont:getHeight()+10)
