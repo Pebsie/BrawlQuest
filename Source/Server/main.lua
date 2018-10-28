@@ -88,16 +88,19 @@ function love.update(dt)
         --  addMsg(param[1].." requested user info!")
           local i = param[1]
           local aspectString = ""
-          if #pl[i].aspects > 0 then
-            for i, v in pairs(pl[i].aspects) do
-              aspectString = aspectString..v..","
-            end
-          else
-            aspectString = "None"
-          end
+          if pl[i] and pl[i].aspects then
+              if #pl[i].aspects > 0 then
+                for i, v in pairs(pl[i].aspects) do
+                  aspectString = aspectString..v..","
+                end
+              else
+                aspectString = "None"
+              end
+          
 
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl[i].hp, pl[i].en, pl[i].s1, pl[i].s2, pl[i].gold, pl[i].x, pl[i].y, pl[i].t, pl[i].dt, pl[i].wep, pl[i].inv, pl[i].lvl, pl[i].xp, pl[i].pot, pl[i].state, pl[i].armd, pl[i].bud, pl[i].dt, pl[i].str, pl[i].int, pl[i].sta, pl[i].agl, pl[i].owed, round(pl[i].score), round(pl[i].combo), aspectString, pl[i].zone, pl[i].cp), msg_or_ip, port_or_nil)
-        pl[i].lastLogin = 0
+            udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl[i].hp, pl[i].en, pl[i].s1, pl[i].s2, pl[i].gold, pl[i].x, pl[i].y, pl[i].t, pl[i].dt, pl[i].wep, pl[i].inv, pl[i].lvl, pl[i].xp, pl[i].pot, pl[i].state, pl[i].armd, pl[i].bud, pl[i].dt, pl[i].str, pl[i].int, pl[i].sta, pl[i].agl, pl[i].owed, round(pl[i].score), round(pl[i].combo), aspectString, pl[i].zone, pl[i].cp), msg_or_ip, port_or_nil)
+            pl[i].lastLogin = 0
+          end
         elseif cmd == "move" then
           parms = atComma(parms)
           if tostring(authcode) == tostring(pl[parms[1]].authcode) then
