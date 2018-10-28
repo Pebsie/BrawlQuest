@@ -26,6 +26,7 @@ function updateXP(dt)
     end
   end]]
   local roundCur = round(pl.xp)
+
   if round(pl.xpt) ~= round(pl.xp) then pl.xp = pl.xp + 20*dt end
   if pl.xp > 100 then pl.xp = 0 end
   --if pl.xpt < pl.xp then pl.xp = pl.xpt end

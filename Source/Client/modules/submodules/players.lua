@@ -101,7 +101,11 @@ function drawPlayer(name,x,y,option,scale)
     end]]
 
     if player[name].spell ~= "None" then
-      drawSpell(player[name].spell,x,y)
+      if item[player[name].spell].type == "hp" then
+        drawSpell("Heal",x,y)
+      else
+       drawSpell(player[name].spell,x,y)
+      end
     end
   end
 end

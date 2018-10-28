@@ -155,8 +155,8 @@ function drawOverworld()
         drawGraveyard(sw/2-75,sh/2-(72/2))
       end
 
-      love.graphics.setColor(0,0,0,0.5)
-      love.graphics.rectangle("fill",sw-200,140,200,300)
+      love.graphics.setColor(0,0,0,200)
+      love.graphics.rectangle("fill",sw-200,140,200,getTextHeight(overMsg,sFont,200))
       love.graphics.setColor(255,255,255)
       love.graphics.setFont(sFont)
       love.graphics.printf(overMsg,sw-200,140,200,"right")

@@ -18,6 +18,6 @@ function drawButton(text,x,y,width,height)
     love.graphics.printf(text,x,y,width,"center")
 end
 
-function getTextHeight(text,tFont,tLimit)
-    return tFont:getWidth(text)/tLimit * tFont:getHeight()
+function getTextHeight(text,thisFont,tLimit)
+    return ((thisFont:getWidth(text)/tLimit) * thisFont:getHeight()) * thisFont:getHeight()
 end
