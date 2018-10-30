@@ -8,10 +8,10 @@ acc.password = {}
 
 chat = {}
 
-function newPlayer(name, password)
-  if not pl[name] then --we don't want to create a character that already exists!
+function newPlayer(name)
+ -- if not pl[name] then --we don't want to create a character that already exists! -- superfluous now that characters can't be created during login
     acc.username[#acc.username + 1] = name
-    acc.password[#acc.password + 1] = password
+    acc.password[#acc.password + 1] = "NOLONGERUSED"
 
     local i = name
     pl[i] = {
@@ -72,9 +72,9 @@ function newPlayer(name, password)
 
 
     addMsg("New player by the name of "..name)
-  else
-    addMsg("Player "..name.." already exists!")
-  end
+ -- else
+   -- addMsg("Player "..name.." already exists!")
+  --end
 end
 
 function updatePlayers(dt)

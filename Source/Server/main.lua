@@ -413,16 +413,11 @@ function loadGame()
   if love.filesystem.exists("bqplayers.txt") then
     for line in love.filesystem.lines("bqplayers.txt") do
       word = atComma(line,"|")
-
-      if word[1] == "new-file-format" then
-        newPlayer(word[2],word[3])
-        i = getPlayerName(countPlayers())
-        for k = 4, #word, 2 do
-          if word[k] ~= "state" and word[k] ~= "party" then
-            if tonumber(word[k+1]) ~= nil then word[k+1] = tonumber(word[k+1]) end
-            pl[i][word[k]] = word[k+1]
-          end
-        end
+      newPlayer(word[1])
+      i = getPlayerName(countPlayers())
+      for k = 2, #word, 2 do
+          if tonumber(word[k+1]) ~= nil then word[k+1] = tonumber(word[k+1]) end
+          pl[i][word[k]] = word[k+1]
       end
     end
 
@@ -441,7 +436,5 @@ function loadGame()
 
     loadHighscores()
     addMsg("Game loaded.")
-  else
-    addMsg("Couldn't find save file.")
   end
 end
