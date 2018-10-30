@@ -200,6 +200,7 @@ function movePlayer(dir)
   end
   requestUserInfo()
 
+  if whiteOut > 255 then whiteOut = 255 end
   if titleScreen > 255 then titleScreen = 255 end --allow skipping of title screen
 
   curT = pl.t

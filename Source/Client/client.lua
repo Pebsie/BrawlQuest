@@ -30,6 +30,10 @@ function netUpdate(dt)
             else
               phase = "login"
               pl.cinput = ""
+              pl.name = ""
+              loginI = {}
+              loginI.status = "select"
+              loginI.select = 1
               ui.selected = "username"
             end
         elseif cmd == "char" then
