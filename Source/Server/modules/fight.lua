@@ -117,6 +117,7 @@ function endFight(fight)
   --  addMsg("Fight #"..fight.." ended!")
     ft.done[fight] = true
     world[ft.zone[fight]][ft.tile[fight]].isFight = false
+    world[ft.zone[fight]][ft.tile[fight]].spawned = false
 
     local playersInFight = listPlayersInFight(fight)
     for i = 1, #playersInFight do

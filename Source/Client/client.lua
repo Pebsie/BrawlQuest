@@ -235,22 +235,11 @@ function netUpdate(dt)
           end
           tparam = tparam + 5
 
-          for i = 1, fghts do
-            if param[tparam] == "fight" then
-              local tile = tonumber(param[tparam+1])
-
-              world[tile].isFight = true
-              --love.window.showMessageBox("debug","There's a fight on tile #"..i)
-              tparam = tparam + 2
+          for k = -195,305,101 do
+            for t = -9, -5 do
+              if world[t+tonumber(pl.t)+k] then world[t+tonumber(pl.t)+k].spawned = "unknown" end
             end
           end
-
-           for k = -195,305,101 do
-             for t = -9, -5 do
-               world[i].isFight = false
-               if world[t+tonumber(pl.t)+k] then world[t+tonumber(pl.t)+k].spawned = "unknown" end
-             end
-           end
 
            if param[tparam-1] and tonumber(param[tparam-1]) then
             for i = 1, tonumber(param[tparam-1]) do

@@ -148,24 +148,28 @@ function drawFog(xo,yo)
         --  if tileDarkness < 0 then tileDarkness = 0 end
         love.graphics.setColor(255,255,255,255)
         if world[i].spawned ~= "unknown" then
-          if mb.img[world[i].spawned] then
-            local xi = mb.img[world[i].spawned]:getWidth()/2
-            local yi = mb.img[world[i].spawned]:getHeight()/2
-            love.graphics.draw(mb.img[world[i].spawned],world[i].x+xo-xi+16,world[i].y+yo-yi+16)
-            if isMouseOver((world[i].x+xo)*scaleX,32*scaleX,(world[i].y+yo)*scaleY,32*scaleY) then
-              if fightInfo[world[i].fight] and fightInfo[world[i].fight].requested and not fightInfo[world[i].fight].mobs then
-                addTT(world[i].fight,"Awaiting fight info...",cx,cy)
-              elseif fightInfo[world[i].fight] and fightInfo[world[i].fight].requested and fightInfo[world[i].fight].mobs then
-                addTT(world[i].fight,fightInfo[world[i].fight].msg,cx,cy)
-              else
-                netSend("fightInfo",pl.name..","..world[i].fight)
-                fightInfo[world[i].fight] = {requested = true}
-                addTT(world[i].fight,"Requesting fight info...",cx,cy)
-              end
-            end
+          if world[i].spawned == "fight" then
+            love.graphics.draw(uiImg["fight"],world[i].x+xo,world[i].y+yo)
           else
-            love.graphics.draw(uiImg["error"],world[i].x+xo,world[i].y+yo)
-            love.graphics.print(world[i].spawned,world[i].x+xo,world[i].y+yo)
+            if mb.img[world[i].spawned] then
+              local xi = mb.img[world[i].spawned]:getWidth()/2
+              local yi = mb.img[world[i].spawned]:getHeight()/2
+              love.graphics.draw(mb.img[world[i].spawned],world[i].x+xo-xi+16,world[i].y+yo-yi+16)
+              if isMouseOver((world[i].x+xo)*scaleX,32*scaleX,(world[i].y+yo)*scaleY,32*scaleY) then
+                if fightInfo[world[i].fight] and fightInfo[world[i].fight].requested and not fightInfo[world[i].fight].mobs then
+                  addTT(world[i].fight,"Awaiting fight info...",cx,cy)
+                elseif fightInfo[world[i].fight] and fightInfo[world[i].fight].requested and fightInfo[world[i].fight].mobs then
+                  addTT(world[i].fight,fightInfo[world[i].fight].msg,cx,cy)
+                else
+                  netSend("fightInfo",pl.name..","..world[i].fight)
+                  fightInfo[world[i].fight] = {requested = true}
+                  addTT(world[i].fight,"Requesting fight info...",cx,cy)
+                end
+              end
+            else
+              love.graphics.draw(uiImg["error"],world[i].x+xo,world[i].y+yo)
+              love.graphics.print(world[i].spawned,world[i].x+xo,world[i].y+yo)
+            end
           end
         end
 

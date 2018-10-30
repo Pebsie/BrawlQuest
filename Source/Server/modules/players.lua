@@ -420,7 +420,7 @@ function movePlayer(name, dir)
             newFight(pl[name].t, fightData[1],pl[name].zone)
             pl[name].encounterBuild = 0
             addPlayerToFight(#ft.t, name)
-            world[pl[name].zone][pl[name].t].spawned = false
+            world[pl[name].zone][pl[name].t].spawned = "fight"
           else
           --  newFight(pl[name].t, "Ghostly Haunting")
             pl[name].encounterBuild = 0
