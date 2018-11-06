@@ -327,6 +327,10 @@ function love.update(dt)
             pl[name].activeQuests = pl[name].activeQuests..","..pl[name].t
             addMsg("Player "..name.." has embarked on quest "..pl[name].t)
           end
+        elseif cmd == "questFinish" then
+          local name = param[1]
+
+          checkQuest(name,pl[name].t,pl[name].zone)
         elseif cmd == "error" then
           addMsg("A player has encountered an error: "..parms)
         end

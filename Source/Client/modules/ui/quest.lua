@@ -51,11 +51,18 @@ function drawQuestWindow(x,y)
         local taskMsg = ""
         local word = atComma(world[pl.t].fight,"|")
 
+        finishedQuest = true
+
         if word[2] == "item" then
             taskMsg = "Acquired "
             local itemReq = atComma(word[3],";")
             for i = 1, #itemReq, 2 do
                 taskMsg = taskMsg..itemReq[i+1].."x "..itemReq[i]
+
+                if not playerHasItem( itemReq[i] , tonumber( itemReq[i+1] ) ) then
+                    finishedQuest = false
+                end
+
                 if (#itemReq - i) > 1 then
                     taskMsg = taskMsg..", "
                 end
@@ -63,14 +70,30 @@ function drawQuestWindow(x,y)
         elseif word[2] == "tile" then
             local questReq = atComma(word[3],";")
             taskMsg = "Traveled to "..world[tonumber(questReq[1])].name
+            finishedQuest = false
         elseif word[2] == "deliver" then
             local itemReq = atComma(word[3],";")
             taskMsg = "Delivered "..itemReq[1].." to "..world[tonumber(itemReq[2])].name
+            finishedQuest = false
         end
         love.graphics.setColor(255,255,255)
         love.graphics.setFont(sFont)
         love.graphics.printf(taskMsg.." yet?",x,y+64,gameUI[10].width,"left")
+
+        if finishedQuest then
+            if drawButton("Complete Quest",x,y+200+font:getHeight()+32,gameUI[10].width,font:getHeight()) then
+                netSend("questFinish",pl.name)
+              --  pl.activeQuests = pl.activeQuests..","..pl.t    
+            end
+        end
     end  
 end
+
+function getQuestInfo( i )
+    local questInfo = atComma( world[zone][i].fight , "|" ) -- extract quest information from the tile
+
+    return { type=questInfo[2] , requirement=questInfo[3] , reward=questInfo[4] }
+end
+
 
 --quest|type (item/tile/deliver)|requireditem;amount/requiredtile;rewardtext/requireditem;tile;rewardtext|reward item;amount;reward item2;amount|quest text|recommended level|thanks text

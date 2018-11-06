@@ -61,7 +61,7 @@ function checkQuest(name,tile,zone) -- to be called when a player moves onto a "
 end
 
 function completeQuest(i)
-
+    addMsg(activeQuests[i].name.." completed quest "..i.."!")
 end
 
 --editor quest format: quest|type (item/tile/deliver)|requireditem;amount/requiredtile;zone;rewardtext/requireditem;tile;zone;rewardtext|reward item;amount;reward item2;amount|quest text|recommended level|thanks text
