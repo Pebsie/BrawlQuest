@@ -33,6 +33,7 @@ local running = true
 print("Entering server loop...")
 
 function love.load()
+  love.filesystem.setIdentity("bq-server-test")
   loadGame()
 
   downloadMobs()
@@ -332,7 +333,7 @@ function love.update(dt)
           udp:sendto(param[1].." questInfo "..pl[name].activeQuests.."|"..pl[name].completedQuests,msg_or_ip,port_or_nil)
         elseif cmd == "questInfo" then
           local name = param[1]
-          
+
           udp:sendto(param[1].." questInfo "..pl[name].activeQuests.."|"..pl[name].completedQuests,msg_or_ip,port_or_nil)
         elseif cmd == "error" then
           addMsg("A player has encountered an error: "..parms)
@@ -428,6 +429,7 @@ function loadGame()
           if tonumber(word[k+1]) ~= nil then word[k+1] = tonumber(word[k+1]) end
           pl[i][word[k]] = word[k+1]
       end
+      addMsg(i .. " authcode is "..tostring(pl[i].authcode))
     end
 
     if love.filesystem.exists("server-info.txt") then
