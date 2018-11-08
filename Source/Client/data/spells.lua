@@ -48,7 +48,7 @@ function newAnimation(image, width, height, duration)
 end
 
 newSpell("Weak Red Potion","heal")
-newSpell("Red Potion","heal")
+newSpell("Heal","heal")
 newSpell("Weak Healing Potion","heal")
 newSpell("Healing Potion","heal")
 newSpell("Potent Healing Potion","heal")

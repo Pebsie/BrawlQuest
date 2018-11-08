@@ -38,17 +38,19 @@ function drawActionBar(x,y)
   love.graphics.draw(uiImg["itemportrait"],x+39,y+56)
   love.graphics.draw(uiImg["smallportrait"],x+6,y+6)
 
-  if pl.s1 ~= "None" and (pl.s1t > 0 or pl.en < tonumber(atComma(item[pl.s1].val)[2])) then
-    love.graphics.setColor(255,255,255,100)
-  end
-  love.graphics.draw(item[pl.s1].img,x+464,y+16,0,2,2)
-
-    if pl.s2 ~= "None" and (pl.s2t > 0 or pl.en <  tonumber(atComma(item[pl.s2].val)[2])) then
+  if item[pl.s1] and item[pl.s2] then
+    if pl.s1 ~= "None" and (pl.s1t > 0 or pl.en < tonumber(atComma(item[pl.s1].val)[2])) then
       love.graphics.setColor(255,255,255,100)
-    else
-      love.graphics.setColor(255,255,255,255)
     end
-  love.graphics.draw(item[pl.s2].img,x+559,y+16,0,2,2)
+    love.graphics.draw(item[pl.s1].img,x+464,y+16,0,2,2)
+
+      if pl.s2 ~= "None" and (pl.s2t > 0 or pl.en < tonumber(atComma(item[pl.s2].val)[2])) then
+        love.graphics.setColor(255,255,255,100)
+      else
+        love.graphics.setColor(255,255,255,255)
+      end
+    love.graphics.draw(item[pl.s2].img,x+559,y+16,0,2,2)
+    end
   love.graphics.setColor(255,255,255,255)
 
   --love.graphics.draw(uiImg["lvtmp"],x+13,y+37)

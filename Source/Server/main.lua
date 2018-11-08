@@ -24,6 +24,7 @@ require "modules/highscores"
 require "modules/aspects"
 require "modules/weather"
 require "modules/party"
+require "modules/quest"
 
 stdSW = 1920/2
 stdSH = 1080/2
@@ -88,16 +89,19 @@ function love.update(dt)
         --  addMsg(param[1].." requested user info!")
           local i = param[1]
           local aspectString = ""
-          if #pl[i].aspects > 0 then
-            for i, v in pairs(pl[i].aspects) do
-              aspectString = aspectString..v..","
-            end
-          else
-            aspectString = "None"
-          end
+          if pl[i] and pl[i].aspects then
+              if #pl[i].aspects > 0 then
+                for i, v in pairs(pl[i].aspects) do
+                  aspectString = aspectString..v..","
+                end
+              else
+                aspectString = "None"
+              end
+          
 
-          udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl[i].hp, pl[i].en, pl[i].s1, pl[i].s2, pl[i].gold, pl[i].x, pl[i].y, pl[i].t, pl[i].dt, pl[i].wep, pl[i].inv, pl[i].lvl, pl[i].xp, pl[i].pot, pl[i].state, pl[i].armd, pl[i].bud, pl[i].dt, pl[i].str, pl[i].int, pl[i].sta, pl[i].agl, pl[i].owed, round(pl[i].score), round(pl[i].combo), aspectString, pl[i].zone, pl[i].cp), msg_or_ip, port_or_nil)
-        pl[i].lastLogin = 0
+            udp:sendto(string.format("%s %s %s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s", i, "char", pl[i].hp, pl[i].en, pl[i].s1, pl[i].s2, pl[i].gold, pl[i].x, pl[i].y, pl[i].t, pl[i].dt, pl[i].wep, pl[i].inv, pl[i].lvl, pl[i].xp, pl[i].pot, pl[i].state, pl[i].armd, pl[i].bud, pl[i].dt, pl[i].str, pl[i].int, pl[i].sta, pl[i].agl, pl[i].owed, round(pl[i].score), round(pl[i].combo), aspectString, pl[i].zone, pl[i].cp), msg_or_ip, port_or_nil)
+            pl[i].lastLogin = 0
+          end
         elseif cmd == "move" then
           parms = atComma(parms)
           if tostring(authcode) == tostring(pl[parms[1]].authcode) then
@@ -139,8 +143,8 @@ function love.update(dt)
           for k = -195,305,101 do
             for t = -9, -5 do
               if world[pl[name].zone][i].isFight == true and playerCanFight(name,i) then
-                msgToSend = msgToSend..string.format("fight|%s|", i)
-                totalFights = totalFights + 1
+                --msgToSend = msgToSend..string.format("fight|%s|", i)
+               -- totalFights = totalFights + 1
               end
             end
           end
@@ -159,10 +163,12 @@ function love.update(dt)
         local i = tonumber(pl[name].t)
          for k = -195,305,101 do
            for t = -9, -5 do
-             if world[pl[name].zone][t+i+k] and world[pl[name].zone][t+i+k].spawned and playerCanFight(name,t+i+k) then
+             if world[pl[name].zone][t+i+k] and tostring(world[pl[name].zone][t+i+k].spawned) == "true" and playerCanFight(name,t+i+k) then
                spawned = spawned + 1
                local fightData = atComma(world[pl[name].zone][t+i+k].fight,"|")
                msgOn = msgOn..t+i+k.."|"..getFirstMob(fightData[1]).."|"
+             elseif world[pl[name].zone][t+i+k] and world[pl[name].zone][t+i+k].spawned == "fight" then
+                msgOn = msgOn..t+i+k.."|fight|"
              end
            end
          end
@@ -315,6 +321,19 @@ function love.update(dt)
         elseif cmd == "skill" then
           param = atComma(parms)
           playerAssignSkill(param[1],param[2])
+        elseif cmd == "questAccept" then
+          local name = param[1]
+          newQuest(name,pl[name].t,pl[name].zone)
+          udp:sendto(param[1].." questInfo "..pl[name].activeQuests.."|"..pl[name].completedQuests,msg_or_ip,port_or_nil)
+        elseif cmd == "questFinish" then
+          local name = param[1]
+
+          checkQuest(name,pl[name].t,pl[name].zone)
+          udp:sendto(param[1].." questInfo "..pl[name].activeQuests.."|"..pl[name].completedQuests,msg_or_ip,port_or_nil)
+        elseif cmd == "questInfo" then
+          local name = param[1]
+          
+          udp:sendto(param[1].." questInfo "..pl[name].activeQuests.."|"..pl[name].completedQuests,msg_or_ip,port_or_nil)
         elseif cmd == "error" then
           addMsg("A player has encountered an error: "..parms)
         end
@@ -403,16 +422,11 @@ function loadGame()
   if love.filesystem.exists("bqplayers.txt") then
     for line in love.filesystem.lines("bqplayers.txt") do
       word = atComma(line,"|")
-
-      if word[1] == "new-file-format" then
-        newPlayer(word[2],word[3])
-        i = getPlayerName(countPlayers())
-        for k = 4, #word, 2 do
-          if word[k] ~= "state" and word[k] ~= "party" then
-            if tonumber(word[k+1]) ~= nil then word[k+1] = tonumber(word[k+1]) end
-            pl[i][word[k]] = word[k+1]
-          end
-        end
+      newPlayer(word[1])
+      i = getPlayerName(countPlayers())
+      for k = 2, #word, 2 do
+          if tonumber(word[k+1]) ~= nil then word[k+1] = tonumber(word[k+1]) end
+          pl[i][word[k]] = word[k+1]
       end
     end
 
@@ -431,7 +445,5 @@ function loadGame()
 
     loadHighscores()
     addMsg("Game loaded.")
-  else
-    addMsg("Couldn't find save file.")
   end
 end

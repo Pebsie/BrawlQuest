@@ -6,6 +6,7 @@ require "modules/ui/inventory"
 require "modules/ui/xp"
 require "modules/ui/character"
 require "modules/ui/quest"
+require "modules/ui/tools"
 
 function drawUI(dt) --TODO: find out what is causing this to draw things strangely (to do with zooming or resolution?)
   drawLootBox(realScreenWidth/2-100,realScreenHeight-200)
@@ -19,7 +20,7 @@ function updateUI(dt)
   updateMenu(dt)
 
   for i = 1, #gameUI do
-    if isMouseDown then
+    if isMouseDown and gameUI[i].isVisible then
       if isMouseOver(gameUI[i].x+gameUI[i].width-16,16,gameUI[i].y,16) and gameUI[i].closeButton then
         gameUI[i].isVisible = false
       elseif cy < gameUI[i].y+12 and cy > gameUI[i].y and cx > gameUI[i].x and cx < gameUI[i].x+gameUI[i].width and gameUI[i].isDrag == false then

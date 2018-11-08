@@ -50,7 +50,7 @@ displayTiles = false
 function love.load()
 
 b, c, h = http.request("http://brawlquest.com/dl/"..mapname)
-  love.filesystem.write(mapname, b)
+ -- love.filesystem.write(mapname, b)
   love.filesystem.setIdentity("editor")
 
   heroImg = love.graphics.newImage("img/human/Legend.png")

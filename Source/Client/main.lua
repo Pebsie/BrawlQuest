@@ -47,7 +47,7 @@ realScreenHeight = screenH
 
 news = ""
 
-dev = false--This variable just turns certain features on and off so that it's easier to dev the game
+dev = false -- this variable turns certain features on and off so that it's easier to dev the game
 
 local joysticks = love.joystick.getJoysticks()
 --error(love.joystick.getJoystickCount())
@@ -64,7 +64,7 @@ function love.load()
    -- ipadd = "manager.brawlquest.com"
   end
 
-  ipadd = "127.0.0.1"  --override
+  ipadd = "127.0.0.1"  -- override
 
   netConnect(ipadd, "26655", 0.1)
   love.mouse.setVisible(false)

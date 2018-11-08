@@ -39,8 +39,8 @@ pl.aspectString = ""
 pl.blueprints = ""
 pl.zone = "Swordbreak"
 pl.inv = {}
-pl.completedQuests = "7827"
-pl.activeQuests = "5803"
+pl.completedQuests = ""
+pl.activeQuests = ""
 
 authcode = "1000" --this is used to verify with the server that we aren't username spoofing
 
@@ -168,16 +168,16 @@ function enterGame()
     gameUI[9].closeButton = true
 
     gameUI[10] = {}
-    gameUI[10].x = 400
+    gameUI[10].x = 600
     gameUI[10].y = 300
     gameUI[10].isDrag = false
-    gameUI[10].isVisible = true
+    gameUI[10].isVisible = false
     gameUI[10].width = 128
     gameUI[10].height = 305
     gameUI[10].label = "Quest"
     gameUI[10].closeButton = true
-
     
+    netSend("questInfo",pl.name)
 end
 
 function requestUserInfo()
@@ -201,6 +201,7 @@ function movePlayer(dir)
   end
   requestUserInfo()
 
+  if whiteOut > 255 then whiteOut = 255 end
   if titleScreen > 255 then titleScreen = 255 end --allow skipping of title screen
 
   curT = pl.t
@@ -267,11 +268,11 @@ function playerHasItem(item,amount)
   if not amount then amount = 1 end
 
   for i, v in pairs(pl.inv) do
-    if v.name == item and v.amount > amount-1 then
+    if v.name == item and v.amount >= amount then
       hasItem = true
     end
   end
-
+  
   return hasitem
 end
 
@@ -294,23 +295,4 @@ function resetUIPosition(i) --resets the position of the specified window to the
     gameUI[5].x = love.graphics.getWidth()-100
     gameUI[5].y = -16
   end
-end
-
-function hasPlayerCompletedQuest(tile)
-  local completeQuests = atComma(pl.completedQuests)
-
-  for i = 1, #completeQuests do
-    if tonumber(completeQuests[i]) == tile then
-      return "completed"
-    end
-  end
-
-  local activeQuests = atComma(pl.activeQuests)
-  for i = 1, #activeQuests do
-    if tonumber(activeQuests[i]) == tile then
-      return "active"
-    end
-  end
-
-  return false
 end

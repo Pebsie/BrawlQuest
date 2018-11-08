@@ -8,10 +8,10 @@ acc.password = {}
 
 chat = {}
 
-function newPlayer(name, password)
-  if not pl[name] then --we don't want to create a character that already exists!
+function newPlayer(name)
+ -- if not pl[name] then --we don't want to create a character that already exists! -- superfluous now that characters can't be created during login
     acc.username[#acc.username + 1] = name
-    acc.password[#acc.password + 1] = password
+    acc.password[#acc.password + 1] = "NOLONGERUSED"
 
     local i = name
     pl[i] = {
@@ -62,17 +62,19 @@ function newPlayer(name, password)
       combo = 0,
       aspects = {},
       encounterBuild = 0,
-      blueprints = "Healing Potion;Wooden Chestplate;Wooden Helmet;Wooden Leggings;Hilt;Short Sword",
+      blueprints = "",
       authcode = 0,
       zone = "Hunters",
-      party = 0
+      party = 0,
+      activeQuests = "",
+      completedQuests = ""
     }
 
 
     addMsg("New player by the name of "..name)
-  else
-    addMsg("Player "..name.." already exists!")
-  end
+ -- else
+   -- addMsg("Player "..name.." already exists!")
+  --end
 end
 
 function updatePlayers(dt)
@@ -166,34 +168,36 @@ end
 
 function givePlayerItem(name, ritem, amount, slot)
   if pl[name] and item[ritem] then
-    if pl[name].inv == "None" then pl[name].inv = ritem..";"..amount..";1;" else
+    if ritem == "XP" then givePlayerXP(name,amount) else -- this allows us to use givePlayerItem to give XP to reduce the amount of code required in other functions
+      if pl[name].inv == "None" then pl[name].inv = ritem..";"..amount..";1;" else
 
-      if not amount then amount = 1 end
-      if not slot then slot = -1 hadSlot = false end
+        if not amount then amount = 1 end
+        if not slot then slot = -1 hadSlot = false end
 
-      curInv = atComma(pl[name].inv, ";")
-      local alreadyOwned = false
+        curInv = atComma(pl[name].inv, ";")
+        local alreadyOwned = false
 
-      for i=1,#curInv,3 do
-        curInv[i+1] = tonumber(curInv[i+1])
-        if curInv[i] == ritem and hadSlot == false then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end --if slot is defined then the player wants the stack to be split
-      end
-
-      if alreadyOwned == false then --insert into inventory
-        local i = #curInv+1
-        curInv[i] = ritem
-        curInv[i+1] = amount
-        if slot ~= -1 then
-          curInv[i+2] = slot --addMsg(curInv[i+2].."=="..slot.." (input via slot)")
-        else
-          curInv[i+2] = getNextFreeInventorySlot(name)
+        for i=1,#curInv,3 do
+          curInv[i+1] = tonumber(curInv[i+1])
+          if curInv[i] == ritem and hadSlot == false then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end --if slot is defined then the player wants the stack to be split
         end
-      end
 
-      pl[name].inv = ""
-      --rebuild inventory string
-      for i = 1, #curInv do
-        pl[name].inv = pl[name].inv..curInv[i]..";"
+        if alreadyOwned == false then --insert into inventory
+          local i = #curInv+1
+          curInv[i] = ritem
+          curInv[i+1] = amount
+          if slot ~= -1 then
+            curInv[i+2] = slot --addMsg(curInv[i+2].."=="..slot.." (input via slot)")
+          else
+            curInv[i+2] = getNextFreeInventorySlot(name)
+          end
+        end
+
+        pl[name].inv = ""
+        --rebuild inventory string
+        for i = 1, #curInv do
+          pl[name].inv = pl[name].inv..curInv[i]..";"
+        end
       end
     end
   else
@@ -314,7 +318,9 @@ function playerUse(name, ritem, index, amount)
 
       if pl[name].arm_legs ~= "None" then rebuiltInv[#rebuiltInv + 1] = {item = pl[name].arm_legs, amount = 1 } haveInserted = true end
       pl[name].arm_legs = ritem
-
+    
+    else
+      givePlayerItem(name, ritem, amount)
     end
   else
     addMsg(name.." tried to use an item ("..ritem..") that they don't own!")
@@ -418,7 +424,7 @@ function movePlayer(name, dir)
             newFight(pl[name].t, fightData[1],pl[name].zone)
             pl[name].encounterBuild = 0
             addPlayerToFight(#ft.t, name)
-            world[pl[name].zone][pl[name].t].spawned = false
+            world[pl[name].zone][pl[name].t].spawned = "fight"
           else
           --  newFight(pl[name].t, "Ghostly Haunting")
             pl[name].encounterBuild = 0
@@ -584,3 +590,4 @@ function getNameFromAuthcode(authcode)
     end
   end
 end
+

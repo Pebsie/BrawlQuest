@@ -1,6 +1,11 @@
 --this makes it a lot easier to draw the standardised item. Woo!
 
 function drawItem(name,amount,x,y,alpha,noRectangle)
+  isBlueprint = false
+  if string.sub(name,1,9) == "Blueprint" then
+    name = string.sub(name,12)
+    isBlueprint = true
+  end
   if item[name] then
     if not alpha then alpha = 255 end
 
@@ -55,7 +60,17 @@ function drawItem(name,amount,x,y,alpha,noRectangle)
         itemPriceStr = "Not sellable."
       end
 
-      addTT(name,"Level "..item[name].lvl.." "..pit..".\n"..piv.."\n"..item[name].description.."\n"..itemPriceStr.."\n"..craftMatStr,cx,cy)
+      itemReqStr = ""
+      if item[name].requirement then
+        local req = atComma(item[name].requirement)
+        if req[1] == "lvl" and tonumber(req[2]) > tonumber(pl.lvl) then
+          itemReqStr = "REQUIRES LEVEL "..req[2]
+        end
+      end
+
+      if isBlueprint then nameStr = "BLUEPRINT: "..name else nameStr = name end -- readd blueprint prefix to blueprints
+
+      addTT(nameStr,"Level "..item[name].lvl.." "..pit.." "..itemReqStr..".\n"..piv.."\n"..item[name].description.."\n"..itemPriceStr.."\n"..craftMatStr,cx,cy)
       love.graphics.setColor(150,150,150,alpha)
     else
       love.graphics.setColor(0,0,0,alpha)
@@ -63,6 +78,9 @@ function drawItem(name,amount,x,y,alpha,noRectangle)
     if not noRectangle then
       love.graphics.rectangle("fill",x,y,32,32)
     end
+    
+    if isBlueprint then love.graphics.setColor(255,255,255,100) love.graphics.draw(uiImg["Blueprint"],x,y) end
+
     love.graphics.setColor(255,255,255,alpha)
     if item[name].img then
       if item[name].type == "head armour" or item[name].type == "chest armour" or item[name].type == "leg armour" then
@@ -83,5 +101,6 @@ function drawItem(name,amount,x,y,alpha,noRectangle)
     end
   else
     love.graphics.draw(uiImg["error"],x,y)
+    love.graphics.print("'"..tostring(name).."'",x,y+128)
   end
 end
