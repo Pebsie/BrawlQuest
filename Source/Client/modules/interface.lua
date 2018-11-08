@@ -16,7 +16,7 @@ ui.window.x = 0
 ui.window.y = 0
 ui.window.content = "up"
 
-overMsg = "Testing1 2 3 tst test test test\nQuest: Deliver Call to Arms to Subquest\nQuest: Kill 10 Bears" -- this is text displayed at the right-hand side of the screen at all times when in the overworld
+overMsg = "Quest: Deliver Call to Arms to Subquest\nQuest: Kill 10 Bears\nQuest: Dispatch Bandit leader Vincent" -- this is text displayed at the right-hand side of the screen at all times when in the overworld
 
 centerX = 0
 centerY = 0

@@ -62,7 +62,7 @@ function newPlayer(name)
       combo = 0,
       aspects = {},
       encounterBuild = 0,
-      blueprints = "Healing Potion;Wooden Chestplate;Wooden Helmet;Wooden Leggings;Hilt;Short Sword",
+      blueprints = "",
       authcode = 0,
       zone = "Hunters",
       party = 0,
@@ -168,34 +168,36 @@ end
 
 function givePlayerItem(name, ritem, amount, slot)
   if pl[name] and item[ritem] then
-    if pl[name].inv == "None" then pl[name].inv = ritem..";"..amount..";1;" else
+    if ritem == "XP" then givePlayerXP(name,amount) else -- this allows us to use givePlayerItem to give XP to reduce the amount of code required in other functions
+      if pl[name].inv == "None" then pl[name].inv = ritem..";"..amount..";1;" else
 
-      if not amount then amount = 1 end
-      if not slot then slot = -1 hadSlot = false end
+        if not amount then amount = 1 end
+        if not slot then slot = -1 hadSlot = false end
 
-      curInv = atComma(pl[name].inv, ";")
-      local alreadyOwned = false
+        curInv = atComma(pl[name].inv, ";")
+        local alreadyOwned = false
 
-      for i=1,#curInv,3 do
-        curInv[i+1] = tonumber(curInv[i+1])
-        if curInv[i] == ritem and hadSlot == false then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end --if slot is defined then the player wants the stack to be split
-      end
-
-      if alreadyOwned == false then --insert into inventory
-        local i = #curInv+1
-        curInv[i] = ritem
-        curInv[i+1] = amount
-        if slot ~= -1 then
-          curInv[i+2] = slot --addMsg(curInv[i+2].."=="..slot.." (input via slot)")
-        else
-          curInv[i+2] = getNextFreeInventorySlot(name)
+        for i=1,#curInv,3 do
+          curInv[i+1] = tonumber(curInv[i+1])
+          if curInv[i] == ritem and hadSlot == false then curInv[i+1] = curInv[i+1] + amount alreadyOwned = true end --if slot is defined then the player wants the stack to be split
         end
-      end
 
-      pl[name].inv = ""
-      --rebuild inventory string
-      for i = 1, #curInv do
-        pl[name].inv = pl[name].inv..curInv[i]..";"
+        if alreadyOwned == false then --insert into inventory
+          local i = #curInv+1
+          curInv[i] = ritem
+          curInv[i+1] = amount
+          if slot ~= -1 then
+            curInv[i+2] = slot --addMsg(curInv[i+2].."=="..slot.." (input via slot)")
+          else
+            curInv[i+2] = getNextFreeInventorySlot(name)
+          end
+        end
+
+        pl[name].inv = ""
+        --rebuild inventory string
+        for i = 1, #curInv do
+          pl[name].inv = pl[name].inv..curInv[i]..";"
+        end
       end
     end
   else
@@ -316,7 +318,9 @@ function playerUse(name, ritem, index, amount)
 
       if pl[name].arm_legs ~= "None" then rebuiltInv[#rebuiltInv + 1] = {item = pl[name].arm_legs, amount = 1 } haveInserted = true end
       pl[name].arm_legs = ritem
-
+    
+    else
+      givePlayerItem(name, ritem, amount)
     end
   else
     addMsg(name.." tried to use an item ("..ritem..") that they don't own!")
@@ -587,21 +591,3 @@ function getNameFromAuthcode(authcode)
   end
 end
 
-function hasPlayerCompletedQuest(i,quest)
-  local completeQuests = atComma(pl[i].completedQuests)
-
-  for i = 1, #completeQuests do
-    if tonumber(completeQuests[i]) == tile then
-      return "completed"
-    end
-  end
-
-  local activeQuests = atComma(pl[i].activeQuests)
-  for i = 1, #activeQuests do
-    if tonumber(activeQuests[i]) == tile then
-      return "active"
-    end
-  end
-
-  return false
-end

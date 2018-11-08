@@ -4,7 +4,7 @@ function drawQuestWindow(x,y)
     love.graphics.setColor(150,150,150)
     love.graphics.rectangle("line",x+32,y,64,64)
 
-    if string.sub(world[pl.t].fight,1,5) == "quest" and not hasPlayerCompletedQuest(pl.t) then
+    if string.sub(world[pl.t].fight,1,5) == "quest" and not hasPlayerCompletedQuest(pl.t,pl.zone) then
         local word = atComma(world[pl.t].fight,"|")
         love.graphics.setFont(sFont)
         love.graphics.setColor(255,255,255)
@@ -45,9 +45,9 @@ function drawQuestWindow(x,y)
 
         if drawButton("Accept",x,y+200+font:getHeight()+32,gameUI[10].width,font:getHeight()) then
             netSend("questAccept",pl.name)
-            pl.activeQuests = pl.activeQuests..","..pl.t    
+          --  pl.activeQuests = pl.activeQuests..","..pl.t    
         end
-    elseif string.sub(world[pl.t].fight,1,5) == "quest" and hasPlayerCompletedQuest(pl.t) == "active" then
+    elseif string.sub(world[pl.t].fight,1,5) == "quest" and hasPlayerCompletedQuest(pl.t,pl.zone) == "active" then
         local taskMsg = ""
         local word = atComma(world[pl.t].fight,"|")
 
@@ -59,7 +59,7 @@ function drawQuestWindow(x,y)
             for i = 1, #itemReq, 2 do
                 taskMsg = taskMsg..itemReq[i+1].."x "..itemReq[i]
 
-                if not playerHasItem( itemReq[i] , tonumber( itemReq[i+1] ) ) then
+                if playerHasItem( itemReq[i] , tonumber( itemReq[i+1] ) ) == false then
                     finishedQuest = false
                 end
 
@@ -96,4 +96,24 @@ function getQuestInfo( i )
 end
 
 
+function hasPlayerCompletedQuest(tile,zone)
+    if not zone then zone = pl.zone end
+    local completeQuests = atComma(pl.completedQuests)
+  
+    for i = 1, #completeQuests,2 do
+      if tonumber(completeQuests[i]) == tonumber(tile) and zone == completeQuests[i+1] then
+        return "completed"
+      end
+    end
+  
+    local activeQuests = atComma(pl.activeQuests)
+    for i = 1, #activeQuests,2 do
+      if tonumber(activeQuests[i]) == tonumber(tile) and zone == activeQuests[i+1] then
+        return "active"
+      end
+    end
+  
+    return false
+  end
+  
 --quest|type (item/tile/deliver)|requireditem;amount/requiredtile;rewardtext/requireditem;tile;rewardtext|reward item;amount;reward item2;amount|quest text|recommended level|thanks text

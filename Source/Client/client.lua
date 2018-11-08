@@ -77,7 +77,7 @@ function netUpdate(dt)
             pl.s2 = param[4]
             --pl.msg = param[18]
             if param[11] and param[11] ~= "None" then --inventory has changed, we need to display the changes!
-              --local oldInv = atComma(pl.inv,";")
+              pl.inv = {}
               local newInv = atComma(param[11],";")
 
               if newInv and #newInv > 3 then
@@ -88,18 +88,6 @@ function netUpdate(dt)
                   end
                   pl.inv[tonumber(newInv[i+2])] = {name = newInv[i], amount = tonumber(newInv[i+1])}
 
-                --[[  if oldInv[i] then
-                    if oldInv[i] == newInv[i] then
-                      if oldInv[i+1] ~= newInv[i+1] then
-                        isNewItem = "NewAmount"
-                      end
-                    else
-                      isNewItem = "Yes"
-                    end
-                  else
-                    isNewItem = "Yes"
-                  end]]
-
                   if isNewItem == "Yes" then
                     newLoot(newInv[i],newInv[i+1])
                   elseif isNewItem == "NewAmount" then
@@ -109,8 +97,6 @@ function netUpdate(dt)
               end
             end
 
-            --pl.inv = param[12]
-          --  love.window.showMessageBox("Debug",pl.inv)
             pl.pot = param[14]
             if pl.state ~= param[15] and string.sub(world[pl.t].fight,1,7) ~= "Gather:" then music.curPlay:stop() updateLightmap() end --reset music
             if pl.state ~= "fight" and param[15] == "fight" then
@@ -365,6 +351,20 @@ function netUpdate(dt)
           pl.blueprints = param[1]
         elseif cmd == "fightInfo" then
           setFightInfo(param[1])
+        elseif cmd == "questInfo" then
+         -- local parms = atComma(param[1],";")
+          if param[1] then
+            if string.sub(param[1],1,1) == "|" then -- this relates to an issue that occurs when there are no active quests but completed quests: nil|x considers x as param[1] rather than param[2]. There is probably a better way of dealing with this.
+              pl.completedQuests = param[1]
+            else
+              pl.activeQuests = param[1]
+            end
+          end
+          if param[2] then
+            pl.completedQuests = param[2]
+          end
+          if not param[1] or not param[2] then print("ERROR: Received quest status update but it didn't contain data. Message: "..tostring(msg).." && "..tostring(data)) end
+        --  print("questInfo "..pl.activeQuests)
         elseif cmd == "kick" then
           phase = "login"
         end

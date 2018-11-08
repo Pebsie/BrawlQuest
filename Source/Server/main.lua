@@ -24,6 +24,7 @@ require "modules/highscores"
 require "modules/aspects"
 require "modules/weather"
 require "modules/party"
+require "modules/quest"
 
 stdSW = 1920/2
 stdSH = 1080/2
@@ -322,15 +323,17 @@ function love.update(dt)
           playerAssignSkill(param[1],param[2])
         elseif cmd == "questAccept" then
           local name = param[1]
-          
-          if not hasPlayerCompletedQuest(name,pl[name].t) then
-            pl[name].activeQuests = pl[name].activeQuests..","..pl[name].t
-            addMsg("Player "..name.." has embarked on quest "..pl[name].t)
-          end
+          newQuest(name,pl[name].t,pl[name].zone)
+          udp:sendto(param[1].." questInfo "..pl[name].activeQuests.."|"..pl[name].completedQuests,msg_or_ip,port_or_nil)
         elseif cmd == "questFinish" then
           local name = param[1]
 
           checkQuest(name,pl[name].t,pl[name].zone)
+          udp:sendto(param[1].." questInfo "..pl[name].activeQuests.."|"..pl[name].completedQuests,msg_or_ip,port_or_nil)
+        elseif cmd == "questInfo" then
+          local name = param[1]
+          
+          udp:sendto(param[1].." questInfo "..pl[name].activeQuests.."|"..pl[name].completedQuests,msg_or_ip,port_or_nil)
         elseif cmd == "error" then
           addMsg("A player has encountered an error: "..parms)
         end
