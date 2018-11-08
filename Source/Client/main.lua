@@ -64,7 +64,7 @@ function love.load()
    -- ipadd = "manager.brawlquest.com"
   end
 
-  ipadd = "127.0.0.1"  -- override
+  ipadd =  "178.128.37.14"--"127.0.0.1"  -- override
 
   netConnect(ipadd, "26655", 0.1)
   love.mouse.setVisible(false)
